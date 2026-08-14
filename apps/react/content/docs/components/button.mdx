@@ -23,6 +23,19 @@ export function SaveChanges() {
 }
 ```
 
+Use the `variant` prop to change the visual treatment:
+
+```tsx
+<Button variant="outline">Outline</Button>
+<Button variant="destructive">Delete</Button>
+```
+
+Use the `loading` prop to disable interaction and show the inline spinner:
+
+```tsx
+<Button loading>Submitting...</Button>
+```
+
 ## Highlights
 
 - Six visual variants
@@ -32,12 +45,18 @@ export function SaveChanges() {
 
 ## Registry dependencies
 
-| Item     | Purpose                        |
-| -------- | ------------------------------ |
-| `button` | Component source               |
-| `styles` | Shared SCSS tokens and globals |
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `button` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
 
 ## API reference
+
+### Button
+
+The `Button` component wraps the native `button` element and extends `React.ButtonHTMLAttributes<HTMLButtonElement>`.
 
 | Prop      | Type                                                              | Default   | Notes                                              |
 | --------- | ----------------------------------------------------------------- | --------- | -------------------------------------------------- |

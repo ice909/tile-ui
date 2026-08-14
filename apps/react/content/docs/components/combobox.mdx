@@ -1,0 +1,65 @@
+---
+title: Combobox
+description: Searchable combobox.
+---
+
+> Use Combobox to select from a searchable list.
+
+<ComponentDemo slug="combobox" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/combobox
+```
+
+## Package usage
+
+```tsx
+import { Combobox } from '@tile-ui/react';
+
+<Combobox
+	items={[
+		{ value: "apple", label: "Apple" },
+		{ value: "banana", label: "Banana" },
+	]}
+	placeholder="Pick a fruit"
+/>
+```
+
+## Highlights
+
+- Search filter
+- Items with keywords
+- Empty and not-found text
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `combobox` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Combobox
+
+| Prop                | Type                                             | Default |
+| ------------------- | ------------------------------------------------ | ------- |
+| `items`             | `ComboboxItem[]`                                 | —       |
+| `value`             | `string`                                         | —       |
+| `onValueChange`     | `(value: string) => void`                        | —       |
+| `placeholder`       | `string`                                         | —       |
+| `searchPlaceholder` | `string`                                         | —       |
+| `emptyText`         | `string`                                         | —       |
+| `notFoundText`      | `string`                                         | —       |
+| `maxItems`          | `number`                                         | —       |
+| `disabled`          | `boolean`                                        | —       |
+| `filter`            | `(item: ComboboxItem, query: string) => boolean` | —       |
+
+## Related docs
+
+- [Select](/docs/components/select)
+- [Command](/docs/components/command)
+- [Input](/docs/components/input)

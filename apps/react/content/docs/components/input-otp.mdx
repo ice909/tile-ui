@@ -1,0 +1,63 @@
+---
+title: InputOtp
+description: One-time password input.
+---
+
+> Use InputOTP to collect a one-time code across multiple slots.
+
+<ComponentDemo slug="input-otp" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/input-otp
+```
+
+## Package usage
+
+```tsx
+import { InputOtp } from '@tile-ui/react';
+
+<InputOTP maxLength={6} onComplete={(code) => console.log(code)} />
+```
+
+## Highlights
+
+- Numeric, alphanumeric, and text modes
+- Slots and groups
+- Completion callback
+
+## Registry dependencies
+
+| Item        | Purpose                            |
+| ----------- | ---------------------------------- |
+| `input-otp` | Component source and module styles |
+| `core`      | Framework-agnostic logic helpers   |
+| `styles`    | Shared SCSS tokens and globals     |
+
+## API reference
+
+### InputOtp
+
+| Prop           | Type                                    | Default |
+| -------------- | --------------------------------------- | ------- |
+| `value`        | `string`                                | —       |
+| `defaultValue` | `string`                                | —       |
+| `maxLength`    | `number`                                | —       |
+| `disabled`     | `boolean`                               | —       |
+| `onChange`     | `(value: string) => void`               | —       |
+| `onComplete`   | `(value: string) => void`               | —       |
+| `mode`         | `'numeric' \| 'alphanumeric' \| 'text'` | —       |
+| `allowPaste`   | `boolean`                               | —       |
+
+### InputOtpSlot
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `index` | `number` | —       |
+
+## Related docs
+
+- [Input](/docs/components/input)
+- [InputGroup](/docs/components/input-group)
+- [Form](/docs/components/form)

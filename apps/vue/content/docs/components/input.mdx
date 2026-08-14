@@ -3,6 +3,8 @@ title: Input
 description: A text input with built-in label, helper text, and error state handling.
 ---
 
+> Use Input when you want a ready-made field surface with labeling, helper copy, and error messaging built in.
+
 ## Registry install
 
 ```bash
@@ -11,12 +13,53 @@ pnpm dlx shadcn@latest add @tile-ui/input
 
 ## Package usage
 
-```ts
+```tsx
 import { TInput } from '@tile-ui/vue';
+```
+
+```tsx
+<TInput label="Display name" helperText="Shown on your public profile." />
+```
+
+Use `modelValue` with `onUpdate:modelValue` for two-way binding. The `label` and `helperText` props render the field anatomy without an extra form wrapper. When `error` is set, it replaces the helper text and wires `aria-invalid` and `aria-describedby` automatically:
+
+```tsx
+<TInput label="Username" error="Username already exists" modelValue="tile" />
 ```
 
 ## Highlights
 
-- Works with modelValue
-- Consistent ARIA wiring
-- Error-state messaging
+- Works with `modelValue`
+- Label and helper text built in
+- Error-state messaging with ARIA wiring
+- Matches Textarea anatomy for form consistency
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `input`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### TInput
+
+| Prop          | Type      | Default | Notes                                             |
+| ------------- | --------- | ------- | ------------------------------------------------- |
+| `label`       | `string`  | —       | Optional field label rendered above the input.    |
+| `helperText`  | `string`  | —       | Displayed below the field when there is no error. |
+| `error`       | `string`  | —       | Displays invalid state and error messaging.       |
+| `required`    | `boolean` | `false` | Adds required styling to the label.               |
+| `modelValue`  | `string`  | —       | The bound input value.                            |
+| `placeholder` | `string`  | —       | Placeholder text for the input.                   |
+| `type`        | `string`  | `text`  | The native input type.                            |
+| `disabled`    | `boolean` | `false` | Disables the input.                               |
+
+## Related docs
+
+- [Textarea](/docs/components/textarea)
+- [Label](/docs/components/label)
+- [Contact Form example](/docs/examples/contact-form)

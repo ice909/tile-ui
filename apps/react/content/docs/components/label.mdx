@@ -17,10 +17,47 @@ pnpm dlx shadcn@latest add @tile-ui/label
 
 ```tsx
 import { Label } from '@tile-ui/react';
+
+export function SlugField() {
+	return (
+		<div className="form-group">
+			<Label htmlFor="slug" required>
+				Project slug
+			</Label>
+			<input id="slug" defaultValue="tile-ui" readOnly />
+		</div>
+	);
+}
 ```
+
+Label works as a standalone primitive and pairs with custom field structures when you do not need the higher-level `Input` and `Textarea` components.
 
 ## Highlights
 
 - Required marker styling
 - Simple form composition
 - Pairs cleanly with Input and Textarea
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `label`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Label
+
+The `Label` component wraps the Radix Label primitive and extends `React.LabelHTMLAttributes<HTMLLabelElement>`.
+
+| Prop       | Type      | Default | Notes                               |
+| ---------- | --------- | ------- | ----------------------------------- |
+| `required` | `boolean` | `false` | Adds required styling to the label. |
+
+## Related docs
+
+- [Input](/docs/components/input)
+- [Textarea](/docs/components/textarea)
+- [Profile Settings example](/docs/examples/profile-settings)

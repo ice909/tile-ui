@@ -1,0 +1,69 @@
+---
+title: Attachment
+description: Attachment primitives.
+---
+
+> Use Attachment to display uploaded files with state and actions.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/attachment
+```
+
+## Package usage
+
+```tsx
+import { TAttachment } from '@tile-ui/vue';
+
+<TAttachment>
+	<TAttachmentMedia>+</TAttachmentMedia>
+	<TAttachmentContent>
+		<TAttachmentTitle>report.pdf</TAttachmentTitle>
+		<TAttachmentDescription>2.4 MB</TAttachmentDescription>
+	</TAttachmentContent>
+	<TAttachmentActions>
+		<TButton size="sm">Download</TButton>
+	</TAttachmentActions>
+</TAttachment>
+```
+
+## Highlights
+
+- States like uploading and error
+- Sizes and orientation
+- Media, content, and actions
+
+## Registry dependencies
+
+| Item         | Purpose                            |
+| ------------ | ---------------------------------- |
+| `attachment` | Component source and module styles |
+| `core`       | Framework-agnostic logic helpers   |
+| `styles`     | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Attachment
+
+| Prop          | Type                                                         | Default |
+| ------------- | ------------------------------------------------------------ | ------- |
+| `state`       | `'idle' \| 'uploading' \| 'processing' \| 'error' \| 'done'` | —       |
+| `size`        | `'default' \| 'sm' \| 'xs'`                                  | —       |
+| `orientation` | `'horizontal' \| 'vertical'`                                 | —       |
+
+### AttachmentCard
+
+| Prop          | Type                                                         | Default |
+| ------------- | ------------------------------------------------------------ | ------- |
+| `name`        | `string`                                                     | —       |
+| `size`        | `number`                                                     | —       |
+| `state`       | `'idle' \| 'uploading' \| 'processing' \| 'error' \| 'done'` | —       |
+| `orientation` | `'horizontal' \| 'vertical'`                                 | —       |
+| `downloading` | `boolean`                                                    | —       |
+
+## Related docs
+
+- [Item](/docs/components/item)
+- [Badge](/docs/components/badge)
+- [Empty](/docs/components/empty)

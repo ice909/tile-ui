@@ -7,11 +7,39 @@ Tile UI React uses the standard shadcn registry schema.
 
 ## Item types
 
-- `registry:ui`
-- `registry:hook`
-- `registry:lib`
-- `registry:file`
+- `registry:ui` — framework component sources
+- `registry:hook` — React hooks
+- `registry:lib` — shared runtime helpers such as `@tile-ui/core`
+- `registry:file` — standalone files such as SCSS partials
+
+## Item shape
+
+Each item in `registry.json` declares a name, type, and the files that make it up:
+
+```json
+{
+	"name": "button",
+	"type": "registry:ui",
+	"title": "Button",
+	"dependencies": ["@radix-ui/react-slot"],
+	"registryDependencies": ["@tile-ui/core", "@tile-ui/utils"],
+	"files": [
+		{
+			"path": "packages/react/src/components/button/button.tsx",
+			"type": "registry:ui",
+			"target": "components/ui/button/button.tsx",
+			"content": "..."
+		}
+	]
+}
+```
+
+## Dependency fields
+
+- `dependencies` — npm packages the item needs at runtime.
+- `devDependencies` — build-time packages such as `sass`.
+- `registryDependencies` — other Tile UI items, resolved through the registered namespace.
 
 ## Target paths
 
-Files that need stable destination paths, such as SCSS partials, declare a `target` so the consumer project receives a predictable structure.
+Files that need stable destination paths, such as SCSS partials, declare a `target` so the consumer project receives a predictable structure. Shared helpers are rewritten to relative paths like `../lib/core` so no `@tile-ui/core` or `@tile-ui/styles` imports remain in the output.

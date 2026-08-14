@@ -1,0 +1,66 @@
+---
+title: Bubble
+description: Bubble chat primitives.
+---
+
+> Use Bubble to build chat message bubbles.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/bubble
+```
+
+## Package usage
+
+```tsx
+import { TBubble } from '@tile-ui/vue';
+
+<TBubbleGroup>
+	<TBubble align="start">
+		<TBubbleContent>Hello</TBubbleContent>
+	</TBubble>
+</TBubbleGroup>
+```
+
+## Highlights
+
+- Seven variants
+- Start and end alignment
+- Reactions
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `bubble` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Bubble
+
+| Prop      | Type                                                                                       | Default |
+| --------- | ------------------------------------------------------------------------------------------ | ------- |
+| `variant` | `'default' \| 'secondary' \| 'muted' \| 'tinted' \| 'outline' \| 'ghost' \| 'destructive'` | —       |
+| `align`   | `'start' \| 'end'`                                                                         | —       |
+
+### BubbleContent
+
+| Prop      | Type      | Default |
+| --------- | --------- | ------- |
+| `asChild` | `boolean` | —       |
+
+### BubbleReactions
+
+| Prop    | Type                | Default |
+| ------- | ------------------- | ------- |
+| `side`  | `'top' \| 'bottom'` | —       |
+| `align` | `'start' \| 'end'`  | —       |
+
+## Related docs
+
+- [Message](/docs/components/message)
+- [MessageScroller](/docs/components/message-scroller)
+- [Avatar](/docs/components/avatar)

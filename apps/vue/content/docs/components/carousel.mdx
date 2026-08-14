@@ -1,0 +1,54 @@
+---
+title: Carousel
+description: Carousel component.
+---
+
+> Use Carousel to cycle through a set of items.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/carousel
+```
+
+## Package usage
+
+```tsx
+import { TCarousel } from '@tile-ui/vue';
+
+<TCarousel>
+	<TCarouselContent>
+		<TCarouselItem>Slide one</TCarouselItem>
+		<TCarouselItem>Slide two</TCarouselItem>
+	</TCarouselContent>
+	<TCarouselPrevious />
+	<TCarouselNext />
+</TCarousel>
+```
+
+## Highlights
+
+- Horizontal and vertical
+- Content, item, previous, and next
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `carousel` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Carousel
+
+| Prop          | Type                         | Default      |
+| ------------- | ---------------------------- | ------------ |
+| `orientation` | `'horizontal' \| 'vertical'` | 'horizontal' |
+
+## Related docs
+
+- [AspectRatio](/docs/components/aspect-ratio)
+- [Tabs](/docs/components/tabs)
+- [Sheet](/docs/components/sheet)

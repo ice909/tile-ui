@@ -19,6 +19,14 @@ Projects that install Tile UI through the shadcn CLI should register the Tile UI
 
 Once configured, registry dependencies such as `@tile-ui/core` and `@tile-ui/utils` resolve without hardcoding the docs site domain into each item payload.
 
+## Install an item
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/button
+```
+
+The CLI resolves shared dependencies automatically, so installing `@tile-ui/button` also brings in `@tile-ui/core` and `@tile-ui/utils` when needed.
+
 ## Build flow
 
 ```bash
@@ -32,3 +40,13 @@ corepack pnpm registry:build:vue
 - Composables and framework-agnostic helpers
 
 The docs site reads the published registry metadata from `apps/vue/public/r/registry.json`, so the site and the public registry stay aligned.
+
+## Registry output
+
+Items write files into a predictable structure:
+
+```text
+components/ui/*
+composables/*
+styles/*
+```

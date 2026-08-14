@@ -3,7 +3,7 @@ title: Registry
 description: Overview of the Vue registry, item inventory, and supporting guides.
 ---
 
-The Vue registry mirrors the React registry structure, but each item contains Vue TSX components or composables tailored for Nuxt and Vue applications.
+The Vue registry mirrors the React registry structure, but each item contains Vue TSX components or composables tailored for Nuxt and Vue applications. Each item is available at a root-level JSON URL and can be installed through the shadcn CLI.
 
 ## Registry URLs
 
@@ -12,23 +12,80 @@ https://vue.tileui.zmorg.cn/r/registry.json
 https://vue.tileui.zmorg.cn/r/{name}.json
 ```
 
+`registry.json` is the index that lists every item; `{name}.json` is the payload for a single item, including its files, dependencies, and copy-paste source.
+
 ## Available items
 
-- `button`
-- `card`
-- `core`
-- `input`
-- `label`
-- `styles`
-- `textarea`
-- `use-copy-to-clipboard`
-- `use-local-storage`
-- `use-media-query`
-- `utils`
+- accordion
+- alert
+- alert-dialog
+- aspect-ratio
+- attachment
+- avatar
+- badge
+- breadcrumb
+- bubble
+- button
+- button-group
+- calendar
+- card
+- carousel
+- chart
+- checkbox
+- collapsible
+- combobox
+- command
+- context-menu
+- core
+- dialog
+- direction
+- drawer
+- dropdown-menu
+- empty
+- field
+- form
+- hover-card
+- input
+- input-group
+- input-otp
+- item
+- kbd
+- marker
+- menubar
+- message
+- message-scroller
+- native-select
+- navigation-menu
+- pagination
+- popover
+- progress
+- radio-group
+- resizable
+- scroll-area
+- select
+- separator
+- sheet
+- sidebar
+- skeleton
+- slider
+- sonner
+- spinner
+- styles
+- switch
+- table
+- tabs
+- textarea
+- toggle
+- toggle-group
+- tooltip
+- use-copy-to-clipboard
+- use-local-storage
+- use-media-query
+- utils
 
 ## Continue reading
 
-- [Getting Started](/docs/registry/getting-started)
-- [Schema](/docs/registry/schema)
-- [Examples](/docs/registry/examples)
-- [FAQ](/docs/registry/faq)
+- [Getting Started](/docs/registry/getting-started) — how the registry is assembled and consumed
+- [Schema](/docs/registry/schema) — item types, dependencies, and file targets
+- [Examples](/docs/registry/examples) — how base items combine into app patterns
+- [FAQ](/docs/registry/faq) — framework boundaries, styles, and install choices

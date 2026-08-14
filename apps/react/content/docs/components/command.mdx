@@ -1,0 +1,60 @@
+---
+title: Command
+description: Command palette primitives.
+---
+
+> Use Command to build searchable command menus and palettes.
+
+<ComponentDemo slug="command" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/command
+```
+
+## Package usage
+
+```tsx
+import { Command } from '@tile-ui/react';
+
+<Command>
+	<CommandInput placeholder="Search" />
+	<CommandList>
+		<CommandGroup>
+			<CommandItem>Item one</CommandItem>
+		</CommandGroup>
+	</CommandList>
+</Command>
+```
+
+## Highlights
+
+- Input, list, group, and item
+- Custom filter
+- Loop navigation
+
+## Registry dependencies
+
+| Item      | Purpose                            |
+| --------- | ---------------------------------- |
+| `command` | Component source and module styles |
+| `core`    | Framework-agnostic logic helpers   |
+| `styles`  | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Command
+
+| Prop     | Type                                                              | Default |
+| -------- | ----------------------------------------------------------------- | ------- |
+| `items`  | `CommandItemDef[]`                                                | —       |
+| `groups` | `CommandGroupDef[]`                                               | —       |
+| `filter` | `(value: string, search: string, keywords?: string[]) => boolean` | —       |
+| `loop`   | `boolean`                                                         | —       |
+
+## Related docs
+
+- [Combobox](/docs/components/combobox)
+- [Dialog](/docs/components/dialog)
+- [Kbd](/docs/components/kbd)

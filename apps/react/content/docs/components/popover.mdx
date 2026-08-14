@@ -1,0 +1,69 @@
+---
+title: Popover
+description: Popover overlay.
+---
+
+> Use Popover to show richer content anchored to a trigger.
+
+<ComponentDemo slug="popover" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/popover
+```
+
+## Package usage
+
+```tsx
+import { Popover } from '@tile-ui/react';
+
+<Popover>
+	<PopoverTrigger>Open</PopoverTrigger>
+	<PopoverContent>Rich content here.</PopoverContent>
+</Popover>
+```
+
+## Highlights
+
+- Trigger and content
+- Side, align, and offset
+- Controlled and uncontrolled
+
+## Registry dependencies
+
+| Item      | Purpose                            |
+| --------- | ---------------------------------- |
+| `popover` | Component source and module styles |
+| `core`    | Framework-agnostic logic helpers   |
+| `styles`  | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Popover
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### PopoverTrigger
+
+| Prop      | Type      | Default |
+| --------- | --------- | ------- |
+| `asChild` | `boolean` | —       |
+
+### PopoverContent
+
+| Prop         | Type                                     | Default |
+| ------------ | ---------------------------------------- | ------- |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | —       |
+| `align`      | `'start' \| 'center' \| 'end'`           | —       |
+| `sideOffset` | `number`                                 | —       |
+
+## Related docs
+
+- [Tooltip](/docs/components/tooltip)
+- [HoverCard](/docs/components/hover-card)
+- [DropdownMenu](/docs/components/dropdown-menu)

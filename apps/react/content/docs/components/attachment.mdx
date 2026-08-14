@@ -1,0 +1,71 @@
+---
+title: Attachment
+description: Attachment primitives.
+---
+
+> Use Attachment to display uploaded files with state and actions.
+
+<ComponentDemo slug="attachment" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/attachment
+```
+
+## Package usage
+
+```tsx
+import { Attachment } from '@tile-ui/react';
+
+<Attachment>
+	<AttachmentMedia>+</AttachmentMedia>
+	<AttachmentContent>
+		<AttachmentTitle>report.pdf</AttachmentTitle>
+		<AttachmentDescription>2.4 MB</AttachmentDescription>
+	</AttachmentContent>
+	<AttachmentActions>
+		<Button size="sm">Download</Button>
+	</AttachmentActions>
+</Attachment>
+```
+
+## Highlights
+
+- States like uploading and error
+- Sizes and orientation
+- Media, content, and actions
+
+## Registry dependencies
+
+| Item         | Purpose                            |
+| ------------ | ---------------------------------- |
+| `attachment` | Component source and module styles |
+| `core`       | Framework-agnostic logic helpers   |
+| `styles`     | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Attachment
+
+| Prop          | Type                                                         | Default |
+| ------------- | ------------------------------------------------------------ | ------- |
+| `state`       | `'idle' \| 'uploading' \| 'processing' \| 'error' \| 'done'` | —       |
+| `size`        | `'default' \| 'sm' \| 'xs'`                                  | —       |
+| `orientation` | `'horizontal' \| 'vertical'`                                 | —       |
+
+### AttachmentCard
+
+| Prop          | Type                                                         | Default |
+| ------------- | ------------------------------------------------------------ | ------- |
+| `name`        | `string`                                                     | —       |
+| `size`        | `number`                                                     | —       |
+| `state`       | `'idle' \| 'uploading' \| 'processing' \| 'error' \| 'done'` | —       |
+| `orientation` | `'horizontal' \| 'vertical'`                                 | —       |
+| `downloading` | `boolean`                                                    | —       |
+
+## Related docs
+
+- [Item](/docs/components/item)
+- [Badge](/docs/components/badge)
+- [Empty](/docs/components/empty)

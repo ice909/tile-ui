@@ -1,0 +1,62 @@
+---
+title: MessageScroller
+description: Message scroller.
+---
+
+> Use MessageScroller to scroll a message list with auto-anchoring.
+
+<ComponentDemo slug="message-scroller" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/message-scroller
+```
+
+## Package usage
+
+```tsx
+import { MessageScroller } from '@tile-ui/react';
+
+<MessageScroller>
+	<MessageScrollerViewport>
+		<MessageScrollerContent>
+			<MessageScrollerItem>Message one</MessageScrollerItem>
+		</MessageScrollerContent>
+	</MessageScrollerViewport>
+</MessageScroller>
+```
+
+## Highlights
+
+- Viewport and content
+- Scroll anchor
+- Scroll buttons
+
+## Registry dependencies
+
+| Item               | Purpose                            |
+| ------------------ | ---------------------------------- |
+| `message-scroller` | Component source and module styles |
+| `core`             | Framework-agnostic logic helpers   |
+| `styles`           | Shared SCSS tokens and globals     |
+
+## API reference
+
+### MessageScrollerItem
+
+| Prop           | Type      | Default |
+| -------------- | --------- | ------- |
+| `scrollAnchor` | `boolean` | —       |
+
+### MessageScrollerButton
+
+| Prop        | Type               | Default |
+| ----------- | ------------------ | ------- |
+| `direction` | `'start' \| 'end'` | —       |
+
+## Related docs
+
+- [Message](/docs/components/message)
+- [Bubble](/docs/components/bubble)
+- [ScrollArea](/docs/components/scroll-area)

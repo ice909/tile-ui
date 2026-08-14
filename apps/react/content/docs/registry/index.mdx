@@ -5,7 +5,7 @@ description: Overview of the React registry, item inventory, and supporting guid
 
 import { reactRegistryItemNames } from '@/lib/registry-meta';
 
-The React registry is a flat shadcn-compatible registry published from the React site. Each item is available at a root-level JSON URL.
+The React registry is a flat shadcn-compatible registry published from the React site. Each item is available at a root-level JSON URL and can be installed through the shadcn CLI.
 
 ## Registry URLs
 
@@ -13,6 +13,8 @@ The React registry is a flat shadcn-compatible registry published from the React
 https://react.tileui.zmorg.cn/r/registry.json
 https://react.tileui.zmorg.cn/r/{name}.json
 ```
+
+`registry.json` is the index that lists every item; `{name}.json` is the payload for a single item, including its files, dependencies, and copy-paste source.
 
 ## Available items
 
@@ -24,7 +26,7 @@ https://react.tileui.zmorg.cn/r/{name}.json
 
 ## Continue reading
 
-- [Getting Started](/docs/registry/getting-started)
-- [Schema](/docs/registry/schema)
-- [Examples](/docs/registry/examples)
-- [FAQ](/docs/registry/faq)
+- [Getting Started](/docs/registry/getting-started) — how the registry is assembled and consumed
+- [Schema](/docs/registry/schema) — item types, dependencies, and file targets
+- [Examples](/docs/registry/examples) — how base items combine into app patterns
+- [FAQ](/docs/registry/faq) — framework boundaries, styles, and install choices

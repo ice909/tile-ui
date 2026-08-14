@@ -35,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 								<nav className="docs-app-nav">
 									<Link href="/docs">Docs</Link>
 									<Link href="/docs/components">Components</Link>
+									<Link href="/docs/hooks">Hooks</Link>
 									<Link href="/docs/registry">Registry</Link>
 									<Link href="/docs/examples">Examples</Link>
 								</nav>

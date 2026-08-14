@@ -14,3 +14,11 @@ No. Registry items are copy-paste distributions. The package is optional.
 ## Why are styles a separate item?
 
 Because consumers may want the design tokens and global SCSS before adopting any UI item.
+
+## How do items resolve `@tile-ui/core`?
+
+Register the Tile UI namespace in `components.json`. The CLI then resolves shared dependencies like `@tile-ui/core` and `@tile-ui/utils` through that namespace without hardcoding a domain into each item.
+
+## Where do files land after install?
+
+Components write to `components/ui/*`, hooks to `hooks/*`, and shared SCSS to `styles/*`, keeping source colocated with the design system.

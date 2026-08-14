@@ -25,6 +25,7 @@ export default defineComponent({
 							<nav class="docs-app-nav">
 								<NuxtLink to="/docs">Docs</NuxtLink>
 								<NuxtLink to="/docs/components">Components</NuxtLink>
+								<NuxtLink to="/docs/composables">Composables</NuxtLink>
 								<NuxtLink to="/docs/registry">Registry</NuxtLink>
 								<NuxtLink to="/docs/examples">Examples</NuxtLink>
 							</nav>

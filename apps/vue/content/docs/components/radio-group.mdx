@@ -1,0 +1,63 @@
+---
+title: RadioGroup
+description: Radio group selection.
+---
+
+> Use RadioGroup to let users pick one of several options.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/radio-group
+```
+
+## Package usage
+
+```tsx
+import { TRadioGroup } from '@tile-ui/vue';
+
+<TRadioGroup defaultValue="a">
+	<TRadioGroupItem value="a" />
+	<TRadioGroupItem value="b" />
+</TRadioGroup>
+```
+
+## Highlights
+
+- Controlled and uncontrolled
+- Horizontal and vertical
+- Item disabled
+
+## Registry dependencies
+
+| Item          | Purpose                            |
+| ------------- | ---------------------------------- |
+| `radio-group` | Component source and module styles |
+| `core`        | Framework-agnostic logic helpers   |
+| `styles`      | Shared SCSS tokens and globals     |
+
+## API reference
+
+### RadioGroup
+
+| Prop            | Type                         | Default |
+| --------------- | ---------------------------- | ------- |
+| `value`         | `string`                     | —       |
+| `defaultValue`  | `string`                     | —       |
+| `onValueChange` | `(value: string) => void`    | —       |
+| `orientation`   | `'horizontal' \| 'vertical'` | —       |
+| `name`          | `string`                     | —       |
+| `disabled`      | `boolean`                    | —       |
+
+### RadioGroupItem
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `value`    | `string`  | —       |
+| `disabled` | `boolean` | —       |
+
+## Related docs
+
+- [Checkbox](/docs/components/checkbox)
+- [Select](/docs/components/select)
+- [Form](/docs/components/form)

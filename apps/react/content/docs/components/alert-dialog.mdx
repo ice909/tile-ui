@@ -1,0 +1,56 @@
+---
+title: AlertDialog
+description: Alert dialog.
+---
+
+> Use AlertDialog to interrupt for confirmation of a destructive or important action.
+
+<ComponentDemo slug="alert-dialog" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/alert-dialog
+```
+
+## Package usage
+
+```tsx
+import { AlertDialog } from '@tile-ui/react';
+
+<AlertDialog>
+	<AlertDialogTrigger>Delete</AlertDialogTrigger>
+	<AlertDialogContent>
+		<AlertDialogTitle>Are you sure?</AlertDialogTitle>
+		<AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+		<AlertDialogCancel>Cancel</AlertDialogCancel>
+		<AlertDialogAction>Delete</AlertDialogAction>
+	</AlertDialogContent>
+</AlertDialog>
+```
+
+## Highlights
+
+- Action and cancel buttons
+- Overlay and content
+- Two sizes
+
+## Registry dependencies
+
+| Item           | Purpose                            |
+| -------------- | ---------------------------------- |
+| `alert-dialog` | Component source and module styles |
+| `core`         | Framework-agnostic logic helpers   |
+| `styles`       | Shared SCSS tokens and globals     |
+
+## API reference
+
+### AlertDialog
+
+No custom props.
+
+## Related docs
+
+- [Dialog](/docs/components/dialog)
+- [Sheet](/docs/components/sheet)
+- [Drawer](/docs/components/drawer)

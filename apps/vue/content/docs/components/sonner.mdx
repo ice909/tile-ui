@@ -1,0 +1,52 @@
+---
+title: Sonner
+description: Toast notifications.
+---
+
+> Use Toaster and the toast helper to show transient notifications.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/sonner
+```
+
+## Package usage
+
+```tsx
+import { TToaster } from '@tile-ui/vue';
+
+<TToaster position="bottom-right" />
+```
+
+## Highlights
+
+- Six types
+- Positions and duration
+- Rich colors and themes
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `sonner` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Toaster
+
+| Prop          | Type                                                                                              | Default |
+| ------------- | ------------------------------------------------------------------------------------------------- | ------- |
+| `position`    | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right' \| 'top-center' \| 'bottom-center'` | —       |
+| `duration`    | `number`                                                                                          | —       |
+| `closeButton` | `boolean`                                                                                         | —       |
+| `richColors`  | `boolean`                                                                                         | —       |
+| `theme`       | `'light' \| 'dark' \| 'system'`                                                                   | —       |
+
+## Related docs
+
+- [Alert](/docs/components/alert)
+- [Form](/docs/components/form)
+- [Spinner](/docs/components/spinner)

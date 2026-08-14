@@ -1,0 +1,57 @@
+---
+title: Dialog
+description: Modal dialog.
+---
+
+> Use Dialog to require a decision before continuing.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/dialog
+```
+
+## Package usage
+
+```tsx
+import { TDialog } from '@tile-ui/vue';
+
+<TDialog>
+	<TDialogTrigger>Open</TDialogTrigger>
+	<TDialogContent>
+		<TDialogHeader>
+			<TDialogTitle>Edit profile</TDialogTitle>
+			<TDialogDescription>Make changes to your profile.</TDialogDescription>
+		</TDialogHeader>
+		<TDialogFooter>
+			<TButton>Save</TButton>
+		</TDialogFooter>
+	</TDialogContent>
+</TDialog>
+```
+
+## Highlights
+
+- Trigger, overlay, and content
+- Header, footer, title, and description
+- Close button
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `dialog` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Dialog
+
+No custom props.
+
+## Related docs
+
+- [AlertDialog](/docs/components/alert-dialog)
+- [Sheet](/docs/components/sheet)
+- [Drawer](/docs/components/drawer)

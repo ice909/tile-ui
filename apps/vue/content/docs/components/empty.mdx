@@ -1,0 +1,51 @@
+---
+title: Empty
+description: Empty state primitives.
+---
+
+> Use Empty to guide users when there is nothing to display.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/empty
+```
+
+## Package usage
+
+```tsx
+import { TEmpty } from '@tile-ui/vue';
+
+<TEmpty>
+	<TEmptyMedia variant="muted">+</TEmptyMedia>
+	<TEmptyTitle>No results</TEmptyTitle>
+	<TEmptyDescription>Try adjusting your search.</TEmptyDescription>
+</TEmpty>
+```
+
+## Highlights
+
+- Header, media, title, and description
+- Muted and bordered media variants
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `empty`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### EmptyMedia
+
+| Prop      | Type                    | Default |
+| --------- | ----------------------- | ------- |
+| `variant` | `'muted' \| 'bordered'` | —       |
+
+## Related docs
+
+- [Alert](/docs/components/alert)
+- [Item](/docs/components/item)
+- [Card](/docs/components/card)

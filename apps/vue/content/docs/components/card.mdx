@@ -3,6 +3,8 @@ title: Card
 description: Composable card primitives for headers, content, descriptions, and actions.
 ---
 
+> Use Card to group related information, actions, and descriptions into a surface with clear spatial hierarchy.
+
 ## Registry install
 
 ```bash
@@ -11,12 +13,71 @@ pnpm dlx shadcn@latest add @tile-ui/card
 
 ## Package usage
 
-```ts
-import { TCard, TCardHeader, TCardTitle, TCardContent } from '@tile-ui/vue';
+```tsx
+import { TCard, TCardHeader, TCardTitle, TCardDescription, TCardContent, TCardFooter } from '@tile-ui/vue';
+```
+
+```tsx
+<TCard>
+	<TCardHeader>
+		<TCardTitle>Starter workspace</TCardTitle>
+		<TCardDescription>Ship a consistent docs and component experience.</TCardDescription>
+	</TCardHeader>
+	<TCardContent>
+		<p>Use cards for summaries, settings surfaces, marketing CTAs, and denser information blocks.</p>
+	</TCardContent>
+	<TCardFooter>
+		<TButton variant="outline">Preview</TButton>
+		<TButton>Install</TButton>
+	</TCardFooter>
+</TCard>
 ```
 
 ## Highlights
 
 - Slot-based composition
 - Header, content, and footer primitives
+- Renders as `div`, `article`, or `section` via the `as` prop
 - Useful for docs and app surfaces
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `card`   | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### TCard
+
+| Prop | Type                        | Default | Notes                                |
+| ---- | --------------------------- | ------- | ------------------------------------ |
+| `as` | `div \| article \| section` | `div`   | Chooses the underlying HTML element. |
+
+### TCardHeader
+
+No custom props. Renders a header region with consistent spacing.
+
+### TCardTitle
+
+No custom props. Renders an `<h3>` heading.
+
+### TCardDescription
+
+No custom props. Renders supporting copy below the title.
+
+### TCardContent
+
+No custom props. The main content region with consistent padding.
+
+### TCardFooter
+
+No custom props. An action row aligned to the end of the card.
+
+## Related docs
+
+- [Button](/docs/components/button)
+- [Contact Form example](/docs/examples/contact-form)
+- [Examples](/docs/examples)

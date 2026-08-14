@@ -1,0 +1,49 @@
+---
+title: Badge
+description: A small status or label indicator with multiple visual variants.
+---
+
+> Use Badge to surface status, counts, or short labels next to content.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/badge
+```
+
+## Package usage
+
+```tsx
+import { TBadge } from '@tile-ui/vue';
+
+<TBadge variant="secondary">New</TBadge>
+```
+
+## Highlights
+
+- Six visual variants
+- `asChild` support for composition
+- Pairs with Avatar, Item, and Table
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `badge`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Badge
+
+| Prop      | Type                                                                          | Default |
+| --------- | ----------------------------------------------------------------------------- | ------- |
+| `variant` | `'default' \| 'secondary' \| 'destructive' \| 'outline' \| 'ghost' \| 'link'` | —       |
+| `asChild` | `boolean`                                                                     | —       |
+
+## Related docs
+
+- [Card](/docs/components/card)
+- [Avatar](/docs/components/avatar)
+- [Alert](/docs/components/alert)

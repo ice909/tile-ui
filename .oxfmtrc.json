@@ -27,5 +27,11 @@
 		"**/.nuxt/**",
 		"**/.output/**",
 		"**/*.tsbuildinfo"
+	],
+	"overrides": [
+		{
+			"files": ["**/*.mdx"],
+			"options": { "embeddedLanguageFormatting": "off" }
+		}
 	]
 }

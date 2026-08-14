@@ -1,0 +1,60 @@
+---
+title: Form
+description: Form primitives.
+---
+
+> Use Form to manage validation, values, and submission.
+
+<ComponentDemo slug="form" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/form
+```
+
+## Package usage
+
+```tsx
+import { Form } from '@tile-ui/react';
+
+<Form>
+	<FormField name="email">
+		<FormLabel>Email</FormLabel>
+		<FormControl>
+			<Input />
+		</FormControl>
+		<FormMessage />
+	</FormField>
+</Form>
+```
+
+## Highlights
+
+- `useForm` hook
+- Field, label, control, and message
+- Resolver validation
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `form`   | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Form
+
+| Prop            | Type                                                        | Default |
+| --------------- | ----------------------------------------------------------- | ------- |
+| `defaultValues` | `Record<string, unknown>`                                   | —       |
+| `resolver`      | `(values: FormValues) => FormErrors \| Promise<FormErrors>` | —       |
+| `form`          | `unknown`                                                   | —       |
+
+## Related docs
+
+- [Field](/docs/components/field)
+- [Input](/docs/components/input)
+- [Checkbox](/docs/components/checkbox)

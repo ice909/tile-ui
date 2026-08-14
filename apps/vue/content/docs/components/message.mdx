@@ -1,0 +1,52 @@
+---
+title: Message
+description: Message primitives.
+---
+
+> Use Message to compose chat messages with avatar, content, and header.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/message
+```
+
+## Package usage
+
+```tsx
+import { TMessage } from '@tile-ui/vue';
+
+<TMessageGroup>
+	<TMessage align="end">
+		<TMessageContent>Hi there</TMessageContent>
+	</TMessage>
+</TMessageGroup>
+```
+
+## Highlights
+
+- Start and end alignment
+- Avatar, content, header, and footer
+- Group
+
+## Registry dependencies
+
+| Item      | Purpose                            |
+| --------- | ---------------------------------- |
+| `message` | Component source and module styles |
+| `core`    | Framework-agnostic logic helpers   |
+| `styles`  | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Message
+
+| Prop    | Type               | Default |
+| ------- | ------------------ | ------- |
+| `align` | `'start' \| 'end'` | —       |
+
+## Related docs
+
+- [Bubble](/docs/components/bubble)
+- [MessageScroller](/docs/components/message-scroller)
+- [Avatar](/docs/components/avatar)

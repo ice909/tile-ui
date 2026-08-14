@@ -38,6 +38,11 @@ export const reactHomeLinks: DocsLinkItem[] = [
 		href: '/docs/components',
 	},
 	{
+		title: 'Hooks',
+		description: 'Client-side helpers for clipboard, storage, and media-query workflows.',
+		href: '/docs/hooks',
+	},
+	{
 		title: 'Examples',
 		description: 'See complete example compositions built from the same primitives.',
 		href: '/docs/examples',
@@ -59,6 +64,11 @@ export const vueHomeLinks: DocsLinkItem[] = [
 		title: 'Components',
 		description: 'Read component notes for Button, Input, Textarea, Label, and Card.',
 		href: '/docs/components',
+	},
+	{
+		title: 'Composables',
+		description: 'Vue-native helpers for clipboard, storage, and media-query workflows.',
+		href: '/docs/composables',
 	},
 	{
 		title: 'Examples',

@@ -1,0 +1,82 @@
+---
+title: Breadcrumb
+description: Navigation breadcrumb primitives.
+---
+
+> Use Breadcrumb to show the current location in a hierarchy.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/breadcrumb
+```
+
+## Package usage
+
+```tsx
+import { TBreadcrumb } from '@tile-ui/vue';
+
+<TBreadcrumb>
+	<TBreadcrumbList>
+		<TBreadcrumbItem>
+			<TBreadcrumbLink href="/docs">Docs</TBreadcrumbLink>
+		</TBreadcrumbItem>
+		<TBreadcrumbSeparator />
+		<TBreadcrumbItem>
+			<TBreadcrumbPage>Button</TBreadcrumbPage>
+		</TBreadcrumbItem>
+	</TBreadcrumbList>
+</TBreadcrumb>
+```
+
+## Highlights
+
+- List, item, link, and page
+- Separator and ellipsis
+- `asChild` on links
+
+## Registry dependencies
+
+| Item         | Purpose                            |
+| ------------ | ---------------------------------- |
+| `breadcrumb` | Component source and module styles |
+| `core`       | Framework-agnostic logic helpers   |
+| `styles`     | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Breadcrumb
+
+No custom props.
+
+### BreadcrumbList
+
+No custom props.
+
+### BreadcrumbItem
+
+No custom props.
+
+### BreadcrumbLink
+
+| Prop      | Type      | Default |
+| --------- | --------- | ------- |
+| `asChild` | `boolean` | —       |
+
+### BreadcrumbPage
+
+No custom props.
+
+### BreadcrumbSeparator
+
+No custom props.
+
+### BreadcrumbEllipsis
+
+No custom props.
+
+## Related docs
+
+- [Pagination](/docs/components/pagination)
+- [NavigationMenu](/docs/components/navigation-menu)
+- [Sidebar](/docs/components/sidebar)

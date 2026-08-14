@@ -1,0 +1,57 @@
+---
+title: Slider
+description: Slider control.
+---
+
+> Use Slider to pick a value from a range.
+
+<ComponentDemo slug="slider" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/slider
+```
+
+## Package usage
+
+```tsx
+import { Slider } from '@tile-ui/react';
+
+<Slider defaultValue={[50]} max={100} step={1} />
+```
+
+## Highlights
+
+- Min, max, and step
+- Horizontal and vertical
+- Track, range, and thumb
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `slider` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Slider
+
+| Prop            | Type                         | Default |
+| --------------- | ---------------------------- | ------- |
+| `orientation`   | `'horizontal' \| 'vertical'` | —       |
+| `min`           | `number`                     | —       |
+| `max`           | `number`                     | —       |
+| `step`          | `number`                     | —       |
+| `value`         | `number`                     | —       |
+| `defaultValue`  | `number`                     | —       |
+| `onValueChange` | `(value: number) => void`    | —       |
+| `disabled`      | `boolean`                    | —       |
+
+## Related docs
+
+- [Progress](/docs/components/progress)
+- [Switch](/docs/components/switch)
+- [Form](/docs/components/form)

@@ -1,0 +1,73 @@
+---
+title: Field
+description: Field label, description, and message wrapper.
+---
+
+> Use Field to compose accessible form fields with consistent structure.
+
+<ComponentDemo slug="field" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/field
+```
+
+## Package usage
+
+```tsx
+import { Field } from '@tile-ui/react';
+
+<Field name="email" required>
+	<FieldLabel htmlFor="email">Email</FieldLabel>
+	<input id="email" />
+	<FieldDescription>We never share your email.</FieldDescription>
+	<FieldMessage variant="error">Required.</FieldMessage>
+</Field>
+```
+
+## Highlights
+
+- Label, description, and message
+- Invalid and required states
+- Message variants
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `field`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Field
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `name`     | `string`  | —       |
+| `invalid`  | `boolean` | —       |
+| `required` | `boolean` | —       |
+
+### FieldLabel
+
+| Prop      | Type     | Default |
+| --------- | -------- | ------- |
+| `htmlFor` | `string` | —       |
+
+### FieldDescription
+
+No custom props.
+
+### FieldMessage
+
+| Prop      | Type                                                       | Default |
+| --------- | ---------------------------------------------------------- | ------- |
+| `variant` | `'default' \| 'error' \| 'warning' \| 'success' \| 'info'` | —       |
+
+## Related docs
+
+- [Input](/docs/components/input)
+- [Label](/docs/components/label)
+- [Form](/docs/components/form)

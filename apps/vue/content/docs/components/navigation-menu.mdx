@@ -1,0 +1,71 @@
+---
+title: NavigationMenu
+description: Navigation menu with viewport.
+---
+
+> Use NavigationMenu for primary site or app navigation.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/navigation-menu
+```
+
+## Package usage
+
+```tsx
+import { TNavigationMenu } from '@tile-ui/vue';
+
+<TNavigationMenu>
+	<TNavigationMenuList>
+		<TNavigationMenuItem value="docs">
+			<TNavigationMenuTrigger>Docs</TNavigationMenuTrigger>
+			<TNavigationMenuContent>Documentation links.</TNavigationMenuContent>
+		</TNavigationMenuItem>
+	</TNavigationMenuList>
+</TNavigationMenu>
+```
+
+## Highlights
+
+- Viewport mode
+- Item, trigger, and content
+- Link with active state
+
+## Registry dependencies
+
+| Item              | Purpose                            |
+| ----------------- | ---------------------------------- |
+| `navigation-menu` | Component source and module styles |
+| `core`            | Framework-agnostic logic helpers   |
+| `styles`          | Shared SCSS tokens and globals     |
+
+## API reference
+
+### NavigationMenu
+
+| Prop            | Type                                   | Default |
+| --------------- | -------------------------------------- | ------- |
+| `viewport`      | `boolean`                              | true    |
+| `value`         | `string`                               | —       |
+| `defaultValue`  | `string`                               | —       |
+| `onValueChange` | `(value: string \| undefined) => void` | —       |
+
+### NavigationMenuItem
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `value` | `string` | —       |
+
+### NavigationMenuLink
+
+| Prop      | Type      | Default |
+| --------- | --------- | ------- |
+| `active`  | `boolean` | —       |
+| `asChild` | `boolean` | —       |
+
+## Related docs
+
+- [Menubar](/docs/components/menubar)
+- [Breadcrumb](/docs/components/breadcrumb)
+- [Sidebar](/docs/components/sidebar)

@@ -1,0 +1,77 @@
+---
+title: Tabs
+description: Tabs navigation primitives.
+---
+
+> Use Tabs to switch between panes of content.
+
+<ComponentDemo slug="tabs" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/tabs
+```
+
+## Package usage
+
+```tsx
+import { Tabs } from '@tile-ui/react';
+
+<Tabs defaultValue="account">
+	<TabsList>
+		<TabsTrigger value="account">Account</TabsTrigger>
+		<TabsTrigger value="settings">Settings</TabsTrigger>
+	</TabsList>
+	<TabsContent value="account">Account content.</TabsContent>
+	<TabsContent value="settings">Settings content.</TabsContent>
+</Tabs>
+```
+
+## Highlights
+
+- List, trigger, and content
+- Controlled and uncontrolled
+- Horizontal and vertical
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `tabs`   | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Tabs
+
+| Prop            | Type                         | Default |
+| --------------- | ---------------------------- | ------- |
+| `value`         | `string`                     | —       |
+| `defaultValue`  | `string`                     | —       |
+| `onValueChange` | `(value: string) => void`    | —       |
+| `orientation`   | `'horizontal' \| 'vertical'` | —       |
+
+### TabsList
+
+No custom props.
+
+### TabsTrigger
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `value`    | `string`  | —       |
+| `disabled` | `boolean` | —       |
+
+### TabsContent
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `value` | `string` | —       |
+
+## Related docs
+
+- [Accordion](/docs/components/accordion)
+- [ToggleGroup](/docs/components/toggle-group)
+- [Command](/docs/components/command)

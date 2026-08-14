@@ -3,6 +3,8 @@ title: Textarea
 description: A multi-line field with the same label and helper affordances as Input.
 ---
 
+> Use Textarea for multi-line content, notes, descriptions, and any field that benefits from the same validation anatomy as Input.
+
 ## Registry install
 
 ```bash
@@ -11,12 +13,51 @@ pnpm dlx shadcn@latest add @tile-ui/textarea
 
 ## Package usage
 
-```ts
+```tsx
 import { TTextarea } from '@tile-ui/vue';
+```
+
+```tsx
+<TTextarea label="Summary" helperText="Keep it short and specific for reviewers." />
+```
+
+Textarea mirrors the Input field structure, so the two can be mixed in the same form without styling differences:
+
+```tsx
+<TTextarea label="Question" error="Please provide at least 20 characters before submitting." modelValue="Too short" />
 ```
 
 ## Highlights
 
-- Vue-native model updates
-- Validation messaging
+- Vue-native `modelValue` updates
+- Validation messaging with ARIA wiring
 - Same field anatomy as Input
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `textarea` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `utils`    | Shared utility helpers             |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### TTextarea
+
+| Prop          | Type      | Default | Notes                                             |
+| ------------- | --------- | ------- | ------------------------------------------------- |
+| `label`       | `string`  | —       | Optional field label rendered above the textarea. |
+| `helperText`  | `string`  | —       | Displayed below the field when there is no error. |
+| `error`       | `string`  | —       | Displays invalid state and error messaging.       |
+| `required`    | `boolean` | `false` | Adds required styling to the label.               |
+| `modelValue`  | `string`  | —       | The bound textarea value.                         |
+| `placeholder` | `string`  | —       | Placeholder text for the textarea.                |
+| `disabled`    | `boolean` | `false` | Disables the textarea.                            |
+
+## Related docs
+
+- [Input](/docs/components/input)
+- [Label](/docs/components/label)
+- [Contact Form example](/docs/examples/contact-form)

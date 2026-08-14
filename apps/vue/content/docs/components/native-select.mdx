@@ -1,0 +1,59 @@
+---
+title: NativeSelect
+description: A native select with custom chevron.
+---
+
+> Use NativeSelect for a styled native dropdown.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/native-select
+```
+
+## Package usage
+
+```tsx
+import { TNativeSelect } from '@tile-ui/vue';
+
+<TNativeSelect defaultValue="a">
+	<TNativeSelectOption value="a">Option A</TNativeSelectOption>
+	<TNativeSelectOption value="b">Option B</TNativeSelectOption>
+</TNativeSelect>
+```
+
+## Highlights
+
+- Two sizes
+- Option and optgroup
+- Custom chevron
+
+## Registry dependencies
+
+| Item            | Purpose                            |
+| --------------- | ---------------------------------- |
+| `native-select` | Component source and module styles |
+| `core`          | Framework-agnostic logic helpers   |
+| `styles`        | Shared SCSS tokens and globals     |
+
+## API reference
+
+### NativeSelect
+
+| Prop   | Type                | Default |
+| ------ | ------------------- | ------- |
+| `size` | `'sm' \| 'default'` | —       |
+
+### NativeSelectOption
+
+No custom props.
+
+### NativeSelectOptGroup
+
+No custom props.
+
+## Related docs
+
+- [Select](/docs/components/select)
+- [Combobox](/docs/components/combobox)
+- [Input](/docs/components/input)

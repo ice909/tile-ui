@@ -19,6 +19,7 @@ import {
 	TabsList,
 	TabsTrigger,
 } from '@/components/mdx-blocks';
+import { ComponentDemo } from '@/components/component-demo';
 import {
 	ButtonPreview,
 	CardPreview,
@@ -34,6 +35,7 @@ import {
 } from '@/components/mdx-previews';
 
 export const mdxComponents: MDXComponents = {
+	ComponentDemo,
 	ButtonPreview,
 	CardPreview,
 	ContactFormPreview,

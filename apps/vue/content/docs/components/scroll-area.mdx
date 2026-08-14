@@ -1,0 +1,53 @@
+---
+title: ScrollArea
+description: Custom scroll area.
+---
+
+> Use ScrollArea for a styled scroll container with custom bars.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/scroll-area
+```
+
+## Package usage
+
+```tsx
+import { TScrollArea } from '@tile-ui/vue';
+
+<TScrollArea>
+	<div style={{ height: 120 }}>Long content here.</div>
+</TScrollArea>
+```
+
+## Highlights
+
+- Viewport and scrollbar
+- Horizontal and vertical bars
+
+## Registry dependencies
+
+| Item          | Purpose                            |
+| ------------- | ---------------------------------- |
+| `scroll-area` | Component source and module styles |
+| `core`        | Framework-agnostic logic helpers   |
+| `styles`      | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ScrollArea
+
+No custom props.
+
+### ScrollBar
+
+| Prop          | Type                         | Default |
+| ------------- | ---------------------------- | ------- |
+| `orientation` | `'vertical' \| 'horizontal'` | —       |
+
+## Related docs
+
+- [MessageScroller](/docs/components/message-scroller)
+- [Dialog](/docs/components/dialog)
+- [Table](/docs/components/table)

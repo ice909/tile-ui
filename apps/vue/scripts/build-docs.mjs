@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import hljs from 'highlight.js';
 import matter from 'gray-matter';
 import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
@@ -12,7 +13,38 @@ const docsRoot = path.resolve(appRoot, 'content/docs');
 const outDir = path.resolve(appRoot, '.generated');
 const outFile = path.resolve(outDir, 'docs.json');
 
-const markdown = new MarkdownIt({ html: true, linkify: true, typographer: true }).use(anchor, {
+const langAliases = {
+	tsx: 'typescript',
+	ts: 'typescript',
+	text: 'plaintext',
+	txt: 'plaintext',
+	sh: 'bash',
+	shell: 'bash',
+};
+
+function escapeHtml(str) {
+	return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function highlightCode(str, lang) {
+	const normalized = langAliases[lang] ?? lang;
+	if (normalized && hljs.getLanguage(normalized)) {
+		try {
+			const { value } = hljs.highlight(str, { language: normalized, ignoreIllegals: true });
+			return `<pre class="hljs"><code class="language-${lang}">${value}</code></pre>`;
+		} catch {
+			// 高亮失败时回退到纯文本。
+		}
+	}
+	return `<pre class="hljs"><code class="language-${lang ?? ''}">${escapeHtml(str)}</code></pre>`;
+}
+
+const markdown = new MarkdownIt({
+	html: true,
+	linkify: true,
+	typographer: true,
+	highlight: highlightCode,
+}).use(anchor, {
 	permalink: anchor.permalink.headerLink(),
 });
 

@@ -1,0 +1,64 @@
+---
+title: Chart
+description: Chart primitives.
+---
+
+> Use ChartContainer to render line, bar, and area charts from a config.
+
+<ComponentDemo slug="chart" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/chart
+```
+
+## Package usage
+
+```tsx
+import { ChartContainer } from '@tile-ui/react';
+
+<ChartContainer
+	config={{ desktop: { label: "Desktop" } }}
+	data={[{ x: "Jan", desktop: 100 }]}
+	xKey="x"
+	type="line"
+/>
+```
+
+## Highlights
+
+- Line, bar, and area
+- Legend and tooltip
+- Light and dark themes
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `chart`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ChartContainer
+
+| Prop               | Type                                | Default |
+| ------------------ | ----------------------------------- | ------- |
+| `config`           | `Record<string, ChartConfigItem>`   | —       |
+| `data`             | `ChartDatum[]`                      | —       |
+| `xKey`             | `string`                            | —       |
+| `series`           | `ChartSeriesItem[]`                 | —       |
+| `type`             | `'line' \| 'bar' \| 'area'`         | —       |
+| `initialDimension` | `{ width: number; height: number }` | —       |
+| `showLegend`       | `boolean`                           | —       |
+| `showTooltip`      | `boolean`                           | —       |
+| `showGrid`         | `boolean`                           | —       |
+| `showAxis`         | `boolean`                           | —       |
+
+## Related docs
+
+- [Calendar](/docs/components/calendar)
+- [Table](/docs/components/table)
+- [Card](/docs/components/card)

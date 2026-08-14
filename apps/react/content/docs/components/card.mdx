@@ -16,11 +16,72 @@ pnpm dlx shadcn@latest add @tile-ui/card
 ## Package usage
 
 ```tsx
-import { Card, CardHeader, CardTitle, CardContent } from '@tile-ui/react';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@tile-ui/react';
+
+export function WorkspaceCard() {
+	return (
+		<Card>
+			<CardHeader>
+				<CardTitle>Starter workspace</CardTitle>
+				<CardDescription>Ship a consistent docs and component experience.</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<p>Use cards for summaries, settings surfaces, marketing CTAs, and denser information blocks.</p>
+			</CardContent>
+			<CardFooter>
+				<Button variant="outline">Preview</Button>
+				<Button>Install</Button>
+			</CardFooter>
+		</Card>
+	);
+}
 ```
 
 ## Highlights
 
 - Header, content, and footer primitives
 - Consistent section spacing
+- Renders as `div`, `article`, or `section` via the `as` prop
 - Useful for docs and app surfaces
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `card`   | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Card
+
+| Prop | Type                        | Default | Notes                                |
+| ---- | --------------------------- | ------- | ------------------------------------ |
+| `as` | `div \| article \| section` | `div`   | Chooses the underlying HTML element. |
+
+### CardHeader
+
+No custom props. Extends `React.HTMLAttributes<HTMLDivElement>`.
+
+### CardTitle
+
+No custom props. Renders an `<h3>` heading.
+
+### CardDescription
+
+No custom props. Renders supporting copy below the title.
+
+### CardContent
+
+No custom props. The main content region with consistent padding.
+
+### CardFooter
+
+No custom props. An action row aligned to the end of the card.
+
+## Related docs
+
+- [Button](/docs/components/button)
+- [Contact Form example](/docs/examples/contact-form)
+- [Examples](/docs/examples)

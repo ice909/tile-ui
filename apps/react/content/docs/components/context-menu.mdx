@@ -1,0 +1,118 @@
+---
+title: ContextMenu
+description: Right-click context menu.
+---
+
+> Use ContextMenu to show actions on right-click.
+
+<ComponentDemo slug="context-menu" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/context-menu
+```
+
+## Package usage
+
+```tsx
+import { ContextMenu } from '@tile-ui/react';
+
+<ContextMenu>
+	<ContextMenuTrigger>Right-click me</ContextMenuTrigger>
+	<ContextMenuContent>
+		<ContextMenuItem>Copy</ContextMenuItem>
+		<ContextMenuItem>Paste</ContextMenuItem>
+	</ContextMenuContent>
+</ContextMenu>
+```
+
+## Highlights
+
+- Trigger and content
+- Item, checkbox, and radio
+- Sub menus
+
+## Registry dependencies
+
+| Item           | Purpose                            |
+| -------------- | ---------------------------------- |
+| `context-menu` | Component source and module styles |
+| `core`         | Framework-agnostic logic helpers   |
+| `styles`       | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ContextMenu
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### ContextMenuTrigger
+
+| Prop      | Type      | Default |
+| --------- | --------- | ------- |
+| `asChild` | `boolean` | —       |
+
+### ContextMenuItem
+
+| Prop       | Type                         | Default |
+| ---------- | ---------------------------- | ------- |
+| `inset`    | `boolean`                    | —       |
+| `variant`  | `'default' \| 'destructive'` | —       |
+| `disabled` | `boolean`                    | —       |
+| `onSelect` | `(event: Event) => void`     | —       |
+
+### ContextMenuCheckboxItem
+
+| Prop              | Type                         | Default |
+| ----------------- | ---------------------------- | ------- |
+| `checked`         | `boolean`                    | —       |
+| `defaultChecked`  | `boolean`                    | —       |
+| `onCheckedChange` | `(checked: boolean) => void` | —       |
+| `disabled`        | `boolean`                    | —       |
+
+### ContextMenuRadioGroup
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `value`         | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onValueChange` | `(value: string) => void` | —       |
+
+### ContextMenuRadioItem
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `value`    | `string`  | —       |
+| `disabled` | `boolean` | —       |
+
+### ContextMenuLabel
+
+| Prop    | Type      | Default |
+| ------- | --------- | ------- |
+| `inset` | `boolean` | —       |
+
+### ContextMenuSub
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### ContextMenuSubTrigger
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `inset`    | `boolean` | —       |
+| `disabled` | `boolean` | —       |
+
+## Related docs
+
+- [DropdownMenu](/docs/components/dropdown-menu)
+- [Menubar](/docs/components/menubar)
+- [Command](/docs/components/command)

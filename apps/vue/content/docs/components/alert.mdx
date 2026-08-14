@@ -1,0 +1,51 @@
+---
+title: Alert
+description: Alert banner primitives.
+---
+
+> Use Alert to surface important, time-sensitive feedback.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/alert
+```
+
+## Package usage
+
+```tsx
+import { TAlert } from '@tile-ui/vue';
+
+<TAlert variant="warning">
+	<TAlertTitle>Heads up</TAlertTitle>
+	<TAlertDescription>Your session expires in 5 minutes.</TAlertDescription>
+</TAlert>
+```
+
+## Highlights
+
+- Five variants
+- Title and description
+- Pairs with Card and Form
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `alert`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Alert
+
+| Prop      | Type                                                             | Default |
+| --------- | ---------------------------------------------------------------- | ------- |
+| `variant` | `'default' \| 'destructive' \| 'warning' \| 'success' \| 'info'` | —       |
+
+## Related docs
+
+- [Badge](/docs/components/badge)
+- [Card](/docs/components/card)
+- [Form](/docs/components/form)

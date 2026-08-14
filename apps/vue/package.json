@@ -27,6 +27,7 @@
 		"@tile-ui/styles": "workspace:*",
 		"@tile-ui/vue": "workspace:*",
 		"gray-matter": "^4.0.3",
+		"highlight.js": "^11.11.1",
 		"markdown-it": "^14.1.1",
 		"markdown-it-anchor": "^9.2.0",
 		"nuxt": "^3.16.0",

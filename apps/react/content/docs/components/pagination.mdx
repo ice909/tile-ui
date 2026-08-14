@@ -1,0 +1,79 @@
+---
+title: Pagination
+description: Navigation pagination primitives.
+---
+
+> Use Pagination to page through long lists.
+
+<ComponentDemo slug="pagination" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/pagination
+```
+
+## Package usage
+
+```tsx
+import { Pagination } from '@tile-ui/react';
+
+<Pagination>
+	<PaginationContent>
+		<PaginationItem>
+			<PaginationPrevious href="#" />
+		</PaginationItem>
+		<PaginationItem>
+			<PaginationLink href="#" isActive>1</PaginationLink>
+		</PaginationItem>
+		<PaginationItem>
+			<PaginationNext href="#" />
+		</PaginationItem>
+	</PaginationContent>
+</Pagination>
+```
+
+## Highlights
+
+- Link, previous, next, and ellipsis
+- Active state
+- Four sizes
+
+## Registry dependencies
+
+| Item         | Purpose                            |
+| ------------ | ---------------------------------- |
+| `pagination` | Component source and module styles |
+| `core`       | Framework-agnostic logic helpers   |
+| `styles`     | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Pagination
+
+No custom props.
+
+### PaginationContent
+
+No custom props.
+
+### PaginationItem
+
+No custom props.
+
+### PaginationLink
+
+| Prop       | Type                                  | Default |
+| ---------- | ------------------------------------- | ------- |
+| `isActive` | `boolean`                             | —       |
+| `size`     | `'default' \| 'sm' \| 'lg' \| 'icon'` | —       |
+
+### PaginationEllipsis
+
+No custom props.
+
+## Related docs
+
+- [Table](/docs/components/table)
+- [Breadcrumb](/docs/components/breadcrumb)
+- [Select](/docs/components/select)

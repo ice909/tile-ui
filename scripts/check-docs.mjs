@@ -50,6 +50,15 @@ function ensureExists(label, target, urls, errors) {
 	}
 }
 
+function registryUiNames(appName) {
+	const registryPath = path.join(root, `apps/${appName}/public/r/registry.json`);
+	if (!fs.existsSync(registryPath)) {
+		return [];
+	}
+	const registry = JSON.parse(fs.readFileSync(registryPath, 'utf-8'));
+	return registry.items.filter((item) => item.type === 'registry:ui').map((item) => item.name);
+}
+
 const apps = [
 	{
 		name: 'react',
@@ -80,6 +89,11 @@ for (const app of apps) {
 		for (const link of links) {
 			ensureExists(`${app.name}:${file}`, link, urls, errors);
 		}
+	}
+
+	// 组件文档完整性：每个 registry:ui 组件都必须有对应文档页。
+	for (const name of registryUiNames(app.name)) {
+		ensureExists(`${app.name}:registry:ui/${name}`, `/docs/components/${name}`, urls, errors);
 	}
 }
 

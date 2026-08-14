@@ -1,0 +1,71 @@
+---
+title: HoverCard
+description: Hover card overlay.
+---
+
+> Use HoverCard to show a preview when hovering a trigger.
+
+<ComponentDemo slug="hover-card" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/hover-card
+```
+
+## Package usage
+
+```tsx
+import { HoverCard } from '@tile-ui/react';
+
+<HoverCard>
+	<HoverCardTrigger>Hover me</HoverCardTrigger>
+	<HoverCardContent>Preview content.</HoverCardContent>
+</HoverCard>
+```
+
+## Highlights
+
+- Open and close delay
+- Side and align
+- Trigger and content
+
+## Registry dependencies
+
+| Item         | Purpose                            |
+| ------------ | ---------------------------------- |
+| `hover-card` | Component source and module styles |
+| `core`       | Framework-agnostic logic helpers   |
+| `styles`     | Shared SCSS tokens and globals     |
+
+## API reference
+
+### HoverCard
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `openDelay`    | `number`                  | —       |
+| `closeDelay`   | `number`                  | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### HoverCardTrigger
+
+| Prop      | Type      | Default |
+| --------- | --------- | ------- |
+| `asChild` | `boolean` | —       |
+
+### HoverCardContent
+
+| Prop         | Type                                     | Default |
+| ------------ | ---------------------------------------- | ------- |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | —       |
+| `align`      | `'start' \| 'center' \| 'end'`           | —       |
+| `sideOffset` | `number`                                 | —       |
+
+## Related docs
+
+- [Popover](/docs/components/popover)
+- [Tooltip](/docs/components/tooltip)
+- [Avatar](/docs/components/avatar)

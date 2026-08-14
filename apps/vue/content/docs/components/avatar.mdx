@@ -1,0 +1,73 @@
+---
+title: Avatar
+description: User avatar primitives with image fallback.
+---
+
+> Use Avatar to show user or entity images with a text fallback.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/avatar
+```
+
+## Package usage
+
+```tsx
+import { TAvatar } from '@tile-ui/vue';
+
+<TAvatar>
+	<TAvatarImage alt="Tile UI" src="https://example.com/avatar.png" />
+	<TAvatarFallback>TU</TAvatarFallback>
+</TAvatar>
+```
+
+## Highlights
+
+- Image, fallback, and badge
+- Group stacking
+- Three sizes
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `avatar` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Avatar
+
+| Prop   | Type                        | Default |
+| ------ | --------------------------- | ------- |
+| `size` | `'default' \| 'sm' \| 'lg'` | —       |
+
+### AvatarImage
+
+| Prop  | Type     | Default |
+| ----- | -------- | ------- |
+| `alt` | `string` | —       |
+
+### AvatarFallback
+
+No custom props.
+
+### AvatarBadge
+
+No custom props.
+
+### AvatarGroup
+
+No custom props.
+
+### AvatarGroupCount
+
+No custom props.
+
+## Related docs
+
+- [Badge](/docs/components/badge)
+- [Item](/docs/components/item)
+- [Message](/docs/components/message)

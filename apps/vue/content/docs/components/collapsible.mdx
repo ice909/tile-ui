@@ -1,0 +1,61 @@
+---
+title: Collapsible
+description: An accessible collapsible content container.
+---
+
+> Use Collapsible to toggle extra content without a dialog.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/collapsible
+```
+
+## Package usage
+
+```tsx
+import { TCollapsible } from '@tile-ui/vue';
+
+<TCollapsible>
+	<TCollapsibleTrigger>Details</TCollapsibleTrigger>
+	<TCollapsibleContent>Extra content here.</TCollapsibleContent>
+</TCollapsible>
+```
+
+## Highlights
+
+- Open and defaultOpen states
+- Trigger and content
+- Disabled state
+
+## Registry dependencies
+
+| Item          | Purpose                            |
+| ------------- | ---------------------------------- |
+| `collapsible` | Component source and module styles |
+| `core`        | Framework-agnostic logic helpers   |
+| `styles`      | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Collapsible
+
+| Prop          | Type      | Default |
+| ------------- | --------- | ------- |
+| `open`        | `boolean` | —       |
+| `defaultOpen` | `boolean` | —       |
+| `disabled`    | `boolean` | —       |
+
+### CollapsibleTrigger
+
+No custom props.
+
+### CollapsibleContent
+
+No custom props.
+
+## Related docs
+
+- [Accordion](/docs/components/accordion)
+- [Dialog](/docs/components/dialog)
+- [Sheet](/docs/components/sheet)

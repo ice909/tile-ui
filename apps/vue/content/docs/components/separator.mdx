@@ -1,0 +1,48 @@
+---
+title: Separator
+description: A horizontal or vertical divider.
+---
+
+> Use Separator to divide sections or items without extra markup.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/separator
+```
+
+## Package usage
+
+```tsx
+import { TSeparator } from '@tile-ui/vue';
+
+<TSeparator />
+```
+
+## Highlights
+
+- Horizontal and vertical orientation
+- Decorative mode for accessibility
+
+## Registry dependencies
+
+| Item        | Purpose                            |
+| ----------- | ---------------------------------- |
+| `separator` | Component source and module styles |
+| `core`      | Framework-agnostic logic helpers   |
+| `styles`    | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Separator
+
+| Prop          | Type                         | Default |
+| ------------- | ---------------------------- | ------- |
+| `orientation` | `'horizontal' \| 'vertical'` | —       |
+| `decorative`  | `boolean`                    | —       |
+
+## Related docs
+
+- [DropdownMenu](/docs/components/dropdown-menu)
+- [Menubar](/docs/components/menubar)
+- [Sidebar](/docs/components/sidebar)

@@ -3,6 +3,8 @@ title: useMediaQuery
 description: Read responsive state and viewport changes without rewriting browser event plumbing.
 ---
 
+> Use this composable to branch your UI on viewport size without wiring `matchMedia` listeners by hand.
+
 ## Registry install
 
 ```bash
@@ -14,3 +16,20 @@ pnpm dlx shadcn@latest add @tile-ui/use-media-query
 ```ts
 const isMobile = useMediaQuery('(max-width: 768px)');
 ```
+
+## What it covers
+
+- Reactive `matchMedia` evaluation
+- Listener cleanup on unmount
+- A ref that updates when the query result changes
+
+## Common use cases
+
+- Rendering a compact mobile variant versus a denser desktop layout
+- Hiding secondary navigation on narrow viewports
+- Adjusting density or columns from a single breakpoint
+
+## Related docs
+
+- [useLocalStorage](/docs/composables/use-local-storage)
+- [Examples](/docs/examples)

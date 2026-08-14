@@ -1,0 +1,52 @@
+---
+title: Sheet
+description: Side sheet overlay.
+---
+
+> Use Sheet to slide a panel from the edge of the screen.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/sheet
+```
+
+## Package usage
+
+```tsx
+import { TSheet } from '@tile-ui/vue';
+
+<TSheet>
+	<TSheetTrigger>Open</TSheetTrigger>
+	<TSheetContent side="right">
+		<TSheetTitle>Details</TSheetTitle>
+		<TSheetDescription>Supporting details.</TSheetDescription>
+	</TSheetContent>
+</TSheet>
+```
+
+## Highlights
+
+- Four sides
+- Trigger, overlay, and content
+- Header, footer, title, and description
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `sheet`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Sheet
+
+No custom props.
+
+## Related docs
+
+- [Dialog](/docs/components/dialog)
+- [Drawer](/docs/components/drawer)
+- [Sidebar](/docs/components/sidebar)

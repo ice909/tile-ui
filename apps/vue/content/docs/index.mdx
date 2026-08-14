@@ -1,17 +1,24 @@
 ---
-title: Vue Documentation
-description: Overview of the Vue package, registry, and examples.
+title: Introduction
+description: Tile UI Vue is a cross-framework component library with a shared SCSS design system and registry-driven distribution.
 ---
 
-Tile UI Vue combines a package-based integration path with a framework-specific registry for Vue projects.
+Tile UI ships the same design system to React and Vue. Component logic lives once in `@tile-ui/core`, styles live once in `@tile-ui/styles`, and each framework provides thin, idiomatic wrappers. This site documents the Vue side: the Vue package, the Vue registry, and the examples that combine them.
+
+## What Tile UI is
+
+- **One design system, two frameworks.** Logic and styles are written once and shared; React and Vue expose the same primitives with native ergonomics.
+- **Package or registry.** Install the published package for speed, or copy registry items into your project when you want to own the source.
+- **shadcn-compatible registry.** Tile UI distribution uses the same flat registry schema and CLI workflow as shadcn (`pnpm dlx shadcn@latest add`).
+- **Open code.** Every component source is available to read, extend, or replace.
 
 ## What you will find here
 
-- Installation and package setup
-- Registry usage and schema notes
-- Component reference for the core primitives
-- Composables reference for app-level helpers
-- Example compositions that combine the same primitives
+- [Installation](/docs/installation) — package and registry setup
+- [Registry](/docs/registry) — item inventory, URLs, and schema notes
+- [Components](/docs/components) — reference for the core primitives
+- [Composables](/docs/composables) — Vue-native helpers for app-level workflows
+- [Examples](/docs/examples) — complete compositions built from the same primitives
 
 ## Recommended path
 

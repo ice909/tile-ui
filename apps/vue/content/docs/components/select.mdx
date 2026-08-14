@@ -1,0 +1,80 @@
+---
+title: Select
+description: Custom select dropdown.
+---
+
+> Use Select to pick one value from a styled dropdown.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/select
+```
+
+## Package usage
+
+```tsx
+import { TSelect } from '@tile-ui/vue';
+
+<TSelect>
+	<TSelectTrigger>Choose a fruit</TSelectTrigger>
+	<TSelectContent>
+		<TSelectItem value="apple">Apple</TSelectItem>
+		<TSelectItem value="banana">Banana</TSelectItem>
+	</TSelectContent>
+</TSelect>
+```
+
+## Highlights
+
+- Trigger, content, and item
+- Group, label, and separator
+- Controlled and uncontrolled
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `select` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Select
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `open`          | `boolean`                 | —       |
+| `defaultOpen`   | `boolean`                 | —       |
+| `onOpenChange`  | `(open: boolean) => void` | —       |
+| `value`         | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onValueChange` | `(value: string) => void` | —       |
+
+### SelectTrigger
+
+| Prop   | Type                | Default |
+| ------ | ------------------- | ------- |
+| `size` | `'sm' \| 'default'` | —       |
+
+### SelectContent
+
+| Prop         | Type                           | Default |
+| ------------ | ------------------------------ | ------- |
+| `position`   | `'item-aligned' \| 'popper'`   | —       |
+| `align`      | `'start' \| 'center' \| 'end'` | —       |
+| `sideOffset` | `number`                       | —       |
+
+### SelectItem
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `value`    | `string`  | —       |
+| `disabled` | `boolean` | —       |
+
+## Related docs
+
+- [Combobox](/docs/components/combobox)
+- [NativeSelect](/docs/components/native-select)
+- [DropdownMenu](/docs/components/dropdown-menu)

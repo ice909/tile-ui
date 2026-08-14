@@ -1,0 +1,53 @@
+---
+title: Empty
+description: Empty state primitives.
+---
+
+> Use Empty to guide users when there is nothing to display.
+
+<ComponentDemo slug="empty" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/empty
+```
+
+## Package usage
+
+```tsx
+import { Empty } from '@tile-ui/react';
+
+<Empty>
+	<EmptyMedia variant="muted">+</EmptyMedia>
+	<EmptyTitle>No results</EmptyTitle>
+	<EmptyDescription>Try adjusting your search.</EmptyDescription>
+</Empty>
+```
+
+## Highlights
+
+- Header, media, title, and description
+- Muted and bordered media variants
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `empty`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### EmptyMedia
+
+| Prop      | Type                    | Default |
+| --------- | ----------------------- | ------- |
+| `variant` | `'muted' \| 'bordered'` | —       |
+
+## Related docs
+
+- [Alert](/docs/components/alert)
+- [Item](/docs/components/item)
+- [Card](/docs/components/card)

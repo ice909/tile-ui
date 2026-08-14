@@ -3,7 +3,12 @@ title: Installation
 description: Install Tile UI React from packages or consume the React registry.
 ---
 
-Tile UI React can be consumed as packages or as copy-paste registry items distributed from the React site.
+Tile UI React can be consumed as packages or as copy-paste registry items distributed from the React site. Both paths share the same design tokens and component source.
+
+## What to choose
+
+- Use the package when you want the quickest setup for a Next.js or React app already aligned to the Tile UI runtime.
+- Use the registry when you want to own the component source inside your app and customize implementation details directly.
 
 ## Package install
 
@@ -11,7 +16,46 @@ Tile UI React can be consumed as packages or as copy-paste registry items distri
 pnpm add @tile-ui/react @tile-ui/styles @tile-ui/core
 ```
 
+## Global styles
+
+Import the shared global styles once in your app entry.
+
+```tsx
+import '@tile-ui/styles/scss/globals.scss';
+```
+
+For a Next.js app, add the stylesheet to the root layout so it loads on every route.
+
+```tsx
+import '@tile-ui/styles/scss/globals.scss';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+	return (
+		<html lang="en">
+			<body>{children}</body>
+		</html>
+	);
+}
+```
+
+## Package usage
+
+```tsx
+import { Button, Input } from '@tile-ui/react';
+
+export function CreateProjectForm() {
+	return (
+		<form className="form-group">
+			<Input label="Project name" helperText="Shown in the dashboard and generated URLs." />
+			<Button type="submit">Create project</Button>
+		</form>
+	);
+}
+```
+
 ## Registry install
+
+Use the registry when you want to pull source files into your project rather than consume the published package.
 
 First, register the Tile UI namespace in `components.json` so shadcn can resolve shared registry dependencies without hardcoding the docs domain into each item:
 
@@ -30,14 +74,28 @@ pnpm dlx shadcn@latest add @tile-ui/card
 
 The CLI will resolve shared items such as `@tile-ui/core` and `@tile-ui/utils` automatically.
 
-## Global styles
+## Registry output
 
-```tsx
-import '@tile-ui/styles/scss/globals.scss';
+Registry items write files into a structure like this:
+
+```text
+components/ui/*
+hooks/*
+styles/*
 ```
 
-For registry installs, point the import at the copied local file instead:
+That keeps React components, hooks, and shared SCSS assets colocated in a way that works well for Next.js projects.
+
+## Global styles for registry installs
+
+For registry installs, point the import at the copied local file instead of the package:
 
 ```tsx
 import './styles/globals.scss';
 ```
+
+## Next steps
+
+1. Review [Components](/docs/components) for the core primitives.
+2. Review [Hooks](/docs/hooks) for app-level helpers.
+3. Review [Registry](/docs/registry) if you plan to copy source into your project.

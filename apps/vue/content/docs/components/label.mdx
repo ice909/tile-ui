@@ -3,6 +3,8 @@ title: Label
 description: A lightweight form label with support for required-state styling.
 ---
 
+> Use Label directly when you are composing your own field structure or when you want explicit control over the relationship between field and caption.
+
 ## Registry install
 
 ```bash
@@ -11,12 +13,46 @@ pnpm dlx shadcn@latest add @tile-ui/label
 
 ## Package usage
 
-```ts
+```tsx
 import { TLabel } from '@tile-ui/vue';
 ```
+
+```tsx
+<div class="form-group">
+	<TLabel htmlFor="slug" required>
+		Project slug
+	</TLabel>
+	<input id="slug" defaultValue="tile-ui" readonly />
+</div>
+```
+
+Label works as a standalone primitive and pairs with custom field structures when you do not need the higher-level `TInput` and `TTextarea` components.
 
 ## Highlights
 
 - Required marker styling
 - Simple form composition
 - Pairs cleanly with Input and Textarea
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `label`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### TLabel
+
+| Prop       | Type      | Default | Notes                               |
+| ---------- | --------- | ------- | ----------------------------------- |
+| `required` | `boolean` | `false` | Adds required styling to the label. |
+| `htmlFor`  | `string`  | —       | The id of the associated control.   |
+
+## Related docs
+
+- [Input](/docs/components/input)
+- [Textarea](/docs/components/textarea)
+- [Profile Settings example](/docs/examples/profile-settings)

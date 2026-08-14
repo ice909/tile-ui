@@ -1,0 +1,51 @@
+---
+title: Toggle
+description: A toggle button with pressed state.
+---
+
+> Use Toggle to express a binary on/off selection as a button.
+
+<ComponentDemo slug="toggle" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/toggle
+```
+
+## Package usage
+
+```tsx
+import { Toggle } from '@tile-ui/react';
+
+<Toggle variant="outline">Bold</Toggle>
+```
+
+## Highlights
+
+- Three variants
+- Three sizes
+- Pressed state
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `toggle` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Toggle
+
+| Prop      | Type                                | Default |
+| --------- | ----------------------------------- | ------- |
+| `variant` | `'default' \| 'outline' \| 'ghost'` | —       |
+| `size`    | `'sm' \| 'default' \| 'lg'`         | —       |
+
+## Related docs
+
+- [ToggleGroup](/docs/components/toggle-group)
+- [Switch](/docs/components/switch)
+- [Checkbox](/docs/components/checkbox)

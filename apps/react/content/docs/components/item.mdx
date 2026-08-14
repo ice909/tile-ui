@@ -1,0 +1,60 @@
+---
+title: Item
+description: Composable list item primitives.
+---
+
+> Use Item to build consistent list rows with media, content, and actions.
+
+<ComponentDemo slug="item" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/item
+```
+
+## Package usage
+
+```tsx
+import { Item } from '@tile-ui/react';
+
+<Item>
+	<ItemMedia>+</ItemMedia>
+	<ItemContent>
+		<ItemTitle>Tile UI</ItemTitle>
+		<ItemDescription>A cross-framework component library.</ItemDescription>
+	</ItemContent>
+	<ItemActions>
+		<Button size="sm">Open</Button>
+	</ItemActions>
+</Item>
+```
+
+## Highlights
+
+- Media, content, and actions
+- Group and separator
+- Three variants
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `item`   | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Item
+
+| Prop      | Type                                     | Default |
+| --------- | ---------------------------------------- | ------- |
+| `variant` | `'neutral' \| 'selected' \| 'hoverable'` | —       |
+| `asChild` | `boolean`                                | —       |
+
+## Related docs
+
+- [Avatar](/docs/components/avatar)
+- [Badge](/docs/components/badge)
+- [Message](/docs/components/message)

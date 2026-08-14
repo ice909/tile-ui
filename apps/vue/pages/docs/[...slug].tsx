@@ -16,6 +16,7 @@ import {
 } from '../../components/docs-previews';
 import { VueDocsSidebar } from '../../components/docs-sidebar';
 import { VueDocsToc } from '../../components/docs-toc';
+import { vueDemoRegistry } from '../../components/docs-demos';
 import { getDocPayload } from '../../lib/docs-data';
 import type { DocsTreeNode } from '../../lib/docs';
 
@@ -29,6 +30,11 @@ function formatLabel(value: string) {
 
 function getPreviewForSlug(slug: string[]) {
 	const key = slug.join('/');
+	const name = key.startsWith('components/') ? key.slice('components/'.length) : key;
+	const demo = vueDemoRegistry[name];
+	if (demo) {
+		return demo;
+	}
 
 	switch (key) {
 		case 'components/button':

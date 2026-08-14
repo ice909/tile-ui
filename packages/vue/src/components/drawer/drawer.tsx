@@ -223,6 +223,10 @@ export const TDrawerContent = defineComponent({
 		watch(
 			() => context.value.open,
 			(open) => {
+				if (typeof document === 'undefined') {
+					return;
+				}
+
 				if (open) {
 					isVisible.value = false;
 					previouslyFocused = document.activeElement as HTMLElement | null;

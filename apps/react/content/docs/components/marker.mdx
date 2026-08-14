@@ -1,0 +1,54 @@
+---
+title: Marker
+description: A status marker component.
+---
+
+> Use Marker to tag content with a colored status.
+
+<ComponentDemo slug="marker" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/marker
+```
+
+## Package usage
+
+```tsx
+import { Marker } from '@tile-ui/react';
+
+<Marker variant="green">
+	<MarkerIcon />
+	<MarkerContent>Online</MarkerContent>
+</Marker>
+```
+
+## Highlights
+
+- Five color variants
+- Icon and content
+- `asChild` support
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `marker` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Marker
+
+| Prop      | Type                                                  | Default |
+| --------- | ----------------------------------------------------- | ------- |
+| `variant` | `'neutral' \| 'green' \| 'yellow' \| 'red' \| 'blue'` | —       |
+| `asChild` | `boolean`                                             | —       |
+
+## Related docs
+
+- [Badge](/docs/components/badge)
+- [Item](/docs/components/item)
+- [Empty](/docs/components/empty)

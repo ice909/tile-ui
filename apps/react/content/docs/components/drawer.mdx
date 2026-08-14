@@ -1,0 +1,60 @@
+---
+title: Drawer
+description: Drawer overlay.
+---
+
+> Use Drawer to slide a panel in from any direction.
+
+<ComponentDemo slug="drawer" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/drawer
+```
+
+## Package usage
+
+```tsx
+import { Drawer } from '@tile-ui/react';
+
+<Drawer direction="right">
+	<DrawerTrigger>Open</DrawerTrigger>
+	<DrawerContent>
+		<DrawerTitle>Title</DrawerTitle>
+		<DrawerDescription>Description.</DrawerDescription>
+	</DrawerContent>
+</Drawer>
+```
+
+## Highlights
+
+- Four directions
+- Modal and non-modal
+- Trigger, overlay, and content
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `drawer` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Drawer
+
+| Prop           | Type                                     | Default |
+| -------------- | ---------------------------------------- | ------- |
+| `direction`    | `'top' \| 'bottom' \| 'left' \| 'right'` | —       |
+| `modal`        | `boolean`                                | —       |
+| `open`         | `boolean`                                | —       |
+| `defaultOpen`  | `boolean`                                | —       |
+| `onOpenChange` | `(open: boolean) => void`                | —       |
+
+## Related docs
+
+- [Sheet](/docs/components/sheet)
+- [Dialog](/docs/components/dialog)
+- [Sidebar](/docs/components/sidebar)

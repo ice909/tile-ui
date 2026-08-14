@@ -1,0 +1,51 @@
+---
+title: Kbd
+description: Keyboard key and key-combination display primitives.
+---
+
+> Use Kbd to render keyboard shortcuts in docs, toolbars, and menus.
+
+<ComponentDemo slug="kbd" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/kbd
+```
+
+## Package usage
+
+```tsx
+import { Kbd } from '@tile-ui/react';
+
+<Kbd>Ctrl</Kbd> <Kbd>K</Kbd>
+```
+
+## Highlights
+
+- Single keys and key groups
+- Pairs with Command and Menubar shortcuts
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `kbd`    | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Kbd
+
+No custom props.
+
+### KbdGroup
+
+No custom props.
+
+## Related docs
+
+- [Command](/docs/components/command)
+- [Tooltip](/docs/components/tooltip)
+- [Badge](/docs/components/badge)

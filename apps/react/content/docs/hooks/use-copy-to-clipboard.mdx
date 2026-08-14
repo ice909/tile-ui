@@ -5,6 +5,8 @@ description: Handle copy interactions, copied state, and timeout reset in a sing
 
 <CopyToClipboardPreview />
 
+> Use this hook to copy text to the clipboard while managing the transient "copied" feedback state in one place.
+
 ## Registry install
 
 ```bash
@@ -16,3 +18,20 @@ pnpm dlx shadcn@latest add @tile-ui/use-copy-to-clipboard
 ```tsx
 const { copy, copied } = useCopyToClipboard();
 ```
+
+## What it covers
+
+- Writing text to the browser clipboard
+- A `copied` boolean that flips for a short period after a copy
+- Timeout cleanup so stale feedback does not linger
+
+## Common use cases
+
+- Copy buttons for registry URLs or install commands
+- Sharing short snippets from the UI
+- Capture flows that mirror the copy-and-paste workflow
+
+## Related docs
+
+- [Examples](/docs/examples)
+- [Registry](/docs/registry)

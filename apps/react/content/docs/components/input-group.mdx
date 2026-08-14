@@ -1,0 +1,76 @@
+---
+title: InputGroup
+description: Composable input group primitives.
+---
+
+> Use InputGroup to attach addons, buttons, and text to an input.
+
+<ComponentDemo slug="input-group" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/input-group
+```
+
+## Package usage
+
+```tsx
+import { InputGroup } from '@tile-ui/react';
+
+<InputGroup>
+	<InputGroupAddon>https://</InputGroupAddon>
+	<InputGroupInput placeholder="example.com" />
+</InputGroup>
+```
+
+## Highlights
+
+- Addon, button, and text
+- Input and textarea
+- Addon alignment
+
+## Registry dependencies
+
+| Item          | Purpose                            |
+| ------------- | ---------------------------------- |
+| `input-group` | Component source and module styles |
+| `core`        | Framework-agnostic logic helpers   |
+| `styles`      | Shared SCSS tokens and globals     |
+
+## API reference
+
+### InputGroup
+
+| Prop      | Type                     | Default |
+| --------- | ------------------------ | ------- |
+| `variant` | `'default' \| 'outline'` | —       |
+
+### InputGroupAddon
+
+| Prop      | Type                                                             | Default |
+| --------- | ---------------------------------------------------------------- | ------- |
+| `variant` | `'default' \| 'outline'`                                         | —       |
+| `align`   | `'inline-start' \| 'inline-end' \| 'block-start' \| 'block-end'` | —       |
+
+### InputGroupButton
+
+No custom props.
+
+### InputGroupText
+
+No custom props.
+
+### InputGroupInput
+
+No custom props.
+
+### InputGroupTextarea
+
+No custom props.
+
+## Related docs
+
+- [Input](/docs/components/input)
+- [Button](/docs/components/button)
+- [NativeSelect](/docs/components/native-select)

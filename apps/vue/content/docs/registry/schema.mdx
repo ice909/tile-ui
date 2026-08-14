@@ -7,7 +7,39 @@ Tile UI Vue mirrors the same registry item shape as the React side while shippin
 
 ## Item types
 
-- `registry:ui`
-- `registry:hook`
-- `registry:lib`
-- `registry:file`
+- `registry:ui` — Vue component sources
+- `registry:hook` — composables
+- `registry:lib` — shared runtime helpers such as `@tile-ui/core`
+- `registry:file` — standalone files such as SCSS partials
+
+## Item shape
+
+Each item in `registry.json` declares a name, type, and the files that make it up:
+
+```json
+{
+	"name": "button",
+	"type": "registry:ui",
+	"title": "Button",
+	"dependencies": ["vue"],
+	"registryDependencies": ["@tile-ui/core", "@tile-ui/utils"],
+	"files": [
+		{
+			"path": "packages/vue/src/components/button/button.tsx",
+			"type": "registry:ui",
+			"target": "components/ui/button/button.tsx",
+			"content": "..."
+		}
+	]
+}
+```
+
+## Dependency fields
+
+- `dependencies` — npm packages the item needs at runtime, such as `vue`.
+- `devDependencies` — build-time packages such as `sass`.
+- `registryDependencies` — other Tile UI items, resolved through the registered namespace.
+
+## Target paths
+
+Files that need stable destination paths, such as SCSS partials, declare a `target` so the consumer project receives a predictable structure. Shared helpers are rewritten to relative paths like `../lib/core` so no `@tile-ui/core` or `@tile-ui/styles` imports remain in the output.

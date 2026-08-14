@@ -1,0 +1,60 @@
+---
+title: ToggleGroup
+description: Grouped toggle buttons.
+---
+
+> Use ToggleGroup to group mutually exclusive or multiple selectable toggles.
+
+<ComponentDemo slug="toggle-group" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/toggle-group
+```
+
+## Package usage
+
+```tsx
+import { ToggleGroup } from '@tile-ui/react';
+
+<ToggleGroup type="single" defaultValue="a">
+	<ToggleGroupItem value="a">A</ToggleGroupItem>
+	<ToggleGroupItem value="b">B</ToggleGroupItem>
+</ToggleGroup>
+```
+
+## Highlights
+
+- Single and multiple modes
+- Item variants and sizes
+
+## Registry dependencies
+
+| Item           | Purpose                            |
+| -------------- | ---------------------------------- |
+| `toggle-group` | Component source and module styles |
+| `core`         | Framework-agnostic logic helpers   |
+| `styles`       | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ToggleGroup
+
+| Prop   | Type                     | Default |
+| ------ | ------------------------ | ------- |
+| `type` | `'single' \| 'multiple'` | —       |
+
+### ToggleGroupItem
+
+| Prop      | Type            | Default |
+| --------- | --------------- | ------- |
+| `value`   | `string`        | —       |
+| `variant` | `ToggleVariant` | —       |
+| `size`    | `ToggleSize`    | —       |
+
+## Related docs
+
+- [Toggle](/docs/components/toggle)
+- [ButtonGroup](/docs/components/button-group)
+- [Tabs](/docs/components/tabs)

@@ -1,0 +1,56 @@
+---
+title: Calendar
+description: Calendar component.
+---
+
+> Use Calendar to pick dates in single, multiple, or range modes.
+
+<ComponentDemo slug="calendar" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/calendar
+```
+
+## Package usage
+
+```tsx
+import { Calendar } from '@tile-ui/react';
+
+<Calendar mode="single" onSelect={(date) => console.log(date)} />
+```
+
+## Highlights
+
+- Single, multiple, and range
+- Disabled matcher
+- Outside days
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `calendar` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Calendar
+
+| Prop              | Type                                           | Default  |
+| ----------------- | ---------------------------------------------- | -------- |
+| `mode`            | `'single' \| 'multiple' \| 'range'`            | 'single' |
+| `selected`        | `Date \| Date[] \| CalendarRange \| undefined` | —        |
+| `defaultSelected` | `Date \| Date[] \| CalendarRange \| undefined` | —        |
+| `defaultMonth`    | `Date`                                         | —        |
+| `showOutsideDays` | `boolean`                                      | true     |
+| `disabled`        | `(date: Date) => boolean`                      | —        |
+| `onSelect`        | `(selection: CalendarSelection) => void`       | —        |
+
+## Related docs
+
+- [Chart](/docs/components/chart)
+- [Form](/docs/components/form)
+- [Popover](/docs/components/popover)

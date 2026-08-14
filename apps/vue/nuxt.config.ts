@@ -52,7 +52,7 @@ export default defineNuxtConfig({
 			},
 		},
 	},
-	css: ['@tile-ui/styles/scss/globals.scss', '~/assets/docs.scss'],
+	css: ['@tile-ui/styles/scss/globals.scss', 'highlight.js/styles/github-dark.css', '~/assets/docs.scss'],
 	build: {
 		transpile: ['@tile-ui/vue', '@tile-ui/core'],
 	},

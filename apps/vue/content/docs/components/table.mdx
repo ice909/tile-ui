@@ -1,0 +1,85 @@
+---
+title: Table
+description: Composable table primitives for data display.
+---
+
+> Use Table to lay out tabular data with consistent header, body, and footer sections.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/table
+```
+
+## Package usage
+
+```tsx
+import { TTable } from '@tile-ui/vue';
+
+<TTable>
+	<TTableHeader>
+		<TTableRow>
+			<TTableHead>Name</TTableHead>
+		</TTableRow>
+	</TTableHeader>
+	<TTableBody>
+		<TTableRow>
+			<TTableCell>Tile UI</TTableCell>
+		</TTableRow>
+	</TTableBody>
+</TTable>
+```
+
+## Highlights
+
+- Header, body, footer, and caption
+- Row, head, and cell primitives
+- Pairs with Pagination
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `table`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Table
+
+No custom props.
+
+### TableHeader
+
+No custom props.
+
+### TableBody
+
+No custom props.
+
+### TableFooter
+
+No custom props.
+
+### TableRow
+
+No custom props.
+
+### TableHead
+
+No custom props.
+
+### TableCell
+
+No custom props.
+
+### TableCaption
+
+No custom props.
+
+## Related docs
+
+- [Pagination](/docs/components/pagination)
+- [Card](/docs/components/card)
+- [Badge](/docs/components/badge)

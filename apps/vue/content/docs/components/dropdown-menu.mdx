@@ -1,0 +1,127 @@
+---
+title: DropdownMenu
+description: Dropdown menu with checkbox and radio items.
+---
+
+> Use DropdownMenu to offer a list of actions from a trigger.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/dropdown-menu
+```
+
+## Package usage
+
+```tsx
+import { TDropdownMenu } from '@tile-ui/vue';
+
+<TDropdownMenu>
+	<TDropdownMenuTrigger>Menu</TDropdownMenuTrigger>
+	<TDropdownMenuContent>
+		<TDropdownMenuItem>Profile</TDropdownMenuItem>
+		<TDropdownMenuItem>Settings</TDropdownMenuItem>
+	</TDropdownMenuContent>
+</TDropdownMenu>
+```
+
+## Highlights
+
+- Item, checkbox item, and radio group
+- Sub menus
+- Side, align, and offset
+
+## Registry dependencies
+
+| Item            | Purpose                            |
+| --------------- | ---------------------------------- |
+| `dropdown-menu` | Component source and module styles |
+| `core`          | Framework-agnostic logic helpers   |
+| `styles`        | Shared SCSS tokens and globals     |
+
+## API reference
+
+### DropdownMenu
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### DropdownMenuTrigger
+
+| Prop      | Type      | Default |
+| --------- | --------- | ------- |
+| `asChild` | `boolean` | —       |
+
+### DropdownMenuContent
+
+| Prop          | Type                                     | Default |
+| ------------- | ---------------------------------------- | ------- |
+| `side`        | `'top' \| 'right' \| 'bottom' \| 'left'` | —       |
+| `align`       | `'start' \| 'center' \| 'end'`           | —       |
+| `sideOffset`  | `number`                                 | —       |
+| `alignOffset` | `number`                                 | —       |
+
+### DropdownMenuItem
+
+| Prop       | Type                         | Default |
+| ---------- | ---------------------------- | ------- |
+| `inset`    | `boolean`                    | —       |
+| `variant`  | `'default' \| 'destructive'` | —       |
+| `disabled` | `boolean`                    | —       |
+| `onSelect` | `(event: Event) => void`     | —       |
+
+### DropdownMenuCheckboxItem
+
+| Prop              | Type                         | Default |
+| ----------------- | ---------------------------- | ------- |
+| `checked`         | `boolean`                    | —       |
+| `defaultChecked`  | `boolean`                    | —       |
+| `onCheckedChange` | `(checked: boolean) => void` | —       |
+| `disabled`        | `boolean`                    | —       |
+| `onSelect`        | `(event: Event) => void`     | —       |
+
+### DropdownMenuRadioGroup
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `value`         | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onValueChange` | `(value: string) => void` | —       |
+
+### DropdownMenuRadioItem
+
+| Prop       | Type                     | Default |
+| ---------- | ------------------------ | ------- |
+| `value`    | `string`                 | —       |
+| `disabled` | `boolean`                | —       |
+| `onSelect` | `(event: Event) => void` | —       |
+
+### DropdownMenuLabel
+
+| Prop    | Type      | Default |
+| ------- | --------- | ------- |
+| `inset` | `boolean` | —       |
+
+### DropdownMenuSub
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### DropdownMenuSubTrigger
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `inset`    | `boolean` | —       |
+| `disabled` | `boolean` | —       |
+
+## Related docs
+
+- [ContextMenu](/docs/components/context-menu)
+- [Menubar](/docs/components/menubar)
+- [Select](/docs/components/select)

@@ -1,0 +1,58 @@
+---
+title: Drawer
+description: Drawer overlay.
+---
+
+> Use Drawer to slide a panel in from any direction.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/drawer
+```
+
+## Package usage
+
+```tsx
+import { TDrawer } from '@tile-ui/vue';
+
+<TDrawer direction="right">
+	<TDrawerTrigger>Open</TDrawerTrigger>
+	<TDrawerContent>
+		<TDrawerTitle>Title</TDrawerTitle>
+		<TDrawerDescription>Description.</TDrawerDescription>
+	</TDrawerContent>
+</TDrawer>
+```
+
+## Highlights
+
+- Four directions
+- Modal and non-modal
+- Trigger, overlay, and content
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `drawer` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Drawer
+
+| Prop           | Type                                     | Default |
+| -------------- | ---------------------------------------- | ------- |
+| `direction`    | `'top' \| 'bottom' \| 'left' \| 'right'` | —       |
+| `modal`        | `boolean`                                | —       |
+| `open`         | `boolean`                                | —       |
+| `defaultOpen`  | `boolean`                                | —       |
+| `onOpenChange` | `(open: boolean) => void`                | —       |
+
+## Related docs
+
+- [Sheet](/docs/components/sheet)
+- [Dialog](/docs/components/dialog)
+- [Sidebar](/docs/components/sidebar)

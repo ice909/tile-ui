@@ -1,0 +1,133 @@
+---
+title: Menubar
+description: Horizontal menu bar.
+---
+
+> Use Menubar for a desktop-style application menu.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/menubar
+```
+
+## Package usage
+
+```tsx
+import { TMenubar } from '@tile-ui/vue';
+
+<TMenubar>
+	<TMenubarMenu value="file">
+		<TMenubarTrigger>File</TMenubarTrigger>
+		<TMenubarContent>
+			<TMenubarItem>New</TMenubarItem>
+			<TMenubarItem>Open</TMenubarItem>
+		</TMenubarContent>
+	</TMenubarMenu>
+</TMenubar>
+```
+
+## Highlights
+
+- Multiple menus
+- Trigger and content
+- Checkbox and radio items
+
+## Registry dependencies
+
+| Item      | Purpose                            |
+| --------- | ---------------------------------- |
+| `menubar` | Component source and module styles |
+| `core`    | Framework-agnostic logic helpers   |
+| `styles`  | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Menubar
+
+| Prop            | Type                                   | Default |
+| --------------- | -------------------------------------- | ------- |
+| `value`         | `string`                               | —       |
+| `defaultValue`  | `string`                               | —       |
+| `onValueChange` | `(value: string \| undefined) => void` | —       |
+
+### MenubarMenu
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `value` | `string` | —       |
+
+### MenubarTrigger
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `disabled` | `boolean` | —       |
+
+### MenubarContent
+
+| Prop          | Type                                     | Default |
+| ------------- | ---------------------------------------- | ------- |
+| `side`        | `'top' \| 'right' \| 'bottom' \| 'left'` | —       |
+| `align`       | `'start' \| 'center' \| 'end'`           | —       |
+| `sideOffset`  | `number`                                 | —       |
+| `alignOffset` | `number`                                 | —       |
+
+### MenubarItem
+
+| Prop       | Type                         | Default |
+| ---------- | ---------------------------- | ------- |
+| `inset`    | `boolean`                    | —       |
+| `variant`  | `'default' \| 'destructive'` | —       |
+| `disabled` | `boolean`                    | —       |
+| `onSelect` | `(event: Event) => void`     | —       |
+
+### MenubarCheckboxItem
+
+| Prop              | Type                         | Default |
+| ----------------- | ---------------------------- | ------- |
+| `checked`         | `boolean`                    | —       |
+| `defaultChecked`  | `boolean`                    | —       |
+| `onCheckedChange` | `(checked: boolean) => void` | —       |
+| `disabled`        | `boolean`                    | —       |
+
+### MenubarRadioGroup
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `value`         | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onValueChange` | `(value: string) => void` | —       |
+
+### MenubarRadioItem
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `value`    | `string`  | —       |
+| `disabled` | `boolean` | —       |
+
+### MenubarLabel
+
+| Prop    | Type      | Default |
+| ------- | --------- | ------- |
+| `inset` | `boolean` | —       |
+
+### MenubarSub
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### MenubarSubTrigger
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `inset`    | `boolean` | —       |
+| `disabled` | `boolean` | —       |
+
+## Related docs
+
+- [DropdownMenu](/docs/components/dropdown-menu)
+- [NavigationMenu](/docs/components/navigation-menu)
+- [ContextMenu](/docs/components/context-menu)

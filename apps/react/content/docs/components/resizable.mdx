@@ -1,0 +1,55 @@
+---
+title: Resizable
+description: Resizable panel group.
+---
+
+> Use ResizablePanelGroup to create adjustable split layouts.
+
+<ComponentDemo slug="resizable" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/resizable
+```
+
+## Package usage
+
+```tsx
+import { ResizablePanelGroup } from '@tile-ui/react';
+
+<ResizablePanelGroup direction="horizontal">
+	<ResizablePanel>Left</ResizablePanel>
+	<ResizableHandle />
+	<ResizablePanel>Right</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Highlights
+
+- Horizontal and vertical
+- Panel and handle
+- Persistent layout id
+
+## Registry dependencies
+
+| Item        | Purpose                            |
+| ----------- | ---------------------------------- |
+| `resizable` | Component source and module styles |
+| `core`      | Framework-agnostic logic helpers   |
+| `styles`    | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ResizablePanelGroup
+
+| Prop        | Type                         | Default      |
+| ----------- | ---------------------------- | ------------ |
+| `direction` | `'horizontal' \| 'vertical'` | 'horizontal' |
+| `id`        | `string`                     | —            |
+
+## Related docs
+
+- [Sidebar](/docs/components/sidebar)
+- [Sheet](/docs/components/sheet)
+- [Table](/docs/components/table)

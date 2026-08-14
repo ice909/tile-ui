@@ -199,6 +199,10 @@ export const TDialogContent = defineComponent({
 		watch(
 			() => context.value.open,
 			(open) => {
+				if (typeof document === 'undefined') {
+					return;
+				}
+
 				if (open) {
 					previouslyFocused = document.activeElement as HTMLElement | null;
 					previousOverflow.value = document.body.style.overflow;

@@ -1,0 +1,69 @@
+---
+title: Sidebar
+description: Sidebar layout.
+---
+
+> Use Sidebar to add a collapsible application sidebar.
+
+<ComponentDemo slug="sidebar" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/sidebar
+```
+
+## Package usage
+
+```tsx
+import { Sidebar } from '@tile-ui/react';
+
+<SidebarProvider>
+	<Sidebar>
+		<SidebarContent>
+			<SidebarGroup>
+				<SidebarGroupLabel>Menu</SidebarGroupLabel>
+			</SidebarGroup>
+		</SidebarContent>
+	</Sidebar>
+	<SidebarTrigger />
+</SidebarProvider>
+```
+
+## Highlights
+
+- Provider and trigger
+- Variants and sides
+- Collapsible modes
+
+## Registry dependencies
+
+| Item      | Purpose                            |
+| --------- | ---------------------------------- |
+| `sidebar` | Component source and module styles |
+| `core`    | Framework-agnostic logic helpers   |
+| `styles`  | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Sidebar
+
+| Prop          | Type                                 | Default |
+| ------------- | ------------------------------------ | ------- |
+| `side`        | `'left' \| 'right'`                  | —       |
+| `variant`     | `'sidebar' \| 'floating' \| 'inset'` | —       |
+| `collapsible` | `'offcanvas' \| 'icon' \| 'none'`    | —       |
+
+### SidebarProvider
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `defaultOpen`  | `boolean`                 | —       |
+| `open`         | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+## Related docs
+
+- [NavigationMenu](/docs/components/navigation-menu)
+- [Sheet](/docs/components/sheet)
+- [Breadcrumb](/docs/components/breadcrumb)

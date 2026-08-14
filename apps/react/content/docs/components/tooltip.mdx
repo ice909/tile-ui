@@ -1,0 +1,74 @@
+---
+title: Tooltip
+description: Tooltip overlay.
+---
+
+> Use Tooltip to show contextual help on hover or focus.
+
+<ComponentDemo slug="tooltip" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/tooltip
+```
+
+## Package usage
+
+```tsx
+import { Tooltip } from '@tile-ui/react';
+
+<Tooltip>
+	<TooltipTrigger>Hover me</TooltipTrigger>
+	<TooltipContent>Help text.</TooltipContent>
+</Tooltip>
+```
+
+## Highlights
+
+- Provider with delay
+- Trigger and content
+- Side and offset
+
+## Registry dependencies
+
+| Item      | Purpose                            |
+| --------- | ---------------------------------- |
+| `tooltip` | Component source and module styles |
+| `core`    | Framework-agnostic logic helpers   |
+| `styles`  | Shared SCSS tokens and globals     |
+
+## API reference
+
+### TooltipProvider
+
+| Prop            | Type     | Default |
+| --------------- | -------- | ------- |
+| `delayDuration` | `number` | —       |
+
+### Tooltip
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### TooltipTrigger
+
+| Prop      | Type      | Default |
+| --------- | --------- | ------- |
+| `asChild` | `boolean` | —       |
+
+### TooltipContent
+
+| Prop         | Type                                     | Default |
+| ------------ | ---------------------------------------- | ------- |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | —       |
+| `sideOffset` | `number`                                 | —       |
+
+## Related docs
+
+- [Popover](/docs/components/popover)
+- [HoverCard](/docs/components/hover-card)
+- [Kbd](/docs/components/kbd)

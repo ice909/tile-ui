@@ -1,0 +1,51 @@
+---
+title: Direction
+description: Direction provider for reading direction.
+---
+
+> Use DirectionProvider to set the reading direction for RTL support.
+
+<ComponentDemo slug="direction" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/direction
+```
+
+## Package usage
+
+```tsx
+import { DirectionProvider } from '@tile-ui/react';
+
+<DirectionProvider dir="rtl">
+	<App />
+</DirectionProvider>
+```
+
+## Highlights
+
+- LTR and RTL
+- Context-based
+
+## Registry dependencies
+
+| Item        | Purpose                            |
+| ----------- | ---------------------------------- |
+| `direction` | Component source and module styles |
+| `core`      | Framework-agnostic logic helpers   |
+| `styles`    | Shared SCSS tokens and globals     |
+
+## API reference
+
+### DirectionProvider
+
+| Prop  | Type             | Default |
+| ----- | ---------------- | ------- |
+| `dir` | `'ltr' \| 'rtl'` | —       |
+
+## Related docs
+
+- [Sidebar](/docs/components/sidebar)
+- [Form](/docs/components/form)
+- [Message](/docs/components/message)
