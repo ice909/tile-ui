@@ -1,0 +1,90 @@
+@use 'sass:color';
+@use 'variables/colors' as *;
+
+.wrapper {
+	position: relative;
+	width: fit-content;
+	color: $foreground;
+
+	&:has(select:disabled) {
+		opacity: 0.5;
+	}
+}
+
+.select {
+	appearance: none;
+	width: 100%;
+	min-width: 0;
+	height: 2.25rem;
+	border-radius: $radius;
+	border: 1px solid $input;
+	background-color: $background;
+	padding: $spacing-2 $spacing-6 $spacing-2 $spacing-3;
+	font-size: $text-sm;
+	color: $foreground;
+	box-shadow: $shadow-sm;
+	transition:
+		border-color $transition-fast,
+		box-shadow $transition-fast;
+	outline: none;
+	cursor: pointer;
+
+	&::placeholder {
+		color: $muted-foreground;
+	}
+
+	&:hover:not(:disabled) {
+		background-color: color.mix(black, $background, 2%);
+	}
+
+	&:focus-visible {
+		border-color: $ring;
+		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+	}
+
+	&:disabled {
+		pointer-events: none;
+		cursor: not-allowed;
+	}
+
+	&[data-size='sm'] {
+		height: 2rem;
+		padding-top: $spacing-1;
+		padding-bottom: $spacing-1;
+	}
+
+	&[data-state='empty'] {
+		color: $muted-foreground;
+	}
+
+	&[aria-invalid='true'] {
+		border-color: $destructive;
+
+		&:focus-visible {
+			box-shadow: 0 0 0 3px rgba($destructive, 0.2);
+		}
+	}
+}
+
+.icon {
+	pointer-events: none;
+	position: absolute;
+	top: 50%;
+	right: 0.875rem;
+	transform: translateY(-50%);
+	width: 1rem;
+	height: 1rem;
+	color: $muted-foreground;
+	opacity: 0.5;
+	user-select: none;
+}
+
+.option {
+	background-color: Canvas;
+	color: CanvasText;
+}
+
+.optGroup {
+	background-color: Canvas;
+	color: CanvasText;
+}

@@ -41,7 +41,7 @@ describe('buildRegistry', () => {
 		expect(content).toContain('"@tile-ui/core"');
 		expect(content).toContain('"@tile-ui/utils"');
 		expect(content).toContain("@use '../../../styles/variables/colors' as *;");
-		expect(core).toContain("import { capitalize } from './utils';");
+		expect(core).toContain("import { capitalize, formatBytes, generateId } from './utils';");
 	});
 
 	it('builds expanded react registry items', async () => {
@@ -84,7 +84,7 @@ describe('buildRegistry', () => {
 		expect(content).toContain('"@tile-ui/core"');
 		expect(content).toContain('"@tile-ui/utils"');
 		expect(content).toContain("@use '../../../styles/variables/colors' as *;");
-		expect(core).toContain("import { capitalize } from './utils';");
+		expect(core).toContain("import { capitalize, formatBytes, generateId } from './utils';");
 	});
 
 	it('builds expanded vue registry items', async () => {

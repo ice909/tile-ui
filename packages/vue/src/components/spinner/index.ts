@@ -1,0 +1,1 @@
+export { TSpinner } from './spinner';

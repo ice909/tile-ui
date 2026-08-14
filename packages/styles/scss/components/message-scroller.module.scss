@@ -1,0 +1,106 @@
+@use 'variables/colors' as *;
+
+// 滚动容器根
+.root {
+	position: relative;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+// 视口
+.viewport {
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	min-width: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+
+	&[data-autoscrolling='true'] {
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+}
+
+// 内容
+.content {
+	display: flex;
+	height: max-content;
+	min-height: 100%;
+	flex-direction: column;
+	gap: $spacing-8;
+}
+
+// 单个条目
+.item {
+	min-width: 0;
+	flex-shrink: 0;
+	content-visibility: auto;
+	contain-intrinsic-size: auto 10rem;
+}
+
+// 滚动按钮
+.button {
+	position: absolute;
+	left: 50%;
+	z-index: 10;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid $border;
+	border-radius: $radius-full;
+	background-color: $background;
+	color: $foreground;
+	box-shadow: $shadow-sm;
+	cursor: pointer;
+	transition:
+		transform $transition-normal,
+		scale $transition-normal,
+		opacity $transition-normal;
+
+	&:hover {
+		background-color: $muted;
+		color: $foreground;
+	}
+
+	&.directionStart {
+		top: $spacing-4;
+		transform: translateX(-50%);
+
+		svg {
+			transform: rotate(180deg);
+		}
+	}
+
+	&.directionEnd {
+		bottom: $spacing-4;
+		transform: translateX(-50%);
+	}
+
+	&[data-active='false'] {
+		pointer-events: none;
+		opacity: 0;
+		scale: 0.95;
+
+		&.directionEnd {
+			transform: translateX(-50%) translateY(100%);
+		}
+
+		&.directionStart {
+			transform: translateX(-50%) translateY(-100%);
+		}
+	}
+
+	&[data-active='true'] {
+		opacity: 1;
+		scale: 1;
+	}
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "type": "registry:ui",
+  "title": "Kbd",
+  "description": "Keyboard key display primitives for Tile UI.",
+  "dependencies": [
+    "vue"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/vue/src/components/kbd/kbd.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/kbd/kbd.tsx",
+      "content": "import { defineComponent, h } from 'vue';\nimport { kbdStyleKeys } from '../lib/core';\nimport styles from './kbd.module.scss';\n\nexport const TKbd = defineComponent({\n\tname: 'TKbd',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('kbd', { class: styles[kbdStyleKeys.base] }, slots.default?.());\n\t},\n});\n\nexport const TKbdGroup = defineComponent({\n\tname: 'TKbdGroup',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('kbd', { class: styles[kbdStyleKeys.group] }, slots.default?.());\n\t},\n});\n\nexport default TKbd;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/kbd.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/kbd/kbd.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.kbd {\n\tpointer-events: none;\n\tdisplay: inline-flex;\n\theight: 1.25rem;\n\twidth: fit-content;\n\tmin-width: 1.25rem;\n\talign-items: center;\n\tjustify-content: center;\n\tgap: $spacing-1;\n\tborder-radius: $radius-sm;\n\tbackground-color: $muted;\n\tpadding: 0 $spacing-1;\n\tfont-family: $font-sans;\n\tfont-size: $text-xs;\n\tfont-weight: $font-medium;\n\tcolor: $muted-foreground;\n\tuser-select: none;\n\n\tsvg {\n\t\twidth: 0.75rem;\n\t\theight: 0.75rem;\n\t}\n}\n\n.kbdGroup {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tgap: $spacing-1;\n}\n"
+    }
+  ]
+}

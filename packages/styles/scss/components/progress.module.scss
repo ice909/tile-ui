@@ -1,0 +1,18 @@
+@use 'variables/colors' as *;
+
+.root {
+	position: relative;
+	height: 0.5rem;
+	width: 100%;
+	overflow: hidden;
+	border-radius: $radius-full;
+	background-color: rgba($primary, 0.2);
+}
+
+.indicator {
+	height: 100%;
+	width: 100%;
+	flex: 1;
+	background-color: $primary;
+	transition: transform $transition-normal;
+}

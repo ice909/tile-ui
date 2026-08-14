@@ -1,0 +1,154 @@
+@use 'sass:color';
+@use 'variables/colors' as *;
+
+// 气泡组
+.group {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: $spacing-2;
+}
+
+// 气泡根容器
+.bubble {
+	position: relative;
+	display: flex;
+	width: fit-content;
+	max-width: 80%;
+	min-width: 0;
+	flex-direction: column;
+	gap: $spacing-1;
+
+	&[data-align='end'] {
+		align-self: flex-end;
+
+		.content {
+			align-self: flex-end;
+		}
+	}
+
+	&[data-variant='ghost'] {
+		max-width: 100%;
+	}
+
+	// 变体
+	&.variantDefault .content {
+		background-color: $primary;
+		color: $primary-foreground;
+	}
+
+	&.variantSecondary .content {
+		background-color: $secondary;
+		color: $secondary-foreground;
+	}
+
+	&.variantMuted .content {
+		background-color: $muted;
+		color: $foreground;
+	}
+
+	&.variantTinted .content {
+		background-color: color.mix(white, $primary, 85%);
+		color: $foreground;
+	}
+
+	&.variantOutline .content {
+		border-color: $border;
+		background-color: $background;
+		color: $foreground;
+	}
+
+	&.variantGhost .content {
+		border: none;
+		border-radius: 0;
+		background-color: transparent;
+		padding: 0;
+	}
+
+	&.variantDestructive .content {
+		background-color: rgba($destructive, 0.1);
+		color: $destructive;
+	}
+
+	// 按钮/链接形态的内容悬停效果
+	&.variantDefault .content:is(button, a):hover {
+		background-color: rgba($primary, 0.8);
+	}
+
+	&.variantSecondary .content:is(button, a):hover,
+	&.variantMuted .content:is(button, a):hover,
+	&.variantGhost .content:is(button, a):hover,
+	&.variantOutline .content:is(button, a):hover {
+		background-color: $muted;
+		color: $foreground;
+	}
+
+	&.variantDestructive .content:is(button, a):hover {
+		background-color: rgba($destructive, 0.2);
+	}
+}
+
+// 气泡内容
+.content {
+	display: block;
+	width: fit-content;
+	max-width: 100%;
+	min-width: 0;
+	overflow: hidden;
+	border: 1px solid transparent;
+	border-radius: $radius;
+	padding: $spacing-2 $spacing-3;
+	font-size: $text-sm;
+	line-height: $leading-relaxed;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+
+	&:is(button, a) {
+		text-align: left;
+		transition:
+			background-color $transition-fast,
+			border-color $transition-fast,
+			box-shadow $transition-fast;
+		outline: none;
+	}
+
+	&:is(button, a):focus-visible {
+		border-color: $ring;
+		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+	}
+}
+
+// 气泡反应区 (绝对定位于气泡边缘)
+.reactions {
+	position: absolute;
+	z-index: 10;
+	display: flex;
+	width: fit-content;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-1;
+	border-radius: $radius-full;
+	background-color: $muted;
+	padding: 0.125rem $spacing-1_5;
+	font-size: $text-sm;
+	box-shadow: 0 0 0 3px $card;
+
+	&[data-side='top'] {
+		top: 0;
+		transform: translateY(-75%);
+	}
+
+	&[data-side='bottom'] {
+		bottom: 0;
+		transform: translateY(75%);
+	}
+
+	&[data-align='start'] {
+		left: $spacing-3;
+	}
+
+	&[data-align='end'] {
+		right: $spacing-3;
+	}
+}

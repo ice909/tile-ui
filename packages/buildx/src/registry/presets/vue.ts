@@ -8,45 +8,91 @@ function read(workspaceRoot: string, relativePath: string) {
 	return fs.readFileSync(path.resolve(workspaceRoot, relativePath), 'utf-8');
 }
 
-function stripImport(content: string, statement: string) {
-	return content.replace(statement, '');
-}
+/**
+ * core 虚拟文件需要包含的组件清单 (类型 + 纯逻辑)
+ */
+const CORE_COMPONENTS = [
+	'button',
+	'input',
+	'textarea',
+	'label',
+	'card',
+	'badge',
+	'skeleton',
+	'kbd',
+	'separator',
+	'table',
+	'progress',
+	'avatar',
+	'switch',
+	'checkbox',
+	'collapsible',
+	'breadcrumb',
+	'pagination',
+	'alert',
+	'aspect-ratio',
+	'spinner',
+	'empty',
+	'marker',
+	'item',
+	'button-group',
+	'input-group',
+	'native-select',
+	'field',
+	'toggle',
+	'toggle-group',
+	'tabs',
+	'accordion',
+	'radio-group',
+	'slider',
+	'scroll-area',
+	'tooltip',
+	'popover',
+	'hover-card',
+	'dialog',
+	'alert-dialog',
+	'sheet',
+	'dropdown-menu',
+	'context-menu',
+	'menubar',
+	'navigation-menu',
+	'select',
+	'combobox',
+	'command',
+	'chart',
+	'calendar',
+	'drawer',
+	'form',
+	'sidebar',
+	'carousel',
+	'resizable',
+	'attachment',
+	'bubble',
+	'direction',
+	'message',
+	'message-scroller',
+	'sonner',
+	'input-otp',
+];
 
-function buildVueCore(workspaceRoot: string) {
-	const buttonTypes = read(workspaceRoot, 'packages/core/src/components/button/button.types.ts');
-	const buttonLogic = read(workspaceRoot, 'packages/core/src/components/button/button.logic.ts');
-	const inputTypes = read(workspaceRoot, 'packages/core/src/components/input/input.types.ts');
-	const inputLogic = read(workspaceRoot, 'packages/core/src/components/input/input.logic.ts');
-	const textareaTypes = read(workspaceRoot, 'packages/core/src/components/textarea/textarea.types.ts');
-	const textareaLogic = read(workspaceRoot, 'packages/core/src/components/textarea/textarea.logic.ts');
-	const labelTypes = read(workspaceRoot, 'packages/core/src/components/label/label.types.ts');
-	const labelLogic = read(workspaceRoot, 'packages/core/src/components/label/label.logic.ts');
-	const cardTypes = read(workspaceRoot, 'packages/core/src/components/card/card.types.ts');
-	const cardLogic = read(workspaceRoot, 'packages/core/src/components/card/card.logic.ts');
+/**
+ * 拼接 core 虚拟文件内容 (types + logic)
+ */
+function buildCoreSource(workspaceRoot: string) {
+	const parts: string[] = ["import { capitalize, formatBytes, generateId } from './utils';", ''];
 
-	return [
-		"import { capitalize } from './utils';",
-		'',
-		buttonTypes,
-		'',
-		stripImport(stripImport(buttonLogic, "import type { ButtonVariant, ButtonSize } from './button.types';\n"), "import { capitalize } from '../../utils/helpers';\n"),
-		'',
-		inputTypes,
-		'',
-		inputLogic,
-		'',
-		textareaTypes,
-		'',
-		textareaLogic,
-		'',
-		labelTypes,
-		'',
-		labelLogic,
-		'',
-		cardTypes,
-		'',
-		cardLogic,
-	].join('\n');
+	for (const name of CORE_COMPONENTS) {
+		const types = read(workspaceRoot, `packages/core/src/components/${name}/${name}.types.ts`);
+		const logic = read(workspaceRoot, `packages/core/src/components/${name}/${name}.logic.ts`)
+			.split('\n')
+			.filter((line) => !line.startsWith('import ') && !line.startsWith('import type '))
+			.join('\n')
+			.trimEnd();
+
+		parts.push(types, '', logic, '');
+	}
+
+	return parts.join('\n');
 }
 
 export function createVueRegistryConfig(input: { workspaceRoot: string; outDir: string }): Omit<RegistryBuildOptions, 'manifest'> {
@@ -59,28 +105,13 @@ export function createVueRegistryConfig(input: { workspaceRoot: string; outDir: 
 			buildVirtualFiles: async ({ workspaceRoot }): Promise<VirtualRegistryFile[]> => {
 				const helpers = read(workspaceRoot, 'packages/core/src/utils/helpers.ts');
 				const cn = read(workspaceRoot, 'packages/core/src/utils/cn.ts');
+				const core = buildCoreSource(workspaceRoot);
 
 				return [
-					{
-						source: '__virtual__/button/core.ts',
-						content: buildVueCore(workspaceRoot),
-					},
-					{
-						source: '__virtual__/input/core.ts',
-						content: buildVueCore(workspaceRoot),
-					},
-					{
-						source: '__virtual__/textarea/core.ts',
-						content: buildVueCore(workspaceRoot),
-					},
-					{
-						source: '__virtual__/label/core.ts',
-						content: buildVueCore(workspaceRoot),
-					},
-					{
-						source: '__virtual__/card/core.ts',
-						content: buildVueCore(workspaceRoot),
-					},
+					...CORE_COMPONENTS.map((name) => ({
+						source: `__virtual__/${name}/core.ts`,
+						content: core,
+					})),
 					{
 						source: '__virtual__/shared/utils.ts',
 						content: `${cn}\n${helpers}`,

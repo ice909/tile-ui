@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "type": "registry:ui",
+  "title": "Kbd",
+  "description": "Keyboard key display primitives for Tile UI.",
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/react/src/components/kbd/kbd.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/kbd/kbd.tsx",
+      "content": "import React from 'react';\nimport { kbdStyleKeys } from '../lib/core';\nimport styles from './kbd.module.scss';\n\nexport interface KbdProps extends React.HTMLAttributes<HTMLElement> {}\n\nconst Kbd = React.forwardRef<HTMLElement, KbdProps>(({ className = '', children, ...props }, ref) => {\n\treturn (\n\t\t<kbd ref={ref} className={`${styles[kbdStyleKeys.base]} ${className}`} {...props}>\n\t\t\t{children}\n\t\t</kbd>\n\t);\n});\nKbd.displayName = 'Kbd';\n\nexport interface KbdGroupProps extends React.HTMLAttributes<HTMLElement> {}\n\nconst KbdGroup = React.forwardRef<HTMLElement, KbdGroupProps>(({ className = '', children, ...props }, ref) => {\n\treturn (\n\t\t<kbd ref={ref} className={`${styles[kbdStyleKeys.group]} ${className}`} {...props}>\n\t\t\t{children}\n\t\t</kbd>\n\t);\n});\nKbdGroup.displayName = 'KbdGroup';\n\nexport { Kbd, KbdGroup };\nexport default Kbd;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/kbd.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/kbd/kbd.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.kbd {\n\tpointer-events: none;\n\tdisplay: inline-flex;\n\theight: 1.25rem;\n\twidth: fit-content;\n\tmin-width: 1.25rem;\n\talign-items: center;\n\tjustify-content: center;\n\tgap: $spacing-1;\n\tborder-radius: $radius-sm;\n\tbackground-color: $muted;\n\tpadding: 0 $spacing-1;\n\tfont-family: $font-sans;\n\tfont-size: $text-xs;\n\tfont-weight: $font-medium;\n\tcolor: $muted-foreground;\n\tuser-select: none;\n\n\tsvg {\n\t\twidth: 0.75rem;\n\t\theight: 0.75rem;\n\t}\n}\n\n.kbdGroup {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tgap: $spacing-1;\n}\n"
+    }
+  ]
+}

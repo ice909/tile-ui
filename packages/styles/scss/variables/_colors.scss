@@ -34,6 +34,18 @@ $info-foreground: #fafafa;
 $background: #ffffff;
 $foreground: #18181b;
 
+// 卡片色
+$card: #ffffff;
+$card-foreground: #18181b;
+
+// 弱化色
+$muted: #f4f4f5;
+$muted-foreground: #71717a;
+
+// 浮层色
+$popover: #ffffff;
+$popover-foreground: #18181b;
+
 // 边框色
 $border: #e4e4e7;
 $input: #e4e4e7;
@@ -94,7 +106,9 @@ $leading-relaxed: 1.625;
 
 // 间距
 $spacing-1: 0.25rem;
+$spacing-1_5: 0.375rem;
 $spacing-2: 0.5rem;
+$spacing-2_5: 0.625rem;
 $spacing-3: 0.75rem;
 $spacing-4: 1rem;
 $spacing-5: 1.25rem;

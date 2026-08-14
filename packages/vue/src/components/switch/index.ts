@@ -1,0 +1,1 @@
+export { TSwitch } from './switch';

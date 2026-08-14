@@ -1,0 +1,72 @@
+@use 'sass:color';
+@use 'variables/colors' as *;
+
+// Marker 根容器
+.marker {
+	position: relative;
+	display: flex;
+	min-height: $spacing-4;
+	width: 100%;
+	align-items: center;
+	gap: $spacing-2;
+	text-align: left;
+	font-size: $text-sm;
+	color: $muted-foreground;
+
+	a {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	a:hover {
+		color: $foreground;
+	}
+
+	// 变体：着色图标
+	&.variantNeutral .markerIcon {
+		color: $muted-foreground;
+		background-color: color.mix(white, $muted-foreground, 90%);
+	}
+
+	&.variantGreen .markerIcon {
+		color: $success;
+		background-color: color.mix(white, $success, 90%);
+	}
+
+	&.variantYellow .markerIcon {
+		color: $warning;
+		background-color: color.mix(white, $warning, 90%);
+	}
+
+	&.variantRed .markerIcon {
+		color: $destructive;
+		background-color: color.mix(white, $destructive, 90%);
+	}
+
+	&.variantBlue .markerIcon {
+		color: $info;
+		background-color: color.mix(white, $info, 90%);
+	}
+}
+
+// 图标容器
+.markerIcon {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: $spacing-4;
+	height: $spacing-4;
+	border-radius: $radius-full;
+
+	svg {
+		width: $spacing-4;
+		height: $spacing-4;
+	}
+}
+
+// 内容
+.markerContent {
+	min-width: 0;
+	overflow-wrap: break-word;
+}

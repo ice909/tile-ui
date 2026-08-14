@@ -1,0 +1,63 @@
+@use 'variables/colors' as *;
+
+.root {
+	display: inline-flex;
+}
+
+.trigger {
+	display: inline-flex;
+	align-items: center;
+	border: none;
+	background: transparent;
+	padding: 0;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.content {
+	position: fixed;
+	z-index: $z-popover;
+	width: 18rem;
+	max-width: calc(100vw - 2rem);
+	border-radius: $radius-md;
+	border: 1px solid $border;
+	background-color: $popover;
+	color: $popover-foreground;
+	padding: $spacing-4;
+	box-shadow: $shadow-md;
+	outline: none;
+	transition:
+		opacity $transition-fast,
+		visibility $transition-fast,
+		transform $transition-fast;
+
+	&[data-state='closed'] {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+
+		&[data-side='top'] {
+			transform: translateY(0.25rem);
+		}
+
+		&[data-side='right'] {
+			transform: translateX(-0.25rem);
+		}
+
+		&[data-side='bottom'] {
+			transform: translateY(-0.25rem);
+		}
+
+		&[data-side='left'] {
+			transform: translateX(0.25rem);
+		}
+	}
+
+	&[data-state='open'] {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: translate(0, 0);
+	}
+}

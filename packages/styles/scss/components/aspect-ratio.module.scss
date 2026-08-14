@@ -1,0 +1,17 @@
+@use 'sass:color';
+@use 'variables/colors' as *;
+
+// AspectRatio 根容器：通过 padding-top 撑起高度
+.root {
+	position: relative;
+	width: 100%;
+}
+
+// 内容容器：绝对定位占满
+.content {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

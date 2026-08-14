@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "type": "registry:ui",
+  "title": "Skeleton",
+  "description": "Loading placeholder React component for Tile UI.",
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/react/src/components/skeleton/skeleton.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/skeleton/skeleton.tsx",
+      "content": "import React from 'react';\nimport { skeletonStyleKeys } from '../lib/core';\nimport styles from './skeleton.module.scss';\n\nexport interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {}\n\nconst Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(({ className = '', ...props }, ref) => {\n\treturn <div ref={ref} className={`${styles[skeletonStyleKeys.base]} ${className}`} {...props} />;\n});\n\nSkeleton.displayName = 'Skeleton';\n\nexport { Skeleton };\nexport default Skeleton;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/skeleton.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/skeleton/skeleton.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n@keyframes tile-skeleton-pulse {\n\t50% {\n\t\topacity: 0.5;\n\t}\n}\n\n.skeleton {\n\tanimation: tile-skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;\n\tborder-radius: $radius;\n\tbackground-color: $accent;\n}\n"
+    }
+  ]
+}

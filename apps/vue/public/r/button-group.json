@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-group",
+  "type": "registry:ui",
+  "title": "Button Group",
+  "description": "Grouped button container for Tile UI.",
+  "dependencies": [
+    "vue"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/vue/src/components/button-group/button-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/button-group/button-group.tsx",
+      "content": "import { cloneVNode, computed, defineComponent, h, type PropType } from 'vue';\nimport { buttonGroupStyleKeys, getButtonGroupStyleKeys } from '../lib/core';\nimport type { ButtonGroupVariant, ButtonGroupSize } from '../lib/core';\nimport styles from './button-group.module.scss';\n\nexport const TButtonGroup = defineComponent({\n\tname: 'TButtonGroup',\n\tprops: {\n\t\tvariant: {\n\t\t\ttype: String as PropType<ButtonGroupVariant>,\n\t\t\tdefault: 'default',\n\t\t},\n\t\tsize: {\n\t\t\ttype: String as PropType<ButtonGroupSize>,\n\t\t\tdefault: 'default',\n\t\t},\n\t\tasChild: { type: Boolean, default: false },\n\t},\n\tsetup(props, { slots, attrs }) {\n\t\tconst styleKeys = computed(() => getButtonGroupStyleKeys(props.variant, props.size));\n\t\tconst rootClass = computed(() => [styles[styleKeys.value.base], styles[styleKeys.value.variant], styles[styleKeys.value.size]]);\n\n\t\treturn () => {\n\t\t\tconst children = slots.default?.();\n\n\t\t\tif (props.asChild) {\n\t\t\t\tconst firstChild = Array.isArray(children) ? children[0] : children;\n\n\t\t\t\tif (firstChild) {\n\t\t\t\t\tconst childProps = (firstChild.props ?? {}) as { class?: unknown };\n\t\t\t\t\treturn cloneVNode(firstChild, {\n\t\t\t\t\t\t...attrs,\n\t\t\t\t\t\trole: 'group',\n\t\t\t\t\t\t'data-slot': 'button-group',\n\t\t\t\t\t\t'data-variant': props.variant,\n\t\t\t\t\t\t'data-size': props.size,\n\t\t\t\t\t\tclass: [...rootClass.value, attrs.class, childProps.class].filter(Boolean),\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn h(\n\t\t\t\t'div',\n\t\t\t\t{ ...attrs, role: 'group', 'data-slot': 'button-group', 'data-variant': props.variant, 'data-size': props.size, class: [...rootClass.value, attrs.class] },\n\t\t\t\tchildren,\n\t\t\t);\n\t\t};\n\t},\n});\n\nexport const TButtonGroupText = defineComponent({\n\tname: 'TButtonGroupText',\n\tprops: {\n\t\tasChild: { type: Boolean, default: false },\n\t},\n\tsetup(props, { slots, attrs }) {\n\t\treturn () => {\n\t\t\tconst children = slots.default?.();\n\n\t\t\tif (props.asChild) {\n\t\t\t\tconst firstChild = Array.isArray(children) ? children[0] : children;\n\n\t\t\t\tif (firstChild) {\n\t\t\t\t\tconst childProps = (firstChild.props ?? {}) as { class?: unknown };\n\t\t\t\t\treturn cloneVNode(firstChild, {\n\t\t\t\t\t\t...attrs,\n\t\t\t\t\t\t'data-slot': 'button-group-text',\n\t\t\t\t\t\tclass: [styles[buttonGroupStyleKeys.text], attrs.class, childProps.class].filter(Boolean),\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn h('div', { ...attrs, 'data-slot': 'button-group-text', class: [styles[buttonGroupStyleKeys.text], attrs.class] }, children);\n\t\t};\n\t},\n});\n\nexport const TButtonGroupSeparator = defineComponent({\n\tname: 'TButtonGroupSeparator',\n\tsetup(_props, { attrs }) {\n\t\treturn () =>\n\t\t\th('div', {\n\t\t\t\t...attrs,\n\t\t\t\trole: 'none',\n\t\t\t\t'aria-hidden': 'true',\n\t\t\t\t'data-slot': 'button-group-separator',\n\t\t\t\tclass: [styles[buttonGroupStyleKeys.separator], attrs.class],\n\t\t\t});\n\t},\n});\n\nexport default TButtonGroup;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/button-group.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/button-group/button-group.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.buttonGroup {\n\tdisplay: flex;\n\twidth: fit-content;\n\talign-items: stretch;\n\n\t> * {\n\t\t&:focus-visible {\n\t\t\tposition: relative;\n\t\t\tz-index: 1;\n\t\t}\n\t}\n\n\t// 直接子元素之间的连接样式\n\t> *:not(:first-child) {\n\t\tborder-left: none;\n\t\tborder-top-left-radius: 0;\n\t\tborder-bottom-left-radius: 0;\n\t}\n\n\t> *:not(:last-child) {\n\t\tborder-top-right-radius: 0;\n\t\tborder-bottom-right-radius: 0;\n\t}\n\n\t// 嵌套按钮组\n\t[data-slot='button-group'] {\n\t\tgap: $spacing-2;\n\t}\n\n\t// 样式变体\n\t&.variantDefault {\n\t\tborder: none;\n\t}\n\n\t&.variantOutline {\n\t\tborder: 1px solid $border;\n\t\tborder-radius: $radius;\n\t}\n\n\t&.variantGhost {\n\t\tborder: none;\n\t\tbackground-color: transparent;\n\t}\n\n\t// 尺寸变体\n\t&.sizeDefault {\n\t\tmin-height: 2.25rem;\n\t}\n\n\t&.sizeSm {\n\t\tmin-height: 2rem;\n\t}\n\n\t&.sizeLg {\n\t\tmin-height: 2.5rem;\n\t}\n\n\t&.sizeIcon {\n\t\tmin-height: 2.25rem;\n\t}\n}\n\n.text {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: $spacing-2;\n\tborder-radius: $radius;\n\tborder: 1px solid $border;\n\tbackground-color: $muted;\n\tpadding: 0 $spacing-4;\n\tfont-size: $text-sm;\n\tfont-weight: $font-medium;\n\tbox-shadow: $shadow-sm;\n\n\tsvg {\n\t\tpointer-events: none;\n\t\twidth: 1rem;\n\t\theight: 1rem;\n\t}\n}\n\n.separator {\n\tposition: relative;\n\talign-self: stretch;\n\tmargin: 0;\n\theight: auto;\n\twidth: 1px;\n\tbackground-color: $input;\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,464 @@
+@use 'variables/colors' as *;
+
+// 侧边栏专用颜色 (从现有 token 派生，避免新增依赖)
+$sidebar-bg: $card;
+$sidebar-fg: $card-foreground;
+$sidebar-border: $border;
+$sidebar-accent: $accent;
+$sidebar-accent-fg: $accent-foreground;
+$sidebar-ring: $ring;
+
+// 根包裹层
+.wrapper {
+	display: flex;
+	width: 100%;
+	min-height: 100vh;
+}
+
+// 桌面端侧边栏
+.container {
+	display: none;
+	flex-direction: column;
+	flex-shrink: 0;
+	width: var(--sidebar-width);
+	overflow: hidden;
+	transition: width $transition-normal;
+
+	@media (min-width: 768px) {
+		display: flex;
+	}
+
+	&[data-side='left'] {
+		border-right: 1px solid $sidebar-border;
+	}
+
+	&[data-side='right'] {
+		border-left: 1px solid $sidebar-border;
+	}
+}
+
+// 折叠为 offcanvas 时收起
+.container[data-collapsible='offcanvas'][data-state='collapsed'] {
+	width: 0;
+	border: none;
+}
+
+// 折叠为 icon 时收窄
+.container[data-collapsible='icon'][data-state='collapsed'] {
+	width: var(--sidebar-width-icon);
+}
+
+// 侧边栏主体
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	flex: 1;
+	background-color: $sidebar-bg;
+	color: $sidebar-fg;
+
+	&[data-variant='floating'] {
+		border-radius: $radius-lg;
+		border: 1px solid $sidebar-border;
+		box-shadow: $shadow-sm;
+	}
+}
+
+// 内容区
+.content {
+	display: flex;
+	min-height: 0;
+	flex: 1;
+	flex-direction: column;
+	gap: $spacing-2;
+	overflow: auto;
+}
+
+.header,
+.footer {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-2;
+	padding: $spacing-2;
+}
+
+// 分组
+.group {
+	position: relative;
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	flex-direction: column;
+	padding: $spacing-2;
+}
+
+.groupLabel {
+	display: flex;
+	height: 2rem;
+	flex-shrink: 0;
+	align-items: center;
+	border-radius: $radius;
+	padding-inline: $spacing-2;
+	font-size: $text-xs;
+	font-weight: $font-medium;
+	color: rgba($sidebar-fg, 0.7);
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+	}
+}
+
+.groupAction {
+	position: absolute;
+	top: $spacing-3;
+	right: $spacing-3;
+	display: flex;
+	aspect-ratio: 1;
+	width: 1.25rem;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: $radius;
+	padding: 0;
+	background-color: transparent;
+	color: $sidebar-fg;
+	cursor: pointer;
+
+	&:hover {
+		background-color: $sidebar-accent;
+		color: $sidebar-accent-fg;
+	}
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+	}
+}
+
+.groupContent {
+	width: 100%;
+	font-size: $text-sm;
+}
+
+// 菜单
+.menu {
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	flex-direction: column;
+	gap: $spacing-1;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.menuItem {
+	position: relative;
+}
+
+// 菜单按钮
+.menuButton {
+	display: flex;
+	width: 100%;
+	height: 2rem;
+	align-items: center;
+	gap: $spacing-2;
+	overflow: hidden;
+	border: none;
+	border-radius: $radius;
+	background-color: transparent;
+	color: $sidebar-fg;
+	text-align: left;
+	font-size: $text-sm;
+	cursor: pointer;
+	outline: none;
+	transition:
+		width $transition-normal,
+		height $transition-normal,
+		padding $transition-normal;
+
+	&:hover {
+		background-color: $sidebar-accent;
+		color: $sidebar-accent-fg;
+	}
+
+	&:focus-visible {
+		box-shadow: 0 0 0 2px $sidebar-ring;
+	}
+
+	&[data-active='true'] {
+		background-color: $sidebar-accent;
+		font-weight: $font-medium;
+		color: $sidebar-accent-fg;
+	}
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+	}
+
+	> span:last-child {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+// 菜单按钮变体
+.variantDefault {
+	&:hover {
+		background-color: $sidebar-accent;
+		color: $sidebar-accent-fg;
+	}
+}
+
+.variantOutline {
+	background-color: $background;
+	box-shadow: 0 0 0 1px $sidebar-border;
+
+	&:hover {
+		background-color: $sidebar-accent;
+		color: $sidebar-accent-fg;
+		box-shadow: 0 0 0 1px $sidebar-accent;
+	}
+}
+
+// 菜单按钮尺寸 (sizeSm 与子菜单按钮共享)
+.sizeDefault {
+	height: 2rem;
+	padding: $spacing-2;
+}
+
+.sizeSm {
+	height: 1.75rem;
+	padding-inline: $spacing-2;
+	font-size: $text-xs;
+}
+
+.sizeLg {
+	height: 3rem;
+	padding: $spacing-2;
+}
+
+// 菜单操作按钮
+.menuAction {
+	position: absolute;
+	top: $spacing-1_5;
+	right: $spacing-1;
+	display: flex;
+	aspect-ratio: 1;
+	width: 1.25rem;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: $radius;
+	padding: 0;
+	background-color: transparent;
+	color: $sidebar-fg;
+	cursor: pointer;
+
+	&:hover {
+		background-color: $sidebar-accent;
+		color: $sidebar-accent-fg;
+	}
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+	}
+}
+
+// 菜单徽标
+.menuBadge {
+	position: absolute;
+	right: $spacing-1;
+	display: flex;
+	height: 1.25rem;
+	min-width: 1.25rem;
+	align-items: center;
+	justify-content: center;
+	border-radius: $radius;
+	padding-inline: $spacing-1;
+	font-size: $text-xs;
+	font-weight: $font-medium;
+	color: $sidebar-fg;
+	pointer-events: none;
+	font-variant-numeric: tabular-nums;
+}
+
+// 子菜单
+.menuSub {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: $spacing-1;
+	margin: 0;
+	padding: $spacing-2 0;
+	padding-left: $spacing-2_5;
+	border-left: 1px solid $sidebar-border;
+	list-style: none;
+}
+
+.menuSubItem {
+	position: relative;
+}
+
+.menuSubButton {
+	display: flex;
+	height: 1.75rem;
+	min-width: 0;
+	align-items: center;
+	gap: $spacing-2;
+	overflow: hidden;
+	border: none;
+	border-radius: $radius;
+	padding-inline: $spacing-2;
+	background-color: transparent;
+	color: $sidebar-fg;
+	font-size: $text-sm;
+	text-align: left;
+	cursor: pointer;
+	outline: none;
+
+	&:hover {
+		background-color: $sidebar-accent;
+		color: $sidebar-accent-fg;
+	}
+
+	&[data-active='true'] {
+		background-color: $sidebar-accent;
+		color: $sidebar-accent-fg;
+	}
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+	}
+
+	> span:last-child {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+// 子菜单按钮尺寸 (sizeSm 与菜单按钮共享)
+.sizeMd {
+	font-size: $text-sm;
+}
+
+// 触发器按钮
+.trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.75rem;
+	height: 1.75rem;
+	border: none;
+	border-radius: $radius;
+	background-color: transparent;
+	color: $foreground;
+	cursor: pointer;
+
+	&:hover {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+	}
+}
+
+// 分隔线
+.separator {
+	width: 100%;
+}
+
+// 输入框
+.input {
+	width: 100%;
+	height: 2rem;
+	background-color: $background;
+	border: 1px solid $sidebar-border;
+	border-radius: $radius;
+	padding-inline: $spacing-2;
+	font-size: $text-sm;
+	color: $foreground;
+	box-shadow: none;
+
+	&:focus {
+		outline: none;
+		border-color: $sidebar-ring;
+		box-shadow: 0 0 0 1px $sidebar-ring;
+	}
+}
+
+// 侧边栏占位 inset
+.inset {
+	position: relative;
+	display: flex;
+	width: 100%;
+	flex: 1;
+	flex-direction: column;
+	background-color: $background;
+}
+
+// 折叠为 icon 时隐藏文本内容
+.container[data-collapsible='icon'][data-state='collapsed'] {
+	.groupLabel,
+	.menuButton > span:last-child,
+	.menuSubButton > span:last-child,
+	.menuBadge,
+	.menuSub,
+	.groupAction {
+		display: none;
+	}
+
+	.menuButton {
+		width: 2rem;
+		height: 2rem;
+		padding: $spacing-2;
+		justify-content: center;
+	}
+}
+
+// 骨架屏
+.skeleton {
+	display: flex;
+	height: 2rem;
+	align-items: center;
+	gap: $spacing-2;
+	border-radius: $radius;
+	padding-inline: $spacing-2;
+}
+
+.skeletonIcon {
+	width: 1rem;
+	height: 1rem;
+	border-radius: $radius;
+}
+
+.skeletonText {
+	height: 1rem;
+	max-width: var(--skeleton-width);
+	flex: 1;
+}
+
+// 仅供读屏
+.srOnly {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}

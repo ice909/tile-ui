@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb",
+  "type": "registry:ui",
+  "title": "Breadcrumb",
+  "description": "Navigation breadcrumb primitives for Tile UI.",
+  "dependencies": [
+    "vue"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/vue/src/components/breadcrumb/breadcrumb.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/breadcrumb/breadcrumb.tsx",
+      "content": "import { defineComponent, h } from 'vue';\nimport { breadcrumbStyleKeys } from '../lib/core';\nimport styles from './breadcrumb.module.scss';\n\nfunction renderChevronRight() {\n\treturn h(\n\t\t'svg',\n\t\t{\n\t\t\txmlns: 'http://www.w3.org/2000/svg',\n\t\t\tviewBox: '0 0 24 24',\n\t\t\tfill: 'none',\n\t\t\tstroke: 'currentColor',\n\t\t\t'stroke-width': '2',\n\t\t\t'stroke-linecap': 'round',\n\t\t\t'stroke-linejoin': 'round',\n\t\t},\n\t\t[h('path', { d: 'm9 18 6-6-6-6' })],\n\t);\n}\n\nfunction renderMoreHorizontal() {\n\treturn h(\n\t\t'svg',\n\t\t{\n\t\t\tclass: styles[breadcrumbStyleKeys.ellipsisIcon],\n\t\t\txmlns: 'http://www.w3.org/2000/svg',\n\t\t\tviewBox: '0 0 24 24',\n\t\t\tfill: 'currentColor',\n\t\t},\n\t\t[h('circle', { cx: '12', cy: '12', r: '1' }), h('circle', { cx: '19', cy: '12', r: '1' }), h('circle', { cx: '5', cy: '12', r: '1' })],\n\t);\n}\n\nexport const TBreadcrumb = defineComponent({\n\tname: 'TBreadcrumb',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('nav', { 'aria-label': 'breadcrumb', class: styles[breadcrumbStyleKeys.root] }, slots.default?.());\n\t},\n});\n\nexport const TBreadcrumbList = defineComponent({\n\tname: 'TBreadcrumbList',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('ol', { class: styles[breadcrumbStyleKeys.list] }, slots.default?.());\n\t},\n});\n\nexport const TBreadcrumbItem = defineComponent({\n\tname: 'TBreadcrumbItem',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('li', { class: styles[breadcrumbStyleKeys.item] }, slots.default?.());\n\t},\n});\n\nexport const TBreadcrumbLink = defineComponent({\n\tname: 'TBreadcrumbLink',\n\tprops: {\n\t\thref: String,\n\t},\n\tsetup(props, { slots, attrs }) {\n\t\treturn () => h('a', { ...attrs, href: props.href, class: [styles[breadcrumbStyleKeys.link], attrs.class] }, slots.default?.());\n\t},\n});\n\nexport const TBreadcrumbPage = defineComponent({\n\tname: 'TBreadcrumbPage',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('span', { role: 'link', 'aria-disabled': 'true', 'aria-current': 'page', class: styles[breadcrumbStyleKeys.page] }, slots.default?.());\n\t},\n});\n\nexport const TBreadcrumbSeparator = defineComponent({\n\tname: 'TBreadcrumbSeparator',\n\tsetup(_props, { slots }) {\n\t\treturn () =>\n\t\t\th('li', { role: 'presentation', 'aria-hidden': 'true', class: styles[breadcrumbStyleKeys.separator] }, slots.default ? slots.default() : [renderChevronRight()]);\n\t},\n});\n\nexport const TBreadcrumbEllipsis = defineComponent({\n\tname: 'TBreadcrumbEllipsis',\n\tsetup(_props) {\n\t\treturn () =>\n\t\t\th('span', { role: 'presentation', 'aria-hidden': 'true', class: styles[breadcrumbStyleKeys.ellipsis] }, [\n\t\t\t\trenderMoreHorizontal(),\n\t\t\t\th('span', { class: styles[breadcrumbStyleKeys.srOnly] }, 'More'),\n\t\t\t]);\n\t},\n});\n\nexport default TBreadcrumb;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/breadcrumb.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/breadcrumb/breadcrumb.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\t// 导航容器无额外样式\n}\n\n.list {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: center;\n\tgap: $spacing-1_5;\n\tfont-size: $text-sm;\n\tcolor: $muted-foreground;\n\tword-break: break-word;\n\n\t@media (min-width: 640px) {\n\t\tgap: $spacing-2_5;\n\t}\n}\n\n.item {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tgap: $spacing-1_5;\n}\n\n.link {\n\ttransition: color $transition-fast;\n\n\t&:hover {\n\t\tcolor: $foreground;\n\t}\n}\n\n.page {\n\tfont-weight: $font-normal;\n\tcolor: $foreground;\n}\n\n.separator {\n\tdisplay: inline-flex;\n\talign-items: center;\n\n\t> svg {\n\t\twidth: 0.875rem;\n\t\theight: 0.875rem;\n\t}\n}\n\n.ellipsis {\n\tdisplay: flex;\n\twidth: 2.25rem;\n\theight: 2.25rem;\n\talign-items: center;\n\tjustify-content: center;\n}\n\n.ellipsisIcon {\n\twidth: 1rem;\n\theight: 1rem;\n}\n\n.srOnly {\n\tposition: absolute;\n\twidth: 1px;\n\theight: 1px;\n\tpadding: 0;\n\tmargin: -1px;\n\toverflow: hidden;\n\tclip: rect(0, 0, 0, 0);\n\twhite-space: nowrap;\n\tborder: 0;\n}\n"
+    }
+  ]
+}

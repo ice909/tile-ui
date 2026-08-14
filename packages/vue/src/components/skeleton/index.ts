@@ -1,0 +1,1 @@
+export { TSkeleton } from './skeleton';

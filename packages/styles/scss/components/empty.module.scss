@@ -1,0 +1,111 @@
+@use 'sass:color';
+@use 'variables/colors' as *;
+
+// Empty 根容器
+.root {
+	display: flex;
+	min-width: 0;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-6;
+	border-radius: $radius;
+	border: 1px dashed $border;
+	padding: $spacing-6;
+	text-align: center;
+	text-wrap: balance;
+
+	// 大屏加深内边距
+	@media (min-width: 768px) {
+		padding: $spacing-12;
+	}
+}
+
+// 头部：媒体 + 标题 + 描述
+.header {
+	display: flex;
+	max-width: 24rem;
+	flex-direction: column;
+	align-items: center;
+	gap: $spacing-2;
+	text-align: center;
+}
+
+// 媒体区（图标容器）
+.media {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: $spacing-2;
+
+	svg {
+		pointer-events: none;
+		flex-shrink: 0;
+	}
+
+	// 变体
+	&.variantMuted {
+		width: $spacing-10;
+		height: $spacing-10;
+		border-radius: $radius;
+		background-color: $muted;
+		color: $foreground;
+
+		svg {
+			width: $spacing-6;
+			height: $spacing-6;
+		}
+	}
+
+	&.variantBordered {
+		width: $spacing-10;
+		height: $spacing-10;
+		border-radius: $radius;
+		border: 1px solid $border;
+		background-color: $card;
+		color: $foreground;
+
+		svg {
+			width: $spacing-6;
+			height: $spacing-6;
+		}
+	}
+}
+
+// 标题
+.title {
+	font-size: $text-lg;
+	font-weight: $font-medium;
+	letter-spacing: -0.01em;
+}
+
+// 描述
+.description {
+	font-size: $text-sm;
+	line-height: $leading-relaxed;
+	color: $muted-foreground;
+
+	a {
+		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+
+	a:hover {
+		color: $primary;
+	}
+}
+
+// 内容区（操作按钮等）
+.content {
+	display: flex;
+	width: 100%;
+	max-width: 24rem;
+	min-width: 0;
+	flex-direction: column;
+	align-items: center;
+	gap: $spacing-4;
+	font-size: $text-sm;
+	text-wrap: balance;
+}

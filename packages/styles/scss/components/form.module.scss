@@ -1,0 +1,35 @@
+@use 'variables/colors' as *;
+
+.item {
+	display: grid;
+	gap: $spacing-2;
+}
+
+.label {
+	font-size: $text-sm;
+	font-weight: $font-medium;
+	line-height: $leading-none;
+	color: $foreground;
+
+	&[data-error='true'] {
+		color: $destructive;
+	}
+}
+
+.control {
+	display: block;
+}
+
+.description {
+	margin: 0;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	color: $muted-foreground;
+}
+
+.message {
+	margin: 0;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	color: $destructive;
+}

@@ -2,6 +2,15 @@
 	"name": "@tile-ui/react",
 	"version": "1.0.1",
 	"private": false,
+	"homepage": "https://github.com/zmide/tile-ui/tree/main/packages/react",
+	"bugs": {
+		"url": "https://github.com/zmide/tile-ui/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/zmide/tile-ui.git",
+		"directory": "packages/react"
+	},
 	"files": [
 		"README.md",
 		"dist"
@@ -35,15 +44,6 @@
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/zmide/tile-ui.git",
-		"directory": "packages/react"
-	},
-	"homepage": "https://github.com/zmide/tile-ui/tree/main/packages/react",
-	"bugs": {
-		"url": "https://github.com/zmide/tile-ui/issues"
 	},
 	"scripts": {
 		"build": "tsup",

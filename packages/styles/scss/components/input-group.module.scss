@@ -1,0 +1,181 @@
+@use 'sass:color';
+@use 'variables/colors' as *;
+
+.inputGroup {
+	position: relative;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	border-radius: $radius;
+	border: 1px solid $input;
+	transition:
+		border-color $transition-fast,
+		box-shadow $transition-fast;
+	outline: none;
+
+	&:focus-within {
+		border-color: $ring;
+		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+	}
+
+	&:has([aria-invalid='true']) {
+		border-color: $destructive;
+
+		&:focus-within {
+			box-shadow: 0 0 0 3px rgba($destructive, 0.2);
+		}
+	}
+
+	&:has(> textarea) {
+		align-items: flex-start;
+	}
+
+	// 样式变体
+	&.variantDefault {
+		background-color: transparent;
+		box-shadow: $shadow-sm;
+	}
+
+	&.variantOutline {
+		background-color: color.mix(white, $input, 50%);
+		box-shadow: none;
+	}
+}
+
+.addon {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-2;
+	cursor: text;
+	padding: $spacing-1_5 0;
+	font-size: $text-sm;
+	font-weight: $font-medium;
+	color: $muted-foreground;
+	user-select: none;
+
+	svg {
+		pointer-events: none;
+		width: 1rem;
+		height: 1rem;
+	}
+
+	button {
+		border-radius: $radius-sm;
+	}
+
+	// 样式变体
+	&.variantDefault {
+		background-color: $muted;
+	}
+
+	&.variantOutline {
+		background-color: transparent;
+	}
+
+	// 对齐方式
+	&[data-align='inline-start'] {
+		order: -1;
+		padding-left: $spacing-3;
+	}
+
+	&[data-align='inline-end'] {
+		order: 1;
+		padding-right: $spacing-3;
+	}
+
+	&[data-align='block-start'] {
+		order: -1;
+		width: 100%;
+		justify-content: flex-start;
+		padding: $spacing-3 $spacing-3 0;
+
+		.inputGroup:has(> input) & {
+			padding-bottom: $spacing-2_5;
+		}
+	}
+
+	&[data-align='block-end'] {
+		order: 1;
+		width: 100%;
+		justify-content: flex-start;
+		padding: 0 $spacing-3 $spacing-3;
+
+		.inputGroup:has(> input) & {
+			padding-top: $spacing-2_5;
+		}
+	}
+}
+
+.button {
+	flex-shrink: 0;
+	border-radius: 0;
+	border: none;
+	box-shadow: none;
+}
+
+.text {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	gap: $spacing-2;
+	font-size: $text-sm;
+	color: $muted-foreground;
+
+	svg {
+		pointer-events: none;
+		width: 1rem;
+		height: 1rem;
+	}
+}
+
+.input {
+	flex: 1;
+	min-width: 0;
+	height: 2.25rem;
+	border: none;
+	background-color: transparent;
+	padding: 0 $spacing-3;
+	font-size: $text-sm;
+	color: $foreground;
+	outline: none;
+
+	&::placeholder {
+		color: $muted-foreground;
+	}
+
+	&:focus-visible {
+		outline: none;
+	}
+
+	&:disabled {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}
+
+.textarea {
+	flex: 1;
+	min-width: 0;
+	border: none;
+	background-color: transparent;
+	padding: $spacing-3;
+	font-size: $text-sm;
+	color: $foreground;
+	resize: none;
+	outline: none;
+
+	&::placeholder {
+		color: $muted-foreground;
+	}
+
+	&:focus-visible {
+		outline: none;
+	}
+
+	&:disabled {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}

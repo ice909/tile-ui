@@ -1,0 +1,108 @@
+@use 'variables/colors' as *;
+
+.root {
+	display: inline-flex;
+	width: fit-content;
+	align-items: center;
+	border-radius: $radius;
+
+	// 直接子元素之间的连接样式
+	> *:not(:first-child) {
+		border-left: none;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	> *:not(:last-child) {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+}
+
+.item {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-2;
+	white-space: nowrap;
+	border-radius: $radius;
+	border: 1px solid transparent;
+	font-size: $text-sm;
+	font-weight: $font-medium;
+	transition:
+		color $transition-fast,
+		background-color $transition-fast,
+		border-color $transition-fast,
+		box-shadow $transition-fast;
+	outline: none;
+	cursor: pointer;
+
+	&:focus-visible {
+		border-color: $ring;
+		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+		z-index: 1;
+	}
+
+	&:disabled {
+		pointer-events: none;
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	svg {
+		pointer-events: none;
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+	}
+
+	// 状态
+	&[data-state='on'] {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	&[data-state='off'] {
+		background-color: transparent;
+		color: $foreground;
+
+		&:hover:not(:disabled) {
+			background-color: $muted;
+			color: $muted-foreground;
+		}
+	}
+
+	// 样式变体
+	&.variantOutline {
+		border-color: $border;
+		box-shadow: $shadow-sm;
+	}
+
+	&.variantGhost {
+		background-color: transparent;
+
+		&[data-state='on'] {
+			background-color: $muted;
+			color: $muted-foreground;
+		}
+	}
+
+	// 尺寸变体
+	&.sizeDefault {
+		height: 2.25rem;
+		min-width: 2.25rem;
+		padding: 0 $spacing-2;
+	}
+
+	&.sizeSm {
+		height: 2rem;
+		min-width: 2rem;
+		padding: 0 $spacing-1_5;
+	}
+
+	&.sizeLg {
+		height: 2.5rem;
+		min-width: 2.5rem;
+		padding: 0 $spacing-2_5;
+	}
+}

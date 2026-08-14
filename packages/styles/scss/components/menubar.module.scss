@@ -1,0 +1,344 @@
+@use 'variables/colors' as *;
+
+// 根容器（横向菜单栏）
+.root {
+	display: flex;
+	align-items: center;
+	gap: $spacing-1;
+	border-radius: $radius;
+	border: 1px solid $border;
+	background-color: $background;
+	padding: $spacing-1;
+}
+
+// 单个菜单容器
+.menu {
+	position: relative;
+	display: inline-flex;
+}
+
+// 触发器按钮
+.trigger {
+	display: flex;
+	align-items: center;
+	border-radius: $radius-sm;
+	padding: $spacing-1 $spacing-2;
+	font-size: $text-sm;
+	font-weight: $font-medium;
+	color: $foreground;
+	outline: none;
+	user-select: none;
+	cursor: pointer;
+	transition:
+		background-color $transition-fast,
+		color $transition-fast;
+
+	&[data-state='open'],
+	&[data-highlighted='true'] {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	&[data-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}
+
+// 弹出内容面板
+.content {
+	position: fixed;
+	z-index: $z-dropdown;
+	min-width: 12rem;
+	overflow: hidden;
+	border-radius: $radius;
+	border: 1px solid $border;
+	background-color: $popover;
+	color: $popover-foreground;
+	padding: $spacing-1;
+	box-shadow: $shadow-md;
+	outline: none;
+	transition:
+		opacity $transition-fast,
+		visibility $transition-fast,
+		transform $transition-fast;
+
+	&[data-state='closed'] {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+
+		&[data-side='top'] {
+			transform: translateY(0.25rem);
+		}
+
+		&[data-side='bottom'] {
+			transform: translateY(-0.25rem);
+		}
+	}
+
+	&[data-state='open'] {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: translate(0, 0);
+	}
+}
+
+// 子菜单弹出面板
+.subContent {
+	position: fixed;
+	z-index: $z-dropdown;
+	min-width: 8rem;
+	overflow: hidden;
+	border-radius: $radius-md;
+	border: 1px solid $border;
+	background-color: $popover;
+	color: $popover-foreground;
+	padding: $spacing-1;
+	box-shadow: $shadow-lg;
+	outline: none;
+	transition:
+		opacity $transition-fast,
+		visibility $transition-fast,
+		transform $transition-fast;
+
+	&[data-state='closed'] {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transform: translateX(-0.25rem);
+	}
+
+	&[data-state='open'] {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: translate(0, 0);
+	}
+}
+
+// 分组容器
+.group {
+	display: block;
+}
+
+// 菜单项
+.item {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: $spacing-2;
+	border-radius: $radius-sm;
+	padding: $spacing-1_5 $spacing-2;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	color: $popover-foreground;
+	outline: none;
+	cursor: default;
+	user-select: none;
+
+	&[data-highlighted='true'] {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	&[data-inset='true'] {
+		padding-left: $spacing-8;
+	}
+
+	&[data-variant='destructive'] {
+		color: $destructive;
+
+		&[data-highlighted='true'] {
+			background-color: rgba(239, 68, 68, 0.1);
+			color: $destructive;
+		}
+	}
+
+	&[data-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	& > svg {
+		pointer-events: none;
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		color: $muted-foreground;
+	}
+
+	&[data-variant='destructive'] > svg {
+		color: $destructive;
+	}
+}
+
+// 复选框菜单项
+.checkboxItem {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: $spacing-2;
+	border-radius: $radius-sm;
+	padding: $spacing-1_5 $spacing-2 $spacing-1_5 $spacing-8;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	color: $popover-foreground;
+	outline: none;
+	cursor: default;
+	user-select: none;
+
+	&[data-highlighted='true'] {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	&[data-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	& > svg {
+		pointer-events: none;
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		color: $muted-foreground;
+	}
+}
+
+// 单选组容器
+.radioGroup {
+	display: block;
+}
+
+// 单选菜单项
+.radioItem {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: $spacing-2;
+	border-radius: $radius-sm;
+	padding: $spacing-1_5 $spacing-2 $spacing-1_5 $spacing-8;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	color: $popover-foreground;
+	outline: none;
+	cursor: default;
+	user-select: none;
+
+	&[data-highlighted='true'] {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	&[data-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	& > svg {
+		pointer-events: none;
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		color: $muted-foreground;
+	}
+}
+
+// 勾选/单选指示器（绝对定位在左侧）
+.indicator {
+	position: absolute;
+	left: $spacing-2;
+	display: inline-flex;
+	width: 0.875rem;
+	height: 0.875rem;
+	align-items: center;
+	justify-content: center;
+	color: currentcolor;
+
+	.checkIcon {
+		width: 1rem;
+		height: 1rem;
+	}
+
+	.radioIcon {
+		width: 0.5rem;
+		height: 0.5rem;
+		fill: currentColor;
+	}
+}
+
+// 标签
+.label {
+	padding: $spacing-1_5 $spacing-2;
+	font-size: $text-sm;
+	font-weight: $font-medium;
+	color: $foreground;
+
+	&[data-inset='true'] {
+		padding-left: $spacing-8;
+	}
+}
+
+// 分隔线
+.separator {
+	margin: $spacing-1 (-$spacing-1);
+	height: 1px;
+	background-color: $border;
+}
+
+// 快捷键文本
+.shortcut {
+	margin-left: auto;
+	font-size: $text-xs;
+	letter-spacing: 0.1em;
+	color: $muted-foreground;
+}
+
+// 子菜单触发器
+.subTrigger {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: $spacing-2;
+	border-radius: $radius-sm;
+	padding: $spacing-1_5 $spacing-2;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	color: $popover-foreground;
+	outline: none;
+	cursor: default;
+	user-select: none;
+
+	&[data-highlighted='true'],
+	&[data-state='open'] {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	&[data-inset='true'] {
+		padding-left: $spacing-8;
+	}
+
+	&[data-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	& > svg {
+		pointer-events: none;
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		color: $muted-foreground;
+	}
+}
+
+// 子菜单箭头
+.chevron {
+	margin-left: auto;
+	width: 1rem;
+	height: 1rem;
+}

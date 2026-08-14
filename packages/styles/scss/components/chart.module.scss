@@ -1,0 +1,139 @@
+@use 'variables/colors' as *;
+
+// 图表根容器
+.root {
+	position: relative;
+	display: flex;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	flex-direction: column;
+	justify-content: center;
+	font-size: $text-xs;
+	color: $muted-foreground;
+}
+
+// 绘图画布
+.surface {
+	overflow: visible;
+
+	text {
+		fill: $muted-foreground;
+	}
+}
+
+// 网格线
+.gridLine {
+	stroke: $border;
+	stroke-opacity: 0.5;
+	stroke-dasharray: 4 4;
+}
+
+// 坐标轴线
+.axisLine {
+	stroke: $border;
+}
+
+// 图例容器
+.legend {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-4;
+	padding-top: $spacing-3;
+
+	&[data-align='top'] {
+		padding-top: 0;
+		padding-bottom: $spacing-3;
+	}
+}
+
+// 图例条目
+.legendItem {
+	display: flex;
+	align-items: center;
+	gap: $spacing-1_5;
+	color: $muted-foreground;
+}
+
+// 图例色块
+.legendSwatch {
+	width: 0.5rem;
+	height: 0.5rem;
+	flex-shrink: 0;
+	border-radius: 2px;
+}
+
+// Tooltip 容器
+.tooltip {
+	pointer-events: none;
+	display: grid;
+	min-width: 8rem;
+	align-items: start;
+	gap: $spacing-1_5;
+	border: 1px solid rgba($border, 0.5);
+	border-radius: $radius;
+	background-color: $popover;
+	padding: $spacing-1_5 $spacing-2_5;
+	color: $popover-foreground;
+	font-size: $text-xs;
+	box-shadow: $shadow-lg;
+}
+
+// Tooltip 标签
+.tooltipLabel {
+	font-weight: $font-medium;
+}
+
+// Tooltip 条目网格
+.tooltipGrid {
+	display: grid;
+	gap: $spacing-1_5;
+}
+
+// Tooltip 单条条目
+.tooltipItem {
+	display: flex;
+	width: 100%;
+	flex-wrap: wrap;
+	align-items: stretch;
+	gap: $spacing-2;
+
+	&[data-indicator='dot'] {
+		align-items: center;
+	}
+}
+
+// Tooltip 条目名称
+.tooltipItemName {
+	color: $muted-foreground;
+}
+
+// Tooltip 条目数值
+.tooltipItemValue {
+	font-family: $font-mono;
+	font-weight: $font-medium;
+	color: $foreground;
+	font-variant-numeric: tabular-nums;
+}
+
+// Tooltip 指示器
+.tooltipIndicator {
+	flex-shrink: 0;
+	border-radius: 2px;
+
+	&[data-indicator='dot'] {
+		width: 0.625rem;
+		height: 0.625rem;
+	}
+
+	&[data-indicator='line'] {
+		width: 0.25rem;
+		height: 1rem;
+	}
+
+	&[data-indicator='dashed'] {
+		width: 0;
+		border: 1.5px dashed currentColor;
+		background: transparent;
+	}
+}

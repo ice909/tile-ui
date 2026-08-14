@@ -1,0 +1,219 @@
+@use 'variables/colors' as *;
+
+// 根容器
+.root {
+	position: relative;
+	display: flex;
+	max-width: max-content;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+}
+
+// 列表容器
+.list {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-1;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+// 单个菜单项
+.item {
+	position: relative;
+}
+
+// 触发器按钮
+.trigger {
+	display: inline-flex;
+	height: 2.25rem;
+	width: max-content;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-1;
+	border-radius: $radius;
+	background-color: $background;
+	padding: $spacing-2 $spacing-4;
+	font-size: $text-sm;
+	font-weight: $font-medium;
+	color: $foreground;
+	outline: none;
+	transition:
+		background-color $transition-fast,
+		color $transition-fast;
+	cursor: pointer;
+
+	&:hover {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	&[data-state='open'] {
+		background-color: rgba(244, 244, 245, 0.5);
+		color: $accent-foreground;
+	}
+
+	&[data-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}
+
+// 触发器箭头
+.chevron {
+	position: relative;
+	top: 1px;
+	width: 0.75rem;
+	height: 0.75rem;
+	transition: transform $transition-slow;
+
+	&[data-state='open'] {
+		transform: rotate(180deg);
+	}
+}
+
+// 内容面板（默认：相对菜单项下方展开的下拉面板）
+.content {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: $z-dropdown;
+	min-width: 12rem;
+	margin-top: $spacing-1_5;
+	border-radius: $radius;
+	border: 1px solid $border;
+	background-color: $popover;
+	color: $popover-foreground;
+	padding: $spacing-2;
+	box-shadow: $shadow-md;
+	outline: none;
+
+	&[data-state='closed'] {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+
+	&[data-state='open'] {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+
+	// 集中式视口模式下内容为正常流布局
+	&[data-viewport='true'] {
+		position: static;
+		width: 100%;
+		min-width: 0;
+		margin-top: 0;
+		border: none;
+		padding: 0;
+		box-shadow: none;
+	}
+}
+
+// 集中式视口
+.viewport {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: $z-dropdown;
+	display: flex;
+	justify-content: center;
+	margin-top: $spacing-1_5;
+	overflow: hidden;
+	border-radius: $radius;
+	border: 1px solid $border;
+	background-color: $popover;
+	color: $popover-foreground;
+	box-shadow: $shadow-md;
+	transition:
+		opacity $transition-fast,
+		visibility $transition-fast,
+		transform $transition-fast;
+
+	&[data-state='closed'] {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transform: scale(0.95);
+	}
+
+	&[data-state='open'] {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: scale(1);
+	}
+}
+
+// 视口内部容器
+.viewportInner {
+	position: relative;
+	width: 100%;
+}
+
+// 指示器
+.indicator {
+	position: absolute;
+	top: 100%;
+	z-index: 1;
+	display: flex;
+	height: $spacing-1_5;
+	align-items: flex-end;
+	justify-content: center;
+	overflow: hidden;
+	transition:
+		opacity $transition-fast,
+		transform $transition-fast;
+
+	&[data-state='hidden'] {
+		opacity: 0;
+	}
+
+	&[data-state='visible'] {
+		opacity: 1;
+	}
+}
+
+// 指示器箭头
+.indicatorArrow {
+	position: relative;
+	top: 60%;
+	width: $spacing-2;
+	height: $spacing-2;
+	transform: rotate(45deg);
+	border-radius: 2px 0 0 0;
+	background-color: $border;
+	box-shadow: $shadow-md;
+}
+
+// 链接
+.link {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-1;
+	border-radius: $radius-sm;
+	padding: $spacing-2;
+	font-size: $text-sm;
+	color: $popover-foreground;
+	text-decoration: none;
+	outline: none;
+	transition:
+		background-color $transition-fast,
+		color $transition-fast;
+
+	&:hover {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	&[data-active='true'] {
+		background-color: rgba(244, 244, 245, 0.5);
+		color: $accent-foreground;
+	}
+}

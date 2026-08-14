@@ -1,0 +1,99 @@
+@use 'variables/colors' as *;
+
+.root {
+	display: inline-flex;
+}
+
+.trigger {
+	display: inline-flex;
+	align-items: center;
+	border: none;
+	background: transparent;
+	padding: 0;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.content {
+	position: fixed;
+	z-index: $z-tooltip;
+	width: fit-content;
+	max-width: 16rem;
+	border-radius: $radius;
+	background-color: $foreground;
+	color: $background;
+	padding: $spacing-1_5 $spacing-3;
+	font-size: $text-xs;
+	font-weight: $font-medium;
+	line-height: $leading-normal;
+	text-align: center;
+	box-shadow: $shadow-md;
+	transition:
+		opacity $transition-fast,
+		visibility $transition-fast,
+		transform $transition-fast;
+
+	&[data-state='closed'] {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+
+		&[data-side='top'] {
+			transform: translateY(0.25rem);
+		}
+
+		&[data-side='right'] {
+			transform: translateX(-0.25rem);
+		}
+
+		&[data-side='bottom'] {
+			transform: translateY(-0.25rem);
+		}
+
+		&[data-side='left'] {
+			transform: translateX(0.25rem);
+		}
+	}
+
+	&[data-state='open'] {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: translate(0, 0);
+	}
+}
+
+.arrow {
+	position: absolute;
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: 2px;
+	background-color: $foreground;
+	pointer-events: none;
+	transform: rotate(45deg);
+
+	[data-side='top'] > & {
+		bottom: -4px;
+		left: 50%;
+		margin-left: -4px;
+	}
+
+	[data-side='right'] > & {
+		left: -4px;
+		top: 50%;
+		margin-top: -4px;
+	}
+
+	[data-side='bottom'] > & {
+		left: 50%;
+		top: -4px;
+		margin-left: -4px;
+	}
+
+	[data-side='left'] > & {
+		right: -4px;
+		top: 50%;
+		margin-top: -4px;
+	}
+}

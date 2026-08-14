@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "type": "registry:ui",
+  "title": "Switch",
+  "description": "Accessible toggle switch component for Tile UI.",
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/react/src/components/switch/switch.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/switch/switch.tsx",
+      "content": "import React, { useState } from 'react';\nimport { getSwitchState, switchStyleKeys } from '../lib/core';\nimport type { SwitchBaseProps } from '../lib/core';\nimport styles from './switch.module.scss';\n\nexport interface SwitchProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'>, SwitchBaseProps {\n\tchecked?: boolean;\n\tdefaultChecked?: boolean;\n\tonCheckedChange?: (checked: boolean) => void;\n}\n\nconst Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(\n\t({ className = '', size = 'default', checked, defaultChecked = false, disabled, onCheckedChange, ...props }, ref) => {\n\t\tconst [internalChecked, setInternalChecked] = useState(defaultChecked);\n\t\tconst isChecked = checked !== undefined ? checked : internalChecked;\n\t\tconst state = getSwitchState(isChecked);\n\n\t\tfunction handleClick(event: React.MouseEvent<HTMLButtonElement>) {\n\t\t\tconst next = !isChecked;\n\n\t\t\tif (checked === undefined) {\n\t\t\t\tsetInternalChecked(next);\n\t\t\t}\n\n\t\t\tonCheckedChange?.(next);\n\t\t\tprops.onClick?.(event);\n\t\t}\n\n\t\treturn (\n\t\t\t<button\n\t\t\t\tref={ref}\n\t\t\t\ttype=\"button\"\n\t\t\t\trole=\"switch\"\n\t\t\t\taria-checked={isChecked}\n\t\t\t\tdata-state={state}\n\t\t\t\tdata-size={size}\n\t\t\t\tdisabled={disabled}\n\t\t\t\tclassName={`${styles[switchStyleKeys.root]} ${className}`}\n\t\t\t\tonClick={handleClick}\n\t\t\t\t{...props}>\n\t\t\t\t<span className={styles[switchStyleKeys.thumb]} />\n\t\t\t</button>\n\t\t);\n\t},\n);\n\nSwitch.displayName = 'Switch';\n\nexport { Switch };\nexport default Switch;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/switch.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/switch/switch.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\tdisplay: inline-flex;\n\tflex-shrink: 0;\n\talign-items: center;\n\tborder-radius: $radius-full;\n\tborder: 1px solid transparent;\n\tbox-shadow: $shadow-sm;\n\ttransition: background-color $transition-fast;\n\toutline: none;\n\n\t&:focus-visible {\n\t\tborder-color: $ring;\n\t\tbox-shadow:\n\t\t\t0 0 0 1px $ring,\n\t\t\t0 0 0 3px rgba($ring, 0.5);\n\t}\n\n\t&:disabled {\n\t\tcursor: not-allowed;\n\t\topacity: 0.5;\n\t}\n\n\t&[data-size='default'] {\n\t\twidth: 2rem;\n\t\theight: 1.15rem;\n\t}\n\n\t&[data-size='sm'] {\n\t\twidth: 1.5rem;\n\t\theight: 0.875rem;\n\t}\n\n\t&[data-state='checked'] {\n\t\tbackground-color: $primary;\n\t}\n\n\t&[data-state='unchecked'] {\n\t\tbackground-color: $input;\n\t}\n}\n\n.thumb {\n\tpointer-events: none;\n\tdisplay: block;\n\tborder-radius: $radius-full;\n\tbackground-color: $background;\n\ttransition: transform $transition-normal;\n\n\t[data-size='default'] & {\n\t\twidth: 1rem;\n\t\theight: 1rem;\n\t}\n\n\t[data-size='sm'] & {\n\t\twidth: 0.75rem;\n\t\theight: 0.75rem;\n\t}\n\n\t[data-state='checked'] & {\n\t\ttransform: translateX(calc(100% - 2px));\n\t}\n\n\t[data-state='unchecked'] & {\n\t\ttransform: translateX(0);\n\t}\n}\n"
+    }
+  ]
+}

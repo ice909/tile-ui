@@ -1,0 +1,144 @@
+@use 'variables/colors' as *;
+
+// 半透明遮罩
+.overlay {
+	position: fixed;
+	inset: 0;
+	z-index: $z-modal;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	&[data-state='open'] {
+		animation: dialog-overlay-in $transition-normal;
+	}
+
+	&[data-state='closed'] {
+		opacity: 0;
+	}
+}
+
+@keyframes dialog-overlay-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+// 弹层内容面板
+.content {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index: $z-modal;
+	display: grid;
+	width: 100%;
+	max-width: calc(100% - 2rem);
+	transform: translate(-50%, -50%);
+	gap: $spacing-4;
+	border: 1px solid $border;
+	border-radius: $radius-lg;
+	background-color: $card;
+	color: $card-foreground;
+	padding: $spacing-6;
+	box-shadow: $shadow-lg;
+	outline: none;
+
+	@media (min-width: 640px) {
+		max-width: 32rem;
+	}
+
+	&[data-state='open'] {
+		animation: dialog-content-in $transition-normal;
+	}
+
+	&[data-state='closed'] {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.95);
+	}
+}
+
+@keyframes dialog-content-in {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.95);
+	}
+
+	to {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
+}
+
+// 右上角关闭按钮
+.close {
+	position: absolute;
+	top: $spacing-4;
+	right: $spacing-4;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: $spacing-1;
+	border: none;
+	border-radius: $radius;
+	background-color: transparent;
+	color: $muted-foreground;
+	opacity: 0.7;
+	cursor: pointer;
+	transition: opacity $transition-fast;
+	outline: none;
+
+	&:hover {
+		opacity: 1;
+	}
+
+	&:focus-visible {
+		box-shadow:
+			0 0 0 2px $background,
+			0 0 0 4px $ring;
+	}
+
+	.xIcon {
+		width: 1rem;
+		height: 1rem;
+		pointer-events: none;
+	}
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-2;
+	text-align: center;
+
+	@media (min-width: 640px) {
+		text-align: left;
+	}
+}
+
+.footer {
+	display: flex;
+	flex-direction: column-reverse;
+	gap: $spacing-2;
+
+	@media (min-width: 640px) {
+		flex-direction: row;
+		justify-content: flex-end;
+	}
+}
+
+.title {
+	margin: 0;
+	font-size: $text-lg;
+	font-weight: $font-semibold;
+	line-height: $leading-none;
+	color: $foreground;
+}
+
+.description {
+	margin: 0;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	color: $muted-foreground;
+}

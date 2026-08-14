@@ -1,0 +1,105 @@
+@use 'variables/colors' as *;
+
+.root {
+	display: flex;
+	gap: $spacing-2;
+
+	&[data-orientation='horizontal'] {
+		flex-direction: column;
+	}
+
+	&[data-orientation='vertical'] {
+		flex-direction: row;
+	}
+}
+
+.list {
+	display: inline-flex;
+	width: fit-content;
+	align-items: center;
+	justify-content: center;
+	border-radius: $radius-lg;
+	padding: 3px;
+	background-color: $muted;
+	color: $muted-foreground;
+	transition: background-color $transition-fast;
+	outline: none;
+
+	&:focus-visible {
+		box-shadow:
+			0 0 0 2px $background,
+			0 0 0 4px $ring;
+	}
+
+	[data-orientation='horizontal'] & {
+		height: 2.25rem;
+	}
+
+	[data-orientation='vertical'] & {
+		height: fit-content;
+		flex-direction: column;
+	}
+}
+
+.trigger {
+	position: relative;
+	display: inline-flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-1_5;
+	border: 1px solid transparent;
+	border-radius: $radius-md;
+	padding: $spacing-1 $spacing-2;
+	font-size: $text-sm;
+	font-weight: $font-medium;
+	white-space: nowrap;
+	color: $muted-foreground;
+	transition:
+		color $transition-fast,
+		box-shadow $transition-fast;
+	outline: none;
+	user-select: none;
+
+	&:hover {
+		color: $foreground;
+	}
+
+	&:focus-visible {
+		border-color: $ring;
+		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+	}
+
+	&:disabled {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	&[data-state='active'] {
+		background-color: $background;
+		color: $foreground;
+		box-shadow: $shadow-sm;
+	}
+
+	[data-orientation='vertical'] & {
+		width: 100%;
+		justify-content: flex-start;
+	}
+
+	svg {
+		pointer-events: none;
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+	}
+}
+
+.content {
+	flex: 1;
+	border-radius: $radius;
+	outline: none;
+
+	&:focus-visible {
+		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+	}
+}

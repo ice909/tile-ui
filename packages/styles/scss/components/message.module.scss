@@ -1,0 +1,81 @@
+@use 'variables/colors' as *;
+
+// 消息组
+.group {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: $spacing-2;
+}
+
+// 消息行
+.message {
+	position: relative;
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	gap: $spacing-2;
+	font-size: $text-sm;
+
+	&.alignEnd {
+		flex-direction: row-reverse;
+	}
+}
+
+// 消息头像
+.avatar {
+	display: flex;
+	width: fit-content;
+	min-width: 2rem;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-end;
+	overflow: hidden;
+	border-radius: $radius-full;
+	background-color: $muted;
+}
+
+// 消息内容
+.content {
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	flex-direction: column;
+	gap: $spacing-2_5;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
+
+// 消息头部
+.header {
+	display: flex;
+	max-width: 100%;
+	min-width: 0;
+	align-items: center;
+	padding-inline: $spacing-3;
+	font-size: $text-xs;
+	font-weight: $font-medium;
+	color: $muted-foreground;
+}
+
+// 消息底部
+.footer {
+	display: flex;
+	max-width: 100%;
+	min-width: 0;
+	align-items: center;
+	padding-inline: $spacing-3;
+	font-size: $text-xs;
+	font-weight: $font-medium;
+	color: $muted-foreground;
+
+	.message.alignEnd & {
+		justify-content: flex-end;
+	}
+}
+
+// 对齐到末端时，内容区内直接子元素右对齐
+.message.alignEnd .content > * {
+	align-self: flex-end;
+}

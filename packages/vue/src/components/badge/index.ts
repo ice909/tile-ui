@@ -1,0 +1,1 @@
+export { TBadge } from './badge';

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapsible",
+  "type": "registry:ui",
+  "title": "Collapsible",
+  "description": "Accessible collapsible content component for Tile UI.",
+  "dependencies": [
+    "vue"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/vue/src/components/collapsible/collapsible.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/collapsible/collapsible.tsx",
+      "content": "import { computed, defineComponent, h, inject, provide, ref, type ComputedRef, type InjectionKey } from 'vue';\nimport { collapsibleStyleKeys, getCollapsibleState } from '../lib/core';\nimport styles from './collapsible.module.scss';\n\ninterface CollapsibleContextValue {\n\topen: boolean;\n\tdisabled: boolean;\n\tcontentId: string;\n\ttoggle: () => void;\n}\n\ntype CollapsibleContext = ComputedRef<CollapsibleContextValue>;\n\nconst CollapsibleContextKey: InjectionKey<CollapsibleContext> = Symbol('tile-collapsible');\n\nlet collapsibleCounter = 0;\n\nexport const TCollapsible = defineComponent({\n\tname: 'TCollapsible',\n\tprops: {\n\t\topen: Boolean,\n\t\tdefaultOpen: { type: Boolean, default: false },\n\t\tdisabled: { type: Boolean, default: false },\n\t},\n\temits: ['update:open'],\n\tsetup(props, { emit, slots }) {\n\t\tconst internalOpen = ref(props.defaultOpen);\n\t\tconst isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));\n\t\tconst contentId = `tile-collapsible-${++collapsibleCounter}`;\n\n\t\tfunction toggle() {\n\t\t\tif (props.disabled) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tconst next = !isOpen.value;\n\n\t\t\tif (props.open === undefined) {\n\t\t\t\tinternalOpen.value = next;\n\t\t\t}\n\n\t\t\temit('update:open', next);\n\t\t}\n\n\t\tconst context = computed<CollapsibleContextValue>(() => ({\n\t\t\topen: isOpen.value,\n\t\t\tdisabled: props.disabled,\n\t\t\tcontentId,\n\t\t\ttoggle,\n\t\t}));\n\n\t\tprovide(CollapsibleContextKey, context);\n\n\t\treturn () => h('div', { class: styles[collapsibleStyleKeys.root] }, slots.default?.());\n\t},\n});\n\nexport const TCollapsibleTrigger = defineComponent({\n\tname: 'TCollapsibleTrigger',\n\tsetup(_props, { slots }) {\n\t\tconst context = inject(CollapsibleContextKey);\n\t\tif (!context) {\n\t\t\tthrow new Error('TCollapsibleTrigger must be used within <TCollapsible>.');\n\t\t}\n\n\t\treturn () =>\n\t\t\th(\n\t\t\t\t'button',\n\t\t\t\t{\n\t\t\t\t\ttype: 'button',\n\t\t\t\t\t'aria-expanded': context.value.open,\n\t\t\t\t\t'aria-controls': context.value.contentId,\n\t\t\t\t\t'data-state': getCollapsibleState(context.value.open),\n\t\t\t\t\tdisabled: context.value.disabled,\n\t\t\t\t\tclass: styles[collapsibleStyleKeys.trigger],\n\t\t\t\t\tonClick: context.value.toggle,\n\t\t\t\t},\n\t\t\t\tslots.default?.(),\n\t\t\t);\n\t},\n});\n\nexport const TCollapsibleContent = defineComponent({\n\tname: 'TCollapsibleContent',\n\tsetup(_props, { slots }) {\n\t\tconst context = inject(CollapsibleContextKey);\n\t\tif (!context) {\n\t\t\tthrow new Error('TCollapsibleContent must be used within <TCollapsible>.');\n\t\t}\n\n\t\treturn () =>\n\t\t\th('div', { id: context.value.contentId, 'data-state': getCollapsibleState(context.value.open), class: styles[collapsibleStyleKeys.content] }, [\n\t\t\t\th('div', { class: styles[collapsibleStyleKeys.contentInner] }, slots.default?.()),\n\t\t\t]);\n\t},\n});\n\nexport default TCollapsible;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/collapsible.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/collapsible/collapsible.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\twidth: 100%;\n}\n\n.trigger {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tjustify-content: space-between;\n\tgap: $spacing-2;\n\tborder-radius: $radius;\n\ttransition: background-color $transition-fast;\n\toutline: none;\n\n\t&:hover {\n\t\tbackground-color: $muted;\n\t}\n\n\t&:focus-visible {\n\t\tbox-shadow:\n\t\t\t0 0 0 2px $background,\n\t\t\t0 0 0 4px $ring;\n\t}\n\n\t&[disabled] {\n\t\tpointer-events: none;\n\t\topacity: 0.5;\n\t}\n}\n\n.content {\n\tdisplay: grid;\n\tgrid-template-rows: 0fr;\n\ttransition: grid-template-rows $transition-slow;\n\n\t&[data-state='open'] {\n\t\tgrid-template-rows: 1fr;\n\t}\n}\n\n.contentInner {\n\toverflow: hidden;\n\tmin-height: 0;\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+@use 'variables/colors' as *;
+
+.root {
+	width: 100%;
+}
+
+.trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: $spacing-2;
+	border-radius: $radius;
+	transition: background-color $transition-fast;
+	outline: none;
+
+	&:hover {
+		background-color: $muted;
+	}
+
+	&:focus-visible {
+		box-shadow:
+			0 0 0 2px $background,
+			0 0 0 4px $ring;
+	}
+
+	&[disabled] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}
+
+.content {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows $transition-slow;
+
+	&[data-state='open'] {
+		grid-template-rows: 1fr;
+	}
+}
+
+.contentInner {
+	overflow: hidden;
+	min-height: 0;
+}

@@ -1,0 +1,74 @@
+@use 'variables/colors' as *;
+
+// 轮播根容器
+.root {
+	position: relative;
+}
+
+// 滚动视口
+.viewport {
+	overflow: hidden;
+	scroll-snap-type: x mandatory;
+
+	// 隐藏滚动条
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	scrollbar-width: none;
+}
+
+// 内部 flex 容器
+.container {
+	display: flex;
+	gap: $spacing-4;
+}
+
+// 单个 item
+.item {
+	flex: 0 0 100%;
+	min-width: 0;
+	scroll-snap-align: start;
+}
+
+// 上一张 / 下一张按钮 (仅定位，尺寸沿用 Button)
+.previous,
+.next {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.previous {
+	left: $spacing-4;
+}
+
+.next {
+	right: $spacing-4;
+}
+
+// 垂直方向
+.root[data-orientation='vertical'] {
+	.viewport {
+		scroll-snap-type: y mandatory;
+	}
+
+	.container {
+		flex-direction: column;
+	}
+
+	.previous,
+	.next {
+		top: auto;
+		left: 50%;
+		transform: translateX(-50%) rotate(90deg);
+	}
+
+	.previous {
+		bottom: $spacing-4;
+	}
+
+	.next {
+		top: $spacing-4;
+	}
+}

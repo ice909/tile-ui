@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "type": "registry:ui",
+  "title": "Spinner",
+  "description": "Loading spinner component for Tile UI.",
+  "dependencies": [
+    "vue"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/vue/src/components/spinner/spinner.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/spinner/spinner.tsx",
+      "content": "import { defineComponent, h, type PropType } from 'vue';\nimport { getSpinnerSize, spinnerStyleKeys } from '../lib/core';\nimport type { SpinnerSize } from '../lib/core';\nimport styles from './spinner.module.scss';\n\nexport const TSpinner = defineComponent({\n\tname: 'TSpinner',\n\tprops: {\n\t\tsize: {\n\t\t\ttype: String as PropType<SpinnerSize>,\n\t\t\tdefault: 'default',\n\t\t},\n\t},\n\tsetup(props, { attrs }) {\n\t\treturn () =>\n\t\t\th(\n\t\t\t\t'svg',\n\t\t\t\t{\n\t\t\t\t\t...attrs,\n\t\t\t\t\t'data-slot': 'spinner',\n\t\t\t\t\trole: 'status',\n\t\t\t\t\t'aria-label': 'Loading',\n\t\t\t\t\t'data-size': getSpinnerSize(props.size),\n\t\t\t\t\txmlns: 'http://www.w3.org/2000/svg',\n\t\t\t\t\tviewBox: '0 0 24 24',\n\t\t\t\t\tfill: 'none',\n\t\t\t\t\tstroke: 'currentColor',\n\t\t\t\t\t'stroke-width': 2,\n\t\t\t\t\t'stroke-linecap': 'round',\n\t\t\t\t\t'stroke-linejoin': 'round',\n\t\t\t\t\tclass: [styles[spinnerStyleKeys.root], attrs.class],\n\t\t\t\t},\n\t\t\t\t[h('path', { d: 'M21 12a9 9 0 1 1-6.219-8.56' })],\n\t\t\t);\n\t},\n});\n\nexport default TSpinner;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/spinner.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/spinner/spinner.module.scss",
+      "content": "@use 'sass:color';\n@use '../../../styles/variables/colors' as *;\n\n// 旋转动画\n@keyframes tile-spinner-rotate {\n\tfrom {\n\t\ttransform: rotate(0deg);\n\t}\n\n\tto {\n\t\ttransform: rotate(360deg);\n\t}\n}\n\n// Spinner 根元素（svg）\n.root {\n\tflex-shrink: 0;\n\tcolor: $muted-foreground;\n\tanimation: tile-spinner-rotate 0.8s linear infinite;\n\n\t// 尺寸\n\t&[data-size='sm'] {\n\t\twidth: $spacing-4;\n\t\theight: $spacing-4;\n\t}\n\n\t&[data-size='default'] {\n\t\twidth: $spacing-5;\n\t\theight: $spacing-5;\n\t}\n\n\t&[data-size='lg'] {\n\t\twidth: $spacing-8;\n\t\theight: $spacing-8;\n\t}\n}\n"
+    }
+  ]
+}

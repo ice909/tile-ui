@@ -1,0 +1,140 @@
+@use 'sass:color';
+@use 'variables/colors' as *;
+
+// Item 组容器
+.group {
+	display: flex;
+	flex-direction: column;
+}
+
+// 条目分隔线
+.separator {
+	flex-shrink: 0;
+	height: 1px;
+	width: 100%;
+	background-color: $border;
+}
+
+// 条目根容器
+.item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: $spacing-4;
+	padding: $spacing-4;
+	border-radius: $radius;
+	border: 1px solid transparent;
+	font-size: $text-sm;
+	transition: background-color $transition-fast;
+	outline: none;
+
+	&:focus-visible {
+		border-color: $ring;
+		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+	}
+
+	a {
+		transition: background-color $transition-fast;
+	}
+
+	a:hover {
+		background-color: rgba($accent, 0.5);
+	}
+
+	// 样式变体
+	&.variantNeutral {
+		background-color: transparent;
+	}
+
+	&.variantSelected {
+		background-color: $muted;
+		border-color: $border;
+	}
+
+	&.variantHoverable {
+		background-color: transparent;
+
+		&:hover {
+			background-color: rgba($muted, 0.7);
+		}
+	}
+}
+
+// 媒体区
+.media {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-2;
+
+	svg {
+		pointer-events: none;
+		flex-shrink: 0;
+		width: $spacing-4;
+		height: $spacing-4;
+	}
+}
+
+// 内容区
+.content {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: $spacing-1;
+}
+
+// 相邻的第二个内容区不参与 flex 拉伸
+.content + .content {
+	flex: none;
+}
+
+// 标题
+.title {
+	display: flex;
+	width: fit-content;
+	align-items: center;
+	gap: $spacing-2;
+	font-size: $text-sm;
+	line-height: $leading-tight;
+	font-weight: $font-medium;
+}
+
+// 描述
+.description {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	font-weight: $font-normal;
+	color: $muted-foreground;
+	text-wrap: balance;
+
+	a {
+		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+
+	a:hover {
+		color: $primary;
+	}
+}
+
+// 操作区
+.actions {
+	display: flex;
+	align-items: center;
+	gap: $spacing-2;
+}
+
+// 头部 / 底部
+.header,
+.footer {
+	display: flex;
+	flex-basis: 100%;
+	align-items: center;
+	justify-content: space-between;
+	gap: $spacing-2;
+}

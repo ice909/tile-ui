@@ -1,0 +1,98 @@
+@use 'variables/colors' as *;
+
+// 面板组
+.group {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+
+	&[data-direction='vertical'] {
+		flex-direction: column;
+	}
+}
+
+// 单个面板
+.panel {
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+
+// 拖拽手柄 (分割条)
+.handle {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	background-color: $border;
+	touch-action: none;
+	outline: none;
+
+	&::after {
+		content: '';
+		position: absolute;
+		background-color: transparent;
+		transition: background-color $transition-fast;
+	}
+
+	&:hover::after,
+	&[data-active='true']::after {
+		background-color: $ring;
+	}
+
+	&:focus-visible {
+		box-shadow:
+			0 0 0 2px $background,
+			0 0 0 4px $ring;
+	}
+
+	.handleBar {
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 0.75rem;
+		height: 1rem;
+		border: 1px solid $border;
+		border-radius: 2px;
+		background-color: $border;
+
+		svg {
+			width: 0.625rem;
+			height: 0.625rem;
+		}
+	}
+}
+
+// 水平方向：纵向分割条
+.group[data-direction='horizontal'] > .handle {
+	width: 1px;
+	align-self: stretch;
+	cursor: col-resize;
+
+	&::after {
+		inset: 0 -3px;
+	}
+}
+
+// 垂直方向：横向分割条
+.group[data-direction='vertical'] > .handle {
+	height: 1px;
+	align-self: stretch;
+	cursor: row-resize;
+
+	&::after {
+		inset: -3px 0;
+	}
+
+	.handleBar {
+		width: 1rem;
+		height: 0.75rem;
+
+		svg {
+			transform: rotate(90deg);
+		}
+	}
+}

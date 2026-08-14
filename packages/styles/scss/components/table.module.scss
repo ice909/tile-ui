@@ -1,0 +1,92 @@
+@use 'variables/colors' as *;
+
+.container {
+	position: relative;
+	width: 100%;
+	overflow-x: auto;
+}
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: $text-sm;
+	text-align: left;
+	caption-side: bottom;
+}
+
+.header {
+	tr {
+		border-bottom: 1px solid $border;
+	}
+}
+
+.body {
+	tr:last-child {
+		border-bottom: 0;
+	}
+}
+
+.footer {
+	border-top: 1px solid $border;
+	background-color: rgba($muted, 0.5);
+	font-weight: $font-medium;
+
+	> tr {
+		border-bottom-width: 0;
+	}
+}
+
+.row {
+	border-bottom: 1px solid $border;
+	transition: background-color $transition-fast;
+
+	&:hover {
+		background-color: rgba($muted, 0.5);
+	}
+
+	&:has([aria-expanded='true']) {
+		background-color: rgba($muted, 0.5);
+	}
+
+	&[data-state='selected'] {
+		background-color: $muted;
+	}
+}
+
+.head {
+	height: 2.5rem;
+	padding: 0 $spacing-2;
+	text-align: left;
+	vertical-align: middle;
+	font-weight: $font-medium;
+	color: $foreground;
+	white-space: nowrap;
+
+	&:has([role='checkbox']) {
+		padding-right: 0;
+	}
+
+	> [role='checkbox'] {
+		transform: translateY(2px);
+	}
+}
+
+.cell {
+	padding: $spacing-2;
+	vertical-align: middle;
+	white-space: nowrap;
+
+	&:has([role='checkbox']) {
+		padding-right: 0;
+	}
+
+	> [role='checkbox'] {
+		transform: translateY(2px);
+	}
+}
+
+.caption {
+	margin-top: $spacing-4;
+	font-size: $text-sm;
+	color: $muted-foreground;
+}

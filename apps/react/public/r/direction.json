@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "direction",
+  "type": "registry:ui",
+  "title": "Direction",
+  "description": "Direction provider for Tile UI.",
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/react/src/components/direction/direction.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/direction/direction.tsx",
+      "content": "import React, { createContext, useContext } from 'react';\nimport { normalizeDirection } from '../lib/core';\nimport type { DirectionBaseProps, DirectionValue } from '../lib/core';\n\ninterface DirectionContextValue {\n\tdir: DirectionValue;\n}\n\nconst DirectionContext = createContext<DirectionContextValue>({ dir: 'ltr' });\n\nexport interface DirectionProviderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'dir'>, DirectionBaseProps {\n\t/** 阅读方向 (dir 的别名，用于兼容上游 API) */\n\tdirection?: DirectionValue;\n}\n\nconst DirectionProvider = React.forwardRef<HTMLDivElement, DirectionProviderProps>(({ dir, direction, children, ...props }, ref) => {\n\tconst value: DirectionValue = normalizeDirection(direction ?? dir);\n\n\treturn (\n\t\t<DirectionContext.Provider value={{ dir: value }}>\n\t\t\t<div ref={ref} dir={value} {...props}>\n\t\t\t\t{children}\n\t\t\t</div>\n\t\t</DirectionContext.Provider>\n\t);\n});\nDirectionProvider.displayName = 'DirectionProvider';\n\n/**\n * 读取当前阅读方向\n */\nfunction useDirection(): DirectionValue {\n\treturn useContext(DirectionContext).dir;\n}\n\nexport { DirectionProvider, useDirection };\nexport default DirectionProvider;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/direction.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/direction/direction.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n// 方向提供器占位 (方向切换通过 dir 属性实现，无需额外样式)\n.root {\n\tdisplay: contents;\n}\n"
+    }
+  ]
+}

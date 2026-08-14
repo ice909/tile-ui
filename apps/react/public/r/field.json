@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "field",
+  "type": "registry:ui",
+  "title": "Field",
+  "description": "Field label/description/message wrapper for Tile UI.",
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/react/src/components/field/field.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/field/field.tsx",
+      "content": "import React, { createContext, useContext, useId } from 'react';\nimport { fieldStyleKeys, getFieldIds, getFieldMessageStyleKeys } from '../lib/core';\nimport type { FieldBaseProps, FieldDescriptionBaseProps, FieldLabelBaseProps, FieldMessageBaseProps } from '../lib/core';\nimport styles from './field.module.scss';\n\ninterface FieldContextValue {\n\tid: string;\n\tlabelId: string;\n\tdescriptionId: string;\n\tmessageId: string;\n\tinvalid: boolean;\n\trequired: boolean;\n}\n\nconst FieldContext = createContext<FieldContextValue | null>(null);\n\nfunction useFieldContext(): FieldContextValue {\n\tconst context = useContext(FieldContext);\n\tif (!context) {\n\t\tthrow new Error('Field sub-components must be used within <Field>.');\n\t}\n\treturn context;\n}\n\nexport interface FieldProps extends React.HTMLAttributes<HTMLDivElement>, FieldBaseProps {}\n\nconst Field = React.forwardRef<HTMLDivElement, FieldProps>(({ className = '', name, invalid = false, required = false, children, ...props }, ref) => {\n\tconst generatedId = useId();\n\tconst ids = getFieldIds(name ?? generatedId);\n\tconst context: FieldContextValue = { ...ids, invalid, required };\n\n\treturn (\n\t\t<FieldContext.Provider value={context}>\n\t\t\t<div ref={ref} role=\"group\" data-slot=\"field\" data-invalid={invalid} data-required={required} className={`${styles[fieldStyleKeys.root]} ${className}`} {...props}>\n\t\t\t\t{children}\n\t\t\t</div>\n\t\t</FieldContext.Provider>\n\t);\n});\nField.displayName = 'Field';\n\nexport interface FieldLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement>, FieldLabelBaseProps {}\n\nconst FieldLabel = React.forwardRef<HTMLLabelElement, FieldLabelProps>(({ className = '', htmlFor, children, ...props }, ref) => {\n\tconst context = useFieldContext();\n\n\treturn (\n\t\t<label ref={ref} htmlFor={htmlFor ?? context.id} id={context.labelId} data-slot=\"field-label\" className={`${styles[fieldStyleKeys.label]} ${className}`} {...props}>\n\t\t\t{children}\n\t\t</label>\n\t);\n});\nFieldLabel.displayName = 'FieldLabel';\n\nexport interface FieldDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement>, FieldDescriptionBaseProps {}\n\nconst FieldDescription = React.forwardRef<HTMLParagraphElement, FieldDescriptionProps>(({ className = '', children, ...props }, ref) => {\n\tconst context = useFieldContext();\n\n\treturn (\n\t\t<p ref={ref} id={context.descriptionId} data-slot=\"field-description\" className={`${styles[fieldStyleKeys.description]} ${className}`} {...props}>\n\t\t\t{children}\n\t\t</p>\n\t);\n});\nFieldDescription.displayName = 'FieldDescription';\n\nexport interface FieldMessageProps extends React.HTMLAttributes<HTMLDivElement>, FieldMessageBaseProps {}\n\nconst FieldMessage = React.forwardRef<HTMLDivElement, FieldMessageProps>(({ className = '', variant = 'default', children, ...props }, ref) => {\n\tconst context = useFieldContext();\n\tconst styleKeys = getFieldMessageStyleKeys(variant);\n\tconst classes = [styles[styleKeys.base], styles[styleKeys.variant], className].filter(Boolean).join(' ');\n\n\treturn (\n\t\t<div ref={ref} id={context.messageId} role={variant === 'error' ? 'alert' : undefined} data-slot=\"field-message\" data-variant={variant} className={classes} {...props}>\n\t\t\t{children}\n\t\t</div>\n\t);\n});\nFieldMessage.displayName = 'FieldMessage';\n\nexport { Field, FieldLabel, FieldDescription, FieldMessage };\nexport default Field;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/field.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/field/field.module.scss",
+      "content": "@use 'sass:color';\n@use '../../../styles/variables/colors' as *;\n\n.root {\n\tdisplay: flex;\n\twidth: 100%;\n\tflex-direction: column;\n\tgap: $spacing-1_5;\n\n\t&[data-invalid='true'] {\n\t\tcolor: $destructive;\n\t}\n}\n\n.label {\n\twidth: fit-content;\n\tfont-size: $text-sm;\n\tfont-weight: $font-medium;\n\tline-height: $leading-tight;\n\tcolor: $foreground;\n\ttransition: color $transition-fast;\n\n\t.root[data-invalid='true'] & {\n\t\tcolor: $destructive;\n\t}\n}\n\n.description {\n\tfont-size: $text-sm;\n\tline-height: $leading-normal;\n\tcolor: $muted-foreground;\n}\n\n.message {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: $spacing-1;\n\tfont-size: $text-xs;\n\tline-height: $leading-normal;\n\tcolor: $muted-foreground;\n\n\t// 样式变体\n\t&.variantDefault {\n\t\tcolor: $muted-foreground;\n\t}\n\n\t&.variantError {\n\t\tcolor: $destructive;\n\t}\n\n\t&.variantWarning {\n\t\tcolor: $warning;\n\t}\n\n\t&.variantSuccess {\n\t\tcolor: $success;\n\t}\n\n\t&.variantInfo {\n\t\tcolor: $info;\n\t}\n}\n"
+    }
+  ]
+}

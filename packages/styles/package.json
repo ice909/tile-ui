@@ -2,6 +2,15 @@
 	"name": "@tile-ui/styles",
 	"version": "1.0.1",
 	"private": false,
+	"homepage": "https://github.com/zmide/tile-ui/tree/main/packages/styles",
+	"bugs": {
+		"url": "https://github.com/zmide/tile-ui/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/zmide/tile-ui.git",
+		"directory": "packages/styles"
+	},
 	"files": [
 		"README.md",
 		"scss",
@@ -17,15 +26,6 @@
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/zmide/tile-ui.git",
-		"directory": "packages/styles"
-	},
-	"homepage": "https://github.com/zmide/tile-ui/tree/main/packages/styles",
-	"bugs": {
-		"url": "https://github.com/zmide/tile-ui/issues"
 	},
 	"scripts": {
 		"build": "node build.js",

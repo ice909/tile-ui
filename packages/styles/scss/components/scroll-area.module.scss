@@ -1,0 +1,66 @@
+@use 'variables/colors' as *;
+
+.root {
+	position: relative;
+	overflow: hidden;
+}
+
+.viewport {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+	}
+}
+
+.scrollbar {
+	position: absolute;
+	z-index: 10;
+	display: flex;
+	padding: 1px;
+	touch-action: none;
+	user-select: none;
+	transition: opacity $transition-fast;
+
+	&.vertical {
+		top: 0;
+		right: 0;
+		width: 0.625rem;
+		height: 100%;
+		border-left: 1px solid transparent;
+	}
+
+	&.horizontal {
+		bottom: 0;
+		left: 0;
+		height: 0.625rem;
+		width: 100%;
+		flex-direction: column;
+		border-top: 1px solid transparent;
+	}
+}
+
+.thumb {
+	position: relative;
+	border-radius: $radius-full;
+	background-color: $border;
+
+	.vertical & {
+		width: 100%;
+		height: 100%;
+	}
+
+	.horizontal & {
+		height: 100%;
+		width: 100%;
+	}
+}

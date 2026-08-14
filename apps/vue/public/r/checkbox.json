@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "description": "Accessible checkbox with indeterminate state for Tile UI.",
+  "dependencies": [
+    "vue"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/vue/src/components/checkbox/checkbox.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/checkbox/checkbox.tsx",
+      "content": "import { defineComponent, computed, h, type PropType } from 'vue';\nimport { checkboxStyleKeys, getCheckboxState, getNextCheckboxState } from '../lib/core';\nimport type { CheckboxCheckedState } from '../lib/core';\nimport styles from './checkbox.module.scss';\n\nexport const TCheckbox = defineComponent({\n\tname: 'TCheckbox',\n\tprops: {\n\t\tmodelValue: {\n\t\t\ttype: [Boolean, String] as PropType<boolean | 'indeterminate'>,\n\t\t\tdefault: false,\n\t\t},\n\t\tdisabled: { type: Boolean, default: false },\n\t},\n\temits: ['update:modelValue', 'change'],\n\tsetup(props, { emit }) {\n\t\tconst checked = computed<CheckboxCheckedState>(() => (props.modelValue === 'indeterminate' ? 'indeterminate' : !!props.modelValue));\n\t\tconst state = computed(() => getCheckboxState(checked.value));\n\n\t\tfunction handleClick() {\n\t\t\tconst next = getNextCheckboxState(checked.value);\n\t\t\temit('update:modelValue', next);\n\t\t\temit('change', next);\n\t\t}\n\n\t\treturn () =>\n\t\t\th(\n\t\t\t\t'button',\n\t\t\t\t{\n\t\t\t\t\ttype: 'button',\n\t\t\t\t\trole: 'checkbox',\n\t\t\t\t\t'aria-checked': state.value,\n\t\t\t\t\t'data-state': state.value,\n\t\t\t\t\tdisabled: props.disabled,\n\t\t\t\t\tclass: styles[checkboxStyleKeys.root],\n\t\t\t\t\tonClick: handleClick,\n\t\t\t\t},\n\t\t\t\t[\n\t\t\t\t\th('span', { class: styles[checkboxStyleKeys.indicator] }, [\n\t\t\t\t\t\tstate.value === 'checked'\n\t\t\t\t\t\t\t? h(\n\t\t\t\t\t\t\t\t\t'svg',\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\txmlns: 'http://www.w3.org/2000/svg',\n\t\t\t\t\t\t\t\t\t\tviewBox: '0 0 24 24',\n\t\t\t\t\t\t\t\t\t\tfill: 'none',\n\t\t\t\t\t\t\t\t\t\tstroke: 'currentColor',\n\t\t\t\t\t\t\t\t\t\t'stroke-width': '3',\n\t\t\t\t\t\t\t\t\t\t'stroke-linecap': 'round',\n\t\t\t\t\t\t\t\t\t\t'stroke-linejoin': 'round',\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t[h('path', { d: 'M20 6 9 17l-5-5' })],\n\t\t\t\t\t\t\t\t)\n\t\t\t\t\t\t\t: null,\n\t\t\t\t\t\tstate.value === 'mixed'\n\t\t\t\t\t\t\t? h(\n\t\t\t\t\t\t\t\t\t'svg',\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\txmlns: 'http://www.w3.org/2000/svg',\n\t\t\t\t\t\t\t\t\t\tviewBox: '0 0 24 24',\n\t\t\t\t\t\t\t\t\t\tfill: 'none',\n\t\t\t\t\t\t\t\t\t\tstroke: 'currentColor',\n\t\t\t\t\t\t\t\t\t\t'stroke-width': '3',\n\t\t\t\t\t\t\t\t\t\t'stroke-linecap': 'round',\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t[h('path', { d: 'M5 12h14' })],\n\t\t\t\t\t\t\t\t)\n\t\t\t\t\t\t\t: null,\n\t\t\t\t\t]),\n\t\t\t\t],\n\t\t\t);\n\t},\n});\n\nexport default TCheckbox;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/checkbox.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/checkbox/checkbox.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\tdisplay: inline-flex;\n\tflex-shrink: 0;\n\talign-items: center;\n\tjustify-content: center;\n\twidth: 1rem;\n\theight: 1rem;\n\tborder-radius: 4px;\n\tborder: 1px solid $input;\n\tbox-shadow: $shadow-sm;\n\ttransition:\n\t\tbackground-color $transition-fast,\n\t\tborder-color $transition-fast,\n\t\tbox-shadow $transition-fast;\n\toutline: none;\n\n\t&:focus-visible {\n\t\tborder-color: $ring;\n\t\tbox-shadow: 0 0 0 1px $ring;\n\t\toutline: none;\n\t}\n\n\t&:disabled {\n\t\tcursor: not-allowed;\n\t\topacity: 0.5;\n\t}\n\n\t&[aria-invalid='true'] {\n\t\tborder-color: $destructive;\n\n\t\t&:focus-visible {\n\t\t\tbox-shadow: 0 0 0 1px $destructive;\n\t\t}\n\t}\n\n\t&[data-state='checked'],\n\t&[data-state='mixed'] {\n\t\tborder-color: $primary;\n\t\tbackground-color: $primary;\n\t\tcolor: $primary-foreground;\n\t}\n}\n\n.indicator {\n\tdisplay: grid;\n\tplace-content: center;\n\tcolor: currentColor;\n\n\tsvg {\n\t\twidth: 0.875rem;\n\t\theight: 0.875rem;\n\t}\n}\n"
+    }
+  ]
+}

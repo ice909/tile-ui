@@ -1,0 +1,204 @@
+@use 'variables/colors' as *;
+
+// 根容器
+.root {
+	position: relative;
+	display: inline-flex;
+	width: 100%;
+}
+
+// 触发器按钮
+.trigger {
+	display: inline-flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+	gap: $spacing-2;
+	border-radius: $radius;
+	border: 1px solid $input;
+	background-color: transparent;
+	padding: $spacing-2 $spacing-3;
+	font-size: $text-sm;
+	white-space: nowrap;
+	color: $foreground;
+	box-shadow: $shadow-sm;
+	transition:
+		color $transition-fast,
+		box-shadow $transition-fast;
+	outline: none;
+	cursor: pointer;
+
+	&:focus-visible {
+		border-color: $ring;
+		box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.5);
+	}
+
+	&[data-disabled='true'] {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+}
+
+// 触发器展示文本
+.triggerValue {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	gap: $spacing-2;
+	overflow: hidden;
+	text-align: left;
+
+	&[data-placeholder='true'] {
+		color: $muted-foreground;
+	}
+}
+
+// 触发器箭头
+.triggerIcon {
+	pointer-events: none;
+	flex-shrink: 0;
+	width: 1rem;
+	height: 1rem;
+	color: $muted-foreground;
+}
+
+// 弹出内容面板
+.content {
+	position: fixed;
+	z-index: $z-dropdown;
+	width: max-content;
+	min-width: 8rem;
+	max-height: 24rem;
+	overflow: hidden;
+	border-radius: $radius;
+	border: 1px solid $border;
+	background-color: $popover;
+	color: $popover-foreground;
+	box-shadow: $shadow-md;
+	outline: none;
+	transition:
+		opacity $transition-fast,
+		visibility $transition-fast,
+		transform $transition-fast;
+
+	&[data-state='closed'] {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transform: translateY(-0.25rem) scale(0.95);
+	}
+
+	&[data-state='open'] {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: translate(0, 0) scale(1);
+	}
+}
+
+// 搜索框容器
+.search {
+	display: flex;
+	align-items: center;
+	gap: $spacing-2;
+	border-bottom: 1px solid $border;
+	padding: $spacing-2;
+}
+
+// 搜索输入框
+.searchInput {
+	width: 100%;
+	border: none;
+	background: transparent;
+	padding: 0;
+	font-size: $text-sm;
+	color: $foreground;
+	outline: none;
+
+	&::placeholder {
+		color: $muted-foreground;
+	}
+}
+
+// 候选项列表
+.list {
+	max-height: 15rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: $spacing-1;
+}
+
+// 候选项
+.item {
+	position: relative;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	gap: $spacing-2;
+	border-radius: $radius-sm;
+	padding: $spacing-1_5 $spacing-2 $spacing-1_5 $spacing-8;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	color: $popover-foreground;
+	outline: none;
+	cursor: default;
+	user-select: none;
+
+	&[data-highlighted='true'] {
+		background-color: $accent;
+		color: $accent-foreground;
+	}
+
+	&[data-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}
+
+// 选中指示器
+.itemIndicator {
+	position: absolute;
+	left: $spacing-2;
+	display: inline-flex;
+	width: 0.875rem;
+	height: 0.875rem;
+	align-items: center;
+	justify-content: center;
+
+	& > svg {
+		width: 1rem;
+		height: 1rem;
+	}
+}
+
+// 空状态提示
+.empty {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	padding: $spacing-6;
+	text-align: center;
+	font-size: $text-sm;
+	color: $muted-foreground;
+}
+
+// 分组容器
+.group {
+	display: block;
+}
+
+// 分组标题
+.label {
+	padding: $spacing-1_5 $spacing-2;
+	font-size: $text-xs;
+	font-weight: $font-medium;
+	color: $muted-foreground;
+}
+
+// 分隔线
+.separator {
+	margin: $spacing-1 (-$spacing-1);
+	height: 1px;
+	background-color: $border;
+}

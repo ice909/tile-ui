@@ -1,0 +1,88 @@
+@use 'variables/colors' as *;
+
+.root {
+	position: relative;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	touch-action: none;
+	user-select: none;
+
+	&[data-orientation='vertical'] {
+		width: auto;
+		height: 100%;
+		min-height: 11rem;
+		flex-direction: column;
+	}
+
+	&[data-disabled='true'] {
+		opacity: 0.5;
+	}
+}
+
+.track {
+	position: relative;
+	flex-grow: 1;
+	overflow: hidden;
+	border-radius: $radius-full;
+	background-color: $muted;
+
+	[data-orientation='horizontal'] & {
+		height: 0.375rem;
+		width: 100%;
+	}
+
+	[data-orientation='vertical'] & {
+		height: 100%;
+		width: 0.375rem;
+	}
+}
+
+.range {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: $primary;
+
+	[data-orientation='horizontal'] & {
+		height: 100%;
+	}
+
+	[data-orientation='vertical'] & {
+		width: 100%;
+	}
+}
+
+.thumb {
+	position: absolute;
+	display: block;
+	width: 1rem;
+	height: 1rem;
+	border: 1px solid $primary;
+	border-radius: $radius-full;
+	background-color: $background;
+	box-shadow: $shadow-sm;
+	transition: box-shadow $transition-fast;
+	outline: none;
+	cursor: grab;
+
+	&:active {
+		cursor: grabbing;
+	}
+
+	&:focus-visible {
+		box-shadow:
+			0 0 0 1px $ring,
+			0 0 0 4px rgba($ring, 0.5);
+	}
+
+	[data-orientation='horizontal'] & {
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	[data-orientation='vertical'] & {
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}

@@ -1,0 +1,36 @@
+@use 'sass:color';
+@use 'variables/colors' as *;
+
+// 旋转动画
+@keyframes tile-spinner-rotate {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+// Spinner 根元素（svg）
+.root {
+	flex-shrink: 0;
+	color: $muted-foreground;
+	animation: tile-spinner-rotate 0.8s linear infinite;
+
+	// 尺寸
+	&[data-size='sm'] {
+		width: $spacing-4;
+		height: $spacing-4;
+	}
+
+	&[data-size='default'] {
+		width: $spacing-5;
+		height: $spacing-5;
+	}
+
+	&[data-size='lg'] {
+		width: $spacing-8;
+		height: $spacing-8;
+	}
+}

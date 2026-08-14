@@ -1,0 +1,135 @@
+@use 'variables/colors' as *;
+
+// 半透明遮罩
+.overlay {
+	position: fixed;
+	inset: 0;
+	z-index: $z-modal;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	&[data-state='open'] {
+		animation: sheet-overlay-in $transition-normal;
+	}
+
+	&[data-state='closed'] {
+		opacity: 0;
+	}
+}
+
+@keyframes sheet-overlay-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+// 侧滑面板
+.content {
+	position: fixed;
+	z-index: $z-modal;
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-4;
+	background-color: $card;
+	color: $card-foreground;
+	box-shadow: $shadow-lg;
+	outline: none;
+	transition:
+		transform $transition-slow,
+		opacity $transition-fast;
+
+	&[data-side='right'] {
+		inset: 0 0 0 auto;
+		width: 75%;
+		height: 100%;
+		max-width: 24rem;
+		border-left: 1px solid $border;
+	}
+
+	&[data-side='left'] {
+		inset: 0 auto 0 0;
+		width: 75%;
+		height: 100%;
+		max-width: 24rem;
+		border-right: 1px solid $border;
+	}
+
+	&[data-side='top'] {
+		inset: 0 0 auto 0;
+		width: 100%;
+		border-bottom: 1px solid $border;
+	}
+
+	&[data-side='bottom'] {
+		inset: auto 0 0 0;
+		width: 100%;
+		border-top: 1px solid $border;
+	}
+}
+
+// 右上角关闭按钮
+.close {
+	position: absolute;
+	top: $spacing-4;
+	right: $spacing-4;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: $spacing-1;
+	border: none;
+	border-radius: $radius;
+	background-color: transparent;
+	color: $muted-foreground;
+	opacity: 0.7;
+	cursor: pointer;
+	transition: opacity $transition-fast;
+	outline: none;
+
+	&:hover {
+		opacity: 1;
+	}
+
+	&:focus-visible {
+		box-shadow:
+			0 0 0 2px $background,
+			0 0 0 4px $ring;
+	}
+
+	.xIcon {
+		width: 1rem;
+		height: 1rem;
+		pointer-events: none;
+	}
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-1_5;
+	padding: $spacing-4;
+}
+
+.footer {
+	margin-top: auto;
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-2;
+	padding: $spacing-4;
+}
+
+.title {
+	margin: 0;
+	font-size: $text-base;
+	font-weight: $font-semibold;
+	color: $foreground;
+}
+
+.description {
+	margin: 0;
+	font-size: $text-sm;
+	line-height: $leading-normal;
+	color: $muted-foreground;
+}

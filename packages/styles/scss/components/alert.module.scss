@@ -1,0 +1,105 @@
+@use 'sass:color';
+@use 'variables/colors' as *;
+
+// Alert 根容器：网格布局，直接子 svg 图标占据首列
+.alert {
+	position: relative;
+	display: grid;
+	width: 100%;
+	grid-template-columns: 0 1fr;
+	align-items: start;
+	gap: $spacing-1;
+	border-radius: $radius;
+	border: 1px solid transparent;
+	padding: $spacing-3 $spacing-4;
+	font-size: $text-sm;
+
+	// 存在直接子 SVG 图标时启用图标列
+	&:has(> svg) {
+		grid-template-columns: $spacing-4 1fr;
+		gap: $spacing-3;
+	}
+
+	> svg {
+		width: $spacing-4;
+		height: $spacing-4;
+		transform: translateY(2px);
+		color: currentColor;
+	}
+
+	// 样式变体
+	&.variantDefault {
+		background-color: $card;
+		color: $card-foreground;
+		border-color: $border;
+	}
+
+	&.variantDestructive {
+		background-color: $card;
+		color: $destructive;
+		border-color: rgba($destructive, 0.3);
+
+		.description {
+			color: color.mix(black, $destructive, 15%);
+		}
+	}
+
+	&.variantWarning {
+		background-color: $card;
+		color: $warning;
+		border-color: rgba($warning, 0.3);
+
+		.description {
+			color: color.mix(black, $warning, 15%);
+		}
+	}
+
+	&.variantSuccess {
+		background-color: $card;
+		color: $success;
+		border-color: rgba($success, 0.3);
+
+		.description {
+			color: color.mix(black, $success, 15%);
+		}
+	}
+
+	&.variantInfo {
+		background-color: $card;
+		color: $info;
+		border-color: rgba($info, 0.3);
+
+		.description {
+			color: color.mix(black, $info, 15%);
+		}
+	}
+}
+
+// 标题与描述统一放在第二列
+.title,
+.description {
+	grid-column-start: 2;
+}
+
+// 标题
+.title {
+	min-height: $spacing-4;
+	font-weight: $font-medium;
+	line-height: $leading-tight;
+	letter-spacing: -0.01em;
+	overflow-wrap: anywhere;
+}
+
+// 描述
+.description {
+	display: grid;
+	justify-items: start;
+	gap: $spacing-1;
+	font-size: $text-sm;
+	line-height: $leading-relaxed;
+	color: $muted-foreground;
+
+	p {
+		line-height: $leading-relaxed;
+	}
+}

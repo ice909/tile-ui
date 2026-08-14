@@ -1,0 +1,335 @@
+import { cloneVNode, computed, defineComponent, h, inject, nextTick, onBeforeUnmount, provide, ref, watch, Teleport, type ComputedRef, type InjectionKey } from 'vue';
+import { dialogStyleKeys, getDialogState } from '@tile-ui/core';
+import styles from '@tile-ui/styles/scss/components/dialog.module.scss';
+
+interface DialogContextValue {
+	open: boolean;
+	setOpen: (open: boolean) => void;
+	close: () => void;
+	titleId: string;
+	descriptionId: string;
+}
+
+type DialogContext = ComputedRef<DialogContextValue>;
+
+const DialogContextKey: InjectionKey<DialogContext> = Symbol('tile-dialog');
+
+let dialogCounter = 0;
+
+function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => void {
+	return (event: Event) => {
+		for (const handler of handlers) {
+			if (!handler) {
+				continue;
+			}
+
+			const list = Array.isArray(handler) ? handler : [handler];
+
+			for (const item of list) {
+				if (typeof item === 'function') {
+					item(event);
+				}
+			}
+		}
+	};
+}
+
+export const TDialog = defineComponent({
+	name: 'TDialog',
+	props: {
+		open: Boolean,
+		defaultOpen: { type: Boolean, default: false },
+	},
+	emits: ['update:open'],
+	setup(props, { emit, slots }) {
+		const internalOpen = ref(props.defaultOpen);
+		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
+		const titleId = `tile-dialog-title-${++dialogCounter}`;
+		const descriptionId = `tile-dialog-description-${++dialogCounter}`;
+
+		function setOpen(next: boolean) {
+			if (props.open === undefined) {
+				internalOpen.value = next;
+			}
+
+			emit('update:open', next);
+		}
+
+		function close() {
+			setOpen(false);
+		}
+
+		const context = computed<DialogContextValue>(() => ({
+			open: isOpen.value,
+			setOpen,
+			close,
+			titleId,
+			descriptionId,
+		}));
+
+		provide(DialogContextKey, context);
+
+		return () => slots.default?.();
+	},
+});
+
+export const TDialogTrigger = defineComponent({
+	name: 'TDialogTrigger',
+	props: {
+		asChild: { type: Boolean, default: false },
+	},
+	setup(props, { slots, attrs }) {
+		const contextValue = inject(DialogContextKey);
+		if (!contextValue) {
+			throw new Error('TDialogTrigger must be used within <TDialog>.');
+		}
+		const context: DialogContext = contextValue;
+
+		function handleOpen() {
+			context.value.setOpen(true);
+		}
+
+		return () => {
+			const children = slots.default?.();
+			const attrOnClick = (attrs as Record<string, unknown>).onClick;
+
+			if (props.asChild) {
+				const firstChild = Array.isArray(children) ? children[0] : children;
+
+				if (firstChild) {
+					const childProps = (firstChild.props ?? {}) as Record<string, unknown>;
+					return cloneVNode(firstChild, {
+						...attrs,
+						onClick: composeEventHandlers(attrOnClick, childProps.onClick, handleOpen),
+					});
+				}
+			}
+
+			return h('button', { type: 'button', ...attrs, onClick: composeEventHandlers(attrOnClick, handleOpen) }, children);
+		};
+	},
+});
+
+export const TDialogClose = defineComponent({
+	name: 'TDialogClose',
+	props: {
+		asChild: { type: Boolean, default: false },
+	},
+	setup(props, { slots, attrs }) {
+		const contextValue = inject(DialogContextKey);
+		if (!contextValue) {
+			throw new Error('TDialogClose must be used within <TDialog>.');
+		}
+		const context: DialogContext = contextValue;
+
+		function handleClose() {
+			context.value.close();
+		}
+
+		return () => {
+			const children = slots.default?.();
+			const attrOnClick = (attrs as Record<string, unknown>).onClick;
+
+			if (props.asChild) {
+				const firstChild = Array.isArray(children) ? children[0] : children;
+
+				if (firstChild) {
+					const childProps = (firstChild.props ?? {}) as Record<string, unknown>;
+					return cloneVNode(firstChild, {
+						...attrs,
+						onClick: composeEventHandlers(attrOnClick, childProps.onClick, handleClose),
+					});
+				}
+			}
+
+			return h('button', { type: 'button', ...attrs, onClick: composeEventHandlers(attrOnClick, handleClose) }, children);
+		};
+	},
+});
+
+export const TDialogOverlay = defineComponent({
+	name: 'TDialogOverlay',
+	setup(_props, { slots, attrs }) {
+		const contextValue = inject(DialogContextKey);
+		if (!contextValue) {
+			throw new Error('TDialogOverlay must be used within <TDialog>.');
+		}
+		const context: DialogContext = contextValue;
+
+		return () => {
+			if (!context.value.open) {
+				return null;
+			}
+
+			return h(
+				'div',
+				{
+					...attrs,
+					'data-state': getDialogState(context.value.open),
+					class: [styles[dialogStyleKeys.overlay], attrs.class],
+					onClick: composeEventHandlers((attrs as Record<string, unknown>).onClick, () => context.value.close()),
+				},
+				slots.default?.(),
+			);
+		};
+	},
+});
+
+export const TDialogContent = defineComponent({
+	name: 'TDialogContent',
+	props: {
+		showCloseButton: { type: Boolean, default: true },
+	},
+	setup(props, { slots, attrs }) {
+		const contextValue = inject(DialogContextKey);
+		if (!contextValue) {
+			throw new Error('TDialogContent must be used within <TDialog>.');
+		}
+		const context: DialogContext = contextValue;
+		const contentRef = ref<HTMLElement | null>(null);
+		const previousOverflow = ref('');
+		let previouslyFocused: HTMLElement | null = null;
+
+		function handleKeyDown(event: KeyboardEvent) {
+			if (event.key === 'Escape') {
+				context.value.close();
+			}
+		}
+
+		watch(
+			() => context.value.open,
+			(open) => {
+				if (open) {
+					previouslyFocused = document.activeElement as HTMLElement | null;
+					previousOverflow.value = document.body.style.overflow;
+					document.body.style.overflow = 'hidden';
+					document.addEventListener('keydown', handleKeyDown);
+					nextTick(() => {
+						contentRef.value?.focus();
+					});
+				} else {
+					document.removeEventListener('keydown', handleKeyDown);
+					document.body.style.overflow = previousOverflow.value;
+					previouslyFocused?.focus();
+				}
+			},
+			{ immediate: true },
+		);
+
+		onBeforeUnmount(() => {
+			document.removeEventListener('keydown', handleKeyDown);
+			document.body.style.overflow = previousOverflow.value;
+			previouslyFocused?.focus();
+		});
+
+		return () => {
+			if (!context.value.open) {
+				return null;
+			}
+
+			const contentChildren: any[] = slots.default?.() ?? [];
+
+			if (props.showCloseButton) {
+				contentChildren.push(
+					h(
+						'button',
+						{
+							type: 'button',
+							'aria-label': '关闭',
+							class: styles[dialogStyleKeys.close],
+							onClick: () => context.value.close(),
+						},
+						[
+							h(
+								'svg',
+								{
+									class: styles[dialogStyleKeys.xIcon],
+									xmlns: 'http://www.w3.org/2000/svg',
+									width: '16',
+									height: '16',
+									viewBox: '0 0 24 24',
+									fill: 'none',
+									stroke: 'currentColor',
+									'stroke-width': '2',
+									'stroke-linecap': 'round',
+									'stroke-linejoin': 'round',
+									'aria-hidden': 'true',
+								},
+								[h('path', { d: 'M18 6 6 18' }), h('path', { d: 'm6 6 12 12' })],
+							),
+						],
+					),
+				);
+			}
+
+			const userClass = attrs.class;
+			const contentAttrs = { ...attrs };
+			delete contentAttrs.class;
+
+			return h(Teleport, { to: 'body' }, [
+				h('div', {
+					'data-state': getDialogState(context.value.open),
+					class: styles[dialogStyleKeys.overlay],
+					onClick: () => context.value.close(),
+				}),
+				h(
+					'div',
+					{
+						...contentAttrs,
+						ref: contentRef,
+						role: 'dialog',
+						'aria-modal': 'true',
+						'aria-labelledby': context.value.titleId,
+						'aria-describedby': context.value.descriptionId,
+						tabindex: -1,
+						'data-state': getDialogState(context.value.open),
+						class: [styles[dialogStyleKeys.content], userClass],
+					},
+					contentChildren,
+				),
+			]);
+		};
+	},
+});
+
+export const TDialogHeader = defineComponent({
+	name: 'TDialogHeader',
+	setup(_props, { slots, attrs }) {
+		return () => h('div', { ...attrs, class: [styles[dialogStyleKeys.header], attrs.class] }, slots.default?.());
+	},
+});
+
+export const TDialogFooter = defineComponent({
+	name: 'TDialogFooter',
+	setup(_props, { slots, attrs }) {
+		return () => h('div', { ...attrs, class: [styles[dialogStyleKeys.footer], attrs.class] }, slots.default?.());
+	},
+});
+
+export const TDialogTitle = defineComponent({
+	name: 'TDialogTitle',
+	setup(_props, { slots, attrs }) {
+		const contextValue = inject(DialogContextKey);
+		if (!contextValue) {
+			throw new Error('TDialogTitle must be used within <TDialog>.');
+		}
+		const context: DialogContext = contextValue;
+
+		return () => h('h2', { ...attrs, id: context.value.titleId, class: [styles[dialogStyleKeys.title], attrs.class] }, slots.default?.());
+	},
+});
+
+export const TDialogDescription = defineComponent({
+	name: 'TDialogDescription',
+	setup(_props, { slots, attrs }) {
+		const contextValue = inject(DialogContextKey);
+		if (!contextValue) {
+			throw new Error('TDialogDescription must be used within <TDialog>.');
+		}
+		const context: DialogContext = contextValue;
+
+		return () => h('p', { ...attrs, id: context.value.descriptionId, class: [styles[dialogStyleKeys.description], attrs.class] }, slots.default?.());
+	},
+});
+
+export default TDialog;

@@ -1,0 +1,6 @@
+@use 'variables/colors' as *;
+
+// 方向提供器占位 (方向切换通过 dir 属性实现，无需额外样式)
+.root {
+	display: contents;
+}

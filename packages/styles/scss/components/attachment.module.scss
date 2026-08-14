@@ -1,0 +1,307 @@
+@use 'variables/colors' as *;
+
+// 附件根容器
+.attachment {
+	position: relative;
+	display: flex;
+	width: fit-content;
+	max-width: 100%;
+	min-width: 0;
+	flex-shrink: 0;
+	flex-wrap: wrap;
+	border: 1px solid $border;
+	border-radius: $radius;
+	background-color: $card;
+	color: $card-foreground;
+	transition:
+		background-color $transition-fast,
+		border-color $transition-fast;
+
+	&:focus-within {
+		outline: none;
+		box-shadow: 0 0 0 1px rgba($ring, 0.5);
+	}
+
+	// 尺寸
+	&[data-size='default'] {
+		gap: $spacing-2;
+
+		.content {
+			padding: $spacing-2 $spacing-2_5;
+		}
+
+		.media {
+			padding: $spacing-2;
+		}
+	}
+
+	&[data-size='sm'] {
+		gap: $spacing-2_5;
+
+		.content {
+			padding: $spacing-1_5 $spacing-2;
+		}
+
+		.media {
+			padding: $spacing-1_5;
+		}
+	}
+
+	&[data-size='xs'] {
+		gap: $spacing-1_5;
+		border-radius: $radius-md;
+
+		.content {
+			padding: $spacing-1 $spacing-1_5;
+		}
+
+		.media {
+			padding: $spacing-1;
+		}
+	}
+
+	// 排版方向
+	&[data-orientation='horizontal'] {
+		min-width: 10rem;
+		align-items: center;
+	}
+
+	&[data-orientation='vertical'] {
+		width: 6rem;
+		flex-direction: column;
+
+		.content {
+			width: calc(100% - #{$spacing-2});
+		}
+	}
+
+	// 状态
+	&[data-state='idle'] {
+		border-style: dashed;
+	}
+
+	&[data-state='error'] {
+		border-color: rgba($destructive, 0.3);
+	}
+
+	&:has(> a, > button):hover {
+		background-color: rgba($muted, 0.5);
+	}
+}
+
+// 附件卡片（AttachmentCard 组合根）
+.card {
+	position: relative;
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	align-items: center;
+	gap: $spacing-2;
+	border-radius: $radius;
+	background-color: $card;
+	color: $card-foreground;
+	transition:
+		background-color $transition-fast,
+		border-color $transition-fast;
+
+	&[data-orientation='vertical'] {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	&[data-state='idle'] {
+		border: 1px dashed $border;
+	}
+
+	&[data-state='error'] {
+		border-color: rgba($destructive, 0.3);
+	}
+}
+
+// 媒体区
+.media {
+	position: relative;
+	display: flex;
+	width: 2.5rem;
+	height: 2.5rem;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	border-radius: $radius;
+	background-color: $muted;
+	color: $foreground;
+
+	svg {
+		pointer-events: none;
+		flex-shrink: 0;
+		width: $spacing-4;
+		height: $spacing-4;
+	}
+
+	// 变体
+	&.variantIcon {
+		[data-size='xs'] & {
+			width: 1.75rem;
+			height: 1.75rem;
+			border-radius: $radius-md;
+
+			svg {
+				width: 0.875rem;
+				height: 0.875rem;
+			}
+		}
+
+		[data-orientation='vertical'] & {
+			width: 100%;
+
+			svg {
+				width: $spacing-6;
+				height: $spacing-6;
+			}
+		}
+	}
+
+	&.variantImage {
+		opacity: 0.6;
+
+		img {
+			width: 100%;
+			height: 100%;
+			aspect-ratio: 1 / 1;
+			object-fit: cover;
+		}
+
+		[data-state='done'] &,
+		[data-state='idle'] & {
+			opacity: 1;
+		}
+	}
+
+	// 状态
+	[data-state='error'] & {
+		background-color: rgba($destructive, 0.1);
+		color: $destructive;
+	}
+}
+
+// 内容区
+.content {
+	display: flex;
+	min-width: 0;
+	flex: 1;
+	flex-direction: column;
+	line-height: $leading-tight;
+
+	[data-orientation='vertical'] & {
+		padding-inline: $spacing-1;
+	}
+}
+
+// 标题
+.title {
+	display: block;
+	max-width: 100%;
+	min-width: 0;
+	overflow: hidden;
+	font-weight: $font-medium;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+
+	[data-state='processing'] &,
+	[data-state='uploading'] & {
+		color: $muted-foreground;
+	}
+}
+
+// 描述
+.description {
+	display: block;
+	margin-top: 0.125rem;
+	min-width: 0;
+	overflow: hidden;
+	font-size: $text-xs;
+	color: $muted-foreground;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+
+	[data-state='error'] & {
+		color: rgba($destructive, 0.8);
+	}
+}
+
+// 操作区
+.actions {
+	position: relative;
+	z-index: 20;
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	gap: $spacing-1;
+
+	[data-orientation='vertical'] & {
+		position: absolute;
+		top: $spacing-3;
+		right: $spacing-3;
+	}
+}
+
+// 单个操作按钮
+.action {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: $radius;
+	background-color: transparent;
+	color: $muted-foreground;
+	cursor: pointer;
+	transition:
+		background-color $transition-fast,
+		color $transition-fast;
+
+	&:hover {
+		background-color: $muted;
+		color: $foreground;
+	}
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: 0 0 0 1px $ring;
+	}
+
+	&:disabled {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	svg {
+		width: $spacing-4;
+		height: $spacing-4;
+	}
+}
+
+// 触发层（覆盖整个附件，点击跳转/选择）
+.trigger {
+	position: absolute;
+	inset: 0;
+	z-index: 10;
+	outline: none;
+	cursor: pointer;
+}
+
+// 附件组（横向滚动容器）
+.group {
+	display: flex;
+	min-width: 0;
+	gap: $spacing-3;
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	padding-block: $spacing-1;
+
+	> [data-slot='attachment'],
+	> .attachment {
+		flex: none;
+	}
+}

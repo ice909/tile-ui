@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "type": "registry:ui",
+  "title": "Spinner",
+  "description": "Loading spinner component for Tile UI.",
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core"
+  ],
+  "files": [
+    {
+      "path": "packages/react/src/components/spinner/spinner.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/spinner/spinner.tsx",
+      "content": "import React from 'react';\nimport { getSpinnerSize, spinnerStyleKeys } from '../lib/core';\nimport type { SpinnerBaseProps } from '../lib/core';\nimport styles from './spinner.module.scss';\n\nexport interface SpinnerProps extends React.SVGProps<SVGSVGElement>, SpinnerBaseProps {}\n\nconst Spinner = React.forwardRef<SVGSVGElement, SpinnerProps>(({ className = '', size = 'default', ...props }, ref) => {\n\tconst resolvedSize = getSpinnerSize(size);\n\n\treturn (\n\t\t<svg\n\t\t\tref={ref}\n\t\t\tdata-slot=\"spinner\"\n\t\t\trole=\"status\"\n\t\t\taria-label=\"Loading\"\n\t\t\tdata-size={resolvedSize}\n\t\t\txmlns=\"http://www.w3.org/2000/svg\"\n\t\t\tviewBox=\"0 0 24 24\"\n\t\t\tfill=\"none\"\n\t\t\tstroke=\"currentColor\"\n\t\t\tstrokeWidth={2}\n\t\t\tstrokeLinecap=\"round\"\n\t\t\tstrokeLinejoin=\"round\"\n\t\t\tclassName={`${styles[spinnerStyleKeys.root]} ${className}`}\n\t\t\t{...props}>\n\t\t\t<path d=\"M21 12a9 9 0 1 1-6.219-8.56\" />\n\t\t</svg>\n\t);\n});\nSpinner.displayName = 'Spinner';\n\nexport { Spinner };\nexport default Spinner;\n"
+    },
+    {
+      "path": "packages/styles/scss/components/spinner.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/spinner/spinner.module.scss",
+      "content": "@use 'sass:color';\n@use '../../../styles/variables/colors' as *;\n\n// 旋转动画\n@keyframes tile-spinner-rotate {\n\tfrom {\n\t\ttransform: rotate(0deg);\n\t}\n\n\tto {\n\t\ttransform: rotate(360deg);\n\t}\n}\n\n// Spinner 根元素（svg）\n.root {\n\tflex-shrink: 0;\n\tcolor: $muted-foreground;\n\tanimation: tile-spinner-rotate 0.8s linear infinite;\n\n\t// 尺寸\n\t&[data-size='sm'] {\n\t\twidth: $spacing-4;\n\t\theight: $spacing-4;\n\t}\n\n\t&[data-size='default'] {\n\t\twidth: $spacing-5;\n\t\theight: $spacing-5;\n\t}\n\n\t&[data-size='lg'] {\n\t\twidth: $spacing-8;\n\t\theight: $spacing-8;\n\t}\n}\n"
+    }
+  ]
+}

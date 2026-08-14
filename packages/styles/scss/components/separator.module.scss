@@ -1,0 +1,16 @@
+@use 'variables/colors' as *;
+
+.separator {
+	flex-shrink: 0;
+	background-color: $border;
+
+	&.orientationHorizontal {
+		height: 1px;
+		width: 100%;
+	}
+
+	&.orientationVertical {
+		height: 100%;
+		width: 1px;
+	}
+}

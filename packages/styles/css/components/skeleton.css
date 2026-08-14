@@ -1,0 +1,1 @@
+@keyframes tile-skeleton-pulse{50%{opacity:.5}}.skeleton{animation:tile-skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;border-radius:.5rem;background-color:#f4f4f5}
