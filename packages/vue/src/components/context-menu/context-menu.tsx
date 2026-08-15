@@ -1,4 +1,20 @@
-import { computed, defineComponent, h, inject, onBeforeUnmount, onMounted, provide, ref, watch, Teleport, type ComputedRef, type InjectionKey, type PropType, type Ref } from 'vue';
+import {
+	computed,
+	defineComponent,
+	h,
+	inject,
+	onBeforeUnmount,
+	onMounted,
+	provide,
+	ref,
+	useId,
+	watch,
+	Teleport,
+	type ComputedRef,
+	type InjectionKey,
+	type PropType,
+	type Ref,
+} from 'vue';
 import { contextMenuStyleKeys, getContextMenuCheckState, getContextMenuPosition, getContextMenuState } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/context-menu.module.scss';
 
@@ -43,8 +59,6 @@ interface ContextMenuRadioGroupContextValue {
 type ContextMenuRadioGroupContext = ComputedRef<ContextMenuRadioGroupContextValue>;
 
 const ContextMenuRadioGroupContextKey: InjectionKey<ContextMenuRadioGroupContext> = Symbol('tile-context-menu-radio-group');
-
-let contextMenuCounter = 0;
 
 function contextMenuCheckIcon() {
 	return h(
@@ -145,7 +159,7 @@ export const TContextMenu = defineComponent({
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
 		const triggerRef = ref<HTMLElement | null>(null);
-		const contentId = `tile-context-menu-${++contextMenuCounter}`;
+		const contentId = `tile-context-menu-${useId()}`;
 		const position = ref<{ top: number; left: number } | null>(null);
 
 		function setOpen(next: boolean) {

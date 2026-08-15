@@ -16,6 +16,6 @@ export const emptyStyleKeys = {
 /**
  * 获取 EmptyMedia 的变体类名键
  */
-export function getEmptyMediaVariantKey(variant: EmptyMediaVariant = 'muted'): string {
+export function getEmptyMediaVariantKey(variant: EmptyMediaVariant = 'default'): string {
 	return `variant${capitalize(variant)}`;
 }

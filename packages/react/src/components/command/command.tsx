@@ -279,15 +279,29 @@ export interface CommandDialogProps {
 	onOpenChange?: (open: boolean) => void;
 	title?: string;
 	description?: string;
+	className?: string;
+	showCloseButton?: boolean;
 	children?: React.ReactNode;
 }
 
-const CommandDialog = ({ open = false, onOpenChange, title = 'Command Palette', description = 'Search for a command to run...', children }: CommandDialogProps) => {
+const CommandDialog = ({
+	open = false,
+	onOpenChange,
+	title = 'Command Palette',
+	description = 'Search for a command to run...',
+	className = '',
+	showCloseButton = true,
+	children,
+}: CommandDialogProps) => {
 	if (!open) {
 		return null;
 	}
 
 	function handleOverlayClick() {
+		onOpenChange?.(false);
+	}
+
+	function handleCloseClick() {
 		onOpenChange?.(false);
 	}
 
@@ -300,10 +314,28 @@ const CommandDialog = ({ open = false, onOpenChange, title = 'Command Palette', 
 	const content = (
 		<div onKeyDown={handleKeyDown}>
 			<div className={styles[commandStyleKeys.dialogOverlay]} onClick={handleOverlayClick} />
-			<div className={styles[commandStyleKeys.dialogContent]} role="dialog" aria-modal="true">
+			<div className={`${styles[commandStyleKeys.dialogContent]} ${className}`} role="dialog" aria-modal="true">
 				<h2 className={styles[commandStyleKeys.dialogTitle]}>{title}</h2>
 				<p className={styles[commandStyleKeys.dialogDescription]}>{description}</p>
 				{children}
+				{showCloseButton && (
+					<button type="button" aria-label="关闭" className={styles[commandStyleKeys.dialogClose]} onClick={handleCloseClick}>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							aria-hidden="true">
+							<path d="M18 6 6 18" />
+							<path d="m6 6 12 12" />
+						</svg>
+					</button>
+				)}
 			</div>
 		</div>
 	);

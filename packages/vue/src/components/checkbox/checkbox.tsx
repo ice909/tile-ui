@@ -16,6 +16,7 @@ export const TCheckbox = defineComponent({
 	setup(props, { emit }) {
 		const checked = computed<CheckboxCheckedState>(() => (props.modelValue === 'indeterminate' ? 'indeterminate' : !!props.modelValue));
 		const state = computed(() => getCheckboxState(checked.value));
+		const ariaChecked = computed(() => (state.value === 'checked' ? 'true' : state.value === 'mixed' ? 'mixed' : 'false'));
 
 		function handleClick() {
 			const next = getNextCheckboxState(checked.value);
@@ -29,7 +30,7 @@ export const TCheckbox = defineComponent({
 				{
 					type: 'button',
 					role: 'checkbox',
-					'aria-checked': state.value,
+					'aria-checked': ariaChecked.value,
 					'data-state': state.value,
 					disabled: props.disabled,
 					class: styles[checkboxStyleKeys.root],

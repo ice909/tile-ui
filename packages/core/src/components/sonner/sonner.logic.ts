@@ -52,6 +52,7 @@ export interface SonnerStore {
 	dismiss(id: string): void;
 	remove(id: string): void;
 	dismissAll(): void;
+	setDefaultDuration(duration: number): void;
 }
 
 /**
@@ -59,6 +60,7 @@ export interface SonnerStore {
  */
 export function createSonnerStore(): SonnerStore {
 	let toasts: SonnerToast[] = [];
+	let defaultDuration = SONNER_DEFAULT_DURATION;
 	const listeners = new Set<() => void>();
 	const timers = new Map<string, ReturnType<typeof setTimeout>>();
 
@@ -100,21 +102,22 @@ export function createSonnerStore(): SonnerStore {
 
 	function add(input: SonnerAddInput): string {
 		const id = input.id ?? generateId('toast');
+		const duration = input.duration ?? defaultDuration;
 		const existing = toasts.find((toast) => toast.id === id);
 		if (existing) {
-			toasts = toasts.map((toast) => (toast.id === id ? { ...toast, ...input, dismissing: false } : toast));
+			toasts = toasts.map((toast) => (toast.id === id ? { ...toast, ...input, duration, dismissing: false } : toast));
 		} else {
 			const toast: SonnerToast = {
 				id,
 				type: 'default',
-				duration: SONNER_DEFAULT_DURATION,
+				duration,
 				dismissible: true,
 				...input,
 			};
 			toasts = [...toasts, toast];
 		}
 		notify();
-		schedule(id, input.duration ?? SONNER_DEFAULT_DURATION);
+		schedule(id, duration);
 		return id;
 	}
 
@@ -142,6 +145,9 @@ export function createSonnerStore(): SonnerStore {
 		dismiss,
 		remove,
 		dismissAll,
+		setDefaultDuration: (duration: number) => {
+			defaultDuration = duration;
+		},
 	};
 }
 

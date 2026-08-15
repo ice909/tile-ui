@@ -6,6 +6,7 @@ export const cardStyleKeys = {
 	header: 'cardHeader',
 	title: 'cardTitle',
 	description: 'cardDescription',
+	action: 'cardAction',
 	content: 'cardContent',
 	footer: 'cardFooter',
 } as const;

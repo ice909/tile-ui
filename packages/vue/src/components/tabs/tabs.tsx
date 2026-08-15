@@ -1,6 +1,6 @@
 import { computed, defineComponent, h, inject, provide, ref, type ComputedRef, type InjectionKey, type PropType } from 'vue';
-import { getTabsState, tabsStyleKeys } from '@tile-ui/core';
-import type { TabsOrientation } from '@tile-ui/core';
+import { getTabsListVariantKey, getTabsState, tabsStyleKeys } from '@tile-ui/core';
+import type { TabsListVariant, TabsOrientation } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/tabs.module.scss';
 
 interface TabsContextValue {
@@ -48,11 +48,19 @@ export const TTabs = defineComponent({
 
 export const TTabsList = defineComponent({
 	name: 'TTabsList',
-	setup(_props, { slots }) {
+	props: {
+		variant: {
+			type: String as PropType<TabsListVariant>,
+			default: 'default',
+		},
+	},
+	setup(props, { slots }) {
 		const context = inject(TabsContextKey);
 		if (!context) {
 			throw new Error('TTabsList must be used within <TTabs>.');
 		}
+
+		const variantKey = computed(() => getTabsListVariantKey(props.variant));
 
 		function handleKeydown(event: KeyboardEvent) {
 			if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
@@ -73,7 +81,18 @@ export const TTabsList = defineComponent({
 			event.preventDefault();
 		}
 
-		return () => h('div', { class: styles[tabsStyleKeys.list], role: 'tablist', 'data-orientation': context.value.orientation, onKeydown: handleKeydown }, slots.default?.());
+		return () =>
+			h(
+				'div',
+				{
+					class: [styles[tabsStyleKeys.list], styles[variantKey.value]],
+					role: 'tablist',
+					'data-orientation': context.value.orientation,
+					'data-variant': props.variant,
+					onKeydown: handleKeydown,
+				},
+				slots.default?.(),
+			);
 	},
 });
 

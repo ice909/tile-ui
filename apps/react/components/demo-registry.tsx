@@ -451,7 +451,7 @@ export const demoRegistry: Record<string, Demo> = {
 		description: 'Empty guides users when there is nothing to display.',
 		Component: () => (
 			<Empty>
-				<EmptyMedia variant="muted">+</EmptyMedia>
+				<EmptyMedia variant="default">+</EmptyMedia>
 				<EmptyTitle>No results</EmptyTitle>
 				<EmptyDescription>Try adjusting your search or filters.</EmptyDescription>
 			</Empty>
@@ -459,20 +459,20 @@ export const demoRegistry: Record<string, Demo> = {
 	},
 	marker: {
 		title: 'Markers',
-		description: 'Markers tag content with a colored status.',
+		description: 'Markers annotate content with visual variants.',
 		Component: () => (
 			<div className="button-group">
-				<Marker variant="green">
+				<Marker variant="default">
 					<MarkerIcon />
-					<MarkerContent>Online</MarkerContent>
+					<MarkerContent>Default</MarkerContent>
 				</Marker>
-				<Marker variant="yellow">
+				<Marker variant="separator">
 					<MarkerIcon />
-					<MarkerContent>Away</MarkerContent>
+					<MarkerContent>Separator</MarkerContent>
 				</Marker>
-				<Marker variant="red">
+				<Marker variant="border">
 					<MarkerIcon />
-					<MarkerContent>Offline</MarkerContent>
+					<MarkerContent>Border</MarkerContent>
 				</Marker>
 			</div>
 		),
@@ -494,11 +494,11 @@ export const demoRegistry: Record<string, Demo> = {
 						</Button>
 					</ItemActions>
 				</Item>
-				<Item variant="selected">
+				<Item variant="outline">
 					<ItemMedia>+</ItemMedia>
 					<ItemContent>
-						<ItemTitle>Selected item</ItemTitle>
-						<ItemDescription>Highlighted with the selected variant.</ItemDescription>
+						<ItemTitle>Outlined item</ItemTitle>
+						<ItemDescription>Highlighted with the outline variant.</ItemDescription>
 					</ItemContent>
 				</Item>
 			</Stack>

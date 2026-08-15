@@ -43,36 +43,6 @@
 			color: color.mix(black, $destructive, 15%);
 		}
 	}
-
-	&.variantWarning {
-		background-color: $card;
-		color: $warning;
-		border-color: rgba($warning, 0.3);
-
-		.description {
-			color: color.mix(black, $warning, 15%);
-		}
-	}
-
-	&.variantSuccess {
-		background-color: $card;
-		color: $success;
-		border-color: rgba($success, 0.3);
-
-		.description {
-			color: color.mix(black, $success, 15%);
-		}
-	}
-
-	&.variantInfo {
-		background-color: $card;
-		color: $info;
-		border-color: rgba($info, 0.3);
-
-		.description {
-			color: color.mix(black, $info, 15%);
-		}
-	}
 }
 
 // 标题与描述统一放在第二列

@@ -1,4 +1,19 @@
-import { cloneVNode, computed, defineComponent, h, inject, onBeforeUnmount, onMounted, provide, ref, type ComputedRef, type InjectionKey, type PropType, type Ref } from 'vue';
+import {
+	cloneVNode,
+	computed,
+	defineComponent,
+	h,
+	inject,
+	onBeforeUnmount,
+	onMounted,
+	provide,
+	ref,
+	useId,
+	type ComputedRef,
+	type InjectionKey,
+	type PropType,
+	type Ref,
+} from 'vue';
 import { createFormStore, formStyleKeys, getFormFieldIds, normalizeFormValue, FormStore } from '@tile-ui/core';
 import type { FormControllerField, FormErrors, FormValues } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/form.module.scss';
@@ -13,8 +28,6 @@ const FormContextKey: InjectionKey<FormContextValue> = Symbol('tile-form');
 const FormFieldContextKey: InjectionKey<ComputedRef<string>> = Symbol('tile-form-field');
 
 const FormItemContextKey: InjectionKey<ComputedRef<string>> = Symbol('tile-form-item');
-
-let formItemCounter = 0;
 
 function useFormContext(): FormContextValue {
 	const context = inject(FormContextKey);
@@ -111,7 +124,7 @@ export const TFormField = defineComponent({
 export const TFormItem = defineComponent({
 	name: 'TFormItem',
 	setup(_props, { slots, attrs }) {
-		const id = `tile-form-item-${++formItemCounter}`;
+		const id = `tile-form-item-${useId()}`;
 		provide(
 			FormItemContextKey,
 			computed(() => id),

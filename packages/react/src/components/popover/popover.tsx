@@ -194,7 +194,7 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(({ 
 		</div>
 	);
 
-	if (typeof document === 'undefined') {
+	if (!open || typeof document === 'undefined') {
 		return null;
 	}
 

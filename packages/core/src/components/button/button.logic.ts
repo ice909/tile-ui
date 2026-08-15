@@ -2,13 +2,20 @@ import type { ButtonVariant, ButtonSize } from './button.types';
 import { capitalize } from '../../utils/helpers';
 
 /**
+ * 将短横线分隔的值转换为 PascalCase（如 icon-xs -> IconXs）
+ */
+function toPascal(value: string): string {
+	return value.split('-').map(capitalize).join('');
+}
+
+/**
  * 获取 Button 的样式类名键
  */
 export function getButtonStyleKeys(variant: ButtonVariant = 'default', size: ButtonSize = 'default') {
 	return {
 		base: 'button',
-		variant: `variant${capitalize(variant)}`,
-		size: `size${capitalize(size)}`,
+		variant: `variant${toPascal(variant)}`,
+		size: `size${toPascal(size)}`,
 	};
 }
 

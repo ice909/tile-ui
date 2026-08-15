@@ -1,9 +1,7 @@
-import { computed, defineComponent, h, onBeforeUnmount, onMounted, ref, watch, Teleport, type PropType } from 'vue';
+import { computed, defineComponent, h, onBeforeUnmount, onMounted, ref, useId, watch, Teleport, type PropType } from 'vue';
 import { comboboxStyleKeys, filterComboboxItems, getSelectState, moveComboboxIndex } from '@tile-ui/core';
 import type { ComboboxItem } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/combobox.module.scss';
-
-let comboboxCounter = 0;
 
 function comboboxCheckIcon() {
 	return h(
@@ -65,7 +63,7 @@ export const TCombobox = defineComponent({
 		const activeValue = ref<string | null>(null);
 		const triggerRef = ref<HTMLButtonElement | null>(null);
 		const contentRef = ref<HTMLElement | null>(null);
-		const contentId = `tile-combobox-${++comboboxCounter}`;
+		const contentId = `tile-combobox-${useId()}`;
 
 		const filteredItems = computed(() => filterComboboxItems(props.items, query.value, props.maxItems, props.filter));
 		const selectedItem = computed(() => props.items.find((item) => item.value === props.value));

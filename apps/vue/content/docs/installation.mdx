@@ -55,7 +55,7 @@ Use the registry when you want to pull source files into your project rather tha
 
 First, register the Tile UI namespace in `components.json` so shadcn can resolve shared registry dependencies without hardcoding the docs domain into each item:
 
-```json
+```json title="components.json"
 {
 	"registries": {
 		"@tile-ui": "https://vue.tileui.zmorg.cn/r/{name}.json"

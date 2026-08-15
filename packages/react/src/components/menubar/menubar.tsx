@@ -407,7 +407,7 @@ const MenubarContent = React.forwardRef<HTMLDivElement, MenubarContentProps>(
 			</MenubarContentContext.Provider>
 		);
 
-		if (typeof document === 'undefined') {
+		if (!open || typeof document === 'undefined') {
 			return null;
 		}
 
@@ -874,7 +874,7 @@ const MenubarSubContent = React.forwardRef<HTMLDivElement, MenubarSubContentProp
 			</MenubarContentContext.Provider>
 		);
 
-		if (typeof document === 'undefined') {
+		if (!open || typeof document === 'undefined') {
 			return null;
 		}
 

@@ -377,7 +377,7 @@ const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenuContent
 			</DropdownMenuContentContext.Provider>
 		);
 
-		if (typeof document === 'undefined') {
+		if (!open || typeof document === 'undefined') {
 			return null;
 		}
 
@@ -846,7 +846,7 @@ const DropdownMenuSubContent = React.forwardRef<HTMLDivElement, DropdownMenuSubC
 			</DropdownMenuContentContext.Provider>
 		);
 
-		if (typeof document === 'undefined') {
+		if (!open || typeof document === 'undefined') {
 			return null;
 		}
 

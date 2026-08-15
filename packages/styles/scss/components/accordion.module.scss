@@ -63,17 +63,20 @@
 	display: grid;
 	grid-template-rows: 0fr;
 	overflow: hidden;
+	padding-bottom: 0;
 	text-align: left;
 	font-size: $text-sm;
-	transition: grid-template-rows $transition-slow;
+	transition:
+		grid-template-rows $transition-slow,
+		padding-bottom $transition-slow;
 
 	&[data-state='open'] {
 		grid-template-rows: 1fr;
+		padding-bottom: $spacing-4;
 	}
 }
 
 .contentInner {
 	overflow: hidden;
 	min-height: 0;
-	padding-bottom: $spacing-4;
 }

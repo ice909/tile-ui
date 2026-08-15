@@ -2,10 +2,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import hljs from 'highlight.js';
 import matter from 'gray-matter';
 import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
+import rehypeParse from 'rehype-parse';
+import rehypePrettyCode from 'rehype-pretty-code';
+import rehypeStringify from 'rehype-stringify';
+import { unified } from 'unified';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(__dirname, '..');
@@ -13,40 +16,96 @@ const docsRoot = path.resolve(appRoot, 'content/docs');
 const outDir = path.resolve(appRoot, '.generated');
 const outFile = path.resolve(outDir, 'docs.json');
 
-const langAliases = {
-	tsx: 'typescript',
-	ts: 'typescript',
-	text: 'plaintext',
-	txt: 'plaintext',
-	sh: 'bash',
-	shell: 'bash',
-};
-
 function escapeHtml(str) {
 	return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function highlightCode(str, lang) {
-	const normalized = langAliases[lang] ?? lang;
-	if (normalized && hljs.getLanguage(normalized)) {
-		try {
-			const { value } = hljs.highlight(str, { language: normalized, ignoreIllegals: true });
-			return `<pre class="hljs"><code class="language-${lang}">${value}</code></pre>`;
-		} catch {
-			// 高亮失败时回退到纯文本。
-		}
+const ICON_SVG = {
+	copy: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>',
+	check: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>',
+	file: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path></svg>',
+	terminal:
+		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" x2="20" y1="19" y2="19"></line></svg>',
+	braces: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path></svg>',
+	code: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
+	hash: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="9" y2="9"></line><line x1="4" x2="20" y1="15" y2="15"></line><line x1="10" x2="8" y1="3" y2="21"></line><line x1="16" x2="14" y1="3" y2="21"></line></svg>',
+};
+
+function languageIcon(lang) {
+	switch (lang) {
+		case 'json':
+			return ICON_SVG.braces;
+		case 'css':
+		case 'scss':
+			return ICON_SVG.hash;
+		case 'js':
+		case 'jsx':
+		case 'ts':
+		case 'tsx':
+		case 'typescript':
+		case 'javascript':
+			return ICON_SVG.code;
+		case 'bash':
+		case 'sh':
+		case 'shell':
+		case 'zsh':
+		case 'console':
+			return ICON_SVG.terminal;
+		default:
+			return ICON_SVG.file;
 	}
-	return `<pre class="hljs"><code class="language-${lang ?? ''}">${escapeHtml(str)}</code></pre>`;
+}
+
+function copyButtonHtml() {
+	return (
+		'<button type="button" data-slot="copy-button" aria-label="Copy code">' +
+		`<span class="icon-copy">${ICON_SVG.copy}</span>` +
+		`<span class="icon-check">${ICON_SVG.check}</span>` +
+		'</button>'
+	);
+}
+
+// 与 React 文档站保持一致：使用 shiki（rehype-pretty-code）做代码高亮，
+// 生成相同的 data-line / --shiki-light / --shiki-dark 标记，两侧渲染完全一致。
+const prettyCode = unified()
+	.use(rehypeParse, { fragment: true })
+	.use(rehypePrettyCode, {
+		keepBackground: false,
+		theme: {
+			dark: 'github-dark',
+			light: 'github-light-default',
+		},
+	})
+	.use(rehypeStringify);
+
+function decorateCodeHtml(html) {
+	return html
+		.replaceAll('data-rehype-pretty-code-figure=""', 'class="mdx-figure" data-rehype-pretty-code-figure=""')
+		.replaceAll('<pre tabindex="0"', '<pre class="hljs" tabindex="0"')
+		.replace(/<figcaption data-rehype-pretty-code-title="" data-language="([^"]*)"[^>]*>(.*?)<\/figcaption>/g, (match, lang, text) => {
+			return `<figcaption data-rehype-pretty-code-title="" data-language="${lang}">${languageIcon(lang)}<span>${text}</span></figcaption>`;
+		})
+		.replaceAll('</pre></figure>', `</pre>${copyButtonHtml()}</figure>`);
 }
 
 const markdown = new MarkdownIt({
 	html: true,
 	linkify: true,
 	typographer: true,
-	highlight: highlightCode,
 }).use(anchor, {
 	permalink: anchor.permalink.headerLink(),
 });
+
+markdown.renderer.rules.fence = function (tokens, idx) {
+	const token = tokens[idx];
+	const info = token.info ? token.info.trim() : '';
+	const parts = info.split(/\s+/);
+	const lang = parts[0] || 'text';
+	const meta = parts.slice(1).join(' ');
+	const metastring = meta ? ` metastring="${escapeHtml(meta)}"` : '';
+
+	return `<pre><code class="language-${escapeHtml(lang)}"${metastring}>${escapeHtml(token.content)}</code></pre>\n`;
+};
 
 const sectionOrder = ['installation', 'components', 'composables', 'examples', 'registry'];
 
@@ -212,26 +271,35 @@ function createPayloads(docs, tree) {
 	);
 }
 
-export function buildDocs() {
-	const docs = walkDocs(docsRoot)
-		.map((relativeFile) => {
-			const fullPath = path.join(docsRoot, relativeFile);
-			const raw = fs.readFileSync(fullPath, 'utf-8');
-			const parsed = matter(raw);
-			const slug = normalizeSlug(relativeFile);
-			const url = toDocUrl(slug);
-			const normalizedContent = normalizeInternalDocLinks(parsed.content);
+async function renderMarkdown(content) {
+	const rendered = markdown.render(content);
+	const file = await prettyCode.process(rendered);
 
-			return {
-				slug,
-				url,
-				title: String(parsed.data.title ?? 'Untitled'),
-				description: String(parsed.data.description ?? ''),
-				html: markdown.render(normalizedContent),
-				toc: extractToc(normalizedContent),
-			};
-		})
-		.sort(compareDocs);
+	return decorateCodeHtml(String(file));
+}
+
+export async function buildDocs() {
+	const docs = (
+		await Promise.all(
+			walkDocs(docsRoot).map(async (relativeFile) => {
+				const fullPath = path.join(docsRoot, relativeFile);
+				const raw = fs.readFileSync(fullPath, 'utf-8');
+				const parsed = matter(raw);
+				const slug = normalizeSlug(relativeFile);
+				const url = toDocUrl(slug);
+				const normalizedContent = normalizeInternalDocLinks(parsed.content);
+
+				return {
+					slug,
+					url,
+					title: String(parsed.data.title ?? 'Untitled'),
+					description: String(parsed.data.description ?? ''),
+					html: await renderMarkdown(normalizedContent),
+					toc: extractToc(normalizedContent),
+				};
+			}),
+		)
+	).sort(compareDocs);
 
 	const tree = createTree(docs);
 	const payloads = createPayloads(docs, tree);
@@ -255,5 +323,5 @@ export function buildDocs() {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-	buildDocs();
+	await buildDocs();
 }

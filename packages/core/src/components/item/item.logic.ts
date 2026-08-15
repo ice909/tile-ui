@@ -1,4 +1,4 @@
-import type { ItemVariant } from './item.types';
+import type { ItemVariant, ItemSize, ItemMediaVariant } from './item.types';
 import { capitalize } from '../../utils/helpers';
 
 /**
@@ -20,6 +20,20 @@ export const itemStyleKeys = {
 /**
  * 获取 Item 的变体类名键
  */
-export function getItemVariantKey(variant: ItemVariant = 'neutral'): string {
+export function getItemVariantKey(variant: ItemVariant = 'default'): string {
+	return `variant${capitalize(variant)}`;
+}
+
+/**
+ * 获取 Item 的尺寸类名键
+ */
+export function getItemSizeKey(size: ItemSize = 'default'): string {
+	return `size${capitalize(size)}`;
+}
+
+/**
+ * 获取 ItemMedia 的变体类名键
+ */
+export function getItemMediaVariantKey(variant: ItemMediaVariant = 'default'): string {
 	return `variant${capitalize(variant)}`;
 }

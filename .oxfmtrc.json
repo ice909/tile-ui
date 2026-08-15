@@ -13,6 +13,7 @@
 	"bracketSameLine": true,
 	"ignorePatterns": [
 		"apps/**/public/r/*.json",
+		"apps/**/.generated/**",
 		"packages/styles/css/**",
 		"**/.source/**",
 		"node_modules/**",

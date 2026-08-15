@@ -21,13 +21,14 @@
 // 内部 flex 容器
 .container {
 	display: flex;
-	gap: $spacing-4;
+	margin-left: -$spacing-4;
 }
 
 // 单个 item
 .item {
 	flex: 0 0 100%;
 	min-width: 0;
+	padding-left: $spacing-4;
 	scroll-snap-align: start;
 }
 
@@ -55,20 +56,29 @@
 
 	.container {
 		flex-direction: column;
+		margin-left: 0;
+		margin-top: -$spacing-4;
+	}
+
+	.item {
+		padding-left: 0;
+		padding-top: $spacing-4;
 	}
 
 	.previous,
 	.next {
 		top: auto;
+		bottom: auto;
 		left: 50%;
+		right: auto;
 		transform: translateX(-50%) rotate(90deg);
 	}
 
 	.previous {
-		bottom: $spacing-4;
+		top: $spacing-4;
 	}
 
 	.next {
-		top: $spacing-4;
+		bottom: $spacing-4;
 	}
 }

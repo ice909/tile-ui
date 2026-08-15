@@ -8,6 +8,7 @@ import {
 	onMounted,
 	provide,
 	ref,
+	useId,
 	watch,
 	Teleport,
 	type ComputedRef,
@@ -42,8 +43,6 @@ interface SelectContentContextValue {
 type SelectContentContext = ComputedRef<SelectContentContextValue>;
 
 const SelectContentContextKey: InjectionKey<SelectContentContext> = Symbol('tile-select-content');
-
-let selectCounter = 0;
 
 function useSelectContext(): SelectContext {
 	const context = inject(SelectContextKey);
@@ -154,7 +153,7 @@ export const TSelect = defineComponent({
 		const internalValue = ref(props.defaultValue);
 		const resolvedValue = computed(() => (props.value !== undefined ? props.value : internalValue.value));
 		const triggerRef = ref<HTMLButtonElement | null>(null);
-		const contentId = `tile-select-${++selectCounter}`;
+		const contentId = `tile-select-${useId()}`;
 		const itemTexts = ref<Record<string, string>>({});
 
 		function setOpen(next: boolean) {

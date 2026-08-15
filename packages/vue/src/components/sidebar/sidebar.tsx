@@ -54,7 +54,7 @@ export const TSidebarProvider = defineComponent({
 	name: 'TSidebarProvider',
 	props: {
 		defaultOpen: { type: Boolean, default: true },
-		open: Boolean,
+		open: { type: Boolean, default: undefined },
 	},
 	emits: ['update:open'],
 	setup(props, { emit, slots, attrs }) {

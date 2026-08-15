@@ -1,4 +1,4 @@
-export type MarkerVariant = 'neutral' | 'green' | 'yellow' | 'red' | 'blue';
+export type MarkerVariant = 'default' | 'separator' | 'border';
 
 /**
  * 框架无关的 Marker 基础 Props（仅包含组件库自定义属性）

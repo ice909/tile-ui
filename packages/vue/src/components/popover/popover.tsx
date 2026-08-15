@@ -9,6 +9,7 @@ import {
 	onMounted,
 	provide,
 	ref,
+	useId,
 	watch,
 	type InjectionKey,
 	type PropType,
@@ -28,8 +29,6 @@ interface PopoverContextValue {
 
 const PopoverContextKey: InjectionKey<PopoverContextValue> = Symbol('tile-popover');
 
-let popoverCounter = 0;
-
 export const TPopover = defineComponent({
 	name: 'TPopover',
 	props: {
@@ -41,7 +40,7 @@ export const TPopover = defineComponent({
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
 		const triggerRef = ref<HTMLElement | null>(null);
-		const contentId = `tile-popover-${++popoverCounter}`;
+		const contentId = `tile-popover-${useId()}`;
 
 		function setOpen(next: boolean) {
 			if (props.open === undefined) {

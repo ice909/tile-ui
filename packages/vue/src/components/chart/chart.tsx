@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, inject, onBeforeUnmount, onMounted, provide, ref, reactive, type ComputedRef, type InjectionKey, type PropType } from 'vue';
+import { computed, defineComponent, h, inject, onBeforeUnmount, onMounted, provide, ref, reactive, useId, type ComputedRef, type InjectionKey, type PropType } from 'vue';
 import {
 	CHART_INITIAL_DIMENSION,
 	buildChartThemeCss,
@@ -24,8 +24,6 @@ interface ChartContextValue {
 type ChartContext = ComputedRef<ChartContextValue>;
 
 const ChartContextKey: InjectionKey<ChartContext> = Symbol('tile-chart');
-
-let chartCounter = 0;
 
 /**
  * 读取图表上下文 (必须在 TChartContainer 内使用)
@@ -75,7 +73,7 @@ export const TChartContainer = defineComponent({
 		const size = reactive({ width: props.initialDimension?.width ?? CHART_INITIAL_DIMENSION.width, height: props.initialDimension?.height ?? CHART_INITIAL_DIMENSION.height });
 		const activeIndex = ref<number | null>(null);
 		const mousePosition = reactive({ x: 0, y: 0 });
-		const chartId = `chart-${++chartCounter}`;
+		const chartId = `chart-${useId()}`;
 
 		let observer: ResizeObserver | null = null;
 

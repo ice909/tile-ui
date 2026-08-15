@@ -18,7 +18,7 @@ pnpm dlx shadcn@latest add @tile-ui/alert
 ```tsx
 import { Alert } from '@tile-ui/react';
 
-<Alert variant="warning">
+<Alert variant="destructive">
 	<AlertTitle>Heads up</AlertTitle>
 	<AlertDescription>Your session expires in 5 minutes.</AlertDescription>
 </Alert>
@@ -26,7 +26,7 @@ import { Alert } from '@tile-ui/react';
 
 ## Highlights
 
-- Five variants
+- Default and destructive variants
 - Title and description
 - Pairs with Card and Form
 
@@ -42,9 +42,9 @@ import { Alert } from '@tile-ui/react';
 
 ### Alert
 
-| Prop      | Type                                                             | Default |
-| --------- | ---------------------------------------------------------------- | ------- |
-| `variant` | `'default' \| 'destructive' \| 'warning' \| 'success' \| 'info'` | —       |
+| Prop      | Type                         | Default |
+| --------- | ---------------------------- | ------- |
+| `variant` | `'default' \| 'destructive'` | —       |
 
 ## Related docs
 

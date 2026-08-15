@@ -36,8 +36,8 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
 				data-size={size}
 				disabled={disabled}
 				className={`${styles[switchStyleKeys.root]} ${className}`}
-				onClick={handleClick}
-				{...props}>
+				{...props}
+				onClick={handleClick}>
 				<span className={styles[switchStyleKeys.thumb]} />
 			</button>
 		);

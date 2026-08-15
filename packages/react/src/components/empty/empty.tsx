@@ -27,7 +27,7 @@ EmptyHeader.displayName = 'EmptyHeader';
 
 export interface EmptyMediaProps extends React.HTMLAttributes<HTMLDivElement>, EmptyMediaBaseProps {}
 
-const EmptyMedia = React.forwardRef<HTMLDivElement, EmptyMediaProps>(({ className = '', variant = 'muted', children, ...props }, ref) => {
+const EmptyMedia = React.forwardRef<HTMLDivElement, EmptyMediaProps>(({ className = '', variant = 'default', children, ...props }, ref) => {
 	const variantKey = getEmptyMediaVariantKey(variant);
 	const classes = [styles[emptyStyleKeys.media], styles[variantKey], className].filter(Boolean).join(' ');
 

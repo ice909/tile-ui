@@ -39,11 +39,12 @@ describe('样式类名键生成', () => {
 
 	it('getBadgeStyleKeys / getAlertStyleKeys', () => {
 		expect(getBadgeStyleKeys('destructive').variant).toBe('variantDestructive');
-		expect(getAlertStyleKeys('success').variant).toBe('variantSuccess');
+		expect(getAlertStyleKeys('destructive').variant).toBe('variantDestructive');
 	});
 
 	it('getButtonGroupStyleKeys', () => {
-		expect(getButtonGroupStyleKeys('default', 'sm')).toEqual({ base: 'buttonGroup', variant: 'variantDefault', size: 'sizeSm' });
+		expect(getButtonGroupStyleKeys('horizontal')).toEqual({ base: 'buttonGroup', orientation: 'orientationHorizontal' });
+		expect(getButtonGroupStyleKeys('vertical')).toEqual({ base: 'buttonGroup', orientation: 'orientationVertical' });
 	});
 
 	it('getBubbleStyleKeys / getMessageStyleKeys', () => {
@@ -59,9 +60,9 @@ describe('样式类名键生成', () => {
 	});
 
 	it('getEmptyMediaVariantKey / getItemVariantKey / getMarkerVariantKey', () => {
-		expect(getEmptyMediaVariantKey('muted')).toBe('variantMuted');
-		expect(getItemVariantKey('neutral')).toBe('variantNeutral');
-		expect(getMarkerVariantKey('success')).toBe('variantSuccess');
+		expect(getEmptyMediaVariantKey('icon')).toBe('variantIcon');
+		expect(getItemVariantKey('default')).toBe('variantDefault');
+		expect(getMarkerVariantKey('separator')).toBe('variantSeparator');
 	});
 
 	it('getFieldIds / getFieldMessageStyleKeys', () => {

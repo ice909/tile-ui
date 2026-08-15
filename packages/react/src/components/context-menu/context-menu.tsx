@@ -353,7 +353,7 @@ const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentPr
 		</ContextMenuContentContext.Provider>
 	);
 
-	if (typeof document === 'undefined') {
+	if (!open || typeof document === 'undefined') {
 		return null;
 	}
 
@@ -815,7 +815,7 @@ const ContextMenuSubContent = React.forwardRef<HTMLDivElement, ContextMenuSubCon
 		</ContextMenuContentContext.Provider>
 	);
 
-	if (typeof document === 'undefined') {
+	if (!open || typeof document === 'undefined') {
 		return null;
 	}
 

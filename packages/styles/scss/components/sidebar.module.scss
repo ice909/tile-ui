@@ -56,12 +56,13 @@ $sidebar-ring: $ring;
 	flex: 1;
 	background-color: $sidebar-bg;
 	color: $sidebar-fg;
+}
 
-	&[data-variant='floating'] {
-		border-radius: $radius-lg;
-		border: 1px solid $sidebar-border;
-		box-shadow: $shadow-sm;
-	}
+// floating 变体（data-variant 位于 .container 上）
+.container[data-variant='floating'] .sidebar {
+	border-radius: $radius-lg;
+	border: 1px solid $sidebar-border;
+	box-shadow: $shadow-sm;
 }
 
 // 内容区

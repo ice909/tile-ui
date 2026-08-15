@@ -1,6 +1,6 @@
 import { cloneVNode, computed, defineComponent, h, type PropType } from 'vue';
-import { getItemVariantKey, itemStyleKeys } from '@tile-ui/core';
-import type { ItemVariant } from '@tile-ui/core';
+import { getItemMediaVariantKey, getItemSizeKey, getItemVariantKey, itemStyleKeys } from '@tile-ui/core';
+import type { ItemMediaVariant, ItemSize, ItemVariant } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/item.module.scss';
 
 export const TItemGroup = defineComponent({
@@ -23,17 +23,21 @@ export const TItem = defineComponent({
 	props: {
 		variant: {
 			type: String as PropType<ItemVariant>,
-			default: 'neutral',
+			default: 'default',
+		},
+		size: {
+			type: String as PropType<ItemSize>,
+			default: 'default',
 		},
 		asChild: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
 		const variantKey = computed(() => getItemVariantKey(props.variant));
+		const sizeKey = computed(() => getItemSizeKey(props.size));
 
 		return () => {
 			const children = slots.default?.();
-			const variantKeyValue = variantKey.value;
-			const rootClass = [styles[itemStyleKeys.item], styles[variantKeyValue]];
+			const rootClass = [styles[itemStyleKeys.item], styles[variantKey.value], styles[sizeKey.value]];
 
 			if (props.asChild) {
 				const firstChild = Array.isArray(children) ? children[0] : children;
@@ -44,20 +48,33 @@ export const TItem = defineComponent({
 						...attrs,
 						'data-slot': 'item',
 						'data-variant': props.variant,
-						class: [styles[itemStyleKeys.item], styles[variantKeyValue], attrs.class, childProps.class].filter(Boolean),
+						'data-size': props.size,
+						class: [styles[itemStyleKeys.item], styles[variantKey.value], styles[sizeKey.value], attrs.class, childProps.class].filter(Boolean),
 					});
 				}
 			}
 
-			return h('div', { ...attrs, 'data-slot': 'item', 'data-variant': props.variant, class: [...rootClass, attrs.class] }, children);
+			return h('div', { ...attrs, 'data-slot': 'item', 'data-variant': props.variant, 'data-size': props.size, class: [...rootClass, attrs.class] }, children);
 		};
 	},
 });
 
 export const TItemMedia = defineComponent({
 	name: 'TItemMedia',
-	setup(_props, { slots, attrs }) {
-		return () => h('div', { ...attrs, 'data-slot': 'item-media', class: [styles[itemStyleKeys.media], attrs.class] }, slots.default?.());
+	props: {
+		variant: {
+			type: String as PropType<ItemMediaVariant>,
+			default: 'default',
+		},
+	},
+	setup(props, { slots, attrs }) {
+		const variantKey = computed(() => getItemMediaVariantKey(props.variant));
+		return () =>
+			h(
+				'div',
+				{ ...attrs, 'data-slot': 'item-media', 'data-variant': props.variant, class: [styles[itemStyleKeys.media], styles[variantKey.value], attrs.class] },
+				slots.default?.(),
+			);
 	},
 });
 

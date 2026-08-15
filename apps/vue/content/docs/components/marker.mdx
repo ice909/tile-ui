@@ -3,7 +3,7 @@ title: Marker
 description: A status marker component.
 ---
 
-> Use Marker to tag content with a colored status.
+> Use Marker to annotate content with visual variants.
 
 ## Registry install
 
@@ -16,15 +16,15 @@ pnpm dlx shadcn@latest add @tile-ui/marker
 ```tsx
 import { TMarker } from '@tile-ui/vue';
 
-<TMarker variant="green">
+<TMarker variant="separator">
 	<TMarkerIcon />
-	<TMarkerContent>Online</TMarkerContent>
+	<TMarkerContent>Status</TMarkerContent>
 </TMarker>
 ```
 
 ## Highlights
 
-- Five color variants
+- Default, separator, and border variants
 - Icon and content
 - `asChild` support
 
@@ -40,10 +40,10 @@ import { TMarker } from '@tile-ui/vue';
 
 ### Marker
 
-| Prop      | Type                                                  | Default |
-| --------- | ----------------------------------------------------- | ------- |
-| `variant` | `'neutral' \| 'green' \| 'yellow' \| 'red' \| 'blue'` | —       |
-| `asChild` | `boolean`                                             | —       |
+| Prop      | Type                                   | Default |
+| --------- | -------------------------------------- | ------- |
+| `variant` | `'default' \| 'separator' \| 'border'` | —       |
+| `asChild` | `boolean`                              | —       |
 
 ## Related docs
 

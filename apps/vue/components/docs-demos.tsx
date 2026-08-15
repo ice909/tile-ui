@@ -537,7 +537,7 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 					<TEmpty>
 						{{
 							default: () => [
-								<TEmptyMedia variant="muted">{{ default: () => '+' }}</TEmptyMedia>,
+								<TEmptyMedia variant="default">{{ default: () => '+' }}</TEmptyMedia>,
 								<TEmptyTitle>{{ default: () => 'No results' }}</TEmptyTitle>,
 								<TEmptyDescription>{{ default: () => 'Try adjusting your search or filters.' }}</TEmptyDescription>,
 							],
@@ -551,21 +551,21 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 		name: 'DemoMarker',
 		setup() {
 			return () => (
-				<DocPreview title="Markers" description="Markers tag content with a colored status.">
+				<DocPreview title="Markers" description="Markers annotate content with visual variants.">
 					<div class="button-group">
-						<TMarker variant="green">
+						<TMarker variant="default">
 							{{
-								default: () => [<TMarkerIcon />, <TMarkerContent>{{ default: () => 'Online' }}</TMarkerContent>],
+								default: () => [<TMarkerIcon />, <TMarkerContent>{{ default: () => 'Default' }}</TMarkerContent>],
 							}}
 						</TMarker>
-						<TMarker variant="yellow">
+						<TMarker variant="separator">
 							{{
-								default: () => [<TMarkerIcon />, <TMarkerContent>{{ default: () => 'Away' }}</TMarkerContent>],
+								default: () => [<TMarkerIcon />, <TMarkerContent>{{ default: () => 'Separator' }}</TMarkerContent>],
 							}}
 						</TMarker>
-						<TMarker variant="red">
+						<TMarker variant="border">
 							{{
-								default: () => [<TMarkerIcon />, <TMarkerContent>{{ default: () => 'Offline' }}</TMarkerContent>],
+								default: () => [<TMarkerIcon />, <TMarkerContent>{{ default: () => 'Border' }}</TMarkerContent>],
 							}}
 						</TMarker>
 					</div>
@@ -738,7 +738,7 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 		setup() {
 			return () => (
 				<DocPreview title="Accordion" description="Accordion presents collapsible sections.">
-					<TAccordion type="single" collapsible modelValue="one">
+					<TAccordion type="single" collapsible defaultValue="one">
 						{{
 							default: () => [
 								<TAccordionItem value="one">

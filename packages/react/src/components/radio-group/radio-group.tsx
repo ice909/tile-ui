@@ -86,9 +86,9 @@ const RadioGroupItem = React.forwardRef<HTMLInputElement, RadioGroupItemProps>((
 			<span aria-hidden data-state={state} className={styles[radioGroupStyleKeys.item]}>
 				<span className={styles[radioGroupStyleKeys.indicator]}>
 					<span className={styles[radioGroupStyleKeys.dot]} />
-					{children}
 				</span>
 			</span>
+			{children}
 		</label>
 	);
 });

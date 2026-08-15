@@ -25,13 +25,13 @@
 	line-height: $leading-normal;
 
 	&::placeholder {
-		color: color.mix(white, $foreground, 60%);
+		color: $muted-foreground;
 	}
 
 	&:focus {
 		outline: none;
 		border-color: $ring;
-		box-shadow: 0 0 0 1px $ring;
+		box-shadow: 0 0 0 3px rgba($ring, 0.5);
 	}
 
 	&:disabled,
@@ -67,7 +67,7 @@
 
 .helperText {
 	font-size: $text-xs;
-	color: color.mix(white, $foreground, 60%);
+	color: $muted-foreground;
 	line-height: $leading-normal;
 }
 

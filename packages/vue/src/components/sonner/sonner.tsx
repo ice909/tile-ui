@@ -1,6 +1,6 @@
-import { defineComponent, h, shallowRef, type PropType, type VNode } from 'vue';
+import { defineComponent, h, shallowRef, watch, type PropType, type VNode } from 'vue';
 import { buildSonnerToastApi, createSonnerStore, getSonnerPositionStyleKeys, sonnerStyleKeys } from '@tile-ui/core';
-import type { SonnerPosition, SonnerToast, SonnerType } from '@tile-ui/core';
+import type { SonnerPosition, SonnerTheme, SonnerToast, SonnerType } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/sonner.module.scss';
 
 const sonnerStore = createSonnerStore();
@@ -63,9 +63,22 @@ export const TToaster = defineComponent({
 	name: 'TToaster',
 	props: {
 		position: { type: String as PropType<SonnerPosition>, default: 'bottom-right' },
+		duration: { type: Number, default: undefined },
+		theme: { type: String as PropType<SonnerTheme>, default: undefined },
+		richColors: { type: Boolean, default: false },
 		closeButton: { type: Boolean, default: true },
 	},
 	setup(props) {
+		watch(
+			() => props.duration,
+			(duration) => {
+				if (duration !== undefined) {
+					sonnerStore.setDefaultDuration(duration);
+				}
+			},
+			{ immediate: true },
+		);
+
 		return () => {
 			const groups = new Map<string, SonnerToast[]>();
 			for (const item of toasts.value) {
@@ -104,7 +117,19 @@ export const TToaster = defineComponent({
 						children,
 					);
 				});
-				containers.push(h('div', { key: groupPosition, 'data-slot': 'toaster', class: [styles[styleKeys.base], styles[styleKeys.position]] }, toastNodes));
+				containers.push(
+					h(
+						'div',
+						{
+							key: groupPosition,
+							'data-slot': 'toaster',
+							'data-theme': props.theme,
+							'data-rich-colors': props.richColors ? 'true' : undefined,
+							class: [styles[styleKeys.base], styles[styleKeys.position]],
+						},
+						toastNodes,
+					),
+				);
 			}
 			return containers;
 		};

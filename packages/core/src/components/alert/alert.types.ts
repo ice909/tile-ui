@@ -1,4 +1,4 @@
-export type AlertVariant = 'default' | 'destructive' | 'warning' | 'success' | 'info';
+export type AlertVariant = 'default' | 'destructive';
 
 /**
  * 框架无关的 Alert 基础 Props（仅包含组件库自定义属性）

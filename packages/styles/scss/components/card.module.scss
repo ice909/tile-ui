@@ -19,10 +19,17 @@
 }
 
 .cardHeader {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-auto-rows: min-content;
+	align-items: start;
 	gap: $spacing-1;
 	padding: $spacing-6 $spacing-6 0;
+
+	// 存在操作区时启用右侧列
+	&:has(.cardAction) {
+		grid-template-columns: 1fr auto;
+	}
 }
 
 .cardTitle {
@@ -38,6 +45,14 @@
 	color: color.mix(white, $foreground, 60%);
 	line-height: $leading-normal;
 	margin: 0;
+}
+
+.cardAction {
+	grid-column-start: 2;
+	grid-row-start: 1;
+	grid-row-end: span 2;
+	align-self: start;
+	justify-self: end;
 }
 
 .cardContent {

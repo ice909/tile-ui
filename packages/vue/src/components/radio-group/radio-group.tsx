@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, inject, provide, ref, type ComputedRef, type InjectionKey, type PropType } from 'vue';
+import { computed, defineComponent, h, inject, provide, ref, useId, type ComputedRef, type InjectionKey, type PropType } from 'vue';
 import { getRadioState, radioGroupStyleKeys } from '@tile-ui/core';
 import type { RadioGroupOrientation } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/radio-group.module.scss';
@@ -63,15 +63,13 @@ export const TRadioGroup = defineComponent({
 	},
 });
 
-let radioCounter = 0;
-
 export const TRadioGroupItem = defineComponent({
 	name: 'TRadioGroupItem',
 	props: {
 		value: { type: String, required: true },
 		disabled: { type: Boolean, default: false },
 	},
-	setup(props) {
+	setup(props, { slots }) {
 		const context = inject(RadioGroupContextKey);
 		if (!context) {
 			throw new Error('TRadioGroupItem must be used within <TRadioGroup>.');
@@ -79,7 +77,7 @@ export const TRadioGroupItem = defineComponent({
 
 		const checked = computed(() => context.value.value === props.value);
 		const state = computed(() => getRadioState(checked.value));
-		const inputId = `tile-radio-${++radioCounter}`;
+		const inputId = `tile-radio-${useId()}`;
 
 		return () =>
 			h('label', { class: styles[radioGroupStyleKeys.label], for: inputId }, [
@@ -100,6 +98,7 @@ export const TRadioGroupItem = defineComponent({
 				h('span', { 'data-state': state.value, class: styles[radioGroupStyleKeys.item] }, [
 					h('span', { class: styles[radioGroupStyleKeys.indicator] }, [h('span', { class: styles[radioGroupStyleKeys.dot] })]),
 				]),
+				...(slots.default?.() ?? []),
 			]);
 	},
 });

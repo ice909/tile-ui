@@ -100,6 +100,7 @@ declare module '@tile-ui/styles/scss/components/pagination.module.scss' {
 declare const NuxtLink: any;
 declare const NuxtPage: any;
 declare function defineNuxtConfig(config: Record<string, unknown>): Record<string, unknown>;
+declare function defineNuxtPlugin(plugin: () => void | Record<string, unknown>): unknown;
 declare function useRoute(): {
 	params: Record<string, string | string[] | undefined>;
 	fullPath: string;

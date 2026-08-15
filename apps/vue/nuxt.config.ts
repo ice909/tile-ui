@@ -18,12 +18,12 @@ const docsHmrPlugin: Plugin = {
 	configureServer(server: ViteDevServer) {
 		server.watcher.add([docsRoot, generatedDocsFile]);
 	},
-	handleHotUpdate(ctx: HmrContext) {
+	handleHotUpdate: async (ctx: HmrContext) => {
 		if (!ctx.file.startsWith(docsRoot) || !ctx.file.endsWith('.mdx')) {
 			return;
 		}
 
-		buildDocs();
+		await buildDocs();
 		ctx.server.ws.send({ type: 'full-reload' });
 		return [];
 	},
@@ -52,7 +52,7 @@ export default defineNuxtConfig({
 			},
 		},
 	},
-	css: ['@tile-ui/styles/scss/globals.scss', 'highlight.js/styles/github-dark.css', '~/assets/docs.scss'],
+	css: ['@tile-ui/styles/scss/globals.scss', 'highlight.js/styles/github.css', '~/assets/docs.scss'],
 	build: {
 		transpile: ['@tile-ui/vue', '@tile-ui/core'],
 	},

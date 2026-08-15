@@ -40,7 +40,7 @@ Use the `loading` prop to disable interaction and show the inline spinner:
 
 - Six visual variants
 - Loading state support
-- Small, default, large, and icon sizes
+- Eight sizes from `xs` through `icon-lg`
 - `asChild` support for router links and custom wrappers
 
 ## Registry dependencies
@@ -58,12 +58,12 @@ Use the `loading` prop to disable interaction and show the inline spinner:
 
 The `Button` component wraps the native `button` element and extends `React.ButtonHTMLAttributes<HTMLButtonElement>`.
 
-| Prop      | Type                                                              | Default   | Notes                                              |
-| --------- | ----------------------------------------------------------------- | --------- | -------------------------------------------------- |
-| `variant` | `default \| destructive \| outline \| secondary \| ghost \| link` | `default` | Chooses the button visual treatment.               |
-| `size`    | `default \| sm \| lg \| icon`                                     | `default` | Controls height and padding.                       |
-| `loading` | `boolean`                                                         | `false`   | Disables interaction and shows the inline spinner. |
-| `asChild` | `boolean`                                                         | `false`   | Renders via Radix Slot for composition.            |
+| Prop      | Type                                                                 | Default   | Notes                                              |
+| --------- | -------------------------------------------------------------------- | --------- | -------------------------------------------------- |
+| `variant` | `default \| destructive \| outline \| secondary \| ghost \| link`    | `default` | Chooses the button visual treatment.               |
+| `size`    | `default \| xs \| sm \| lg \| icon \| icon-xs \| icon-sm \| icon-lg` | `default` | Controls height and padding.                       |
+| `loading` | `boolean`                                                            | `false`   | Disables interaction and shows the inline spinner. |
+| `asChild` | `boolean`                                                            | `false`   | Renders via Radix Slot for composition.            |
 
 ## Related docs
 

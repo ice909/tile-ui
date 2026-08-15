@@ -1,3 +1,6 @@
+import { capitalize } from '../../utils/helpers';
+import type { TabsListVariant } from './tabs.types';
+
 export type TabsState = 'active' | 'inactive';
 
 /**
@@ -5,6 +8,13 @@ export type TabsState = 'active' | 'inactive';
  */
 export function getTabsState(active: boolean): TabsState {
 	return active ? 'active' : 'inactive';
+}
+
+/**
+ * 获取 TabsList 的变体类名键
+ */
+export function getTabsListVariantKey(variant: TabsListVariant = 'default'): string {
+	return `variant${capitalize(variant)}`;
 }
 
 /**

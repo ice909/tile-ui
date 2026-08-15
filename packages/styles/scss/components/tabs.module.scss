@@ -39,6 +39,38 @@
 		height: fit-content;
 		flex-direction: column;
 	}
+
+	// 变体
+	&.variantLine {
+		gap: $spacing-1;
+		background-color: transparent;
+		border-radius: 0;
+
+		.trigger[data-state='active'] {
+			background-color: transparent;
+			box-shadow: none;
+
+			&::after {
+				content: '';
+				position: absolute;
+				background-color: $foreground;
+			}
+		}
+
+		&[data-orientation='horizontal'] .trigger[data-state='active']::after {
+			left: 0;
+			right: 0;
+			bottom: -5px;
+			height: 2px;
+		}
+
+		&[data-orientation='vertical'] .trigger[data-state='active']::after {
+			top: 0;
+			bottom: 0;
+			right: -4px;
+			width: 2px;
+		}
+	}
 }
 
 .trigger {

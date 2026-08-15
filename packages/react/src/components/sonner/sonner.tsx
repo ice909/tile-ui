@@ -160,8 +160,14 @@ export interface ToasterProps extends SonnerToasterBaseProps {
 	className?: string;
 }
 
-function Toaster({ position = 'bottom-right', closeButton = true, className = '' }: ToasterProps) {
+function Toaster({ position = 'bottom-right', duration, theme, richColors = false, closeButton = true, className = '' }: ToasterProps) {
 	const toasts = useSyncExternalStore(sonnerStore.subscribe, sonnerStore.getToasts, sonnerStore.getToasts);
+
+	React.useEffect(() => {
+		if (duration !== undefined) {
+			sonnerStore.setDefaultDuration(duration);
+		}
+	}, [duration]);
 
 	const groups = new Map<string, SonnerToast[]>();
 	for (const item of toasts) {
@@ -179,7 +185,12 @@ function Toaster({ position = 'bottom-right', closeButton = true, className = ''
 			{Array.from(groups.entries()).map(([groupPosition, list]) => {
 				const styleKeys = getSonnerPositionStyleKeys(groupPosition as SonnerPosition);
 				return (
-					<div key={groupPosition} data-slot="toaster" className={[styles[styleKeys.base], styles[styleKeys.position], className].filter(Boolean).join(' ')}>
+					<div
+						key={groupPosition}
+						data-slot="toaster"
+						data-theme={theme}
+						data-rich-colors={richColors ? 'true' : undefined}
+						className={[styles[styleKeys.base], styles[styleKeys.position], className].filter(Boolean).join(' ')}>
 						{list.map((item) => (
 							<div key={item.id} data-slot="toast" data-type={item.type} data-dismissing={item.dismissing} className={styles[sonnerStyleKeys.toast]}>
 								<ToastIcon type={item.type} />

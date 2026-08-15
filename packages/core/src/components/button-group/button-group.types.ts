@@ -1,22 +1,13 @@
-export type ButtonGroupVariant = 'default' | 'outline' | 'ghost';
-export type ButtonGroupSize = 'default' | 'sm' | 'lg' | 'icon';
+export type ButtonGroupOrientation = 'horizontal' | 'vertical';
 
 /**
  * 框架无关的 ButtonGroup 基础 Props（仅包含组件库自定义属性）
  */
 export interface ButtonGroupBaseProps {
 	/**
-	 * 按钮组样式变体
+	 * 按钮组排列方向
 	 */
-	variant?: ButtonGroupVariant;
-	/**
-	 * 按钮组尺寸
-	 */
-	size?: ButtonGroupSize;
-	/**
-	 * 是否将根元素渲染为子元素（Slot 模式）
-	 */
-	asChild?: boolean;
+	orientation?: ButtonGroupOrientation;
 }
 
 /**
@@ -32,4 +23,9 @@ export interface ButtonGroupTextBaseProps {
 /**
  * 框架无关的 ButtonGroupSeparator 基础 Props（仅包含组件库自定义属性）
  */
-export interface ButtonGroupSeparatorBaseProps {}
+export interface ButtonGroupSeparatorBaseProps {
+	/**
+	 * 分隔线方向
+	 */
+	orientation?: ButtonGroupOrientation;
+}

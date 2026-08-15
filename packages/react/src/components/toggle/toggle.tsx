@@ -39,8 +39,8 @@ const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
 				data-size={size}
 				disabled={disabled}
 				className={classes}
-				onClick={handleClick}
-				{...props}>
+				{...props}
+				onClick={handleClick}>
 				{children}
 			</button>
 		);

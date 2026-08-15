@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, inject, provide, ref, type ComputedRef, type InjectionKey, type PropType } from 'vue';
+import { computed, defineComponent, h, inject, provide, ref, useId, type ComputedRef, type InjectionKey, type PropType } from 'vue';
 import { accordionStyleKeys, getAccordionState, getAccordionNextValues } from '@tile-ui/core';
 import type { AccordionType } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/accordion.module.scss';
@@ -32,6 +32,10 @@ export const TAccordion = defineComponent({
 			type: [String, Array] as PropType<string | string[]>,
 			default: undefined,
 		},
+		defaultValue: {
+			type: [String, Array] as PropType<string | string[]>,
+			default: undefined,
+		},
 		type: {
 			type: String as PropType<AccordionType>,
 			default: 'single',
@@ -40,7 +44,9 @@ export const TAccordion = defineComponent({
 	},
 	emits: ['update:modelValue', 'change'],
 	setup(props, { emit, slots }) {
-		const internalValue = ref<string | string[]>(props.modelValue !== undefined ? props.modelValue : props.type === 'multiple' ? [] : '');
+		const internalValue = ref<string | string[]>(
+			props.modelValue !== undefined ? props.modelValue : props.defaultValue !== undefined ? props.defaultValue : props.type === 'multiple' ? [] : '',
+		);
 		const currentValue = computed<string | string[]>(() => (props.modelValue !== undefined ? props.modelValue : internalValue.value));
 		const normalized = computed<string | string[]>(() =>
 			props.type === 'multiple' ? (Array.isArray(currentValue.value) ? currentValue.value : []) : typeof currentValue.value === 'string' ? currentValue.value : '',
@@ -79,8 +85,6 @@ export const TAccordion = defineComponent({
 	},
 });
 
-let accordionCounter = 0;
-
 export const TAccordionItem = defineComponent({
 	name: 'TAccordionItem',
 	props: {
@@ -97,7 +101,7 @@ export const TAccordionItem = defineComponent({
 			accordion.value.type === 'multiple' ? Array.isArray(accordion.value.value) && accordion.value.value.includes(props.value) : accordion.value.value === props.value,
 		);
 
-		const contentId = `tile-accordion-${++accordionCounter}`;
+		const contentId = `tile-accordion-${useId()}`;
 
 		const itemContext = computed<AccordionItemContextValue>(() => ({
 			value: props.value,

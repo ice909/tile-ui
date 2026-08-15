@@ -81,8 +81,8 @@ const ToggleGroupItem = React.forwardRef<HTMLButtonElement, ToggleGroupItemProps
 				data-active={selected}
 				disabled={disabled}
 				className={classes}
-				onClick={() => context.onItemClick(value)}
-				{...props}>
+				{...props}
+				onClick={() => context.onItemClick(value)}>
 				{children}
 			</button>
 		);

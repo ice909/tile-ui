@@ -13,6 +13,6 @@ export const markerStyleKeys = {
 /**
  * 获取 Marker 的变体类名键
  */
-export function getMarkerVariantKey(variant: MarkerVariant = 'neutral'): string {
+export function getMarkerVariantKey(variant: MarkerVariant = 'default'): string {
 	return `variant${capitalize(variant)}`;
 }

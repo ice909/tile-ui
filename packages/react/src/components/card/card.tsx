@@ -1,6 +1,14 @@
 import React from 'react';
 import { cardStyleKeys } from '@tile-ui/core';
-import type { CardBaseProps, CardHeaderBaseProps, CardTitleBaseProps, CardDescriptionBaseProps, CardContentBaseProps, CardFooterBaseProps } from '@tile-ui/core';
+import type {
+	CardBaseProps,
+	CardHeaderBaseProps,
+	CardTitleBaseProps,
+	CardDescriptionBaseProps,
+	CardActionBaseProps,
+	CardContentBaseProps,
+	CardFooterBaseProps,
+} from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/card.module.scss';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement>, CardBaseProps {}
@@ -47,6 +55,17 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionPr
 });
 CardDescription.displayName = 'CardDescription';
 
+interface CardActionProps extends React.HTMLAttributes<HTMLDivElement>, CardActionBaseProps {}
+
+const CardAction = React.forwardRef<HTMLDivElement, CardActionProps>(({ className = '', children, ...props }, ref) => {
+	return (
+		<div ref={ref} className={`${styles[cardStyleKeys.action]} ${className}`} {...props}>
+			{children}
+		</div>
+	);
+});
+CardAction.displayName = 'CardAction';
+
 interface CardContentProps extends React.HTMLAttributes<HTMLDivElement>, CardContentBaseProps {}
 
 const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(({ className = '', children, ...props }, ref) => {
@@ -69,6 +88,6 @@ const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(({ classNam
 });
 CardFooter.displayName = 'CardFooter';
 
-export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter };
-export type { CardHeaderProps, CardTitleProps, CardDescriptionProps, CardContentProps, CardFooterProps };
+export { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter };
+export type { CardHeaderProps, CardTitleProps, CardDescriptionProps, CardActionProps, CardContentProps, CardFooterProps };
 export default Card;

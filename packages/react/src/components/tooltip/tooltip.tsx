@@ -253,7 +253,7 @@ const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(({ 
 		</div>
 	);
 
-	if (typeof document === 'undefined') {
+	if (!open || typeof document === 'undefined') {
 		return null;
 	}
 

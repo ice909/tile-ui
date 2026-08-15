@@ -299,10 +299,15 @@ export const TCommandDialog = defineComponent({
 		open: { type: Boolean, default: false },
 		title: { type: String, default: 'Command Palette' },
 		description: { type: String, default: 'Search for a command to run...' },
+		showCloseButton: { type: Boolean, default: true },
 	},
 	emits: ['update:open'],
-	setup(props, { emit, slots }) {
+	setup(props, { emit, slots, attrs }) {
 		function handleOverlayClick() {
+			emit('update:open', false);
+		}
+
+		function handleCloseClick() {
 			emit('update:open', false);
 		}
 
@@ -317,14 +322,48 @@ export const TCommandDialog = defineComponent({
 				return null;
 			}
 
+			const dialogChildren = [
+				h('h2', { class: styles[commandStyleKeys.dialogTitle] }, [props.title]),
+				h('p', { class: styles[commandStyleKeys.dialogDescription] }, [props.description]),
+				...(slots.default?.() ?? []),
+			];
+
+			if (props.showCloseButton) {
+				dialogChildren.push(
+					h(
+						'button',
+						{
+							type: 'button',
+							'aria-label': '关闭',
+							class: styles[commandStyleKeys.dialogClose],
+							onClick: handleCloseClick,
+						},
+						[
+							h(
+								'svg',
+								{
+									xmlns: 'http://www.w3.org/2000/svg',
+									width: '16',
+									height: '16',
+									viewBox: '0 0 24 24',
+									fill: 'none',
+									stroke: 'currentColor',
+									'stroke-width': '2',
+									'stroke-linecap': 'round',
+									'stroke-linejoin': 'round',
+									'aria-hidden': 'true',
+								},
+								[h('path', { d: 'M18 6 6 18' }), h('path', { d: 'm6 6 12 12' })],
+							),
+						],
+					),
+				);
+			}
+
 			return h(Teleport, { to: 'body' }, [
 				h('div', { onKeydown: handleKeyDown }, [
 					h('div', { class: styles[commandStyleKeys.dialogOverlay], onClick: handleOverlayClick }),
-					h('div', { class: styles[commandStyleKeys.dialogContent], role: 'dialog', 'aria-modal': 'true' }, [
-						h('h2', { class: styles[commandStyleKeys.dialogTitle] }, [props.title]),
-						h('p', { class: styles[commandStyleKeys.dialogDescription] }, [props.description]),
-						slots.default?.(),
-					]),
+					h('div', { class: [styles[commandStyleKeys.dialogContent], attrs.class], role: 'dialog', 'aria-modal': 'true' }, dialogChildren),
 				]),
 			]);
 		};

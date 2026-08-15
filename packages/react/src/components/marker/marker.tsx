@@ -6,7 +6,7 @@ import styles from '@tile-ui/styles/scss/components/marker.module.scss';
 
 export interface MarkerProps extends React.HTMLAttributes<HTMLDivElement>, MarkerBaseProps {}
 
-const Marker = React.forwardRef<HTMLDivElement, MarkerProps>(({ className = '', variant = 'neutral', asChild = false, children, ...props }, ref) => {
+const Marker = React.forwardRef<HTMLDivElement, MarkerProps>(({ className = '', variant = 'default', asChild = false, children, ...props }, ref) => {
 	const Comp = asChild ? Slot : 'div';
 	const variantKey = getMarkerVariantKey(variant);
 	const classes = [styles[markerStyleKeys.root], styles[variantKey], className].filter(Boolean).join(' ');

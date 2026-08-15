@@ -33,7 +33,7 @@ function useCarousel(): CarouselContextValue {
 	return context;
 }
 
-function renderArrowIcon() {
+function renderArrowIcon(left: boolean) {
 	return h(
 		'svg',
 		{
@@ -48,7 +48,7 @@ function renderArrowIcon() {
 			'stroke-linejoin': 'round',
 			'aria-hidden': 'true',
 		},
-		[h('path', { d: 'M5 12h14' }), h('path', { d: 'm12 5 7 7-7 7' })],
+		left ? [h('path', { d: 'M19 12H5' }), h('path', { d: 'm12 19-7-7 7-7' })] : [h('path', { d: 'M5 12h14' }), h('path', { d: 'm12 5 7 7-7 7' })],
 	);
 }
 
@@ -195,7 +195,7 @@ export const TCarouselPrevious = defineComponent({
 					disabled: !canScrollPrev.value,
 					onClick: scrollPrev,
 				},
-				[slots.default?.() ?? [renderArrowIcon(), h('span', { style: srOnlyStyle }, 'Previous slide')]],
+				[slots.default?.() ?? [renderArrowIcon(true), h('span', { style: srOnlyStyle }, 'Previous slide')]],
 			);
 	},
 });
@@ -217,7 +217,7 @@ export const TCarouselNext = defineComponent({
 					disabled: !canScrollNext.value,
 					onClick: scrollNext,
 				},
-				[slots.default?.() ?? [renderArrowIcon(), h('span', { style: srOnlyStyle }, 'Next slide')]],
+				[slots.default?.() ?? [renderArrowIcon(false), h('span', { style: srOnlyStyle }, 'Next slide')]],
 			);
 	},
 });

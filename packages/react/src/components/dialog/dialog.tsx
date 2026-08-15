@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Slot } from '@radix-ui/react-slot';
 import { dialogStyleKeys, getDialogState } from '@tile-ui/core';
 import type { DialogBaseProps } from '@tile-ui/core';
+import { Button } from '../button';
 import styles from '@tile-ui/styles/scss/components/dialog.module.scss';
 
 interface DialogContextValue {
@@ -236,12 +237,22 @@ const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(({ clas
 });
 DialogHeader.displayName = 'DialogHeader';
 
-export interface DialogFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface DialogFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+	/** 是否在底部渲染一个「关闭」按钮 */
+	showCloseButton?: boolean;
+}
 
-const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(({ className = '', children, ...props }, ref) => {
+const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(({ className = '', showCloseButton = false, children, ...props }, ref) => {
+	const context = useDialogContext();
+
 	return (
 		<div ref={ref} className={`${styles[dialogStyleKeys.footer]} ${className}`} {...props}>
 			{children}
+			{showCloseButton && (
+				<Button type="button" variant="outline" onClick={() => context.close()}>
+					Close
+				</Button>
+			)}
 		</div>
 	);
 });

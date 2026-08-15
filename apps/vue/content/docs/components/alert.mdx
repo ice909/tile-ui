@@ -16,7 +16,7 @@ pnpm dlx shadcn@latest add @tile-ui/alert
 ```tsx
 import { TAlert } from '@tile-ui/vue';
 
-<TAlert variant="warning">
+<TAlert variant="destructive">
 	<TAlertTitle>Heads up</TAlertTitle>
 	<TAlertDescription>Your session expires in 5 minutes.</TAlertDescription>
 </TAlert>
@@ -24,7 +24,7 @@ import { TAlert } from '@tile-ui/vue';
 
 ## Highlights
 
-- Five variants
+- Default and destructive variants
 - Title and description
 - Pairs with Card and Form
 
@@ -40,9 +40,9 @@ import { TAlert } from '@tile-ui/vue';
 
 ### Alert
 
-| Prop      | Type                                                             | Default |
-| --------- | ---------------------------------------------------------------- | ------- |
-| `variant` | `'default' \| 'destructive' \| 'warning' \| 'success' \| 'info'` | —       |
+| Prop      | Type                         | Default |
+| --------- | ---------------------------- | ------- |
+| `variant` | `'default' \| 'destructive'` | —       |
 
 ## Related docs
 

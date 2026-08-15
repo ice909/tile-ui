@@ -347,7 +347,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 			</SelectContentContext.Provider>
 		);
 
-		if (typeof document === 'undefined') {
+		if (!open || typeof document === 'undefined') {
 			return null;
 		}
 

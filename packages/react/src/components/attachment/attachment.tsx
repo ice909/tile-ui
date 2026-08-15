@@ -240,7 +240,7 @@ AttachmentActions.displayName = 'AttachmentActions';
 
 export interface AttachmentActionProps extends React.ComponentProps<typeof Button> {}
 
-const AttachmentAction = React.forwardRef<HTMLButtonElement, AttachmentActionProps>(({ className = '', variant, size = 'icon', children, ...props }, ref) => {
+const AttachmentAction = React.forwardRef<HTMLButtonElement, AttachmentActionProps>(({ className = '', variant, size = 'icon-xs', children, ...props }, ref) => {
 	return (
 		<Button ref={ref} data-slot="attachment-action" variant={variant ?? 'ghost'} size={size} className={`${styles[attachmentStyleKeys.action]} ${className}`} {...props}>
 			{children}

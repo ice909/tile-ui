@@ -8,6 +8,7 @@ import {
 	onBeforeUnmount,
 	provide,
 	ref,
+	useId,
 	watch,
 	Teleport,
 	type ComputedRef,
@@ -32,8 +33,6 @@ type AlertDialogContext = ComputedRef<AlertDialogContextValue>;
 
 const AlertDialogContextKey: InjectionKey<AlertDialogContext> = Symbol('tile-alert-dialog');
 
-let alertDialogCounter = 0;
-
 function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => void {
 	return (event: Event) => {
 		for (const handler of handlers) {
@@ -55,15 +54,16 @@ function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => vo
 export const TAlertDialog = defineComponent({
 	name: 'TAlertDialog',
 	props: {
-		open: Boolean,
+		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
 	},
 	emits: ['update:open'],
 	setup(props, { emit, slots }) {
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
-		const titleId = `tile-alert-dialog-title-${++alertDialogCounter}`;
-		const descriptionId = `tile-alert-dialog-description-${++alertDialogCounter}`;
+		const baseId = useId();
+		const titleId = `${baseId}-title`;
+		const descriptionId = `${baseId}-description`;
 
 		function setOpen(next: boolean) {
 			if (props.open === undefined) {

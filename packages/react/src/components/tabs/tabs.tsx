@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
-import { getTabsState, tabsStyleKeys } from '@tile-ui/core';
-import type { TabsBaseProps, TabsTriggerBaseProps, TabsContentBaseProps } from '@tile-ui/core';
+import { getTabsListVariantKey, getTabsState, tabsStyleKeys } from '@tile-ui/core';
+import type { TabsBaseProps, TabsListBaseProps, TabsTriggerBaseProps, TabsContentBaseProps } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/tabs.module.scss';
 
 interface TabsContextValue {
@@ -42,10 +42,11 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({ className = '', valu
 });
 Tabs.displayName = 'Tabs';
 
-export interface TabsListProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface TabsListProps extends React.HTMLAttributes<HTMLDivElement>, TabsListBaseProps {}
 
-const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className = '', children, onKeyDown, ...props }, ref) => {
+const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className = '', variant = 'default', children, onKeyDown, ...props }, ref) => {
 	const context = useTabsContext();
+	const variantKey = getTabsListVariantKey(variant);
 
 	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
 		onKeyDown?.(event);
@@ -68,7 +69,14 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className = 
 	}
 
 	return (
-		<div ref={ref} role="tablist" data-orientation={context.orientation} onKeyDown={handleKeyDown} className={`${styles[tabsStyleKeys.list]} ${className}`} {...props}>
+		<div
+			ref={ref}
+			role="tablist"
+			data-orientation={context.orientation}
+			data-variant={variant}
+			onKeyDown={handleKeyDown}
+			className={`${styles[tabsStyleKeys.list]} ${styles[variantKey]} ${className}`}
+			{...props}>
 			{children}
 		</div>
 	);

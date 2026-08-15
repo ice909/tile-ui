@@ -1,5 +1,6 @@
-import { cloneVNode, computed, defineComponent, h, inject, nextTick, onBeforeUnmount, provide, ref, watch, Teleport, type ComputedRef, type InjectionKey } from 'vue';
+import { cloneVNode, computed, defineComponent, h, inject, nextTick, onBeforeUnmount, provide, ref, useId, watch, Teleport, type ComputedRef, type InjectionKey } from 'vue';
 import { dialogStyleKeys, getDialogState } from '@tile-ui/core';
+import { TButton } from '../button';
 import styles from '@tile-ui/styles/scss/components/dialog.module.scss';
 
 interface DialogContextValue {
@@ -13,8 +14,6 @@ interface DialogContextValue {
 type DialogContext = ComputedRef<DialogContextValue>;
 
 const DialogContextKey: InjectionKey<DialogContext> = Symbol('tile-dialog');
-
-let dialogCounter = 0;
 
 function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => void {
 	return (event: Event) => {
@@ -37,15 +36,16 @@ function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => vo
 export const TDialog = defineComponent({
 	name: 'TDialog',
 	props: {
-		open: Boolean,
+		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
 	},
 	emits: ['update:open'],
 	setup(props, { emit, slots }) {
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
-		const titleId = `tile-dialog-title-${++dialogCounter}`;
-		const descriptionId = `tile-dialog-description-${++dialogCounter}`;
+		const baseId = useId();
+		const titleId = `${baseId}-title`;
+		const descriptionId = `${baseId}-description`;
 
 		function setOpen(next: boolean) {
 			if (props.open === undefined) {
@@ -305,8 +305,25 @@ export const TDialogHeader = defineComponent({
 
 export const TDialogFooter = defineComponent({
 	name: 'TDialogFooter',
-	setup(_props, { slots, attrs }) {
-		return () => h('div', { ...attrs, class: [styles[dialogStyleKeys.footer], attrs.class] }, slots.default?.());
+	props: {
+		showCloseButton: { type: Boolean, default: false },
+	},
+	setup(props, { slots, attrs }) {
+		const contextValue = inject(DialogContextKey);
+		if (!contextValue) {
+			throw new Error('TDialogFooter must be used within <TDialog>.');
+		}
+		const context: DialogContext = contextValue;
+
+		return () => {
+			const footerChildren = [...(slots.default?.() ?? [])];
+
+			if (props.showCloseButton) {
+				footerChildren.push(h(TButton, { type: 'button', variant: 'outline', onClick: () => context.value.close() }, { default: () => 'Close' }));
+			}
+
+			return h('div', { ...attrs, class: [styles[dialogStyleKeys.footer], attrs.class] }, footerChildren);
+		};
 	},
 });
 

@@ -44,6 +44,23 @@
 		}
 	}
 
+	&.sizeXs {
+		height: 1.5rem;
+		gap: $spacing-1;
+		border-radius: $radius;
+		padding: 0 $spacing-2;
+		font-size: $text-xs;
+
+		svg {
+			width: 0.75rem;
+			height: 0.75rem;
+		}
+
+		&.hasIcon {
+			padding-inline: $spacing-1_5;
+		}
+	}
+
 	&.sizeSm {
 		height: 2rem;
 		border-radius: $radius-sm;
@@ -70,6 +87,30 @@
 	&.sizeIcon {
 		height: 2.25rem;
 		width: 2.25rem;
+		padding: 0;
+	}
+
+	&.sizeIconXs {
+		height: 1.5rem;
+		width: 1.5rem;
+		border-radius: $radius;
+		padding: 0;
+
+		svg {
+			width: 0.75rem;
+			height: 0.75rem;
+		}
+	}
+
+	&.sizeIconSm {
+		height: 2rem;
+		width: 2rem;
+		padding: 0;
+	}
+
+	&.sizeIconLg {
+		height: 2.5rem;
+		width: 2.5rem;
 		padding: 0;
 	}
 

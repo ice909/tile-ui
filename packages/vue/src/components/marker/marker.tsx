@@ -8,7 +8,7 @@ export const TMarker = defineComponent({
 	props: {
 		variant: {
 			type: String as PropType<MarkerVariant>,
-			default: 'neutral',
+			default: 'default',
 		},
 		asChild: { type: Boolean, default: false },
 	},

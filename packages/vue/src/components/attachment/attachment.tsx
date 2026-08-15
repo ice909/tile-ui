@@ -217,7 +217,7 @@ export const TAttachmentAction = defineComponent({
 	name: 'TAttachmentAction',
 	props: {
 		variant: { type: String as PropType<ButtonVariant>, default: 'ghost' },
-		size: { type: String as PropType<ButtonSize>, default: 'icon' },
+		size: { type: String as PropType<ButtonSize>, default: 'icon-xs' },
 	},
 	setup(props, { slots, attrs }) {
 		return () => {

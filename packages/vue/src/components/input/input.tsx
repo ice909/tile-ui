@@ -1,8 +1,6 @@
-import { defineComponent, computed, h } from 'vue';
+import { defineComponent, computed, h, useId } from 'vue';
 import { getInputIds, getInputAriaProps } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/input.module.scss';
-
-let inputCounter = 0;
 
 export const TInput = defineComponent({
 	name: 'TInput',
@@ -19,7 +17,8 @@ export const TInput = defineComponent({
 	},
 	emits: ['update:modelValue'],
 	setup(props, { emit }) {
-		const inputId = computed(() => props.id || `tile-input-${++inputCounter}`);
+		const fallbackId = useId();
+		const inputId = computed(() => props.id || fallbackId);
 		const ids = computed(() => getInputIds(inputId.value));
 		const ariaProps = computed(() => getInputAriaProps(ids.value, props.error, props.helperText));
 

@@ -1,6 +1,8 @@
 import type { ComponentPropsWithoutRef } from 'react';
 import type { MDXComponents } from 'mdx/types';
 
+import { getLanguageIcon } from '@/components/code-icons';
+import { CopyButton } from '@/components/copy-button';
 import {
 	Accordion,
 	AccordionContent,
@@ -62,14 +64,29 @@ export const mdxComponents: MDXComponents = {
 	th: (props: ComponentPropsWithoutRef<'th'>) => <th className="mdx-th" {...props} />,
 	td: (props: ComponentPropsWithoutRef<'td'>) => <td className="mdx-td" {...props} />,
 	pre: (props: ComponentPropsWithoutRef<'pre'>) => <pre className="mdx-pre" {...props} />,
-	code: (props: ComponentPropsWithoutRef<'code'>) => {
+	code: ({ __raw__, className, ...props }: ComponentPropsWithoutRef<'code'> & { __raw__?: string }) => {
 		if (typeof props.children === 'string') {
 			return <code className="mdx-inline-code" {...props} />;
 		}
-		return <code {...props} />;
+
+		return (
+			<>
+				{__raw__ ? <CopyButton value={__raw__} /> : null}
+				<code className={className} {...props} />
+			</>
+		);
 	},
 	figure: (props: ComponentPropsWithoutRef<'figure'>) => <figure className="mdx-figure" {...props} />,
-	figcaption: (props: ComponentPropsWithoutRef<'figcaption'>) => <figcaption className="mdx-figcaption" {...props} />,
+	figcaption: ({ className, children, ...props }: ComponentPropsWithoutRef<'figcaption'>) => {
+		const language = 'data-language' in props ? (props['data-language'] as string | undefined) : undefined;
+
+		return (
+			<figcaption className={className} {...props}>
+				{getLanguageIcon(language)}
+				{children}
+			</figcaption>
+		);
+	},
 	Button,
 	Callout,
 	Step,

@@ -1,4 +1,4 @@
-export type EmptyMediaVariant = 'muted' | 'bordered';
+export type EmptyMediaVariant = 'default' | 'icon';
 
 /**
  * 框架无关的 EmptyMedia 基础 Props（仅包含组件库自定义属性）

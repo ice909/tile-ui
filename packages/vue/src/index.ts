@@ -3,7 +3,7 @@ export { TButton } from './components/button';
 export { TInput } from './components/input';
 export { TTextarea } from './components/textarea';
 export { TLabel } from './components/label';
-export { TCard, TCardHeader, TCardTitle, TCardDescription, TCardContent, TCardFooter } from './components/card';
+export { TCard, TCardHeader, TCardTitle, TCardDescription, TCardAction, TCardContent, TCardFooter } from './components/card';
 export { TBadge } from './components/badge';
 export { TSkeleton } from './components/skeleton';
 export { TKbd, TKbdGroup } from './components/kbd';

@@ -36,8 +36,8 @@ const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(({ className
 			data-state={state}
 			disabled={disabled}
 			className={`${styles[checkboxStyleKeys.root]} ${className}`}
-			onClick={handleClick}
-			{...props}>
+			{...props}
+			onClick={handleClick}>
 			<span className={styles[checkboxStyleKeys.indicator]}>
 				{state === 'checked' && (
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">

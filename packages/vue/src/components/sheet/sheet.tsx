@@ -8,6 +8,7 @@ import {
 	onBeforeUnmount,
 	provide,
 	ref,
+	useId,
 	watch,
 	Teleport,
 	type ComputedRef,
@@ -30,8 +31,6 @@ type SheetContext = ComputedRef<SheetContextValue>;
 
 const SheetContextKey: InjectionKey<SheetContext> = Symbol('tile-sheet');
 
-let sheetCounter = 0;
-
 function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => void {
 	return (event: Event) => {
 		for (const handler of handlers) {
@@ -53,15 +52,16 @@ function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => vo
 export const TSheet = defineComponent({
 	name: 'TSheet',
 	props: {
-		open: Boolean,
+		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
 	},
 	emits: ['update:open'],
 	setup(props, { emit, slots }) {
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
-		const titleId = `tile-sheet-title-${++sheetCounter}`;
-		const descriptionId = `tile-sheet-description-${++sheetCounter}`;
+		const baseId = useId();
+		const titleId = `${baseId}-title`;
+		const descriptionId = `${baseId}-description`;
 
 		function setOpen(next: boolean) {
 			if (props.open === undefined) {

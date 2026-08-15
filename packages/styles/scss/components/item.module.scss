@@ -1,4 +1,3 @@
-@use 'sass:color';
 @use 'variables/colors' as *;
 
 // Item 组容器
@@ -20,8 +19,6 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: $spacing-4;
-	padding: $spacing-4;
 	border-radius: $radius;
 	border: 1px solid transparent;
 	font-size: $text-sm;
@@ -42,21 +39,27 @@
 	}
 
 	// 样式变体
-	&.variantNeutral {
+	&.variantDefault {
 		background-color: transparent;
 	}
 
-	&.variantSelected {
-		background-color: $muted;
+	&.variantOutline {
 		border-color: $border;
 	}
 
-	&.variantHoverable {
-		background-color: transparent;
+	&.variantMuted {
+		background-color: rgba($muted, 0.5);
+	}
 
-		&:hover {
-			background-color: rgba($muted, 0.7);
-		}
+	// 尺寸变体
+	&.sizeDefault {
+		gap: $spacing-4;
+		padding: $spacing-4;
+	}
+
+	&.sizeSm {
+		gap: $spacing-2_5;
+		padding: $spacing-3 $spacing-4;
 	}
 }
 
@@ -73,6 +76,37 @@
 		flex-shrink: 0;
 		width: $spacing-4;
 		height: $spacing-4;
+	}
+
+	// 变体
+	&.variantDefault {
+		background-color: transparent;
+	}
+
+	&.variantIcon {
+		width: $spacing-8;
+		height: $spacing-8;
+		border-radius: $radius-sm;
+		border: 1px solid $border;
+		background-color: $muted;
+
+		svg {
+			width: $spacing-4;
+			height: $spacing-4;
+		}
+	}
+
+	&.variantImage {
+		width: $spacing-10;
+		height: $spacing-10;
+		overflow: hidden;
+		border-radius: $radius-sm;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 	}
 }
 

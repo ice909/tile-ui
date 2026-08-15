@@ -3,7 +3,7 @@ title: Marker
 description: A status marker component.
 ---
 
-> Use Marker to tag content with a colored status.
+> Use Marker to annotate content with visual variants.
 
 <ComponentDemo slug="marker" />
 
@@ -18,15 +18,15 @@ pnpm dlx shadcn@latest add @tile-ui/marker
 ```tsx
 import { Marker } from '@tile-ui/react';
 
-<Marker variant="green">
+<Marker variant="separator">
 	<MarkerIcon />
-	<MarkerContent>Online</MarkerContent>
+	<MarkerContent>Status</MarkerContent>
 </Marker>
 ```
 
 ## Highlights
 
-- Five color variants
+- Default, separator, and border variants
 - Icon and content
 - `asChild` support
 
@@ -42,10 +42,10 @@ import { Marker } from '@tile-ui/react';
 
 ### Marker
 
-| Prop      | Type                                                  | Default |
-| --------- | ----------------------------------------------------- | ------- |
-| `variant` | `'neutral' \| 'green' \| 'yellow' \| 'red' \| 'blue'` | —       |
-| `asChild` | `boolean`                                             | —       |
+| Prop      | Type                                   | Default |
+| --------- | -------------------------------------- | ------- |
+| `variant` | `'default' \| 'separator' \| 'border'` | —       |
+| `asChild` | `boolean`                              | —       |
 
 ## Related docs
 

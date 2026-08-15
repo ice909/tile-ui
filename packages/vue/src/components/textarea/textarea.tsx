@@ -1,8 +1,6 @@
-import { defineComponent, computed, h } from 'vue';
+import { defineComponent, computed, h, useId } from 'vue';
 import { getTextareaIds, getTextareaAriaProps } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/textarea.module.scss';
-
-let textareaCounter = 0;
 
 export const TTextarea = defineComponent({
 	name: 'TTextarea',
@@ -18,7 +16,8 @@ export const TTextarea = defineComponent({
 	},
 	emits: ['update:modelValue'],
 	setup(props, { emit }) {
-		const textareaId = computed(() => props.id || `tile-textarea-${++textareaCounter}`);
+		const fallbackId = useId();
+		const textareaId = computed(() => props.id || fallbackId);
 		const ids = computed(() => getTextareaIds(textareaId.value));
 		const ariaProps = computed(() => getTextareaAriaProps(ids.value, props.error, props.helperText));
 

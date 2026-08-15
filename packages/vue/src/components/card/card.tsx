@@ -37,6 +37,13 @@ export const TCardDescription = defineComponent({
 	},
 });
 
+export const TCardAction = defineComponent({
+	name: 'TCardAction',
+	setup(_, { slots }) {
+		return () => h('div', { class: styles[cardStyleKeys.action] }, slots.default?.());
+	},
+});
+
 export const TCardContent = defineComponent({
 	name: 'TCardContent',
 	setup(_, { slots }) {

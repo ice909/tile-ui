@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, inject, provide, ref, type ComputedRef, type InjectionKey } from 'vue';
+import { computed, defineComponent, h, inject, provide, ref, useId, type ComputedRef, type InjectionKey } from 'vue';
 import { collapsibleStyleKeys, getCollapsibleState } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/collapsible.module.scss';
 
@@ -13,12 +13,10 @@ type CollapsibleContext = ComputedRef<CollapsibleContextValue>;
 
 const CollapsibleContextKey: InjectionKey<CollapsibleContext> = Symbol('tile-collapsible');
 
-let collapsibleCounter = 0;
-
 export const TCollapsible = defineComponent({
 	name: 'TCollapsible',
 	props: {
-		open: Boolean,
+		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
 		disabled: { type: Boolean, default: false },
 	},
@@ -26,7 +24,7 @@ export const TCollapsible = defineComponent({
 	setup(props, { emit, slots }) {
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
-		const contentId = `tile-collapsible-${++collapsibleCounter}`;
+		const contentId = `tile-collapsible-${useId()}`;
 
 		function toggle() {
 			if (props.disabled) {

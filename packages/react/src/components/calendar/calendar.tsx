@@ -109,9 +109,6 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
 								<path d="m15 18-6-6 6-6" />
 							</svg>
 						</button>
-					</nav>
-					<div className={styles[calendarStyleKeys.monthCaption]}>{getMonthCaption(month)}</div>
-					<nav className={styles[calendarStyleKeys.nav]}>
 						<button
 							type="button"
 							aria-label="下个月"
@@ -133,6 +130,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
 							</svg>
 						</button>
 					</nav>
+					<div className={styles[calendarStyleKeys.monthCaption]}>{getMonthCaption(month)}</div>
 				</div>
 				<div className={styles[calendarStyleKeys.weekdays]}>
 					{weekdays.map((label) => (

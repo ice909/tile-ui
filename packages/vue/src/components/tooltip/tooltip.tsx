@@ -9,6 +9,7 @@ import {
 	onMounted,
 	provide,
 	ref,
+	useId,
 	watch,
 	type InjectionKey,
 	type PropType,
@@ -29,8 +30,6 @@ interface TooltipContextValue {
 const TooltipContextKey: InjectionKey<TooltipContextValue> = Symbol('tile-tooltip');
 
 const TooltipProviderContextKey: InjectionKey<Ref<number>> = Symbol('tile-tooltip-provider');
-
-let tooltipCounter = 0;
 
 export const TTooltipProvider = defineComponent({
 	name: 'TTooltipProvider',
@@ -56,7 +55,7 @@ export const TTooltip = defineComponent({
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
 		const triggerRef = ref<HTMLElement | null>(null);
-		const contentId = `tile-tooltip-${++tooltipCounter}`;
+		const contentId = `tile-tooltip-${useId()}`;
 
 		function setOpen(next: boolean) {
 			if (props.open === undefined) {

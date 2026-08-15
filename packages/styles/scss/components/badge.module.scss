@@ -83,11 +83,10 @@
 
 	&.variantLink {
 		color: $primary;
-		text-decoration: underline;
 		text-underline-offset: 4px;
 
 		a:hover & {
-			text-decoration: none;
+			text-decoration: underline;
 		}
 	}
 }

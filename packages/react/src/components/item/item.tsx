@@ -1,7 +1,7 @@
 import React from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { getItemVariantKey, itemStyleKeys } from '@tile-ui/core';
-import type { ItemBaseProps } from '@tile-ui/core';
+import { getItemMediaVariantKey, getItemSizeKey, getItemVariantKey, itemStyleKeys } from '@tile-ui/core';
+import type { ItemBaseProps, ItemMediaBaseProps } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/item.module.scss';
 
 export interface ItemGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -24,24 +24,28 @@ ItemSeparator.displayName = 'ItemSeparator';
 
 export interface ItemProps extends React.HTMLAttributes<HTMLDivElement>, ItemBaseProps {}
 
-const Item = React.forwardRef<HTMLDivElement, ItemProps>(({ className = '', variant = 'neutral', asChild = false, children, ...props }, ref) => {
+const Item = React.forwardRef<HTMLDivElement, ItemProps>(({ className = '', variant = 'default', size = 'default', asChild = false, children, ...props }, ref) => {
 	const Comp = asChild ? Slot : 'div';
 	const variantKey = getItemVariantKey(variant);
-	const classes = [styles[itemStyleKeys.item], styles[variantKey], className].filter(Boolean).join(' ');
+	const sizeKey = getItemSizeKey(size);
+	const classes = [styles[itemStyleKeys.item], styles[variantKey], styles[sizeKey], className].filter(Boolean).join(' ');
 
 	return (
-		<Comp ref={ref} data-slot="item" data-variant={variant} className={classes} {...props}>
+		<Comp ref={ref} data-slot="item" data-variant={variant} data-size={size} className={classes} {...props}>
 			{children}
 		</Comp>
 	);
 });
 Item.displayName = 'Item';
 
-export interface ItemMediaProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface ItemMediaProps extends React.HTMLAttributes<HTMLDivElement>, ItemMediaBaseProps {}
 
-const ItemMedia = React.forwardRef<HTMLDivElement, ItemMediaProps>(({ className = '', children, ...props }, ref) => {
+const ItemMedia = React.forwardRef<HTMLDivElement, ItemMediaProps>(({ className = '', variant = 'default', children, ...props }, ref) => {
+	const variantKey = getItemMediaVariantKey(variant);
+	const classes = [styles[itemStyleKeys.media], styles[variantKey], className].filter(Boolean).join(' ');
+
 	return (
-		<div ref={ref} data-slot="item-media" className={`${styles[itemStyleKeys.media]} ${className}`} {...props}>
+		<div ref={ref} data-slot="item-media" data-variant={variant} className={classes} {...props}>
 			{children}
 		</div>
 	);

@@ -9,6 +9,7 @@ import {
 	onMounted,
 	provide,
 	ref,
+	useId,
 	watch,
 	type InjectionKey,
 	type PropType,
@@ -30,8 +31,6 @@ interface HoverCardContextValue {
 
 const HoverCardContextKey: InjectionKey<HoverCardContextValue> = Symbol('tile-hover-card');
 
-let hoverCardCounter = 0;
-
 export const THoverCard = defineComponent({
 	name: 'THoverCard',
 	props: {
@@ -45,7 +44,7 @@ export const THoverCard = defineComponent({
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
 		const triggerRef = ref<HTMLElement | null>(null);
-		const contentId = `tile-hover-card-${++hoverCardCounter}`;
+		const contentId = `tile-hover-card-${useId()}`;
 
 		function setOpen(next: boolean) {
 			if (props.open === undefined) {

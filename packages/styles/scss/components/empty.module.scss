@@ -46,25 +46,15 @@
 	}
 
 	// 变体
-	&.variantMuted {
+	&.variantDefault {
+		background-color: transparent;
+	}
+
+	&.variantIcon {
 		width: $spacing-10;
 		height: $spacing-10;
 		border-radius: $radius;
 		background-color: $muted;
-		color: $foreground;
-
-		svg {
-			width: $spacing-6;
-			height: $spacing-6;
-		}
-	}
-
-	&.variantBordered {
-		width: $spacing-10;
-		height: $spacing-10;
-		border-radius: $radius;
-		border: 1px solid $border;
-		background-color: $card;
 		color: $foreground;
 
 		svg {

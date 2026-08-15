@@ -12,53 +12,41 @@
 		}
 	}
 
-	// 直接子元素之间的连接样式
-	> *:not(:first-child) {
-		border-left: none;
-		border-top-left-radius: 0;
-		border-bottom-left-radius: 0;
-	}
-
-	> *:not(:last-child) {
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
-	}
-
 	// 嵌套按钮组
 	[data-slot='button-group'] {
 		gap: $spacing-2;
 	}
 
-	// 样式变体
-	&.variantDefault {
-		border: none;
+	// 排列方向
+	&.orientationHorizontal {
+		flex-direction: row;
+
+		// 直接子元素之间的连接样式
+		> *:not(:first-child) {
+			border-left: none;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+
+		> *:not(:last-child) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
 	}
 
-	&.variantOutline {
-		border: 1px solid $border;
-		border-radius: $radius;
-	}
+	&.orientationVertical {
+		flex-direction: column;
 
-	&.variantGhost {
-		border: none;
-		background-color: transparent;
-	}
+		> *:not(:first-child) {
+			border-top: none;
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+		}
 
-	// 尺寸变体
-	&.sizeDefault {
-		min-height: 2.25rem;
-	}
-
-	&.sizeSm {
-		min-height: 2rem;
-	}
-
-	&.sizeLg {
-		min-height: 2.5rem;
-	}
-
-	&.sizeIcon {
-		min-height: 2.25rem;
+		> *:not(:last-child) {
+			border-bottom-right-radius: 0;
+			border-bottom-left-radius: 0;
+		}
 	}
 }
 
@@ -85,7 +73,15 @@
 	position: relative;
 	align-self: stretch;
 	margin: 0;
-	height: auto;
-	width: 1px;
 	background-color: $input;
+
+	&[data-orientation='vertical'] {
+		height: auto;
+		width: 1px;
+	}
+
+	&[data-orientation='horizontal'] {
+		height: 1px;
+		width: auto;
+	}
 }

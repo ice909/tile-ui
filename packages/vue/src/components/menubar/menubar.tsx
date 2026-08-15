@@ -1,4 +1,20 @@
-import { computed, defineComponent, h, inject, onBeforeUnmount, onMounted, provide, ref, watch, Teleport, type ComputedRef, type InjectionKey, type PropType, type Ref } from 'vue';
+import {
+	computed,
+	defineComponent,
+	h,
+	inject,
+	onBeforeUnmount,
+	onMounted,
+	provide,
+	ref,
+	useId,
+	watch,
+	Teleport,
+	type ComputedRef,
+	type InjectionKey,
+	type PropType,
+	type Ref,
+} from 'vue';
 import { getMenubarCheckState, getMenubarPosition, getMenubarState, menubarStyleKeys } from '@tile-ui/core';
 import type { MenubarAlign, MenubarSide } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/menubar.module.scss';
@@ -51,8 +67,6 @@ interface MenubarRadioGroupContextValue {
 type MenubarRadioGroupContext = ComputedRef<MenubarRadioGroupContextValue>;
 
 const MenubarRadioGroupContextKey: InjectionKey<MenubarRadioGroupContext> = Symbol('tile-menubar-radio-group');
-
-let menubarCounter = 0;
 
 function menubarCheckIcon() {
 	return h(
@@ -191,7 +205,7 @@ export const TMenubarMenu = defineComponent({
 	setup(props, { slots }) {
 		const context = useMenubarContext();
 		const triggerRef = ref<HTMLElement | null>(null);
-		const contentId = `tile-menubar-${++menubarCounter}`;
+		const contentId = `tile-menubar-${useId()}`;
 		const open = computed(() => context.value.activeValue === props.value);
 
 		function setOpen(next: boolean) {

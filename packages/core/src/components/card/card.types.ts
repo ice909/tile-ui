@@ -10,5 +10,6 @@ export interface CardBaseProps {
 export interface CardHeaderBaseProps {}
 export interface CardTitleBaseProps {}
 export interface CardDescriptionBaseProps {}
+export interface CardActionBaseProps {}
 export interface CardContentBaseProps {}
 export interface CardFooterBaseProps {}

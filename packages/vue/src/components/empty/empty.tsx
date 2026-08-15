@@ -22,7 +22,7 @@ export const TEmptyMedia = defineComponent({
 	props: {
 		variant: {
 			type: String as PropType<EmptyMediaVariant>,
-			default: 'muted',
+			default: 'default',
 		},
 	},
 	setup(props, { slots, attrs }) {

@@ -8,6 +8,7 @@ import {
 	onBeforeUnmount,
 	provide,
 	ref,
+	useId,
 	watch,
 	Teleport,
 	type ComputedRef,
@@ -32,8 +33,6 @@ type DrawerContext = ComputedRef<DrawerContextValue>;
 
 const DrawerContextKey: InjectionKey<DrawerContext> = Symbol('tile-drawer');
 
-let drawerCounter = 0;
-
 function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => void {
 	return (event: Event) => {
 		for (const handler of handlers) {
@@ -57,15 +56,16 @@ export const TDrawer = defineComponent({
 	props: {
 		direction: { type: String as PropType<DrawerDirection>, default: 'right' },
 		modal: { type: Boolean, default: true },
-		open: Boolean,
+		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
 	},
 	emits: ['update:open'],
 	setup(props, { emit, slots }) {
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
-		const titleId = `tile-drawer-title-${++drawerCounter}`;
-		const descriptionId = `tile-drawer-description-${++drawerCounter}`;
+		const baseId = useId();
+		const titleId = `${baseId}-title`;
+		const descriptionId = `${baseId}-description`;
 
 		function setOpen(next: boolean) {
 			if (props.open === undefined) {

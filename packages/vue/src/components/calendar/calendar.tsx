@@ -140,9 +140,6 @@ export const TCalendar = defineComponent({
 							},
 							renderChevron(false),
 						),
-					]),
-					h('div', { class: styles[calendarStyleKeys.monthCaption] }, getMonthCaption(month.value)),
-					h('nav', { class: styles[calendarStyleKeys.nav] }, [
 						h(
 							'button',
 							{
@@ -154,6 +151,7 @@ export const TCalendar = defineComponent({
 							renderChevron(true),
 						),
 					]),
+					h('div', { class: styles[calendarStyleKeys.monthCaption] }, getMonthCaption(month.value)),
 				]),
 				h(
 					'div',

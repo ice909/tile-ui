@@ -1,4 +1,20 @@
-import { computed, defineComponent, h, inject, onBeforeUnmount, onMounted, provide, ref, watch, Teleport, type ComputedRef, type InjectionKey, type PropType, type Ref } from 'vue';
+import {
+	computed,
+	defineComponent,
+	h,
+	inject,
+	onBeforeUnmount,
+	onMounted,
+	provide,
+	ref,
+	useId,
+	watch,
+	Teleport,
+	type ComputedRef,
+	type InjectionKey,
+	type PropType,
+	type Ref,
+} from 'vue';
 import { dropdownMenuStyleKeys, getDropdownMenuCheckState, getDropdownMenuPosition, getDropdownMenuState } from '@tile-ui/core';
 import type { DropdownMenuAlign, DropdownMenuSide } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/dropdown-menu.module.scss';
@@ -42,8 +58,6 @@ interface DropdownMenuRadioGroupContextValue {
 type DropdownMenuRadioGroupContext = ComputedRef<DropdownMenuRadioGroupContextValue>;
 
 const DropdownMenuRadioGroupContextKey: InjectionKey<DropdownMenuRadioGroupContext> = Symbol('tile-dropdown-menu-radio-group');
-
-let dropdownMenuCounter = 0;
 
 function dropdownMenuCheckIcon() {
 	return h(
@@ -144,7 +158,7 @@ export const TDropdownMenu = defineComponent({
 		const internalOpen = ref(props.defaultOpen);
 		const isOpen = computed(() => (props.open !== undefined ? props.open : internalOpen.value));
 		const triggerRef = ref<HTMLElement | null>(null);
-		const contentId = `tile-dropdown-menu-${++dropdownMenuCounter}`;
+		const contentId = `tile-dropdown-menu-${useId()}`;
 
 		function setOpen(next: boolean) {
 			if (props.open === undefined) {

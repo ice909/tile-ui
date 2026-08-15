@@ -1,4 +1,5 @@
 export type TabsOrientation = 'horizontal' | 'vertical';
+export type TabsListVariant = 'default' | 'line';
 
 /**
  * 框架无关的 Tabs 基础 Props (仅包含组件库自定义属性)
@@ -10,7 +11,9 @@ export interface TabsBaseProps {
 	orientation?: TabsOrientation;
 }
 
-export interface TabsListBaseProps {}
+export interface TabsListBaseProps {
+	variant?: TabsListVariant;
+}
 
 export interface TabsTriggerBaseProps {
 	value?: string;

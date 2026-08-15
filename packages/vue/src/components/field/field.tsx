@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, inject, provide, ref, type InjectionKey, type PropType, type Ref } from 'vue';
+import { computed, defineComponent, h, inject, provide, ref, useId, type InjectionKey, type PropType, type Ref } from 'vue';
 import { fieldStyleKeys, getFieldIds, getFieldMessageStyleKeys } from '@tile-ui/core';
 import type { FieldMessageVariant } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/field.module.scss';
@@ -14,8 +14,6 @@ interface FieldContextValue {
 
 const FieldContextKey: InjectionKey<FieldContextValue> = Symbol('tile-field');
 
-let fieldCounter = 0;
-
 export const TField = defineComponent({
 	name: 'TField',
 	props: {
@@ -24,7 +22,7 @@ export const TField = defineComponent({
 		required: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
-		const ids = getFieldIds(props.name ?? `tile-field-${++fieldCounter}`);
+		const ids = getFieldIds(props.name ?? `tile-field-${useId()}`);
 		const context: FieldContextValue = {
 			id: ref(ids.id),
 			labelId: ref(ids.labelId),
