@@ -62,11 +62,12 @@
 		"@tile-ui/buildx": "workspace:*",
 		"@types/react": "19.1.2",
 		"@types/react-dom": "19.1.2",
+		"@typescript/native": "npm:typescript@^7.0.2",
 		"react": "19.1.0",
 		"react-dom": "19.1.0",
 		"sass": "^1.86.3",
 		"tsup": "^8.4.0",
-		"typescript": "^5.9.2"
+		"typescript": "npm:@typescript/typescript6@^6.0.2"
 	},
 	"peerDependencies": {
 		"@tile-ui/styles": "workspace:*",

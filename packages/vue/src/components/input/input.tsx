@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, useId } from 'vue';
+import { defineComponent, computed, h, onMounted, ref, useId } from 'vue';
 import { getInputIds, getInputAriaProps } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/input.module.scss';
 
@@ -13,6 +13,8 @@ export const TInput = defineComponent({
 		type: { type: String, default: 'text' },
 		placeholder: String,
 		modelValue: String,
+		defaultValue: String,
+		readOnly: { type: Boolean, default: false },
 		disabled: { type: Boolean, default: false },
 	},
 	emits: ['update:modelValue'],
@@ -21,6 +23,14 @@ export const TInput = defineComponent({
 		const inputId = computed(() => props.id || fallbackId);
 		const ids = computed(() => getInputIds(inputId.value));
 		const ariaProps = computed(() => getInputAriaProps(ids.value, props.error, props.helperText));
+		const inputEl = ref<HTMLInputElement | null>(null);
+
+		onMounted(() => {
+			if (!inputEl.value) return;
+			if (props.modelValue === undefined && props.defaultValue !== undefined) {
+				inputEl.value.value = props.defaultValue;
+			}
+		});
 
 		function onInput(event: Event) {
 			emit('update:modelValue', (event.target as HTMLInputElement).value);
@@ -44,11 +54,13 @@ export const TInput = defineComponent({
 
 			children.push(
 				h('input', {
+					ref: inputEl,
 					id: inputId.value,
 					type: props.type,
 					class: [styles.input, props.error ? styles.error : ''],
 					value: props.modelValue,
 					placeholder: props.placeholder,
+					readonly: props.readOnly,
 					disabled: props.disabled,
 					'aria-invalid': ariaProps.value['aria-invalid'],
 					'aria-describedby': ariaProps.value['aria-describedby'],

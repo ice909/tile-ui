@@ -9,8 +9,8 @@ export default function ProfileSettingsDemo() {
 			</TCardHeader>
 			<TCardContent>
 				<div class="component-preview__stack">
-					<TInput label="Display name" modelValue="Tile UI Team" />
-					<TInput label="Email" modelValue="team@tile-ui.dev" />
+					<TInput label="Display name" defaultValue="Tile UI Team" />
+					<TInput label="Email" defaultValue="team@tile-ui.dev" />
 					<div class="form-group">
 						<TLabel>Role</TLabel>
 						<input class="component-preview__native-field" value="Design Systems Engineer" />

@@ -16,7 +16,7 @@ export default defineComponent({
 					}}
 					placeholder="Describe the release in one paragraph"
 				/>
-				<TTextarea label="Validation example" error="Please provide at least 20 characters before submitting." modelValue="Too short" />
+				<TTextarea label="Validation example" error="Please provide at least 20 characters before submitting." defaultValue="Too short" />
 			</div>
 		);
 	},

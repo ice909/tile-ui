@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, useId } from 'vue';
+import { defineComponent, computed, h, onMounted, ref, useId } from 'vue';
 import { getTextareaIds, getTextareaAriaProps } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/textarea.module.scss';
 
@@ -12,6 +12,8 @@ export const TTextarea = defineComponent({
 		id: String,
 		placeholder: String,
 		modelValue: String,
+		defaultValue: String,
+		readOnly: { type: Boolean, default: false },
 		disabled: { type: Boolean, default: false },
 	},
 	emits: ['update:modelValue'],
@@ -20,6 +22,14 @@ export const TTextarea = defineComponent({
 		const textareaId = computed(() => props.id || fallbackId);
 		const ids = computed(() => getTextareaIds(textareaId.value));
 		const ariaProps = computed(() => getTextareaAriaProps(ids.value, props.error, props.helperText));
+		const textareaEl = ref<HTMLTextAreaElement | null>(null);
+
+		onMounted(() => {
+			if (!textareaEl.value) return;
+			if (props.modelValue === undefined && props.defaultValue !== undefined) {
+				textareaEl.value.value = props.defaultValue;
+			}
+		});
 
 		function onInput(event: Event) {
 			emit('update:modelValue', (event.target as HTMLTextAreaElement).value);
@@ -43,10 +53,12 @@ export const TTextarea = defineComponent({
 
 			children.push(
 				h('textarea', {
+					ref: textareaEl,
 					id: textareaId.value,
 					class: [styles.textarea, props.error ? styles.error : ''],
 					value: props.modelValue,
 					placeholder: props.placeholder,
+					readonly: props.readOnly,
 					disabled: props.disabled,
 					'aria-invalid': ariaProps.value['aria-invalid'],
 					'aria-describedby': ariaProps.value['aria-describedby'],

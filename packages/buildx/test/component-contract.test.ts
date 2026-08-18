@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const reactRoot = resolve(import.meta.dirname, '../../react/src');
 const vueRoot = resolve(import.meta.dirname, '../../vue/src');
-const reactDocs = resolve(import.meta.dirname, '../../../apps/react/components');
-const vueDocs = resolve(import.meta.dirname, '../../../apps/vue/components');
+const reactDemos = resolve(import.meta.dirname, '../../../apps/react/components/demos');
+const vueDemos = resolve(import.meta.dirname, '../../../apps/vue/components/demos');
 
 function read(pkgRoot: string, rel: string): string {
 	return readFileSync(resolve(pkgRoot, rel), 'utf8');
@@ -127,13 +127,15 @@ describe('尺寸测量契约（防图表/轮播放大回归）', () => {
 
 describe('文档预览契约', () => {
 	it('Vue 预览不包含未绑定事件的受控 modelValue', () => {
-		const source = read(vueDocs, 'docs-demos.tsx');
-		expect(source).not.toMatch(/modelValue="[^"]*"/);
+		const demoFiles = readdirSync(vueDemos).filter((file) => file.endsWith('.tsx') && file !== 'index.ts');
+		for (const file of demoFiles) {
+			const source = read(vueDemos, file);
+			expect(source, `${file} 不应使用未绑定事件的受控 modelValue`).not.toMatch(/modelValue="[^"]*"/);
+		}
 	});
 
 	it('React NavigationMenu 预览包含 Viewport', () => {
-		const source = read(reactDocs, 'demo-registry.tsx');
-		const navMenuBlock = source.match(/'navigation-menu': \{[\s\S]*?\n\t\},/);
-		expect(navMenuBlock?.[0]).toContain('NavigationMenuViewport');
+		const source = read(reactDemos, 'navigation-menu.tsx');
+		expect(source).toContain('NavigationMenuViewport');
 	});
 });

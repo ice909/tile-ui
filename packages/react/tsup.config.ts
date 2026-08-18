@@ -6,7 +6,11 @@ export default defineConfig({
 		'hooks/index': 'src/hooks/index.ts',
 	},
 	format: ['esm', 'cjs'],
-	dts: true,
+	dts: {
+		compilerOptions: {
+			ignoreDeprecations: '6.0',
+		},
+	},
 	clean: true,
 	sourcemap: true,
 	splitting: false,

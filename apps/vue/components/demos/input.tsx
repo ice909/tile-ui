@@ -16,8 +16,8 @@ export default defineComponent({
 					}}
 					placeholder="Tile UI Docs"
 				/>
-				<TInput label="Read-only example" helperText="Use this for immutable values or generated fields." modelValue="tile-ui" />
-				<TInput label="Validation example" error="A project name is required before publishing." modelValue="" />
+				<TInput label="Read-only example" helperText="Use this for immutable values or generated fields." defaultValue="tile-ui" readOnly />
+				<TInput label="Validation example" error="A project name is required before publishing." defaultValue="" />
 			</div>
 		);
 	},

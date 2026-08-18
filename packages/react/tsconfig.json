@@ -1,12 +1,12 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"baseUrl": ".",
 		"jsx": "react-jsx",
 		"paths": {
 			"@tile-ui/core": ["../core/src/index.ts"],
 			"@tile-ui/core/*": ["../core/src/*"]
 		},
+		"rootDir": "../",
 		"outDir": "./dist"
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx"],
