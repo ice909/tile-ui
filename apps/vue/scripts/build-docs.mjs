@@ -10,7 +10,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
 
-import { getPreviewCode } from '../../../scripts/generate-component-docs.mjs';
+import { getDemoSource } from '../../../scripts/demo-files.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(__dirname, '..');
@@ -19,9 +19,9 @@ const outDir = path.resolve(appRoot, '.generated');
 const outFile = path.resolve(outDir, 'docs.json');
 
 // 预览块可展开代码的折叠预览行数。
-const PEEK_LINES = 3;
+const PEEK_LINES = 6;
 
-// 预览块代码来自 META 的文档分区。
+// 预览块代码来自 apps/vue/components/demos/<slug>.tsx 文件本体（与渲染同源）。
 const previewSections = ['components', 'composables', 'examples'];
 
 function escapeHtml(str) {
@@ -108,7 +108,7 @@ async function buildPreviewCodeForSlug(slug) {
 		return null;
 	}
 
-	const code = getPreviewCode(slug[1], 'vue');
+	const code = getDemoSource('vue', slug[1]);
 	if (!code) {
 		return null;
 	}

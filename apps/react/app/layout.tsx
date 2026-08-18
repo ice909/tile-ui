@@ -4,6 +4,7 @@ import '@tile-ui/styles/scss/globals.scss';
 import '../../common/styles/docs.scss';
 import '../../common/styles/demo-showcase.scss';
 import '../../common/styles/docs-layout.scss';
+import { LogoIcon } from '@/components/logo-icon';
 
 function GitHubIcon() {
 	return (
@@ -17,8 +18,48 @@ function GitHubIcon() {
 }
 
 export const metadata: Metadata = {
-	title: 'Tile UI React',
-	description: 'React documentation, examples, and registry for Tile UI.',
+	metadataBase: new URL('https://react.tileui.zmorg.cn'),
+	title: {
+		default: 'Tile UI React — React components, registry, and examples',
+		template: '%s | Tile UI React',
+	},
+	description: 'Tile UI React documentation: a shared SCSS design system with React components, hooks, and a shadcn-style registry for installable UI items.',
+	keywords: ['tile ui', 'react', 'react components', 'ui library', 'design system', 'shadcn registry', 'component registry', 'typescript', 'scss', 'open source'],
+	authors: [{ name: 'Tile UI' }],
+	creator: 'Tile UI',
+	publisher: 'Tile UI',
+	openGraph: {
+		type: 'website',
+		url: 'https://react.tileui.zmorg.cn/',
+		siteName: 'Tile UI React',
+		title: 'Tile UI React — React components, registry, and examples',
+		description: 'Tile UI React documentation: a shared SCSS design system with React components, hooks, and a shadcn-style registry for installable UI items.',
+		locale: 'en_US',
+		images: [
+			{
+				url: 'https://react.tileui.zmorg.cn/og.png',
+				width: 1200,
+				height: 630,
+				alt: 'Tile UI React',
+			},
+		],
+	},
+	twitter: {
+		card: 'summary_large_image',
+		title: 'Tile UI React — React components, registry, and examples',
+		description: 'Tile UI React documentation: a shared SCSS design system with React components, hooks, and a shadcn-style registry for installable UI items.',
+		images: ['https://react.tileui.zmorg.cn/og.png'],
+	},
+	robots: {
+		index: true,
+		follow: true,
+	},
+	alternates: {
+		canonical: 'https://react.tileui.zmorg.cn/',
+	},
+	icons: {
+		icon: '/icon.svg',
+	},
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -29,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<header className="docs-app-header">
 						<div className="docs-app-header__inner">
 							<Link href="/" className="docs-app-brand">
+								<LogoIcon />
 								Tile UI React
 							</Link>
 							<div className="docs-app-header__actions">

@@ -2,11 +2,35 @@ import { defineComponent, ref } from 'vue';
 import { TButton, TInput, TTextarea, TLabel, TCard, TCardHeader, TCardTitle, TCardDescription, TCardContent, TCardFooter } from '@tile-ui/vue';
 import { vueHomeLinks } from '../../common/lib/docs';
 
+const SITE_URL = 'https://vue.tileui.zmorg.cn';
+const SITE_TITLE = 'Tile UI Vue — Vue components, registry, and examples';
+const SITE_DESCRIPTION = 'Tile UI Vue documentation: a shared SCSS design system with Vue components, composables, and a shadcn-style registry for installable UI items.';
+
+const websiteJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: 'Tile UI Vue',
+	url: `${SITE_URL}/`,
+	description: SITE_DESCRIPTION,
+	inLanguage: 'en',
+};
+
 export default defineComponent({
 	name: 'VueHomePage',
 	setup() {
 		const inputValue = ref('');
 		const textareaValue = ref('');
+
+		useHead({
+			titleTemplate: () => SITE_TITLE,
+			meta: [
+				{ property: 'og:title', content: SITE_TITLE },
+				{ property: 'og:description', content: SITE_DESCRIPTION },
+				{ property: 'og:url', content: `${SITE_URL}/` },
+			],
+			link: [{ rel: 'canonical', href: `${SITE_URL}/` }],
+			script: [{ type: 'application/ld+json', innerHTML: JSON.stringify(websiteJsonLd) }],
+		});
 
 		return () => (
 			<main class="docs-shell">

@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, onBeforeUnmount, onMounted, ref, useId, watch, Teleport, type PropType } from 'vue';
+import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, useId, watch, Teleport, type PropType } from 'vue';
 import { comboboxStyleKeys, filterComboboxItems, getSelectState, moveComboboxIndex } from '@tile-ui/core';
 import type { ComboboxItem } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/combobox.module.scss';
@@ -168,7 +168,8 @@ export const TCombobox = defineComponent({
 		}
 
 		function handleOpen() {
-			updatePosition();
+			// 内容通过 Teleport 条件渲染，需等组件挂载后再定位，否则 contentRef 为空、弹层停留在文档末尾。
+			nextTick(() => updatePosition());
 			window.addEventListener('resize', updatePosition);
 			document.addEventListener('scroll', updatePosition, true);
 

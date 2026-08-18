@@ -1,4 +1,5 @@
-import { defineComponent, nextTick, onMounted, PropType, ref, watch } from 'vue';
+import { defineComponent, nextTick, onMounted, ref, watch } from 'vue';
+import type { PropType } from 'vue';
 
 type PageTreeNode = {
 	type: string;

@@ -1,4 +1,5 @@
-import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, ref } from 'vue';
+import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from 'vue';
+import type { PropType } from 'vue';
 
 type TocItem = {
 	title?: string;

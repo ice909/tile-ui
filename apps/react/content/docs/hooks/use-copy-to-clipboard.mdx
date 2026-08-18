@@ -3,7 +3,7 @@ title: useCopyToClipboard
 description: Handle copy interactions, copied state, and timeout reset in a single helper.
 ---
 
-<CopyToClipboardPreview />
+<ComponentDemo slug="use-copy-to-clipboard" />
 
 > Use this hook to copy text to the clipboard while managing the transient "copied" feedback state in one place.
 
@@ -16,7 +16,7 @@ pnpm dlx shadcn@latest add @tile-ui/use-copy-to-clipboard
 ## Usage
 
 ```tsx
-const { copy, copied } = useCopyToClipboard();
+const [copy, { copied }] = useCopyToClipboard();
 ```
 
 ## What it covers

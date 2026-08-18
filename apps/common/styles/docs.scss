@@ -1001,6 +1001,16 @@ pre:has([data-line-numbers]) {
 	overflow: hidden;
 }
 
+// peek 预览区的 pre 不在 .mdx-figure 内，字体需与展开区/正文代码块保持一致，
+// 避免 React/Vue 两侧行高与宽度产生差异。
+.component-preview__code-peek-pre code,
+.component-preview__code code {
+	font-family: $font-mono;
+	font-size: 0.875rem;
+	line-height: 1.7;
+	tab-size: 4;
+}
+
 // 卡片内的代码 pre 不再自带边框/圆角/背景/边距（避免与卡片边框形成双分割线或多余间距）。
 .component-preview pre {
 	margin: 0;

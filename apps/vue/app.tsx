@@ -1,5 +1,11 @@
 import { defineComponent } from 'vue';
 
+import { VueLogoIcon } from './components/logo-icon';
+
+const SITE_URL = 'https://vue.tileui.zmorg.cn';
+const SITE_TITLE = 'Tile UI Vue — Vue components, registry, and examples';
+const SITE_DESCRIPTION = 'Tile UI Vue documentation: a shared SCSS design system with Vue components, composables, and a shadcn-style registry for installable UI items.';
+
 function GitHubIcon() {
 	return (
 		<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -14,11 +20,42 @@ function GitHubIcon() {
 export default defineComponent({
 	name: 'VueApp',
 	setup() {
+		// 站点全局 SEO head：title 模板、描述、Open Graph、Twitter Card 与 favicon。
+		// canonical 由各页面在 head 中单独声明（首页与文档页），避免依赖路由实例类型。
+		useHead({
+			titleTemplate: '%s | Tile UI Vue',
+			htmlAttrs: {
+				lang: 'en',
+			},
+			link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+			meta: [
+				{ name: 'description', content: SITE_DESCRIPTION },
+				{
+					name: 'keywords',
+					content: 'tile ui, vue, vue components, ui library, design system, shadcn registry, component registry, typescript, scss, open source',
+				},
+				{ name: 'robots', content: 'index, follow' },
+				{ property: 'og:site_name', content: 'Tile UI Vue' },
+				{ property: 'og:type', content: 'website' },
+				{ property: 'og:title', content: SITE_TITLE },
+				{ property: 'og:description', content: SITE_DESCRIPTION },
+				{ property: 'og:url', content: `${SITE_URL}/` },
+				{ property: 'og:image', content: `${SITE_URL}/og.png` },
+				{ property: 'og:image:width', content: '1200' },
+				{ property: 'og:image:height', content: '630' },
+				{ name: 'twitter:card', content: 'summary_large_image' },
+				{ name: 'twitter:title', content: SITE_TITLE },
+				{ name: 'twitter:description', content: SITE_DESCRIPTION },
+				{ name: 'twitter:image', content: `${SITE_URL}/og.png` },
+			],
+		});
+
 		return () => (
 			<div class="docs-app-shell">
 				<header class="docs-app-header">
 					<div class="docs-app-header__inner">
 						<NuxtLink to="/" class="docs-app-brand">
+							<VueLogoIcon />
 							Tile UI Vue
 						</NuxtLink>
 						<div class="docs-app-header__actions">

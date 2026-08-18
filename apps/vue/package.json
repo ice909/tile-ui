@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"docs:build": "node ./scripts/build-docs.mjs",
+		"docs:build": "node ./scripts/build-docs.mjs && node ../../scripts/generate-og.mjs && node ./scripts/generate-seo.mjs",
 		"registry:build": "tsx ./scripts/build-registry.mjs",
 		"registry:watch": "tsx ./scripts/watch-registry.mjs",
 		"predev": "npm run docs:build",

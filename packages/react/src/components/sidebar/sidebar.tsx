@@ -98,12 +98,12 @@ SidebarProvider.displayName = 'SidebarProvider';
 
 export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement>, SidebarBaseProps {}
 
-function Sidebar({ side = 'left', variant = 'sidebar', collapsible = 'offcanvas', className = '', children, ...props }: SidebarProps) {
+function Sidebar({ side = 'left', variant = 'sidebar', collapsible = 'offcanvas', className = '', style, children, ...props }: SidebarProps) {
 	const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
 	if (collapsible === 'none') {
 		return (
-			<div data-slot="sidebar" data-side={side} className={`${styles[sidebarStyleKeys.sidebar]} ${className}`} {...props}>
+			<div data-slot="sidebar" data-side={side} className={`${styles[sidebarStyleKeys.sidebar]} ${className}`} {...props} style={style}>
 				{children}
 			</div>
 		);
@@ -117,7 +117,7 @@ function Sidebar({ side = 'left', variant = 'sidebar', collapsible = 'offcanvas'
 					data-mobile="true"
 					side={side}
 					className={`${styles[sidebarStyleKeys.sheetContent]} ${className}`}
-					style={{ '--sidebar-width': SIDEBAR_WIDTH_MOBILE } as React.CSSProperties}>
+					style={{ '--sidebar-width': SIDEBAR_WIDTH_MOBILE, ...style } as React.CSSProperties}>
 					<SheetHeader className={styles[sidebarStyleKeys.srOnly]}>
 						<SheetTitle>Sidebar</SheetTitle>
 						<SheetDescription>Displays the mobile sidebar.</SheetDescription>
@@ -135,7 +135,8 @@ function Sidebar({ side = 'left', variant = 'sidebar', collapsible = 'offcanvas'
 			data-collapsible={state === 'collapsed' ? collapsible : ''}
 			data-variant={variant}
 			data-side={side}
-			className={styles[sidebarStyleKeys.container]}>
+			className={styles[sidebarStyleKeys.container]}
+			style={style}>
 			<div data-slot="sidebar" className={`${styles[sidebarStyleKeys.sidebar]} ${className}`} {...props}>
 				{children}
 			</div>
@@ -147,7 +148,7 @@ Sidebar.displayName = 'Sidebar';
 
 export interface SidebarTriggerProps extends React.ComponentProps<typeof Button> {}
 
-const SidebarTrigger = React.forwardRef<HTMLButtonElement, SidebarTriggerProps>(({ className = '', onClick, ...props }, ref) => {
+const SidebarTrigger = React.forwardRef<HTMLButtonElement, SidebarTriggerProps>(({ className = '', onClick, children, ...props }, ref) => {
 	const { toggleSidebar } = useSidebar();
 
 	return (
@@ -162,20 +163,22 @@ const SidebarTrigger = React.forwardRef<HTMLButtonElement, SidebarTriggerProps>(
 				toggleSidebar();
 			}}
 			{...props}>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="24"
-				height="24"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-				aria-hidden="true">
-				<rect width="18" height="18" x="3" y="3" rx="2" />
-				<path d="M9 3v18" />
-			</svg>
+			{children ?? (
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					aria-hidden="true">
+					<rect width="18" height="18" x="3" y="3" rx="2" />
+					<path d="M9 3v18" />
+				</svg>
+			)}
 			<span className={styles[sidebarStyleKeys.srOnly]}>Toggle Sidebar</span>
 		</Button>
 	);

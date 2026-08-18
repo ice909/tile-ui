@@ -1,7 +1,7 @@
 'use client';
 
 import { ComponentPreview, PreviewCodeProvider } from '@/components/component-preview';
-import { demoRegistry } from '@/components/demo-registry';
+import { demoRegistry } from '@/components/demos';
 import { previewCodeMap } from '@/lib/preview-code';
 
 export function ComponentDemo({ slug }: { slug: string }) {

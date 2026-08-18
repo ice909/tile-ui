@@ -1,4 +1,7 @@
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent } from 'vue';
+import type { PropType } from 'vue';
+
+import { VueLogoIcon } from './components/logo-icon';
 
 type NuxtAppError = {
 	statusCode?: number;
@@ -39,11 +42,20 @@ export default defineComponent({
 			return props.error?.statusMessage || props.error?.message || 'An unexpected error occurred while loading this page.';
 		});
 
+		useHead({
+			title: title,
+			meta: [
+				{ name: 'description', content: description },
+				{ name: 'robots', content: 'noindex, nofollow' },
+			],
+		});
+
 		return () => (
 			<div class="docs-app-shell">
 				<header class="docs-app-header">
 					<div class="docs-app-header__inner">
 						<NuxtLink to="/" class="docs-app-brand">
+							<VueLogoIcon />
 							Tile UI Vue
 						</NuxtLink>
 						<div class="docs-app-header__actions">

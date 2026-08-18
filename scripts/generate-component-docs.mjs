@@ -4,6 +4,7 @@
  *
  * 从 packages/core 的类型定义 + registry 依赖自动生成 API reference 与依赖表，
  * 结合手工维护的标题/描述/亮点/用法，输出到 apps/{react,vue}/content/docs/components。
+ * Package usage 段的 import 由 usage 代码推导（见 scripts/demo-files.mjs）。
  *
  * 已手工编写预览的组件（button/card/input/label/textarea）不在此生成范围内。
  */
@@ -12,6 +13,8 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
+
+import { renderUsageImports } from './demo-files.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -571,126 +574,18 @@ const META = [
 		description: 'A compact support form using card, label, input, textarea, and button primitives.',
 		intro: 'This example combines the registry primitives into a compact, realistic support form surface.',
 		highlights: ['Card frames the request', 'Labeled fields', 'Footer actions'],
-		code: [
-			"import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Textarea } from '@tile-ui/react';",
-			'',
-			'<Card>',
-			'\t<CardHeader>',
-			'\t\t<CardTitle>Contact support</CardTitle>',
-			'\t\t<CardDescription>Send a structured request without building the form anatomy from scratch.</CardDescription>',
-			'\t</CardHeader>',
-			'\t<CardContent>',
-			'\t\t<Input label="Email" placeholder="name@company.com" helperText="We reply to the address used here." />',
-			'\t\t<Textarea label="Question" placeholder="Tell us what you need help with" helperText="Include relevant context and links." />',
-			'\t</CardContent>',
-			'\t<CardFooter>',
-			'\t\t<Button variant="outline">Cancel</Button>',
-			'\t\t<Button>Submit</Button>',
-			'\t</CardFooter>',
-			'</Card>',
-		].join('\n'),
-		codeVue: [
-			"import { TButton, TCard, TCardContent, TCardDescription, TCardFooter, TCardHeader, TCardTitle, TInput, TTextarea } from '@tile-ui/vue';",
-			'',
-			'<TCard>',
-			'\t<TCardHeader>',
-			'\t\t<TCardTitle>Contact support</TCardTitle>',
-			'\t\t<TCardDescription>Send a structured request without building the form anatomy from scratch.</TCardDescription>',
-			'\t</TCardHeader>',
-			'\t<TCardContent>',
-			'\t\t<TInput label="Email" placeholder="name@company.com" helperText="We reply to the address used here." />',
-			'\t\t<TTextarea label="Question" placeholder="Tell us what you need help with" helperText="Include relevant context and links." />',
-			'\t</TCardContent>',
-			'\t<TCardFooter>',
-			'\t\t<TButton variant="outline">Cancel</TButton>',
-			'\t\t<TButton>Submit</TButton>',
-			'\t</TCardFooter>',
-			'</TCard>',
-		].join('\n'),
 	},
 	{
 		name: 'newsletter-card',
 		description: 'A lightweight marketing capture flow built from the same field and action primitives.',
 		intro: 'This example shows a Card doubling as a marketing capture surface.',
 		highlights: ['Single-field capture', 'Full-width footer action'],
-		code: [
-			"import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input } from '@tile-ui/react';",
-			'',
-			'<Card>',
-			'\t<CardHeader>',
-			'\t\t<CardTitle>Stay in the loop</CardTitle>',
-			'\t\t<CardDescription>Product updates, release notes, and design system changes once a month.</CardDescription>',
-			'\t</CardHeader>',
-			'\t<CardContent>',
-			'\t\t<Input label="Email" placeholder="you@company.com" helperText="We only send relevant updates." />',
-			'\t</CardContent>',
-			'\t<CardFooter>',
-			'\t\t<Button className="w-full">Subscribe</Button>',
-			'\t</CardFooter>',
-			'</Card>',
-		].join('\n'),
-		codeVue: [
-			"import { TButton, TCard, TCardContent, TCardDescription, TCardFooter, TCardHeader, TCardTitle, TInput } from '@tile-ui/vue';",
-			'',
-			'<TCard>',
-			'\t<TCardHeader>',
-			'\t\t<TCardTitle>Stay in the loop</TCardTitle>',
-			'\t\t<TCardDescription>Product updates, release notes, and design system changes once a month.</TCardDescription>',
-			'\t</TCardHeader>',
-			'\t<TCardContent>',
-			'\t\t<TInput label="Email" placeholder="you@company.com" helperText="We only send relevant updates." />',
-			'\t</TCardContent>',
-			'\t<TCardFooter>',
-			'\t\t<TButton>Subscribe</TButton>',
-			'\t</TCardFooter>',
-			'</TCard>',
-		].join('\n'),
 	},
 	{
 		name: 'profile-settings',
 		description: 'A denser account-management surface using the same field, label, and action primitives.',
 		intro: 'This example shows an account-management surface built from field primitives.',
 		highlights: ['Dense settings layout', 'Read-only and editable fields'],
-		code: [
-			"import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from '@tile-ui/react';",
-			'',
-			'<Card>',
-			'\t<CardHeader>',
-			'\t\t<CardTitle>Profile settings</CardTitle>',
-			'\t\t<CardDescription>Update the details your teammates and collaborators see first.</CardDescription>',
-			'\t</CardHeader>',
-			'\t<CardContent>',
-			'\t\t<Input label="Display name" defaultValue="Tile UI Team" />',
-			'\t\t<Input label="Email" defaultValue="team@tile-ui.dev" />',
-			'\t\t<Label htmlFor="profile-role">Role</Label>',
-			'\t\t<input id="profile-role" defaultValue="Design Systems Engineer" />',
-			'\t</CardContent>',
-			'\t<CardFooter>',
-			'\t\t<Button variant="outline">Cancel</Button>',
-			'\t\t<Button>Save changes</Button>',
-			'\t</CardFooter>',
-			'</Card>',
-		].join('\n'),
-		codeVue: [
-			"import { TButton, TCard, TCardContent, TCardDescription, TCardFooter, TCardHeader, TCardTitle, TInput, TLabel } from '@tile-ui/vue';",
-			'',
-			'<TCard>',
-			'\t<TCardHeader>',
-			'\t\t<TCardTitle>Profile settings</TCardTitle>',
-			'\t\t<TCardDescription>Update the details your teammates and collaborators see first.</TCardDescription>',
-			'\t</TCardHeader>',
-			'\t<TCardContent>',
-			'\t\t<TInput label="Display name" modelValue="Tile UI Team" />',
-			'\t\t<TInput label="Email" modelValue="team@tile-ui.dev" />',
-			'\t\t<TLabel>Role</TLabel>',
-			'\t\t<input value="Design Systems Engineer" />',
-			'\t</CardContent>',
-			'\t<TCardFooter>',
-			'\t\t<TButton variant="outline">Cancel</TButton>',
-			'\t\t<TButton>Save changes</TButton>',
-			'\t</CardFooter>',
-			'</Card>',
-		].join('\n'),
 	},
 ];
 
@@ -814,6 +709,9 @@ function buildDoc({ name, meta, item, apis, framework }) {
 
 	const usage = isReact ? meta.usage : toVueUsage(meta.usage, compNamesFor(name));
 
+	// Package usage 段的 import 从 usage 代码实际用到的包导出推导（含 hooks/composables 子路径）。
+	const usageImports = renderUsageImports(framework, usage).join('\n') || `import { ${importName} } from '${pkg}';`;
+
 	const relatedLinks = (meta.related ?? []).map((r) => `- [${pascalCase(r)}](/docs/components/${r})`).join('\n');
 
 	const blocks = [
@@ -834,7 +732,7 @@ function buildDoc({ name, meta, item, apis, framework }) {
 		'## Package usage',
 		'',
 		'```tsx',
-		`import { ${importName} } from '${pkg}';`,
+		usageImports,
 		'',
 		usage,
 		'```',
@@ -883,39 +781,6 @@ const allCompNames = new Set([...reactExports.values()].flat());
 
 function compNamesFor(name) {
 	return reactExports.get(name) ?? [mainOverrides[name] ?? pascalCase(name)];
-}
-
-/**
- * 生成组件预览块下方可展开的实现代码（含 import 行）。
- * framework: 'react' | 'vue'。
- */
-export function getPreviewCode(name, framework) {
-	const meta = META.find((m) => m.name === name);
-	if (!meta) {
-		return null;
-	}
-
-	const isReact = framework === 'react';
-
-	if (meta.code) {
-		return isReact ? meta.code : (meta.codeVue ?? toVueUsage(meta.code, compNamesFor(name)));
-	}
-
-	const mainName = mainOverrides[name] ?? pascalCase(name);
-	const isHook = name.startsWith('use-');
-	// hook 的实际导出名为驼峰形式（如 use-copy-to-clipboard → useCopyToClipboard）。
-	const importName = isHook
-		? name
-				.split('-')
-				.map((part, index) => (index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)))
-				.join('')
-		: isReact
-			? mainName
-			: `T${mainName}`;
-	const pkg = isReact ? '@tile-ui/react' : '@tile-ui/vue';
-	const usage = isReact ? meta.usage : toVueUsage(meta.usage, compNamesFor(name));
-
-	return [`import { ${importName} } from '${pkg}';`, '', usage].join('\n');
 }
 
 function main() {

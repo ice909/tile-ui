@@ -1,5 +1,5 @@
 {
-	"extends": "../../tsconfig.base.json",
+	"extends": ["./.nuxt/tsconfig.json", "../../tsconfig.base.json"],
 	"compilerOptions": {
 		"jsx": "preserve",
 		"jsxImportSource": "vue",

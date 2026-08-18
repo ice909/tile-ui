@@ -2,8 +2,9 @@
 /**
  * 生成 React 文档组件预览块下方可展开的实现代码（构建时 shiki 高亮）。
  *
- * 代码字符串从根目录 scripts/generate-component-docs.mjs 的 META 派生，
- * 输出到 apps/react/lib/preview-code.ts（已提交的生成产物，改动 META 后需重跑）。
+ * 展示代码 = apps/react/components/demos/<slug>.tsx 文件本体（即真实渲染的源码，
+ * 与 shadcn-ui 上游模式一致），展示与渲染永远来自同一处，无需在两处维护。
+ * 输出到 apps/react/lib/preview-code.ts（已提交的生成产物）。
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -11,14 +12,14 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { codeToHtml } from 'shiki';
 
-import { getPreviewCode, META } from '../../../scripts/generate-component-docs.mjs';
+import { getDemoSlugs, getDemoSource } from '../../../scripts/demo-files.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(__dirname, '..');
 const root = path.resolve(appRoot, '..', '..');
 const outFile = path.join(appRoot, 'lib', 'preview-code.ts');
 
-const PEEK_LINES = 3;
+const PEEK_LINES = 6;
 
 const transformers = [
 	{
@@ -68,13 +69,13 @@ function jsString(value) {
 async function main() {
 	const entries = {};
 
-	for (const meta of META) {
-		const code = getPreviewCode(meta.name, 'react');
+	for (const slug of getDemoSlugs('react')) {
+		const code = getDemoSource('react', slug);
 		if (!code) {
 			continue;
 		}
 		const { preview, full, raw } = buildEntry(code);
-		entries[meta.name] = {
+		entries[slug] = {
 			preview: await preview,
 			full: await full,
 			raw,

@@ -22,33 +22,9 @@ import {
 	TabsTrigger,
 } from '@/components/mdx-blocks';
 import { ComponentDemo } from '@/components/component-demo';
-import {
-	ButtonPreview,
-	CardPreview,
-	ContactFormPreview,
-	CopyToClipboardPreview,
-	InputPreview,
-	LabelPreview,
-	LocalStoragePreview,
-	MediaQueryPreview,
-	NewsletterCardPreview,
-	ProfileSettingsPreview,
-	TextareaPreview,
-} from '@/components/mdx-previews';
 
 export const mdxComponents: MDXComponents = {
 	ComponentDemo,
-	ButtonPreview,
-	CardPreview,
-	ContactFormPreview,
-	CopyToClipboardPreview,
-	InputPreview,
-	LabelPreview,
-	LocalStoragePreview,
-	MediaQueryPreview,
-	NewsletterCardPreview,
-	ProfileSettingsPreview,
-	TextareaPreview,
 	a: (props: ComponentPropsWithoutRef<'a'>) => <MdxLink {...props} />,
 	p: (props: ComponentPropsWithoutRef<'p'>) => <p className="mdx-p" {...props} />,
 	strong: (props: ComponentPropsWithoutRef<'strong'>) => <strong className="mdx-strong" {...props} />,

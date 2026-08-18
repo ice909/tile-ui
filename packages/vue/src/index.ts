@@ -186,3 +186,8 @@ export {
 } from './components/message-scroller';
 export { TToaster, useToast, toast } from './components/sonner';
 export { TInputOTP, TInputOTPGroup, TInputOTPSlot, TInputOTPSeparator } from './components/input-otp';
+
+// Composables（同时保留 @tile-ui/vue/composables 子路径导出）
+export { useLocalStorage, useSessionStorage } from './composables/use-local-storage';
+export { useWindowSize, useMediaQuery, useIsMobile, useOnlineStatus, useScrollPosition } from './composables/use-media';
+export { useCopyToClipboard, useClickOutside, useKeyPress, useMousePosition } from './composables/use-event';
