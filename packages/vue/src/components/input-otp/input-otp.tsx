@@ -117,6 +117,12 @@ export const TInputOTP = defineComponent({
 				if (next !== null) {
 					focusSlot(next);
 				}
+			} else if (event.key === 'Home') {
+				event.preventDefault();
+				focusSlot(0);
+			} else if (event.key === 'End') {
+				event.preventDefault();
+				focusSlot(props.maxLength - 1);
 			}
 		}
 

@@ -4,6 +4,7 @@ import { DocsPageShell } from '@/components/docs-page-shell';
 import { DocsTableOfContents } from '@/components/docs-toc';
 import { mdxComponents } from '@/mdx-components';
 import { getNeighbours } from '../../../lib/docs-neighbours';
+import { withTrailingSlash } from '../../../lib/trailing-slash';
 import { source } from '../../../lib/source';
 
 export const dynamic = 'force-static';
@@ -51,13 +52,13 @@ function findTreePath(nodes: PageTreeNode[], targetUrl: string, trail: Array<{ n
 function buildPageContext(tree: PageTreeNode, currentUrl: string) {
 	const rawPath = findTreePath(tree.children ?? [], currentUrl) ?? [];
 	const path = rawPath.filter((item: { name: string; url?: string }, index: number) => item.name !== rawPath[index - 1]?.name);
-	const breadcrumbs: Breadcrumb[] = [{ label: 'Docs', href: currentUrl === '/docs' ? undefined : '/docs' }];
+	const breadcrumbs: Breadcrumb[] = [{ label: 'Docs', href: currentUrl === '/docs' ? undefined : '/docs/' }];
 
 	for (const [index, item] of path.entries()) {
 		const isLast = index === path.length - 1;
 		breadcrumbs.push({
 			label: item.name,
-			href: !isLast && item.url ? item.url : undefined,
+			href: !isLast && item.url ? withTrailingSlash(item.url) : undefined,
 		});
 	}
 

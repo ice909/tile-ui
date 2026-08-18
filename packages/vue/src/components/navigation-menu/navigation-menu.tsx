@@ -104,7 +104,37 @@ export const TNavigationMenu = defineComponent({
 export const TNavigationMenuList = defineComponent({
 	name: 'TNavigationMenuList',
 	setup(_props, { slots, attrs }) {
-		return () => h('ul', { ...attrs, class: [styles[navigationMenuStyleKeys.list], attrs.class] }, slots.default?.());
+		function handleKeydown(event: KeyboardEvent) {
+			const isNext = event.key === 'ArrowRight';
+			const isPrev = event.key === 'ArrowLeft';
+			const isHome = event.key === 'Home';
+			const isEnd = event.key === 'End';
+			if (!isNext && !isPrev && !isHome && !isEnd) {
+				return;
+			}
+
+			const root = event.currentTarget as HTMLElement;
+			const triggers = Array.from(root.querySelectorAll<HTMLButtonElement>('button')).filter((button) => !button.disabled);
+			if (triggers.length === 0) {
+				return;
+			}
+
+			const currentIndex = triggers.indexOf(document.activeElement as HTMLButtonElement);
+			let nextIndex: number;
+			if (isHome) {
+				nextIndex = 0;
+			} else if (isEnd) {
+				nextIndex = triggers.length - 1;
+			} else {
+				const direction = isNext ? 1 : -1;
+				nextIndex = (currentIndex + direction + triggers.length) % triggers.length;
+			}
+
+			triggers[nextIndex]?.focus();
+			event.preventDefault();
+		}
+
+		return () => h('ul', { ...attrs, onKeydown: handleKeydown, class: [styles[navigationMenuStyleKeys.list], attrs.class] }, slots.default?.());
 	},
 });
 

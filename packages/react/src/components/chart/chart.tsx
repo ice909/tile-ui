@@ -10,6 +10,7 @@ import {
 	getChartLegendItems,
 	getChartPathD,
 	getChartTooltipEntries,
+	getChartTooltipPosition,
 } from '@tile-ui/core';
 import type { ChartConfig, ChartDatum, ChartLayout, ChartLegendItem, ChartSeriesItem, ChartTooltipEntry, ChartType } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/chart.module.scss';
@@ -101,9 +102,10 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 
 			const observer = new ResizeObserver((entries) => {
 				for (const entry of entries) {
-					const { width, height } = entry.contentRect;
-					if (width > 0 && height > 0) {
-						setSize({ width, height });
+					const { width } = entry.contentRect;
+					if (width > 0) {
+						// 高度固定：容器高度由 SVG 内容撑开，若跟随容器高度会形成正反馈循环导致无限放大
+						setSize((prev) => ({ ...prev, width }));
 					}
 				}
 			});
@@ -236,8 +238,7 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 							className={styles[chartStyleKeys.tooltip]}
 							style={{
 								position: 'absolute',
-								left: mousePosition.x + 12,
-								top: mousePosition.y + 12,
+								...getChartTooltipPosition(layout, mousePosition.x, mousePosition.y),
 							}}
 						/>
 					)}

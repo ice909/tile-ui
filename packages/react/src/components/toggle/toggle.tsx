@@ -32,7 +32,6 @@ const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
 			<button
 				ref={ref}
 				type="button"
-				role="button"
 				aria-pressed={isPressed}
 				data-state={state}
 				data-variant={variant}

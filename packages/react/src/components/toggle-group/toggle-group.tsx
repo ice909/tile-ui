@@ -75,7 +75,6 @@ const ToggleGroupItem = React.forwardRef<HTMLButtonElement, ToggleGroupItemProps
 				ref={ref}
 				type="button"
 				value={value}
-				role="button"
 				aria-pressed={selected}
 				data-state={state}
 				data-active={selected}

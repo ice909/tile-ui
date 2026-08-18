@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, type PropType } from 'vue';
+import { computed, defineComponent, h, ref, type PropType } from 'vue';
 import { getNativeSelectState, nativeSelectStyleKeys } from '@tile-ui/core';
 import type { NativeSelectSize } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/native-select.module.scss';
@@ -6,7 +6,8 @@ import styles from '@tile-ui/styles/scss/components/native-select.module.scss';
 export const TNativeSelect = defineComponent({
 	name: 'TNativeSelect',
 	props: {
-		modelValue: { type: String, default: '' },
+		modelValue: { type: String, default: undefined },
+		defaultValue: { type: String, default: '' },
 		size: {
 			type: String as PropType<NativeSelectSize>,
 			default: 'default',
@@ -15,10 +16,15 @@ export const TNativeSelect = defineComponent({
 	},
 	emits: ['update:modelValue', 'change'],
 	setup(props, { emit, attrs, slots }) {
-		const state = computed(() => getNativeSelectState(props.modelValue));
+		const internalValue = ref(props.defaultValue);
+		const currentValue = computed(() => (props.modelValue !== undefined ? props.modelValue : internalValue.value));
+		const state = computed(() => getNativeSelectState(currentValue.value));
 
 		function handleChange(event: Event) {
 			const next = (event.target as HTMLSelectElement).value;
+			if (props.modelValue === undefined) {
+				internalValue.value = next;
+			}
 			emit('update:modelValue', next);
 			emit('change', next);
 		}
@@ -32,7 +38,7 @@ export const TNativeSelect = defineComponent({
 						'data-slot': 'native-select',
 						'data-size': props.size,
 						'data-state': state.value,
-						value: props.modelValue,
+						value: currentValue.value,
 						disabled: props.disabled,
 						class: [styles[nativeSelectStyleKeys.select], attrs.class],
 						onChange: handleChange,
@@ -66,16 +72,20 @@ export const TNativeSelectOption = defineComponent({
 		label: String,
 		disabled: { type: Boolean, default: false },
 	},
-	setup(props, { attrs }) {
+	setup(props, { attrs, slots }) {
 		return () =>
-			h('option', {
-				...attrs,
-				'data-slot': 'native-select-option',
-				value: props.value,
-				label: props.label,
-				disabled: props.disabled,
-				class: [styles[nativeSelectStyleKeys.option], attrs.class],
-			});
+			h(
+				'option',
+				{
+					...attrs,
+					'data-slot': 'native-select-option',
+					value: props.value,
+					label: props.label,
+					disabled: props.disabled,
+					class: [styles[nativeSelectStyleKeys.option], attrs.class],
+				},
+				slots.default?.(),
+			);
 	},
 });
 

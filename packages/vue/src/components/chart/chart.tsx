@@ -1,4 +1,19 @@
-import { computed, defineComponent, h, inject, onBeforeUnmount, onMounted, provide, ref, reactive, useId, type ComputedRef, type InjectionKey, type PropType } from 'vue';
+import {
+	computed,
+	defineComponent,
+	h,
+	inject,
+	onBeforeUnmount,
+	onMounted,
+	provide,
+	ref,
+	reactive,
+	useId,
+	type ComputedRef,
+	type InjectionKey,
+	type PropType,
+	type VNode,
+} from 'vue';
 import {
 	CHART_INITIAL_DIMENSION,
 	buildChartThemeCss,
@@ -10,6 +25,7 @@ import {
 	getChartLegendItems,
 	getChartPathD,
 	getChartTooltipEntries,
+	getChartTooltipPosition,
 } from '@tile-ui/core';
 import type { ChartConfig, ChartDatum, ChartLayout, ChartLegendItem, ChartSeriesItem, ChartTooltipEntry, ChartType } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/chart.module.scss';
@@ -84,10 +100,10 @@ export const TChartContainer = defineComponent({
 			}
 			observer = new ResizeObserver((entries) => {
 				for (const entry of entries) {
-					const { width, height } = entry.contentRect;
-					if (width > 0 && height > 0) {
+					const { width } = entry.contentRect;
+					if (width > 0) {
+						// 高度固定：容器高度由 SVG 内容撑开，若跟随容器高度会形成正反馈循环导致无限放大
 						size.width = width;
-						size.height = height;
 					}
 				}
 			});
@@ -237,7 +253,10 @@ export const TChartContainer = defineComponent({
 						payload: entries.value,
 						label: tooltipLabel.value,
 						class: styles[chartStyleKeys.tooltip],
-						style: { position: 'absolute', left: `${mousePosition.x + 12}px`, top: `${mousePosition.y + 12}px` },
+						style: {
+							position: 'absolute',
+							...Object.fromEntries(Object.entries(getChartTooltipPosition(layout.value, mousePosition.x, mousePosition.y)).map(([k, v]) => [k, `${v}px`])),
+						},
 					}),
 				);
 			}
@@ -265,6 +284,8 @@ export const TChartTooltipContent = defineComponent({
 		hideIndicator: { type: Boolean, default: false },
 		label: { type: [String, Number, Object] as PropType<string | number | null>, default: null },
 		color: { type: String, default: undefined },
+		formatter: { type: Function as PropType<(value: number, name: string, item: ChartTooltipEntry, index: number) => VNode | string | number | null>, default: undefined },
+		labelFormatter: { type: Function as PropType<(value: unknown, payload: ChartTooltipEntry[]) => VNode | string | number | null>, default: undefined },
 	},
 	setup(props, { attrs }) {
 		const context = useChart();
@@ -281,7 +302,8 @@ export const TChartTooltipContent = defineComponent({
 			const restAttrs = { ...attrs };
 			delete restAttrs.class;
 
-			const labelNode = !props.hideLabel && props.label != null ? h('div', { class: styles[chartStyleKeys.tooltipLabel] }, String(props.label)) : null;
+			const formattedLabel = props.labelFormatter ? props.labelFormatter(props.label, items) : String(props.label ?? '');
+			const labelNode = !props.hideLabel && props.label != null ? h('div', { class: styles[chartStyleKeys.tooltipLabel] }, [formattedLabel]) : null;
 
 			const itemNodes = items.map((item, index) => {
 				const itemConfig = config[item.dataKey];
@@ -295,10 +317,15 @@ export const TChartTooltipContent = defineComponent({
 							style: { backgroundColor: indicatorColor, borderColor: indicatorColor },
 						});
 
+				const valueNode =
+					props.formatter && item.value !== undefined
+						? [props.formatter(item.value as number, item.name, item, index)]
+						: [h('div', { class: styles[chartStyleKeys.tooltipItemValue] }, typeof item.value === 'number' ? item.value.toLocaleString() : String(item.value))];
+
 				return h('div', { key: index, class: styles[chartStyleKeys.tooltipItem], 'data-indicator': props.indicator }, [
 					indicatorNode,
 					h('div', { class: styles[chartStyleKeys.tooltipItemName] }, itemConfig?.label ?? item.name),
-					h('div', { class: styles[chartStyleKeys.tooltipItemValue] }, typeof item.value === 'number' ? item.value.toLocaleString() : String(item.value)),
+					valueNode,
 				]);
 			});
 

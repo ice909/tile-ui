@@ -49,6 +49,7 @@ const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 			className = '',
 			items,
 			value,
+			defaultValue,
 			onValueChange,
 			placeholder = 'Select...',
 			searchPlaceholder = 'Search...',
@@ -64,13 +65,16 @@ const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 		const [open, setOpen] = useState(false);
 		const [query, setQuery] = useState('');
 		const [activeValue, setActiveValue] = useState<string | null>(null);
+		const [internalValue, setInternalValue] = useState(defaultValue);
 		const triggerRef = useRef<HTMLButtonElement | null>(null);
 		const contentRef = useRef<HTMLDivElement | null>(null);
 		const contentId = useId();
 
+		const currentValue = value !== undefined ? value : internalValue;
+
 		const filteredItems = useMemo(() => filterComboboxItems(items, query, maxItems, filter), [items, query, maxItems, filter]);
 
-		const selectedItem = useMemo(() => items.find((item) => item.value === value), [items, value]);
+		const selectedItem = useMemo(() => items.find((item) => item.value === currentValue), [items, currentValue]);
 
 		function setOpenState(next: boolean) {
 			setOpen(next);
@@ -92,10 +96,13 @@ const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 				if (item.disabled) {
 					return;
 				}
+				if (value === undefined) {
+					setInternalValue(item.value);
+				}
 				onValueChange?.(item.value);
 				setOpenState(false);
 			},
-			[onValueChange],
+			[value, onValueChange],
 		);
 
 		function handleTriggerKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
@@ -214,6 +221,10 @@ const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 			<div ref={contentRef} id={contentId} role="listbox" tabIndex={-1} data-state={state} className={styles[comboboxStyleKeys.content]} onKeyDown={handleContentKeyDown}>
 				<div className={styles[comboboxStyleKeys.search]}>
 					<input
+						role="combobox"
+						aria-expanded={open}
+						aria-controls={contentId}
+						aria-autocomplete="list"
 						className={styles[comboboxStyleKeys.searchInput]}
 						value={query}
 						placeholder={searchPlaceholder}
@@ -230,7 +241,7 @@ const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 					) : (
 						filteredItems.map((item) => {
 							const isActive = activeValue === item.value;
-							const isSelected = item.value === value;
+							const isSelected = item.value === currentValue;
 							return (
 								<div
 									key={item.value}

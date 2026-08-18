@@ -18,12 +18,12 @@ export const TAvatar = defineComponent({
 			default: 'default',
 		},
 	},
-	setup(props, { slots }) {
+	setup(props, { slots, attrs }) {
 		const status = ref<AvatarImageStatus>('loading');
 		const hasImage = ref(false);
 		provide(AvatarContextKey, { status, hasImage });
 
-		return () => h('span', { class: styles[avatarStyleKeys.root], 'data-size': props.size }, slots.default?.());
+		return () => h('span', { ...attrs, class: [styles[avatarStyleKeys.root], attrs.class], 'data-size': props.size }, slots.default?.());
 	},
 });
 
@@ -82,7 +82,7 @@ export const TAvatarImage = defineComponent({
 
 export const TAvatarFallback = defineComponent({
 	name: 'TAvatarFallback',
-	setup(_props, { slots }) {
+	setup(_props, { slots, attrs }) {
 		const contextValue = inject(AvatarContextKey);
 		if (!contextValue) {
 			throw new Error('TAvatarFallback must be used within <TAvatar>.');
@@ -94,29 +94,29 @@ export const TAvatarFallback = defineComponent({
 				return null;
 			}
 
-			return h('span', { class: styles[avatarStyleKeys.fallback] }, slots.default?.());
+			return h('span', { ...attrs, class: [styles[avatarStyleKeys.fallback], attrs.class] }, slots.default?.());
 		};
 	},
 });
 
 export const TAvatarBadge = defineComponent({
 	name: 'TAvatarBadge',
-	setup(_props, { slots }) {
-		return () => h('span', { class: styles[avatarStyleKeys.badge] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('span', { ...attrs, class: [styles[avatarStyleKeys.badge], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TAvatarGroup = defineComponent({
 	name: 'TAvatarGroup',
-	setup(_props, { slots }) {
-		return () => h('div', { class: styles[avatarStyleKeys.group] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('div', { ...attrs, class: [styles[avatarStyleKeys.group], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TAvatarGroupCount = defineComponent({
 	name: 'TAvatarGroupCount',
-	setup(_props, { slots }) {
-		return () => h('div', { class: styles[avatarStyleKeys.groupCount] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('div', { ...attrs, class: [styles[avatarStyleKeys.groupCount], attrs.class] }, slots.default?.());
 	},
 });
 

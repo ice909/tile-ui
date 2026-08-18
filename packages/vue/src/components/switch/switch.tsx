@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, type PropType } from 'vue';
+import { defineComponent, computed, h, ref, type PropType } from 'vue';
 import { getSwitchState, switchStyleKeys } from '@tile-ui/core';
 import type { SwitchSize } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/switch.module.scss';
@@ -6,7 +6,8 @@ import styles from '@tile-ui/styles/scss/components/switch.module.scss';
 export const TSwitch = defineComponent({
 	name: 'TSwitch',
 	props: {
-		modelValue: { type: Boolean, default: false },
+		modelValue: { type: Boolean, default: undefined },
+		defaultChecked: { type: Boolean, default: false },
 		size: {
 			type: String as PropType<SwitchSize>,
 			default: 'default',
@@ -15,10 +16,15 @@ export const TSwitch = defineComponent({
 	},
 	emits: ['update:modelValue', 'change'],
 	setup(props, { emit }) {
-		const state = computed(() => getSwitchState(props.modelValue));
+		const internalChecked = ref(props.defaultChecked);
+		const isChecked = computed(() => (props.modelValue !== undefined ? props.modelValue : internalChecked.value));
+		const state = computed(() => getSwitchState(isChecked.value));
 
 		function handleClick() {
-			const next = !props.modelValue;
+			const next = !isChecked.value;
+			if (props.modelValue === undefined) {
+				internalChecked.value = next;
+			}
 			emit('update:modelValue', next);
 			emit('change', next);
 		}
@@ -29,7 +35,7 @@ export const TSwitch = defineComponent({
 				{
 					type: 'button',
 					role: 'switch',
-					'aria-checked': props.modelValue ? 'true' : 'false',
+					'aria-checked': isChecked.value ? 'true' : 'false',
 					'data-state': state.value,
 					'data-size': props.size,
 					disabled: props.disabled,

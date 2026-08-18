@@ -2,6 +2,8 @@ import { defineConfig, defineDocs } from 'fumadocs-mdx/config';
 import rehypePrettyCode from 'rehype-pretty-code';
 import type { ShikiTransformer } from 'shiki';
 
+import remarkTrailingSlash from './lib/remark-trailing-slash';
+
 const transformers: ShikiTransformer[] = [
 	{
 		code(node) {
@@ -15,6 +17,7 @@ const transformers: ShikiTransformer[] = [
 
 export default defineConfig({
 	mdxOptions: {
+		remarkPlugins: (plugins) => [remarkTrailingSlash, ...plugins],
 		rehypePlugins: (plugins) => {
 			plugins.shift();
 			plugins.push([

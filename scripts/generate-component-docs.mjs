@@ -9,13 +9,26 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 
-const SKIP = new Set(['button', 'card', 'input', 'label', 'textarea']);
+const SKIP = new Set([
+	'button',
+	'card',
+	'input',
+	'label',
+	'textarea',
+	'use-copy-to-clipboard',
+	'use-media-query',
+	'use-local-storage',
+	'contact-form',
+	'newsletter-card',
+	'profile-settings',
+]);
 
 const mainOverrides = {
 	direction: 'DirectionProvider',
@@ -492,6 +505,193 @@ const META = [
 		usage: '<InputOTP maxLength={6} onComplete={(code) => console.log(code)} />',
 		related: ['input', 'input-group', 'form'],
 	},
+	{
+		name: 'button',
+		description: 'A multi-variant action component with loading state and size variants.',
+		intro: 'Use Button for primary actions, inline confirmations, and lightweight toolbar interactions.',
+		highlights: ['Six visual variants', 'Loading state support', 'Eight sizes from `xs` through `icon-lg`', '`asChild` support for router links and custom wrappers'],
+		usage: '<Button>Default</Button>\n<Button variant="secondary">Secondary</Button>\n<Button variant="outline">Outline</Button>\n<Button variant="ghost">Ghost</Button>\n<Button variant="destructive">Destructive</Button>\n<Button loading>Loading</Button>',
+		related: ['card', 'input', 'examples'],
+	},
+	{
+		name: 'card',
+		description: 'Composable card primitives for framed content.',
+		intro: 'Use Card to frame summaries, settings surfaces, and action rows.',
+		highlights: ['Header, content, and footer', 'Title and description', 'Pairs with Button, Input, and Textarea'],
+		usage: '<Card>\n\t<CardHeader>\n\t\t<CardTitle>Starter workspace</CardTitle>\n\t\t<CardDescription>Ship a consistent docs and component experience across React and Vue.</CardDescription>\n\t</CardHeader>\n\t<CardContent>\n\t\t<p>Use cards for summaries, settings surfaces, marketing CTAs, and denser information blocks that need a clear frame.</p>\n\t</CardContent>\n\t<CardFooter>\n\t\t<Button variant="outline">Preview</Button>\n\t\t<Button>Install</Button>\n\t</CardFooter>\n</Card>',
+		related: ['button', 'input', 'examples'],
+	},
+	{
+		name: 'input',
+		description: 'A labeled text input with helper and validation messaging.',
+		intro: 'Use Input for single-line text entry with aligned label and messaging.',
+		highlights: ['Label and helper text', 'Error state', 'Pairs with Field and Form'],
+		usage: '<Input\n\tlabel="Project name"\n\thelperText="Used in your dashboard and generated URLs."\n\tplaceholder="Tile UI Docs"\n/>',
+		related: ['textarea', 'label', 'field'],
+	},
+	{
+		name: 'textarea',
+		description: 'A labeled multi-line text area.',
+		intro: 'Use Textarea for longer free-form input with the same field structure as Input.',
+		highlights: ['Label and helper text', 'Error state', 'Resizable by default'],
+		usage: '<Textarea\n\tlabel="Summary"\n\thelperText="Keep it short and specific for reviewers."\n\tplaceholder="Describe the release in one paragraph"\n/>',
+		related: ['input', 'label', 'field'],
+	},
+	{
+		name: 'label',
+		description: 'A form label primitive.',
+		intro: 'Use Label to associate accessible labels with form controls.',
+		highlights: ['Required indicator', 'Pairs with native and custom fields'],
+		usage: '<Label required htmlFor="feedback">Feedback</Label>',
+		related: ['input', 'field', 'form'],
+	},
+	{
+		name: 'use-copy-to-clipboard',
+		description: 'A hook for clipboard copy with transient feedback.',
+		intro: 'Use this hook to copy text while managing the "copied" state in one place.',
+		highlights: ['Async clipboard API with fallback', 'Auto-resetting copied state'],
+		usage: 'const { copy, copied } = useCopyToClipboard();',
+	},
+	{
+		name: 'use-media-query',
+		description: 'A hook that tracks a CSS media query.',
+		intro: 'Use this hook to react to viewport or media-query changes.',
+		highlights: ['Server-safe initial value', 'Subscribes to matchMedia'],
+		usage: "const isMobile = useMediaQuery('(max-width: 768px)');",
+	},
+	{
+		name: 'use-local-storage',
+		description: 'A hook for persisted local-storage state.',
+		intro: 'Use this hook to read and write local-storage-backed state.',
+		highlights: ['JSON serialization', 'SSR safe'],
+		usage: "const [value, setValue] = useLocalStorage('theme', 'light');",
+	},
+	{
+		name: 'contact-form',
+		description: 'A compact support form using card, label, input, textarea, and button primitives.',
+		intro: 'This example combines the registry primitives into a compact, realistic support form surface.',
+		highlights: ['Card frames the request', 'Labeled fields', 'Footer actions'],
+		code: [
+			"import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Textarea } from '@tile-ui/react';",
+			'',
+			'<Card>',
+			'\t<CardHeader>',
+			'\t\t<CardTitle>Contact support</CardTitle>',
+			'\t\t<CardDescription>Send a structured request without building the form anatomy from scratch.</CardDescription>',
+			'\t</CardHeader>',
+			'\t<CardContent>',
+			'\t\t<Input label="Email" placeholder="name@company.com" helperText="We reply to the address used here." />',
+			'\t\t<Textarea label="Question" placeholder="Tell us what you need help with" helperText="Include relevant context and links." />',
+			'\t</CardContent>',
+			'\t<CardFooter>',
+			'\t\t<Button variant="outline">Cancel</Button>',
+			'\t\t<Button>Submit</Button>',
+			'\t</CardFooter>',
+			'</Card>',
+		].join('\n'),
+		codeVue: [
+			"import { TButton, TCard, TCardContent, TCardDescription, TCardFooter, TCardHeader, TCardTitle, TInput, TTextarea } from '@tile-ui/vue';",
+			'',
+			'<TCard>',
+			'\t<TCardHeader>',
+			'\t\t<TCardTitle>Contact support</TCardTitle>',
+			'\t\t<TCardDescription>Send a structured request without building the form anatomy from scratch.</TCardDescription>',
+			'\t</TCardHeader>',
+			'\t<TCardContent>',
+			'\t\t<TInput label="Email" placeholder="name@company.com" helperText="We reply to the address used here." />',
+			'\t\t<TTextarea label="Question" placeholder="Tell us what you need help with" helperText="Include relevant context and links." />',
+			'\t</TCardContent>',
+			'\t<TCardFooter>',
+			'\t\t<TButton variant="outline">Cancel</TButton>',
+			'\t\t<TButton>Submit</TButton>',
+			'\t</TCardFooter>',
+			'</TCard>',
+		].join('\n'),
+	},
+	{
+		name: 'newsletter-card',
+		description: 'A lightweight marketing capture flow built from the same field and action primitives.',
+		intro: 'This example shows a Card doubling as a marketing capture surface.',
+		highlights: ['Single-field capture', 'Full-width footer action'],
+		code: [
+			"import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input } from '@tile-ui/react';",
+			'',
+			'<Card>',
+			'\t<CardHeader>',
+			'\t\t<CardTitle>Stay in the loop</CardTitle>',
+			'\t\t<CardDescription>Product updates, release notes, and design system changes once a month.</CardDescription>',
+			'\t</CardHeader>',
+			'\t<CardContent>',
+			'\t\t<Input label="Email" placeholder="you@company.com" helperText="We only send relevant updates." />',
+			'\t</CardContent>',
+			'\t<CardFooter>',
+			'\t\t<Button className="w-full">Subscribe</Button>',
+			'\t</CardFooter>',
+			'</Card>',
+		].join('\n'),
+		codeVue: [
+			"import { TButton, TCard, TCardContent, TCardDescription, TCardFooter, TCardHeader, TCardTitle, TInput } from '@tile-ui/vue';",
+			'',
+			'<TCard>',
+			'\t<TCardHeader>',
+			'\t\t<TCardTitle>Stay in the loop</TCardTitle>',
+			'\t\t<TCardDescription>Product updates, release notes, and design system changes once a month.</TCardDescription>',
+			'\t</TCardHeader>',
+			'\t<TCardContent>',
+			'\t\t<TInput label="Email" placeholder="you@company.com" helperText="We only send relevant updates." />',
+			'\t</TCardContent>',
+			'\t<TCardFooter>',
+			'\t\t<TButton>Subscribe</TButton>',
+			'\t</TCardFooter>',
+			'</TCard>',
+		].join('\n'),
+	},
+	{
+		name: 'profile-settings',
+		description: 'A denser account-management surface using the same field, label, and action primitives.',
+		intro: 'This example shows an account-management surface built from field primitives.',
+		highlights: ['Dense settings layout', 'Read-only and editable fields'],
+		code: [
+			"import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from '@tile-ui/react';",
+			'',
+			'<Card>',
+			'\t<CardHeader>',
+			'\t\t<CardTitle>Profile settings</CardTitle>',
+			'\t\t<CardDescription>Update the details your teammates and collaborators see first.</CardDescription>',
+			'\t</CardHeader>',
+			'\t<CardContent>',
+			'\t\t<Input label="Display name" defaultValue="Tile UI Team" />',
+			'\t\t<Input label="Email" defaultValue="team@tile-ui.dev" />',
+			'\t\t<Label htmlFor="profile-role">Role</Label>',
+			'\t\t<input id="profile-role" defaultValue="Design Systems Engineer" />',
+			'\t</CardContent>',
+			'\t<CardFooter>',
+			'\t\t<Button variant="outline">Cancel</Button>',
+			'\t\t<Button>Save changes</Button>',
+			'\t</CardFooter>',
+			'</Card>',
+		].join('\n'),
+		codeVue: [
+			"import { TButton, TCard, TCardContent, TCardDescription, TCardFooter, TCardHeader, TCardTitle, TInput, TLabel } from '@tile-ui/vue';",
+			'',
+			'<TCard>',
+			'\t<TCardHeader>',
+			'\t\t<TCardTitle>Profile settings</TCardTitle>',
+			'\t\t<TCardDescription>Update the details your teammates and collaborators see first.</TCardDescription>',
+			'\t</TCardHeader>',
+			'\t<TCardContent>',
+			'\t\t<TInput label="Display name" modelValue="Tile UI Team" />',
+			'\t\t<TInput label="Email" modelValue="team@tile-ui.dev" />',
+			'\t\t<TLabel>Role</TLabel>',
+			'\t\t<input value="Design Systems Engineer" />',
+			'\t</CardContent>',
+			'\t<TCardFooter>',
+			'\t\t<TButton variant="outline">Cancel</TButton>',
+			'\t\t<TButton>Save changes</TButton>',
+			'\t</CardFooter>',
+			'</Card>',
+		].join('\n'),
+	},
 ];
 
 function loadRegistryItems() {
@@ -502,6 +702,8 @@ function loadRegistryItems() {
 	}
 	return map;
 }
+
+export { META };
 
 function extractApi(name) {
 	const typeFile = path.join(root, 'packages/core/src/components', name, `${name}.types.ts`);
@@ -683,6 +885,39 @@ function compNamesFor(name) {
 	return reactExports.get(name) ?? [mainOverrides[name] ?? pascalCase(name)];
 }
 
+/**
+ * 生成组件预览块下方可展开的实现代码（含 import 行）。
+ * framework: 'react' | 'vue'。
+ */
+export function getPreviewCode(name, framework) {
+	const meta = META.find((m) => m.name === name);
+	if (!meta) {
+		return null;
+	}
+
+	const isReact = framework === 'react';
+
+	if (meta.code) {
+		return isReact ? meta.code : (meta.codeVue ?? toVueUsage(meta.code, compNamesFor(name)));
+	}
+
+	const mainName = mainOverrides[name] ?? pascalCase(name);
+	const isHook = name.startsWith('use-');
+	// hook 的实际导出名为驼峰形式（如 use-copy-to-clipboard → useCopyToClipboard）。
+	const importName = isHook
+		? name
+				.split('-')
+				.map((part, index) => (index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)))
+				.join('')
+		: isReact
+			? mainName
+			: `T${mainName}`;
+	const pkg = isReact ? '@tile-ui/react' : '@tile-ui/vue';
+	const usage = isReact ? meta.usage : toVueUsage(meta.usage, compNamesFor(name));
+
+	return [`import { ${importName} } from '${pkg}';`, '', usage].join('\n');
+}
+
 function main() {
 	const items = loadRegistryItems();
 
@@ -707,6 +942,17 @@ function main() {
 	}
 
 	console.log(`Generated ${written} component docs (${META.length} components).`);
+
+	// 生成的 MDX 与预览代码都通过 oxfmt 格式化，保证 fmt:check 通过。
+	const oxfmtBin = path.join(root, 'node_modules', '.bin', 'oxfmt');
+	if (fs.existsSync(oxfmtBin)) {
+		spawnSync(oxfmtBin, [reactDir, vueDir], { stdio: 'inherit' });
+	}
+
+	// 同步重建 React 预览块可展开代码（预览代码同样派生自 META）。
+	spawnSync(process.execPath, ['apps/react/scripts/generate-preview-code.mjs'], { cwd: root, stdio: 'inherit' });
 }
 
-main();
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+	main();
+}

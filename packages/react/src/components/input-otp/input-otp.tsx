@@ -115,6 +115,12 @@ const InputOTP = React.forwardRef<HTMLDivElement, InputOTPProps>(
 				if (next !== null) {
 					focusSlot(next);
 				}
+			} else if (event.key === 'Home') {
+				event.preventDefault();
+				focusSlot(0);
+			} else if (event.key === 'End') {
+				event.preventDefault();
+				focusSlot(maxLength - 1);
 			}
 		}
 

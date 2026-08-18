@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, type PropType } from 'vue';
+import { defineComponent, computed, h, ref, type PropType } from 'vue';
 import { checkboxStyleKeys, getCheckboxState, getNextCheckboxState } from '@tile-ui/core';
 import type { CheckboxCheckedState } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/checkbox.module.scss';
@@ -8,18 +8,28 @@ export const TCheckbox = defineComponent({
 	props: {
 		modelValue: {
 			type: [Boolean, String] as PropType<boolean | 'indeterminate'>,
+			default: undefined,
+		},
+		defaultChecked: {
+			type: [Boolean, String] as PropType<boolean | 'indeterminate'>,
 			default: false,
 		},
 		disabled: { type: Boolean, default: false },
 	},
 	emits: ['update:modelValue', 'change'],
 	setup(props, { emit }) {
-		const checked = computed<CheckboxCheckedState>(() => (props.modelValue === 'indeterminate' ? 'indeterminate' : !!props.modelValue));
-		const state = computed(() => getCheckboxState(checked.value));
+		const internalChecked = ref<CheckboxCheckedState>(props.defaultChecked);
+		const isChecked = computed<CheckboxCheckedState>(() =>
+			props.modelValue !== undefined ? (props.modelValue === 'indeterminate' ? 'indeterminate' : !!props.modelValue) : internalChecked.value,
+		);
+		const state = computed(() => getCheckboxState(isChecked.value));
 		const ariaChecked = computed(() => (state.value === 'checked' ? 'true' : state.value === 'mixed' ? 'mixed' : 'false'));
 
 		function handleClick() {
-			const next = getNextCheckboxState(checked.value);
+			const next = getNextCheckboxState(isChecked.value);
+			if (props.modelValue === undefined) {
+				internalChecked.value = next;
+			}
 			emit('update:modelValue', next);
 			emit('change', next);
 		}

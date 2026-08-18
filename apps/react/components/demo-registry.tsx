@@ -139,6 +139,7 @@ import {
 	NavigationMenuItem,
 	NavigationMenuList,
 	NavigationMenuTrigger,
+	NavigationMenuViewport,
 	Pagination,
 	PaginationContent,
 	PaginationItem,
@@ -175,6 +176,9 @@ import {
 	SidebarTrigger,
 	Skeleton,
 	Slider,
+	SliderRange,
+	SliderThumb,
+	SliderTrack,
 	Spinner,
 	Switch,
 	Table,
@@ -370,11 +374,11 @@ export const demoRegistry: Record<string, Demo> = {
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
-						<BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+						<BreadcrumbLink href="/docs/">Docs</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>
-						<BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+						<BreadcrumbLink href="/docs/components/">Components</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>
@@ -628,7 +632,12 @@ export const demoRegistry: Record<string, Demo> = {
 			const [value, setValue] = useState(40);
 			return (
 				<Stack>
-					<Slider value={value} onValueChange={setValue} max={100} step={1} />
+					<Slider value={value} onValueChange={setValue} max={100} step={1}>
+						<SliderTrack>
+							<SliderRange />
+							<SliderThumb />
+						</SliderTrack>
+					</Slider>
 					<p className="component-preview__text">
 						Value: <strong>{value}</strong>
 					</p>
@@ -814,6 +823,7 @@ export const demoRegistry: Record<string, Demo> = {
 						</NavigationMenuContent>
 					</NavigationMenuItem>
 				</NavigationMenuList>
+				<NavigationMenuViewport />
 			</NavigationMenu>
 		),
 	},
@@ -956,9 +966,21 @@ export const demoRegistry: Record<string, Demo> = {
 		Component: () => (
 			<Carousel>
 				<CarouselContent>
-					<CarouselItem>Slide one</CarouselItem>
-					<CarouselItem>Slide two</CarouselItem>
-					<CarouselItem>Slide three</CarouselItem>
+					{['Slide one', 'Slide two', 'Slide three'].map((text) => (
+						<CarouselItem key={text}>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									height: 160,
+									borderRadius: '0.5rem',
+									background: 'var(--docs-surface-hover)',
+								}}>
+								<p className="component-preview__text">{text}</p>
+							</div>
+						</CarouselItem>
+					))}
 				</CarouselContent>
 				<CarouselPrevious />
 				<CarouselNext />

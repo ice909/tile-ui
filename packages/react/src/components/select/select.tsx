@@ -164,6 +164,7 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(({
 		<button
 			ref={setRef}
 			type="button"
+			role="combobox"
 			aria-haspopup="listbox"
 			aria-expanded={context.open}
 			aria-controls={context.contentId}
@@ -239,7 +240,11 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 				const items = itemsRef.current;
 				items.forEach((item) => item.removeAttribute('data-highlighted'));
 				const selected = items.find((item) => item.getAttribute('aria-selected') === 'true');
-				(selected ?? items[0])?.setAttribute('data-highlighted', 'true');
+				const target = selected ?? items[0];
+				if (target) {
+					target.setAttribute('data-highlighted', 'true');
+					target.focus();
+				}
 			}
 
 			updatePosition();

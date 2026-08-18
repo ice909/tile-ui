@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { withTrailingSlash } from '../lib/trailing-slash';
+
 type PageTreeNode = {
 	type?: string;
 	name?: unknown;
@@ -55,7 +57,11 @@ export function DocsSidebar({ tree, pathname }: { tree: PageTreeNode; pathname: 
 						<p className="docs-sidebar__label">{group.name}</p>
 						<nav className="docs-sidebar__nav">
 							{group.pages.map((page) => (
-								<Link key={page.url} href={page.url} className="docs-sidebar__link" data-active={pathname === page.url}>
+								<Link
+									key={page.url}
+									href={withTrailingSlash(page.url)}
+									className="docs-sidebar__link"
+									data-active={pathname === page.url || pathname === withTrailingSlash(page.url)}>
 									{page.name}
 								</Link>
 							))}

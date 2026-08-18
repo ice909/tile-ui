@@ -12,12 +12,13 @@ export const TSeparator = defineComponent({
 		},
 		decorative: { type: Boolean, default: true },
 	},
-	setup(props) {
+	setup(props, { attrs }) {
 		const styleKeys = computed(() => getSeparatorStyleKeys(props.orientation));
-		const classes = computed(() => [styles[styleKeys.value.base], styles[styleKeys.value.orientation]]);
+		const classes = computed(() => [styles[styleKeys.value.base], styles[styleKeys.value.orientation], attrs.class]);
 
 		return () =>
 			h('div', {
+				...attrs,
 				class: classes.value,
 				role: props.decorative ? 'none' : 'separator',
 				'aria-orientation': props.decorative ? undefined : props.orientation,

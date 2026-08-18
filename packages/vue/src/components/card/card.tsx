@@ -11,50 +11,50 @@ export const TCard = defineComponent({
 			default: 'div',
 		},
 	},
-	setup(props, { slots }) {
-		return () => h(props.as!, { class: styles[cardStyleKeys.card] }, slots.default?.());
+	setup(props, { slots, attrs }) {
+		return () => h(props.as!, { ...attrs, class: [styles[cardStyleKeys.card], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TCardHeader = defineComponent({
 	name: 'TCardHeader',
-	setup(_, { slots }) {
-		return () => h('div', { class: styles[cardStyleKeys.header] }, slots.default?.());
+	setup(_, { slots, attrs }) {
+		return () => h('div', { ...attrs, class: [styles[cardStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TCardTitle = defineComponent({
 	name: 'TCardTitle',
-	setup(_, { slots }) {
-		return () => h('h3', { class: styles[cardStyleKeys.title] }, slots.default?.());
+	setup(_, { slots, attrs }) {
+		return () => h('h3', { ...attrs, class: [styles[cardStyleKeys.title], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TCardDescription = defineComponent({
 	name: 'TCardDescription',
-	setup(_, { slots }) {
-		return () => h('p', { class: styles[cardStyleKeys.description] }, slots.default?.());
+	setup(_, { slots, attrs }) {
+		return () => h('p', { ...attrs, class: [styles[cardStyleKeys.description], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TCardAction = defineComponent({
 	name: 'TCardAction',
-	setup(_, { slots }) {
-		return () => h('div', { class: styles[cardStyleKeys.action] }, slots.default?.());
+	setup(_, { slots, attrs }) {
+		return () => h('div', { ...attrs, class: [styles[cardStyleKeys.action], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TCardContent = defineComponent({
 	name: 'TCardContent',
-	setup(_, { slots }) {
-		return () => h('div', { class: styles[cardStyleKeys.content] }, slots.default?.());
+	setup(_, { slots, attrs }) {
+		return () => h('div', { ...attrs, class: [styles[cardStyleKeys.content], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TCardFooter = defineComponent({
 	name: 'TCardFooter',
-	setup(_, { slots }) {
-		return () => h('div', { class: styles[cardStyleKeys.footer] }, slots.default?.());
+	setup(_, { slots, attrs }) {
+		return () => h('div', { ...attrs, class: [styles[cardStyleKeys.footer], attrs.class] }, slots.default?.());
 	},
 });
 

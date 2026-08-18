@@ -16,6 +16,12 @@ export type DocsPageSummary = {
 	title: string;
 };
 
+export type PreviewCodePayload = {
+	preview: string;
+	full: string;
+	raw: string;
+};
+
 export type DocPayload = {
 	doc: {
 		url: string;
@@ -23,6 +29,7 @@ export type DocPayload = {
 		description: string;
 		html: string;
 		toc: DocTocItem[];
+		previewCode: PreviewCodePayload | null;
 	};
 	neighbours: {
 		previous: DocsPageSummary | null;

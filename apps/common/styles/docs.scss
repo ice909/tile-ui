@@ -458,6 +458,12 @@
 	padding: 0.875rem 1rem;
 	tab-size: 4;
 	background: transparent;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 .mdx-inline-code {
@@ -479,6 +485,8 @@
 	color: var(--docs-code-fg);
 	font-size: 0.875rem;
 	overflow: hidden;
+	min-width: 0;
+	max-width: 100%;
 }
 
 [data-rehype-pretty-code-figure] code,
@@ -521,6 +529,14 @@
 	margin: 0;
 	border: 0;
 	overflow-x: auto;
+	min-width: 0;
+	max-width: 100%;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 .mdx-figure pre code {
@@ -586,14 +602,33 @@
 	counter-reset: line;
 }
 
+// 有行号时去掉 pre 的左右内边距，让粘性行号列从最左侧覆盖，横向滚动不露馅。
+pre:has([data-line-numbers]) {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+// 行号列：整列不透明，横向滚动时内容不会从行号底部/右侧透出（露馅）。
+[data-line-numbers] [data-line] {
+	padding-right: 1.25rem;
+}
+
 [data-line-numbers] [data-line]::before {
 	counter-increment: line;
 	content: counter(line);
 	display: inline-block;
-	width: 1.5rem;
-	padding-right: 1rem;
+	width: 3.5rem;
+	padding-right: 1.25rem;
 	text-align: right;
 	color: var(--docs-code-number);
+	background-color: var(--docs-code-bg);
+	position: sticky;
+	left: 0;
+	z-index: 1;
+}
+
+[data-line-numbers] [data-highlighted-line]::before {
+	background-color: var(--docs-code-highlight);
 }
 
 [data-highlighted-line],
@@ -605,7 +640,7 @@
 [data-highlighted-line]::after {
 	position: absolute;
 	top: 0;
-	left: 0;
+	left: 3.5rem;
 	width: 2px;
 	height: 100%;
 	content: '';
@@ -786,35 +821,22 @@
 	}
 }
 
+// 组件预览卡：预览与可展开实现代码合并为同一张卡片，用分割线相连。
 .component-preview {
 	margin-top: $spacing-4;
-	display: grid;
-	gap: $spacing-3;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid var(--docs-border);
+	border-radius: var(--docs-radius-lg);
+	background: var(--docs-surface-subtle);
 	min-width: 0;
-}
-
-.component-preview__meta {
-	display: grid;
-	gap: $spacing-2;
-	min-width: 0;
-}
-
-.component-preview__eyebrow {
-	margin: 0;
-	color: var(--docs-text-muted);
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	font-size: $text-sm;
-	font-weight: $font-semibold;
+	max-width: 100%;
 }
 
 .component-preview__surface {
 	display: grid;
 	gap: $spacing-3;
 	padding: $spacing-5;
-	border: 1px solid var(--docs-border);
-	border-radius: var(--docs-radius-lg);
-	background: var(--docs-surface-subtle);
 	min-width: 0;
 	max-width: 100%;
 }
@@ -934,6 +956,86 @@
 	pre {
 		margin-top: 0 !important;
 	}
+}
+
+// 可展开实现代码：与预览共用同一张卡片，位于底部，用顶部分割线相连。
+.component-preview__code {
+	position: relative;
+	min-width: 0;
+	max-width: 100%;
+	border-top: 1px solid var(--docs-border);
+	background: var(--docs-code-bg);
+
+	.mdx-figure {
+		margin: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		min-width: 0;
+		max-width: 100%;
+	}
+}
+
+.component-preview__code-peek {
+	position: relative;
+	min-width: 0;
+	max-width: 100%;
+	overflow: hidden;
+	border-top: 1px solid var(--docs-border);
+	background: var(--docs-code-bg);
+	cursor: pointer;
+
+	.mdx-figure {
+		margin: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		min-width: 0;
+		max-width: 100%;
+	}
+}
+
+.component-preview__code-peek-pre {
+	min-width: 0;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+// 卡片内的代码 pre 不再自带边框/圆角/背景/边距（避免与卡片边框形成双分割线或多余间距）。
+.component-preview pre {
+	margin: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+}
+
+.component-preview__code-fade {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, var(--docs-code-bg) 15%, transparent);
+	pointer-events: none;
+}
+
+.component-preview__code-toggle {
+	position: absolute;
+	left: 50%;
+	bottom: $spacing-3;
+	transform: translateX(-50%);
+	appearance: none;
+	border: 1px solid var(--docs-border);
+	border-radius: 999px;
+	background: var(--docs-surface);
+	color: var(--docs-text);
+	padding: 0.4rem 0.85rem;
+	font: inherit;
+	font-size: $text-sm;
+	font-weight: $font-medium;
+	cursor: pointer;
+	z-index: 1;
+}
+
+.component-preview__code-toggle:hover {
+	background: var(--docs-surface-hover);
 }
 
 @media (max-width: 768px) {

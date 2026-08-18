@@ -4,7 +4,7 @@ import type { ResizableDirection } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/resizable.module.scss';
 
 interface ResizableContextValue {
-	direction: ResizableDirection;
+	direction: Ref<ResizableDirection>;
 	containerRef: Ref<HTMLElement | null>;
 	getSize: (index: number) => number;
 	registerPanel: () => number;
@@ -103,7 +103,9 @@ export const TResizablePanelGroup = defineComponent({
 			sizes.value = computeResizableSizes(current, index, delta);
 		}
 
-		provide(ResizableContextKey, { direction: props.direction, containerRef, getSize, registerPanel, registerHandle, resize });
+		const direction = computed(() => props.direction);
+
+		provide(ResizableContextKey, { direction, containerRef, getSize, registerPanel, registerHandle, resize });
 
 		return () =>
 			h(
@@ -161,16 +163,17 @@ export const TResizableHandle = defineComponent({
 			if (!container) {
 				return;
 			}
+			const dir = direction.value;
 			const rect = container.getBoundingClientRect();
-			const total = direction === 'horizontal' ? rect.width : rect.height;
-			const startCoord = direction === 'horizontal' ? event.clientX : event.clientY;
+			const total = dir === 'horizontal' ? rect.width : rect.height;
+			const startCoord = dir === 'horizontal' ? event.clientX : event.clientY;
 			let lastDeltaPercent = 0;
 
 			dragging.value = true;
-			document.body.style.cursor = getResizableDirectionCursor(direction);
+			document.body.style.cursor = getResizableDirectionCursor(dir);
 
 			function handlePointerMove(moveEvent: PointerEvent) {
-				const coord = direction === 'horizontal' ? moveEvent.clientX : moveEvent.clientY;
+				const coord = dir === 'horizontal' ? moveEvent.clientX : moveEvent.clientY;
 				const deltaPercent = total > 0 ? ((coord - startCoord) / total) * 100 : 0;
 				const step = deltaPercent - lastDeltaPercent;
 				resize(index, step);
@@ -194,7 +197,7 @@ export const TResizableHandle = defineComponent({
 				{
 					...attrs,
 					role: 'separator',
-					'aria-orientation': direction === 'horizontal' ? 'vertical' : 'horizontal',
+					'aria-orientation': direction.value === 'horizontal' ? 'vertical' : 'horizontal',
 					'data-slot': 'resizable-handle',
 					'data-active': dragging.value ? 'true' : 'false',
 					class: [styles[resizableStyleKeys.handle], attrs.class],

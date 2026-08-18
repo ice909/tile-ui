@@ -18,50 +18,50 @@ export const TTable = defineComponent({
 
 export const TTableHeader = defineComponent({
 	name: 'TTableHeader',
-	setup(_props, { slots }) {
-		return () => h('thead', { class: styles[tableStyleKeys.header] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('thead', { ...attrs, class: [styles[tableStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TTableBody = defineComponent({
 	name: 'TTableBody',
-	setup(_props, { slots }) {
-		return () => h('tbody', { class: styles[tableStyleKeys.body] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('tbody', { ...attrs, class: [styles[tableStyleKeys.body], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TTableFooter = defineComponent({
 	name: 'TTableFooter',
-	setup(_props, { slots }) {
-		return () => h('tfoot', { class: styles[tableStyleKeys.footer] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('tfoot', { ...attrs, class: [styles[tableStyleKeys.footer], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TTableRow = defineComponent({
 	name: 'TTableRow',
-	setup(_props, { slots }) {
-		return () => h('tr', { class: styles[tableStyleKeys.row] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('tr', { ...attrs, class: [styles[tableStyleKeys.row], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TTableHead = defineComponent({
 	name: 'TTableHead',
-	setup(_props, { slots }) {
-		return () => h('th', { class: styles[tableStyleKeys.head] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('th', { ...attrs, class: [styles[tableStyleKeys.head], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TTableCell = defineComponent({
 	name: 'TTableCell',
-	setup(_props, { slots }) {
-		return () => h('td', { class: styles[tableStyleKeys.cell] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('td', { ...attrs, class: [styles[tableStyleKeys.cell], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TTableCaption = defineComponent({
 	name: 'TTableCaption',
-	setup(_props, { slots }) {
-		return () => h('caption', { class: styles[tableStyleKeys.caption] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('caption', { ...attrs, class: [styles[tableStyleKeys.caption], attrs.class] }, slots.default?.());
 	},
 });
 

@@ -1,5 +1,6 @@
 import type { ComponentType, ReactNode } from 'react';
 
+import { withTrailingSlash } from '../lib/trailing-slash';
 import { DocsBreadcrumb } from './docs-breadcrumb';
 
 type TocItem = {
@@ -65,7 +66,7 @@ export function DocsPageShell({
 					<div className="docs-page__body prose-page">{children}</div>
 					<div className="docs-page__footer">
 						{previous ? (
-							<a href={previous.url} className="docs-page__pager-link" data-direction="previous">
+							<a href={withTrailingSlash(previous.url)} className="docs-page__pager-link" data-direction="previous">
 								<PagerIcon direction="previous" />
 								<span className="docs-page__pager-label">Previous</span>
 								<strong>{previous.name}</strong>
@@ -74,7 +75,7 @@ export function DocsPageShell({
 							<div className="docs-page__pager-spacer" />
 						)}
 						{next ? (
-							<a href={next.url} className="docs-page__pager-link" data-direction="next">
+							<a href={withTrailingSlash(next.url)} className="docs-page__pager-link" data-direction="next">
 								<span className="docs-page__pager-label">Next</span>
 								<strong>{next.name}</strong>
 								<PagerIcon direction="next" />

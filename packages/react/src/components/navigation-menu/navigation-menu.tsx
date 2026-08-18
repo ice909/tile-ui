@@ -89,9 +89,40 @@ NavigationMenu.displayName = 'NavigationMenu';
 
 export interface NavigationMenuListProps extends React.HTMLAttributes<HTMLUListElement> {}
 
-const NavigationMenuList = React.forwardRef<HTMLUListElement, NavigationMenuListProps>(({ className = '', children, ...props }, ref) => {
+const NavigationMenuList = React.forwardRef<HTMLUListElement, NavigationMenuListProps>(({ className = '', children, onKeyDown, ...props }, ref) => {
+	function handleKeyDown(event: React.KeyboardEvent<HTMLUListElement>) {
+		onKeyDown?.(event);
+
+		const isNext = event.key === 'ArrowRight';
+		const isPrev = event.key === 'ArrowLeft';
+		const isHome = event.key === 'Home';
+		const isEnd = event.key === 'End';
+		if (!isNext && !isPrev && !isHome && !isEnd) {
+			return;
+		}
+
+		const triggers = Array.from(event.currentTarget.querySelectorAll<HTMLButtonElement>('button')).filter((trigger) => !trigger.disabled);
+		if (triggers.length === 0) {
+			return;
+		}
+
+		const currentIndex = triggers.indexOf(document.activeElement as HTMLButtonElement);
+		let nextIndex: number;
+		if (isHome) {
+			nextIndex = 0;
+		} else if (isEnd) {
+			nextIndex = triggers.length - 1;
+		} else {
+			const direction = isNext ? 1 : -1;
+			nextIndex = (currentIndex + direction + triggers.length) % triggers.length;
+		}
+
+		triggers[nextIndex]?.focus();
+		event.preventDefault();
+	}
+
 	return (
-		<ul ref={ref} className={`${styles[navigationMenuStyleKeys.list]} ${className}`} {...props}>
+		<ul ref={ref} onKeyDown={handleKeyDown} className={`${styles[navigationMenuStyleKeys.list]} ${className}`} {...props}>
 			{children}
 		</ul>
 	);

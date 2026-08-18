@@ -7,11 +7,14 @@ const ScrollAreaContextKey: InjectionKey<Ref<HTMLElement | null>> = Symbol('tile
 
 export const TScrollArea = defineComponent({
 	name: 'TScrollArea',
-	setup(_props, { slots }) {
+	setup(_props, { slots, attrs }) {
 		const viewportRef = ref<HTMLElement | null>(null);
 		provide(ScrollAreaContextKey, viewportRef);
 
-		return () => h('div', { class: styles[scrollAreaStyleKeys.root] }, [h('div', { ref: viewportRef, class: styles[scrollAreaStyleKeys.viewport] }, slots.default?.())]);
+		return () =>
+			h('div', { ...attrs, class: [styles[scrollAreaStyleKeys.root], attrs.class] }, [
+				h('div', { ref: viewportRef, class: styles[scrollAreaStyleKeys.viewport] }, slots.default?.()),
+			]);
 	},
 });
 
@@ -23,7 +26,7 @@ export const TScrollBar = defineComponent({
 			default: 'vertical',
 		},
 	},
-	setup(props) {
+	setup(props, { attrs }) {
 		const viewportValue = inject(ScrollAreaContextKey);
 		if (!viewportValue) {
 			throw new Error('TScrollBar must be used within <TScrollArea>.');
@@ -146,8 +149,9 @@ export const TScrollBar = defineComponent({
 			h(
 				'div',
 				{
+					...attrs,
 					ref: trackRef,
-					class: [styles[scrollAreaStyleKeys.scrollbar], styles[getScrollBarSizeKey(props.orientation)]],
+					class: [styles[scrollAreaStyleKeys.scrollbar], styles[getScrollBarSizeKey(props.orientation)], attrs.class],
 					'data-orientation': props.orientation,
 					style: { opacity: metrics.value.visible ? 1 : 0 },
 					onPointerdown: handlePointerdown,

@@ -172,6 +172,9 @@ import {
 	TSidebarTrigger,
 	TSkeleton,
 	TSlider,
+	TSliderRange,
+	TSliderThumb,
+	TSliderTrack,
 	TSpinner,
 	TSwitch,
 	TTable,
@@ -375,7 +378,7 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 								checked.value = next === true;
 							}}
 						/>
-						<TCheckbox modelValue="indeterminate" />
+						<TCheckbox defaultChecked="indeterminate" />
 						<TCheckbox disabled />
 					</div>
 				</DocPreview>
@@ -645,7 +648,7 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 		setup() {
 			return () => (
 				<DocPreview title="Native select" description="NativeSelect is a styled native dropdown.">
-					<TNativeSelect modelValue="a" style={{ maxWidth: '260px' }}>
+					<TNativeSelect defaultValue="a" style={{ maxWidth: '260px' }}>
 						{{
 							default: () => [
 								<TNativeSelectOption value="a">{{ default: () => 'Option A' }}</TNativeSelectOption>,
@@ -695,7 +698,7 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 		setup() {
 			return () => (
 				<DocPreview title="Toggle group" description="ToggleGroup groups single- or multi-select toggles.">
-					<TToggleGroup type="single" modelValue="left">
+					<TToggleGroup type="single" defaultValue="left">
 						{{
 							default: () => [
 								<TToggleGroupItem value="left">{{ default: () => 'Left' }}</TToggleGroupItem>,
@@ -713,7 +716,7 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 		setup() {
 			return () => (
 				<DocPreview title="Tabs" description="Tabs switch between panes of content.">
-					<TTabs modelValue="account">
+					<TTabs defaultValue="account">
 						{{
 							default: () => [
 								<TTabsList>
@@ -769,7 +772,7 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 		setup() {
 			return () => (
 				<DocPreview title="Radio group" description="RadioGroup selects one of several options.">
-					<TRadioGroup modelValue="a" orientation="horizontal">
+					<TRadioGroup defaultValue="a" orientation="horizontal">
 						{{
 							default: () => [<TRadioGroupItem value="a" />, <TRadioGroupItem value="b" />, <TRadioGroupItem value="c" />],
 						}}
@@ -791,8 +794,17 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 								value.value = next;
 							}}
 							max={100}
-							step={1}
-						/>
+							step={1}>
+							{{
+								default: () => (
+									<TSliderTrack>
+										{{
+											default: () => [<TSliderRange />, <TSliderThumb />],
+										}}
+									</TSliderTrack>
+								),
+							}}
+						</TSlider>
 						<p class="component-preview__text">
 							Value: <strong>{value.value}</strong>
 						</p>
@@ -1316,9 +1328,25 @@ export const vueDemoRegistry: Record<string, DemoComponent> = {
 								<TCarouselContent>
 									{{
 										default: () => [
-											<TCarouselItem>{{ default: () => 'Slide one' }}</TCarouselItem>,
-											<TCarouselItem>{{ default: () => 'Slide two' }}</TCarouselItem>,
-											<TCarouselItem>{{ default: () => 'Slide three' }}</TCarouselItem>,
+											['Slide one', 'Slide two', 'Slide three'].map((text) => (
+												<TCarouselItem key={text}>
+													{{
+														default: () => (
+															<div
+																style={{
+																	display: 'flex',
+																	alignItems: 'center',
+																	justifyContent: 'center',
+																	height: '160px',
+																	borderRadius: '0.5rem',
+																	background: 'var(--docs-surface-hover)',
+																}}>
+																<p class="component-preview__text">{text}</p>
+															</div>
+														),
+													}}
+												</TCarouselItem>
+											)),
 										],
 									}}
 								</TCarouselContent>,

@@ -218,6 +218,8 @@ const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentPr
 	const { open, position, setPosition, closeAll } = useContextMenuContext();
 	const contentRef = useRef<HTMLDivElement | null>(null);
 	const itemsRef = useRef<HTMLElement[]>([]);
+	const latestPositionRef = useRef(position);
+	latestPositionRef.current = position;
 
 	function setRef(element: HTMLDivElement | null) {
 		contentRef.current = element;
@@ -240,21 +242,11 @@ const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentPr
 			}
 			const contentSize = { width: content.offsetWidth, height: content.offsetHeight };
 			const viewport = { width: window.innerWidth, height: window.innerHeight };
-			const base = position ?? { top: 0, left: 0 };
+			const base = latestPositionRef.current ?? { top: 0, left: 0 };
 			setPosition(getContextMenuPosition({ x: base.left, y: base.top, contentSize, viewport }));
 		}
 
-		function highlightFirst() {
-			const items = itemsRef.current;
-			if (items.length === 0) {
-				return;
-			}
-			items.forEach((item) => item.removeAttribute('data-highlighted'));
-			items[0].setAttribute('data-highlighted', 'true');
-		}
-
 		updatePosition();
-		highlightFirst();
 		window.addEventListener('resize', updatePosition);
 		document.addEventListener('scroll', updatePosition, true);
 
@@ -262,7 +254,20 @@ const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentPr
 			window.removeEventListener('resize', updatePosition);
 			document.removeEventListener('scroll', updatePosition, true);
 		};
-	}, [open, position, setPosition]);
+	}, [open, setPosition]);
+
+	useEffect(() => {
+		if (!open) {
+			return;
+		}
+		const items = itemsRef.current;
+		if (items.length === 0) {
+			return;
+		}
+		items.forEach((item) => item.removeAttribute('data-highlighted'));
+		items[0].setAttribute('data-highlighted', 'true');
+		items[0].focus();
+	}, [open]);
 
 	useEffect(() => {
 		if (!open) {

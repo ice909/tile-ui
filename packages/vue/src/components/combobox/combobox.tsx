@@ -48,6 +48,7 @@ export const TCombobox = defineComponent({
 	props: {
 		items: { type: Array as PropType<ComboboxItem[]>, required: true },
 		value: { type: String, default: undefined },
+		defaultValue: { type: String, default: undefined },
 		placeholder: { type: String, default: 'Select...' },
 		searchPlaceholder: { type: String, default: 'Search...' },
 		emptyText: { type: String, default: 'No items.' },
@@ -61,12 +62,14 @@ export const TCombobox = defineComponent({
 		const open = ref(false);
 		const query = ref('');
 		const activeValue = ref<string | null>(null);
+		const internalValue = ref(props.defaultValue);
 		const triggerRef = ref<HTMLButtonElement | null>(null);
 		const contentRef = ref<HTMLElement | null>(null);
 		const contentId = `tile-combobox-${useId()}`;
 
+		const currentValue = computed(() => (props.value !== undefined ? props.value : internalValue.value));
 		const filteredItems = computed(() => filterComboboxItems(props.items, query.value, props.maxItems, props.filter));
-		const selectedItem = computed(() => props.items.find((item) => item.value === props.value));
+		const selectedItem = computed(() => props.items.find((item) => item.value === currentValue.value));
 
 		function setOpenState(next: boolean) {
 			open.value = next;
@@ -86,6 +89,9 @@ export const TCombobox = defineComponent({
 		function handleSelect(item: ComboboxItem) {
 			if (item.disabled) {
 				return;
+			}
+			if (props.value === undefined) {
+				internalValue.value = item.value;
 			}
 			emit('update:value', item.value);
 			setOpenState(false);
@@ -228,6 +234,10 @@ export const TCombobox = defineComponent({
 				[
 					h('div', { class: styles[comboboxStyleKeys.search] }, [
 						h('input', {
+							role: 'combobox',
+							'aria-expanded': open.value,
+							'aria-controls': contentId,
+							'aria-autocomplete': 'list',
 							class: styles[comboboxStyleKeys.searchInput],
 							value: query.value,
 							placeholder: props.searchPlaceholder,
@@ -247,7 +257,7 @@ export const TCombobox = defineComponent({
 											key: item.value,
 											role: 'option',
 											tabindex: -1,
-											'aria-selected': item.value === props.value,
+											'aria-selected': item.value === currentValue.value,
 											'data-highlighted': activeValue.value === item.value,
 											'data-disabled': item.disabled,
 											class: styles[comboboxStyleKeys.item],
@@ -258,7 +268,10 @@ export const TCombobox = defineComponent({
 											},
 											onClick: () => handleSelect(item),
 										},
-										[h('span', { class: styles[comboboxStyleKeys.itemIndicator] }, [item.value === props.value ? comboboxCheckIcon() : null]), item.label],
+										[
+											h('span', { class: styles[comboboxStyleKeys.itemIndicator] }, [item.value === currentValue.value ? comboboxCheckIcon() : null]),
+											item.label,
+										],
 									),
 								),
 					]),

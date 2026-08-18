@@ -307,6 +307,7 @@ function createDropdownMenuContentBase({ isSub = false }: { isSub?: boolean } = 
 				}
 				items.forEach((item) => item.removeAttribute('data-highlighted'));
 				items[0].setAttribute('data-highlighted', 'true');
+				items[0].focus();
 			}
 
 			function handleOpen() {

@@ -22,6 +22,10 @@ export const TToggleGroup = defineComponent({
 			type: [String, Array] as PropType<string | string[]>,
 			default: undefined,
 		},
+		defaultValue: {
+			type: [String, Array] as PropType<string | string[]>,
+			default: undefined,
+		},
 		type: {
 			type: String as PropType<ToggleGroupType>,
 			default: 'single',
@@ -29,7 +33,7 @@ export const TToggleGroup = defineComponent({
 	},
 	emits: ['update:modelValue', 'change'],
 	setup(props, { emit, slots, attrs }) {
-		const internalValue = ref<string | string[]>(props.modelValue ?? (props.type === 'single' ? '' : []));
+		const internalValue = ref<string | string[]>(props.defaultValue ?? (props.type === 'single' ? '' : []));
 		const currentValue = computed(() => (props.modelValue !== undefined ? props.modelValue : internalValue.value));
 
 		function handleItemClick(itemValue: string) {
@@ -106,7 +110,6 @@ export const TToggleGroupItem = defineComponent({
 					...attrs,
 					type: 'button',
 					value: props.value,
-					role: 'button',
 					'aria-pressed': selected.value ? 'true' : 'false',
 					'data-state': state.value,
 					'data-active': selected.value,

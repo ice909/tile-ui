@@ -10,11 +10,19 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
 
+import { getPreviewCode } from '../../../scripts/generate-component-docs.mjs';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(__dirname, '..');
 const docsRoot = path.resolve(appRoot, 'content/docs');
 const outDir = path.resolve(appRoot, '.generated');
 const outFile = path.resolve(outDir, 'docs.json');
+
+// 预览块可展开代码的折叠预览行数。
+const PEEK_LINES = 3;
+
+// 预览块代码来自 META 的文档分区。
+const previewSections = ['components', 'composables', 'examples'];
 
 function escapeHtml(str) {
 	return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -78,14 +86,46 @@ const prettyCode = unified()
 	})
 	.use(rehypeStringify);
 
-function decorateCodeHtml(html) {
-	return html
+function decorateCodeHtml(html, { withCopy = true } = {}) {
+	let out = html
 		.replaceAll('data-rehype-pretty-code-figure=""', 'class="mdx-figure" data-rehype-pretty-code-figure=""')
 		.replaceAll('<pre tabindex="0"', '<pre class="hljs" tabindex="0"')
+		.replaceAll('<code data-language="', '<code data-line-numbers="" data-language="')
 		.replace(/<figcaption data-rehype-pretty-code-title="" data-language="([^"]*)"[^>]*>(.*?)<\/figcaption>/g, (match, lang, text) => {
 			return `<figcaption data-rehype-pretty-code-title="" data-language="${lang}">${languageIcon(lang)}<span>${text}</span></figcaption>`;
-		})
-		.replaceAll('</pre></figure>', `</pre>${copyButtonHtml()}</figure>`);
+		});
+
+	if (withCopy) {
+		out = out.replaceAll('</pre></figure>', `</pre>${copyButtonHtml()}</figure>`);
+	}
+
+	return out;
+}
+
+// 渲染预览块下方可展开的实现代码（复用与正文代码块相同的 shiki 高亮管线）。
+async function buildPreviewCodeForSlug(slug) {
+	if (slug.length !== 2 || !previewSections.includes(slug[0])) {
+		return null;
+	}
+
+	const code = getPreviewCode(slug[1], 'vue');
+	if (!code) {
+		return null;
+	}
+
+	const render = async (source) => {
+		const file = await prettyCode.process(source);
+		return decorateCodeHtml(String(file), { withCopy: false });
+	};
+
+	const fullSource = `<pre><code class="language-tsx">${escapeHtml(code)}</code></pre>`;
+	const peekSource = `<pre><code class="language-tsx">${escapeHtml(code.split('\n').slice(0, PEEK_LINES).join('\n'))}</code></pre>`;
+
+	return {
+		preview: await render(peekSource),
+		full: decorateCodeHtml(String(await prettyCode.process(fullSource)), { withCopy: true }),
+		raw: code,
+	};
 }
 
 const markdown = new MarkdownIt({
@@ -259,6 +299,7 @@ function createPayloads(docs, tree) {
 						description: doc.description,
 						html: doc.html,
 						toc: doc.toc,
+						previewCode: doc.previewCode,
 					},
 					neighbours: {
 						previous: index > 0 ? { url: docs[index - 1].url, title: docs[index - 1].title } : null,
@@ -296,6 +337,7 @@ export async function buildDocs() {
 					description: String(parsed.data.description ?? ''),
 					html: await renderMarkdown(normalizedContent),
 					toc: extractToc(normalizedContent),
+					previewCode: await buildPreviewCodeForSlug(slug),
 				};
 			}),
 		)

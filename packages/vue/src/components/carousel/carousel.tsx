@@ -1,4 +1,4 @@
-import { defineComponent, h, inject, provide, ref, type InjectionKey, type PropType, type Ref } from 'vue';
+import { defineComponent, h, inject, onMounted, provide, ref, computed, type InjectionKey, type PropType, type Ref } from 'vue';
 import {
 	carouselStyleKeys,
 	getCarouselCanScrollNext,
@@ -13,7 +13,7 @@ import { TButton } from '../button';
 import styles from '@tile-ui/styles/scss/components/carousel.module.scss';
 
 interface CarouselContextValue {
-	orientation: CarouselOrientation;
+	orientation: Ref<CarouselOrientation>;
 	viewportRef: Ref<HTMLElement | null>;
 	handleScroll: () => void;
 	scrollPrev: () => void;
@@ -74,15 +74,17 @@ export const TCarousel = defineComponent({
 		const canScrollPrev = ref(false);
 		const canScrollNext = ref(false);
 		const selectedIndex = ref(0);
+		const orientation = computed(() => props.orientation);
 
 		function handleScroll() {
 			const viewport = viewportRef.value;
 			if (!viewport) {
 				return;
 			}
-			const position = getCarouselScrollPosition(viewport, props.orientation);
-			const maxScroll = getCarouselMaxScroll(viewport, props.orientation);
-			const itemSize = getCarouselScrollSize(viewport, props.orientation);
+			const pos = orientation.value;
+			const position = getCarouselScrollPosition(viewport, pos);
+			const maxScroll = getCarouselMaxScroll(viewport, pos);
+			const itemSize = getCarouselScrollSize(viewport, pos);
 			canScrollPrev.value = getCarouselCanScrollPrev(position);
 			canScrollNext.value = getCarouselCanScrollNext(position, maxScroll);
 			selectedIndex.value = getCarouselSelectedIndex(position, itemSize);
@@ -93,11 +95,18 @@ export const TCarousel = defineComponent({
 			if (!viewport) {
 				return;
 			}
-			const size = getCarouselScrollSize(viewport, props.orientation);
-			if (props.orientation === 'horizontal') {
-				viewport.scrollBy({ left: -size, behavior: 'smooth' });
+			const pos = orientation.value;
+			const items = Array.from(viewport.querySelectorAll<HTMLElement>('[data-slot="carousel-item"]'));
+			if (items.length === 0) {
+				return;
+			}
+			const position = getCarouselScrollPosition(viewport, pos);
+			const currentIndex = getCarouselSelectedIndex(position, getCarouselScrollSize(viewport, pos));
+			const target = items[Math.max(0, currentIndex - 1)];
+			if (pos === 'horizontal') {
+				viewport.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
 			} else {
-				viewport.scrollBy({ top: -size, behavior: 'smooth' });
+				viewport.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
 			}
 		}
 
@@ -106,16 +115,34 @@ export const TCarousel = defineComponent({
 			if (!viewport) {
 				return;
 			}
-			const size = getCarouselScrollSize(viewport, props.orientation);
-			if (props.orientation === 'horizontal') {
-				viewport.scrollBy({ left: size, behavior: 'smooth' });
+			const pos = orientation.value;
+			const items = Array.from(viewport.querySelectorAll<HTMLElement>('[data-slot="carousel-item"]'));
+			if (items.length === 0) {
+				return;
+			}
+			const position = getCarouselScrollPosition(viewport, pos);
+			const currentIndex = getCarouselSelectedIndex(position, getCarouselScrollSize(viewport, pos));
+			const target = items[Math.min(items.length - 1, currentIndex + 1)];
+			if (pos === 'horizontal') {
+				viewport.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
 			} else {
-				viewport.scrollBy({ top: size, behavior: 'smooth' });
+				viewport.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+			}
+		}
+
+		function handleKeyDown(event: KeyboardEvent) {
+			const isHorizontal = orientation.value === 'horizontal';
+			if (event.key === (isHorizontal ? 'ArrowLeft' : 'ArrowUp')) {
+				event.preventDefault();
+				scrollPrev();
+			} else if (event.key === (isHorizontal ? 'ArrowRight' : 'ArrowDown')) {
+				event.preventDefault();
+				scrollNext();
 			}
 		}
 
 		provide(CarouselContextKey, {
-			orientation: props.orientation,
+			orientation,
 			viewportRef,
 			handleScroll,
 			scrollPrev,
@@ -135,6 +162,7 @@ export const TCarousel = defineComponent({
 					'data-slot': 'carousel',
 					'data-orientation': props.orientation,
 					class: [styles[carouselStyleKeys.root], attrs.class],
+					onKeydown: handleKeyDown,
 				},
 				slots.default?.(),
 			);
@@ -145,6 +173,10 @@ export const TCarouselContent = defineComponent({
 	name: 'TCarouselContent',
 	setup(_props, { slots, attrs }) {
 		const { viewportRef, handleScroll } = useCarousel();
+
+		onMounted(() => {
+			handleScroll();
+		});
 
 		return () =>
 			h(

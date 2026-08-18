@@ -72,7 +72,7 @@ export const mdxComponents: MDXComponents = {
 		return (
 			<>
 				{__raw__ ? <CopyButton value={__raw__} /> : null}
-				<code className={className} {...props} />
+				<code className={className} data-line-numbers="" {...props} />
 			</>
 		);
 	},

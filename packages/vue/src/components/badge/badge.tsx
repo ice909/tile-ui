@@ -11,11 +11,11 @@ export const TBadge = defineComponent({
 			default: 'default',
 		},
 	},
-	setup(props, { slots }) {
+	setup(props, { slots, attrs }) {
 		const styleKeys = computed(() => getBadgeStyleKeys(props.variant));
-		const classes = computed(() => [styles[styleKeys.value.base], styles[styleKeys.value.variant]]);
+		const classes = computed(() => [styles[styleKeys.value.base], styles[styleKeys.value.variant], attrs.class]);
 
-		return () => h('span', { class: classes.value }, slots.default?.());
+		return () => h('span', { ...attrs, class: classes.value }, slots.default?.());
 	},
 });
 

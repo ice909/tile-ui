@@ -1,4 +1,4 @@
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, provide } from 'vue';
 
 import { VueDocsBreadcrumb } from '../../components/docs-breadcrumb';
 import {
@@ -120,6 +120,12 @@ export default defineComponent({
 		};
 		const payload = computed(() => getDocPayload(getSlug()));
 
+		// 供 DocPreview 等组件注入：预览块下方可展开的实现代码。
+		provide(
+			'preview-code',
+			computed(() => payload.value?.doc.previewCode ?? null),
+		);
+
 		if (!payload.value) {
 			throw createError({ statusCode: 404, statusMessage: 'Doc not found' });
 		}
@@ -133,6 +139,11 @@ export default defineComponent({
 			const { doc, neighbours, tree } = payload.value;
 			const Preview = getPreviewForSlug(slug);
 			const pageContext = buildPageContext(tree, doc.url);
+
+			// 组件描述引用（正文开头的 blockquote）拆分出来，渲染在预览块之上，与 React 文档站排版一致。
+			const introMatch = doc.html.match(/^\s*<blockquote>[\s\S]*?<\/blockquote>/);
+			const introHtml = introMatch ? introMatch[0] : '';
+			const bodyHtml = introHtml ? doc.html.slice(introHtml.length) : doc.html;
 
 			return (
 				<div class="docs-layout">
@@ -149,8 +160,9 @@ export default defineComponent({
 									</div>
 									<div class="docs-page__toc-mobile">{doc.toc.length ? <VueDocsToc toc={doc.toc} variant="dropdown" /> : null}</div>
 									<div class="docs-page__body prose-page">
+										{introHtml ? <div class="docs-page__intro" innerHTML={introHtml} /> : null}
 										{Preview ? <Preview /> : null}
-										<div innerHTML={doc.html} />
+										<div innerHTML={bodyHtml} />
 									</div>
 									<div class="docs-page__footer">
 										{neighbours.previous ? (

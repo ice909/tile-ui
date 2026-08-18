@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useId, useState } from 'react';
 import { getTabsListVariantKey, getTabsState, tabsStyleKeys } from '@tile-ui/core';
 import type { TabsBaseProps, TabsListBaseProps, TabsTriggerBaseProps, TabsContentBaseProps } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/tabs.module.scss';
@@ -6,6 +6,7 @@ import styles from '@tile-ui/styles/scss/components/tabs.module.scss';
 interface TabsContextValue {
 	value: string;
 	orientation: 'horizontal' | 'vertical';
+	baseId: string;
 	select: (value: string) => void;
 }
 
@@ -24,6 +25,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'v
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({ className = '', value, defaultValue = '', orientation = 'horizontal', onValueChange, children, ...props }, ref) => {
 	const [internalValue, setInternalValue] = useState(defaultValue);
 	const currentValue = value !== undefined ? value : internalValue;
+	const baseId = useId();
 
 	function select(next: string) {
 		if (value === undefined) {
@@ -33,7 +35,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({ className = '', valu
 	}
 
 	return (
-		<TabsContext.Provider value={{ value: currentValue, orientation, select }}>
+		<TabsContext.Provider value={{ value: currentValue, orientation, baseId, select }}>
 			<div ref={ref} data-orientation={orientation} className={`${styles[tabsStyleKeys.root]} ${className}`} {...props}>
 				{children}
 			</div>
@@ -47,10 +49,19 @@ export interface TabsListProps extends React.HTMLAttributes<HTMLDivElement>, Tab
 const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className = '', variant = 'default', children, onKeyDown, ...props }, ref) => {
 	const context = useTabsContext();
 	const variantKey = getTabsListVariantKey(variant);
+	const isVertical = context.orientation === 'vertical';
 
 	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
 		onKeyDown?.(event);
-		if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+
+		const nextKey = isVertical ? 'ArrowDown' : 'ArrowRight';
+		const prevKey = isVertical ? 'ArrowUp' : 'ArrowLeft';
+		const isNext = event.key === nextKey;
+		const isPrev = event.key === prevKey;
+		const isHome = event.key === 'Home';
+		const isEnd = event.key === 'End';
+
+		if (!isNext && !isPrev && !isHome && !isEnd) {
 			return;
 		}
 
@@ -61,10 +72,25 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className = 
 		}
 
 		const currentIndex = triggers.indexOf(document.activeElement as HTMLButtonElement);
-		const direction = event.key === 'ArrowRight' ? 1 : -1;
-		const nextIndex = (currentIndex + direction + triggers.length) % triggers.length;
+		let nextIndex: number;
+		if (isHome) {
+			nextIndex = 0;
+		} else if (isEnd) {
+			nextIndex = triggers.length - 1;
+		} else {
+			const direction = isNext ? 1 : -1;
+			nextIndex = (currentIndex + direction + triggers.length) % triggers.length;
+		}
 
-		triggers[nextIndex]?.focus();
+		const nextTrigger = triggers[nextIndex];
+		nextTrigger?.focus();
+
+		// 自动激活：方向键移动焦点时同步选中对应标签页。
+		const nextValue = nextTrigger?.getAttribute('data-value');
+		if (nextValue !== null && nextValue !== undefined) {
+			context.select(nextValue);
+		}
+
 		event.preventDefault();
 	}
 
@@ -91,6 +117,8 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(({ cla
 	const context = useTabsContext();
 	const active = context.value === value;
 	const state = getTabsState(active);
+	const triggerId = `${context.baseId}-trigger-${value}`;
+	const contentId = `${context.baseId}-content-${value}`;
 
 	function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
 		context.select(value);
@@ -101,8 +129,11 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(({ cla
 		<button
 			ref={ref}
 			type="button"
+			id={triggerId}
 			role="tab"
 			aria-selected={active}
+			aria-controls={contentId}
+			data-value={value}
 			tabIndex={active ? 0 : -1}
 			disabled={disabled}
 			data-state={state}
@@ -124,12 +155,16 @@ const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(({ classN
 	const context = useTabsContext();
 	const active = context.value === value;
 	const state = getTabsState(active);
+	const triggerId = `${context.baseId}-trigger-${value}`;
+	const contentId = `${context.baseId}-content-${value}`;
 
 	return (
 		<div
 			{...props}
 			ref={ref}
+			id={contentId}
 			role="tabpanel"
+			aria-labelledby={triggerId}
 			data-state={state}
 			data-orientation={context.orientation}
 			hidden={!active}

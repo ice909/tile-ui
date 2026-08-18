@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, inject, provide, ref, type ComputedRef, type InjectionKey, type PropType } from 'vue';
+import { computed, defineComponent, h, inject, provide, ref, useId, type ComputedRef, type InjectionKey, type PropType } from 'vue';
 import { getTabsListVariantKey, getTabsState, tabsStyleKeys } from '@tile-ui/core';
 import type { TabsListVariant, TabsOrientation } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/tabs.module.scss';
@@ -6,6 +6,7 @@ import styles from '@tile-ui/styles/scss/components/tabs.module.scss';
 interface TabsContextValue {
 	value: string;
 	orientation: TabsOrientation;
+	baseId: string;
 	select: (value: string) => void;
 }
 
@@ -27,10 +28,12 @@ export const TTabs = defineComponent({
 	setup(props, { emit, slots }) {
 		const internalValue = ref(props.defaultValue);
 		const currentValue = computed(() => (props.modelValue !== undefined ? props.modelValue : internalValue.value));
+		const baseId = useId();
 
 		const context = computed<TabsContextValue>(() => ({
 			value: currentValue.value,
 			orientation: props.orientation,
+			baseId,
 			select: (next: string) => {
 				if (props.modelValue === undefined) {
 					internalValue.value = next;
@@ -61,9 +64,17 @@ export const TTabsList = defineComponent({
 		}
 
 		const variantKey = computed(() => getTabsListVariantKey(props.variant));
+		const isVertical = computed(() => context!.value.orientation === 'vertical');
 
 		function handleKeydown(event: KeyboardEvent) {
-			if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+			const nextKey = isVertical.value ? 'ArrowDown' : 'ArrowRight';
+			const prevKey = isVertical.value ? 'ArrowUp' : 'ArrowLeft';
+			const isNext = event.key === nextKey;
+			const isPrev = event.key === prevKey;
+			const isHome = event.key === 'Home';
+			const isEnd = event.key === 'End';
+
+			if (!isNext && !isPrev && !isHome && !isEnd) {
 				return;
 			}
 
@@ -74,10 +85,24 @@ export const TTabsList = defineComponent({
 			}
 
 			const currentIndex = triggers.indexOf(document.activeElement as HTMLButtonElement);
-			const direction = event.key === 'ArrowRight' ? 1 : -1;
-			const nextIndex = (currentIndex + direction + triggers.length) % triggers.length;
+			let nextIndex: number;
+			if (isHome) {
+				nextIndex = 0;
+			} else if (isEnd) {
+				nextIndex = triggers.length - 1;
+			} else {
+				const direction = isNext ? 1 : -1;
+				nextIndex = (currentIndex + direction + triggers.length) % triggers.length;
+			}
 
-			triggers[nextIndex]?.focus();
+			const nextTrigger = triggers[nextIndex];
+			nextTrigger?.focus();
+
+			const nextValue = nextTrigger?.getAttribute('data-value');
+			if (nextValue !== null && nextValue !== undefined) {
+				context!.value.select(nextValue);
+			}
+
 			event.preventDefault();
 		}
 
@@ -110,14 +135,19 @@ export const TTabsTrigger = defineComponent({
 
 		const active = computed(() => context.value.value === props.value);
 		const state = computed(() => getTabsState(active.value));
+		const triggerId = computed(() => `${context.value.baseId}-trigger-${props.value}`);
+		const contentId = computed(() => `${context.value.baseId}-content-${props.value}`);
 
 		return () =>
 			h(
 				'button',
 				{
 					type: 'button',
+					id: triggerId.value,
 					role: 'tab',
 					'aria-selected': active.value,
+					'aria-controls': contentId.value,
+					'data-value': props.value,
 					tabindex: active.value ? 0 : -1,
 					disabled: props.disabled,
 					'data-state': state.value,
@@ -143,12 +173,16 @@ export const TTabsContent = defineComponent({
 
 		const active = computed(() => context.value.value === props.value);
 		const state = computed(() => getTabsState(active.value));
+		const contentId = computed(() => `${context.value.baseId}-content-${props.value}`);
+		const triggerId = computed(() => `${context.value.baseId}-trigger-${props.value}`);
 
 		return () =>
 			h(
 				'div',
 				{
+					id: contentId.value,
 					role: 'tabpanel',
+					'aria-labelledby': triggerId.value,
 					'data-state': state.value,
 					'data-orientation': context.value.orientation,
 					hidden: !active.value,

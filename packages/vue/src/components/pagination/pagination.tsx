@@ -50,22 +50,22 @@ function renderMoreHorizontal() {
 
 export const TPagination = defineComponent({
 	name: 'TPagination',
-	setup(_props, { slots }) {
-		return () => h('nav', { role: 'navigation', 'aria-label': 'pagination', class: styles[paginationStyleKeys.root] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('nav', { ...attrs, role: 'navigation', 'aria-label': 'pagination', class: [styles[paginationStyleKeys.root], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TPaginationContent = defineComponent({
 	name: 'TPaginationContent',
-	setup(_props, { slots }) {
-		return () => h('ul', { class: styles[paginationStyleKeys.content] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('ul', { ...attrs, class: [styles[paginationStyleKeys.content], attrs.class] }, slots.default?.());
 	},
 });
 
 export const TPaginationItem = defineComponent({
 	name: 'TPaginationItem',
-	setup(_props, { slots }) {
-		return () => h('li', { class: styles[paginationStyleKeys.item] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('li', { ...attrs, class: [styles[paginationStyleKeys.item], attrs.class] }, slots.default?.());
 	},
 });
 
@@ -97,13 +97,14 @@ export const TPaginationLink = defineComponent({
 
 export const TPaginationPrevious = defineComponent({
 	name: 'TPaginationPrevious',
-	setup(_props, { slots }) {
+	setup(_props, { slots, attrs }) {
 		return () =>
 			h(
 				'a',
 				{
+					...attrs,
 					'aria-label': 'Go to previous page',
-					class: [styles[paginationStyleKeys.link], styles.sizeDefault, styles.gapSm],
+					class: [styles[paginationStyleKeys.link], styles.sizeDefault, styles.gapSm, attrs.class],
 				},
 				[renderChevronLeft(), h('span', { class: styles.paginationHideSm }, slots.default?.() ?? 'Previous')],
 			);
@@ -112,13 +113,14 @@ export const TPaginationPrevious = defineComponent({
 
 export const TPaginationNext = defineComponent({
 	name: 'TPaginationNext',
-	setup(_props, { slots }) {
+	setup(_props, { slots, attrs }) {
 		return () =>
 			h(
 				'a',
 				{
+					...attrs,
 					'aria-label': 'Go to next page',
-					class: [styles[paginationStyleKeys.link], styles.sizeDefault, styles.gapSm],
+					class: [styles[paginationStyleKeys.link], styles.sizeDefault, styles.gapSm, attrs.class],
 				},
 				[h('span', { class: styles.paginationHideSm }, slots.default?.() ?? 'Next'), renderChevronRight()],
 			);
@@ -127,11 +129,11 @@ export const TPaginationNext = defineComponent({
 
 export const TPaginationEllipsis = defineComponent({
 	name: 'TPaginationEllipsis',
-	setup(_props) {
+	setup(_props, { slots, attrs }) {
 		return () =>
-			h('span', { 'aria-hidden': 'true', class: styles[paginationStyleKeys.ellipsis] }, [
+			h('span', { ...attrs, 'aria-hidden': 'true', class: [styles[paginationStyleKeys.ellipsis], attrs.class] }, [
 				renderMoreHorizontal(),
-				h('span', { class: styles[paginationStyleKeys.srOnly] }, 'More pages'),
+				h('span', { class: styles[paginationStyleKeys.srOnly] }, slots.default?.() ?? 'More pages'),
 			]);
 	},
 });

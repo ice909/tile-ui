@@ -4,8 +4,8 @@ import styles from '@tile-ui/styles/scss/components/skeleton.module.scss';
 
 export const TSkeleton = defineComponent({
 	name: 'TSkeleton',
-	setup(_props, { slots }) {
-		return () => h('div', { class: styles[skeletonStyleKeys.base] }, slots.default?.());
+	setup(_props, { slots, attrs }) {
+		return () => h('div', { ...attrs, class: [styles[skeletonStyleKeys.base], attrs.class] }, slots.default?.());
 	},
 });
 

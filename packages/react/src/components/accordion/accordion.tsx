@@ -71,7 +71,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
 
 		return (
 			<AccordionContext.Provider value={{ type, collapsible, value: normalized, toggleItem }}>
-				<div ref={ref} className={`${styles[accordionStyleKeys.root]} ${className}`} {...props}>
+				<div ref={ref} data-slot="accordion" className={`${styles[accordionStyleKeys.root]} ${className}`} {...props}>
 					{children}
 				</div>
 			</AccordionContext.Provider>
@@ -115,6 +115,37 @@ const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerPro
 		onClick?.(event);
 	}
 
+	function handleKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
+		const keys = ['ArrowDown', 'ArrowUp', 'Home', 'End'];
+		if (!keys.includes(event.key)) {
+			return;
+		}
+
+		const root = event.currentTarget.closest('[data-slot="accordion"]');
+		if (!root) {
+			return;
+		}
+		const triggers = Array.from(root.querySelectorAll<HTMLButtonElement>('button[aria-expanded]')).filter((button) => !button.disabled);
+		if (triggers.length === 0) {
+			return;
+		}
+
+		const index = triggers.indexOf(event.currentTarget);
+		let next = index;
+		if (event.key === 'ArrowDown') {
+			next = (index + 1) % triggers.length;
+		} else if (event.key === 'ArrowUp') {
+			next = (index - 1 + triggers.length) % triggers.length;
+		} else if (event.key === 'Home') {
+			next = 0;
+		} else if (event.key === 'End') {
+			next = triggers.length - 1;
+		}
+
+		event.preventDefault();
+		triggers[next]?.focus();
+	}
+
 	return (
 		<div className={styles[accordionStyleKeys.header]}>
 			<button
@@ -126,6 +157,7 @@ const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerPro
 				disabled={item.disabled}
 				className={`${styles[accordionStyleKeys.trigger]} ${className}`}
 				onClick={handleClick}
+				onKeyDown={handleKeyDown}
 				{...props}>
 				{children}
 				<svg

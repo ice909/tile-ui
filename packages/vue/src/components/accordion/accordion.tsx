@@ -81,7 +81,7 @@ export const TAccordion = defineComponent({
 
 		provide(AccordionContextKey, context);
 
-		return () => h('div', { class: styles[accordionStyleKeys.root] }, slots.default?.());
+		return () => h('div', { 'data-slot': 'accordion', class: styles[accordionStyleKeys.root] }, slots.default?.());
 	},
 });
 
@@ -129,6 +129,37 @@ export const TAccordionTrigger = defineComponent({
 			throw new Error('TAccordionTrigger must be used within <TAccordionItem>.');
 		}
 
+		function handleKeydown(event: KeyboardEvent) {
+			const keys = ['ArrowDown', 'ArrowUp', 'Home', 'End'];
+			if (!keys.includes(event.key)) {
+				return;
+			}
+
+			const root = (event.currentTarget as HTMLElement).closest('[data-slot="accordion"]');
+			if (!root) {
+				return;
+			}
+			const triggers = Array.from(root.querySelectorAll<HTMLButtonElement>('button[aria-expanded]')).filter((button) => !button.disabled);
+			if (triggers.length === 0) {
+				return;
+			}
+
+			const index = triggers.indexOf(event.currentTarget as HTMLButtonElement);
+			let next = index;
+			if (event.key === 'ArrowDown') {
+				next = (index + 1) % triggers.length;
+			} else if (event.key === 'ArrowUp') {
+				next = (index - 1 + triggers.length) % triggers.length;
+			} else if (event.key === 'Home') {
+				next = 0;
+			} else if (event.key === 'End') {
+				next = triggers.length - 1;
+			}
+
+			event.preventDefault();
+			triggers[next]?.focus();
+		}
+
 		return () =>
 			h('div', { class: styles[accordionStyleKeys.header] }, [
 				h(
@@ -141,6 +172,7 @@ export const TAccordionTrigger = defineComponent({
 						disabled: item.value.disabled,
 						class: styles[accordionStyleKeys.trigger],
 						onClick: () => accordion.value.toggleItem(item.value.value),
+						onKeydown: handleKeydown,
 					},
 					[
 						slots.default?.(),

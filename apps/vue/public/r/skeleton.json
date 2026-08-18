@@ -18,7 +18,7 @@
       "path": "packages/vue/src/components/skeleton/skeleton.tsx",
       "type": "registry:ui",
       "target": "components/ui/skeleton/skeleton.tsx",
-      "content": "import { defineComponent, h } from 'vue';\nimport { skeletonStyleKeys } from '../lib/core';\nimport styles from './skeleton.module.scss';\n\nexport const TSkeleton = defineComponent({\n\tname: 'TSkeleton',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('div', { class: styles[skeletonStyleKeys.base] }, slots.default?.());\n\t},\n});\n\nexport default TSkeleton;\n"
+      "content": "import { defineComponent, h } from 'vue';\nimport { skeletonStyleKeys } from '../lib/core';\nimport styles from './skeleton.module.scss';\n\nexport const TSkeleton = defineComponent({\n\tname: 'TSkeleton',\n\tsetup(_props, { slots, attrs }) {\n\t\treturn () => h('div', { ...attrs, class: [styles[skeletonStyleKeys.base], attrs.class] }, slots.default?.());\n\t},\n});\n\nexport default TSkeleton;\n"
     },
     {
       "path": "packages/styles/scss/components/skeleton.module.scss",

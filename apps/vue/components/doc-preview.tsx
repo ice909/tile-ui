@@ -1,4 +1,5 @@
-import { defineComponent } from 'vue';
+import { defineComponent, inject, ref } from 'vue';
+import type { PreviewCodePayload } from '../lib/docs';
 
 export const DocPreview = defineComponent({
 	name: 'DocPreview',
@@ -13,16 +14,39 @@ export const DocPreview = defineComponent({
 			default: '',
 		},
 	},
-	setup(props, { slots }) {
-		return () => (
-			<div class="component-preview">
-				<div class="component-preview__meta">
-					<p class="component-preview__eyebrow">Preview</p>
-					<h3>{props.title}</h3>
-					{props.description ? <p>{props.description}</p> : null}
+	setup(_props, { slots }) {
+		const previewCode = inject<{ value: PreviewCodePayload | null } | null>('preview-code', null);
+		const expanded = ref(false);
+
+		return () => {
+			const payload = previewCode?.value ?? null;
+			const lines = payload ? payload.raw.split('\n').length : 0;
+			const showToggle = payload !== null && lines > 3;
+
+			return (
+				<div class="component-preview">
+					<div class="component-preview__surface">{slots.default?.()}</div>
+					{payload ? (
+						expanded.value || !showToggle ? (
+							<div class="component-preview__code" innerHTML={payload.full} />
+						) : (
+							<div class="component-preview__code-peek">
+								<div class="component-preview__code-peek-pre" innerHTML={payload.preview} />
+								<div class="component-preview__code-fade" aria-hidden="true" />
+								<button
+									type="button"
+									class="component-preview__code-toggle"
+									aria-expanded={false}
+									onClick={() => {
+										expanded.value = true;
+									}}>
+									View Code
+								</button>
+							</div>
+						)
+					) : null}
 				</div>
-				<div class="component-preview__surface">{slots.default?.()}</div>
-			</div>
-		);
+			);
+		};
 	},
 });

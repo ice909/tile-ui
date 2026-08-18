@@ -224,6 +224,7 @@ export const TSelectTrigger = defineComponent({
 					...attrs,
 					ref: context.value.triggerRef,
 					type: 'button',
+					role: 'combobox',
 					'aria-haspopup': 'listbox',
 					'aria-expanded': context.value.open,
 					'aria-controls': context.value.contentId,
@@ -296,7 +297,11 @@ export const TSelectContent = defineComponent({
 			const items = itemsRef.value;
 			items.forEach((item) => item.removeAttribute('data-highlighted'));
 			const selected = items.find((item) => item.getAttribute('aria-selected') === 'true');
-			(selected ?? items[0])?.setAttribute('data-highlighted', 'true');
+			const target = selected ?? items[0];
+			if (target) {
+				target.setAttribute('data-highlighted', 'true');
+				target.focus();
+			}
 		}
 
 		function handleOpen() {

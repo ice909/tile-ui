@@ -292,17 +292,7 @@ const MenubarContent = React.forwardRef<HTMLDivElement, MenubarContentProps>(
 				setPosition(getMenubarPosition({ triggerRect, contentSize, side, align, sideOffset, alignOffset, viewport }));
 			}
 
-			function highlightFirst() {
-				const items = itemsRef.current;
-				if (items.length === 0) {
-					return;
-				}
-				items.forEach((item) => item.removeAttribute('data-highlighted'));
-				items[0].setAttribute('data-highlighted', 'true');
-			}
-
 			updatePosition();
-			highlightFirst();
 			window.addEventListener('resize', updatePosition);
 			document.addEventListener('scroll', updatePosition, true);
 
@@ -311,6 +301,19 @@ const MenubarContent = React.forwardRef<HTMLDivElement, MenubarContentProps>(
 				document.removeEventListener('scroll', updatePosition, true);
 			};
 		}, [open, side, align, sideOffset, alignOffset, triggerRef]);
+
+		useEffect(() => {
+			if (!open) {
+				return;
+			}
+			const items = itemsRef.current;
+			if (items.length === 0) {
+				return;
+			}
+			items.forEach((item) => item.removeAttribute('data-highlighted'));
+			items[0].setAttribute('data-highlighted', 'true');
+			items[0].focus();
+		}, [open]);
 
 		useEffect(() => {
 			if (!open) {

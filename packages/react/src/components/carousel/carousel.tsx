@@ -69,11 +69,17 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({ className = 
 		if (!viewport) {
 			return;
 		}
-		const size = getCarouselScrollSize(viewport, orientation);
+		const items = Array.from(viewport.querySelectorAll<HTMLElement>('[data-slot="carousel-item"]'));
+		if (items.length === 0) {
+			return;
+		}
+		const position = getCarouselScrollPosition(viewport, orientation);
+		const currentIndex = getCarouselSelectedIndex(position, getCarouselScrollSize(viewport, orientation));
+		const target = items[Math.max(0, currentIndex - 1)];
 		if (orientation === 'horizontal') {
-			viewport.scrollBy({ left: -size, behavior: 'smooth' });
+			viewport.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
 		} else {
-			viewport.scrollBy({ top: -size, behavior: 'smooth' });
+			viewport.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
 		}
 	}, [orientation]);
 
@@ -82,11 +88,17 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({ className = 
 		if (!viewport) {
 			return;
 		}
-		const size = getCarouselScrollSize(viewport, orientation);
+		const items = Array.from(viewport.querySelectorAll<HTMLElement>('[data-slot="carousel-item"]'));
+		if (items.length === 0) {
+			return;
+		}
+		const position = getCarouselScrollPosition(viewport, orientation);
+		const currentIndex = getCarouselSelectedIndex(position, getCarouselScrollSize(viewport, orientation));
+		const target = items[Math.min(items.length - 1, currentIndex + 1)];
 		if (orientation === 'horizontal') {
-			viewport.scrollBy({ left: size, behavior: 'smooth' });
+			viewport.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
 		} else {
-			viewport.scrollBy({ top: size, behavior: 'smooth' });
+			viewport.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
 		}
 	}, [orientation]);
 
@@ -102,10 +114,11 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({ className = 
 	}, [handleScroll]);
 
 	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-		if (event.key === 'ArrowLeft') {
+		const isHorizontal = orientation === 'horizontal';
+		if (event.key === (isHorizontal ? 'ArrowLeft' : 'ArrowUp')) {
 			event.preventDefault();
 			scrollPrev();
-		} else if (event.key === 'ArrowRight') {
+		} else if (event.key === (isHorizontal ? 'ArrowRight' : 'ArrowDown')) {
 			event.preventDefault();
 			scrollNext();
 		}

@@ -1,7 +1,8 @@
 'use client';
 
-import { ComponentPreview } from '@/components/component-preview';
+import { ComponentPreview, PreviewCodeProvider } from '@/components/component-preview';
 import { demoRegistry } from '@/components/demo-registry';
+import { previewCodeMap } from '@/lib/preview-code';
 
 export function ComponentDemo({ slug }: { slug: string }) {
 	const demo = demoRegistry[slug];
@@ -11,8 +12,10 @@ export function ComponentDemo({ slug }: { slug: string }) {
 	}
 
 	return (
-		<ComponentPreview title={demo.title} description={demo.description}>
-			<demo.Component />
-		</ComponentPreview>
+		<PreviewCodeProvider value={previewCodeMap[slug] ?? null}>
+			<ComponentPreview title={demo.title} description={demo.description}>
+				<demo.Component />
+			</ComponentPreview>
+		</PreviewCodeProvider>
 	);
 }

@@ -4,10 +4,14 @@ import { useState } from 'react';
 
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label, Textarea } from '@tile-ui/react';
 import { ComponentPreview } from '@/components/component-preview';
+import { previewCodeMap } from '@/lib/preview-code';
 
 export function ButtonPreview() {
 	return (
-		<ComponentPreview title="Button variants" description="The primary button styles cover high-emphasis actions, secondary actions, and quiet inline controls.">
+		<ComponentPreview
+			code={previewCodeMap['button']}
+			title="Button variants"
+			description="The primary button styles cover high-emphasis actions, secondary actions, and quiet inline controls.">
 			<div className="component-preview__stack">
 				<div className="button-group">
 					<Button>Default</Button>
@@ -26,7 +30,10 @@ export function InputPreview() {
 	const [value, setValue] = useState('');
 
 	return (
-		<ComponentPreview title="Input states" description="Inputs keep label, helper text, and validation messaging aligned without extra form wrappers.">
+		<ComponentPreview
+			code={previewCodeMap['input']}
+			title="Input states"
+			description="Inputs keep label, helper text, and validation messaging aligned without extra form wrappers.">
 			<div className="component-preview__stack">
 				<Input
 					label="Project name"
@@ -46,7 +53,10 @@ export function TextareaPreview() {
 	const [value, setValue] = useState('');
 
 	return (
-		<ComponentPreview title="Textarea states" description="Textarea follows the same field structure as Input so forms stay visually and behaviorally consistent.">
+		<ComponentPreview
+			code={previewCodeMap['textarea']}
+			title="Textarea states"
+			description="Textarea follows the same field structure as Input so forms stay visually and behaviorally consistent.">
 			<div className="component-preview__stack">
 				<Textarea
 					label="Summary"
@@ -64,6 +74,7 @@ export function TextareaPreview() {
 export function LabelPreview() {
 	return (
 		<ComponentPreview
+			code={previewCodeMap['label']}
 			title="Label usage"
 			description="Label works as a standalone form primitive and pairs with custom field structures when you do not need the higher-level field components.">
 			<div className="component-preview__stack">
@@ -84,7 +95,10 @@ export function LabelPreview() {
 
 export function CardPreview() {
 	return (
-		<ComponentPreview title="Card composition" description="Card primitives give you a stable surface for headers, content blocks, supporting copy, and action rows.">
+		<ComponentPreview
+			code={previewCodeMap['card']}
+			title="Card composition"
+			description="Card primitives give you a stable surface for headers, content blocks, supporting copy, and action rows.">
 			<Card>
 				<CardHeader>
 					<CardTitle>Starter workspace</CardTitle>
@@ -106,7 +120,10 @@ export function CopyToClipboardPreview() {
 	const [copied, setCopied] = useState(false);
 
 	return (
-		<ComponentPreview title="Clipboard interaction" description="This mirrors the common UI pattern where the copy action updates local feedback state for a short period.">
+		<ComponentPreview
+			code={previewCodeMap['use-copy-to-clipboard']}
+			title="Clipboard interaction"
+			description="This mirrors the common UI pattern where the copy action updates local feedback state for a short period.">
 			<div className="component-preview__stack">
 				<div className="card-link">
 					<p className="component-preview__text">Registry URL: https://react.tileui.zmorg.cn/r/button.json</p>
@@ -130,7 +147,10 @@ export function MediaQueryPreview() {
 	const [isCompact, setIsCompact] = useState(false);
 
 	return (
-		<ComponentPreview title="Responsive branching" description="A media-query helper typically drives whether you render a compact mobile variant or a denser desktop layout.">
+		<ComponentPreview
+			code={previewCodeMap['use-media-query']}
+			title="Responsive branching"
+			description="A media-query helper typically drives whether you render a compact mobile variant or a denser desktop layout.">
 			<div className="component-preview__stack">
 				<div className="button-group">
 					<Button variant={isCompact ? 'default' : 'outline'} onClick={() => setIsCompact((value) => !value)}>
@@ -153,7 +173,10 @@ export function LocalStoragePreview() {
 	const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
 	return (
-		<ComponentPreview title="Persisted preference example" description="A local-storage helper often powers simple user preferences like theme, density, or navigation state.">
+		<ComponentPreview
+			code={previewCodeMap['use-local-storage']}
+			title="Persisted preference example"
+			description="A local-storage helper often powers simple user preferences like theme, density, or navigation state.">
 			<div className="component-preview__stack">
 				<div className="button-group">
 					<Button variant={theme === 'light' ? 'default' : 'outline'} onClick={() => setTheme('light')}>
@@ -173,7 +196,10 @@ export function LocalStoragePreview() {
 
 export function ContactFormPreview() {
 	return (
-		<ComponentPreview title="Contact form composition" description="This example combines the registry primitives into a compact, realistic support form surface.">
+		<ComponentPreview
+			code={previewCodeMap['contact-form']}
+			title="Contact form composition"
+			description="This example combines the registry primitives into a compact, realistic support form surface.">
 			<Card>
 				<CardHeader>
 					<CardTitle>Contact support</CardTitle>
@@ -197,6 +223,7 @@ export function ContactFormPreview() {
 export function NewsletterCardPreview() {
 	return (
 		<ComponentPreview
+			code={previewCodeMap['newsletter-card']}
 			title="Newsletter signup"
 			description="A lightweight marketing capture flow built from the same field and action primitives used elsewhere in the system.">
 			<Card>
@@ -219,7 +246,10 @@ export function NewsletterCardPreview() {
 
 export function ProfileSettingsPreview() {
 	return (
-		<ComponentPreview title="Profile settings" description="A denser account-management surface that still uses the same field, label, and action primitives.">
+		<ComponentPreview
+			code={previewCodeMap['profile-settings']}
+			title="Profile settings"
+			description="A denser account-management surface that still uses the same field, label, and action primitives.">
 			<Card>
 				<CardHeader>
 					<CardTitle>Profile settings</CardTitle>

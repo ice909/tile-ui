@@ -88,18 +88,75 @@ Command.displayName = 'Command';
 
 export interface CommandInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-const CommandInput = React.forwardRef<HTMLInputElement, CommandInputProps>(({ className = '', value, onChange, ...props }, ref) => {
+const CommandInput = React.forwardRef<HTMLInputElement, CommandInputProps>(({ className = '', value, onChange, onKeyDown, ...props }, ref) => {
 	const context = useCommandContext();
+	const { itemsRef, loop } = context;
 
 	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
 		onChange?.(event);
 		context.setSearch(event.target.value);
 	}
 
+	function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+		onKeyDown?.(event);
+		if (event.defaultPrevented) {
+			return;
+		}
+
+		const items = itemsRef.current.filter((item) => !item.hasAttribute('hidden') && item.getAttribute('data-disabled') !== 'true');
+		if (items.length === 0) {
+			return;
+		}
+
+		const currentIndex = items.findIndex((item) => item.getAttribute('data-selected') === 'true');
+
+		const highlight = (next: number) => {
+			items.forEach((item) => item.removeAttribute('data-selected'));
+			items[next].setAttribute('data-selected', 'true');
+			items[next].scrollIntoView({ block: 'nearest' });
+		};
+
+		const nextFrom = (direction: 1 | -1): number => {
+			if (currentIndex < 0) {
+				return direction === 1 ? 0 : items.length - 1;
+			}
+			const next = currentIndex + direction;
+			if (next < 0) {
+				return loop ? items.length - 1 : 0;
+			}
+			if (next >= items.length) {
+				return loop ? 0 : items.length - 1;
+			}
+			return next;
+		};
+
+		switch (event.key) {
+			case 'ArrowDown':
+				event.preventDefault();
+				highlight(nextFrom(1));
+				break;
+			case 'ArrowUp':
+				event.preventDefault();
+				highlight(nextFrom(-1));
+				break;
+			case 'Enter':
+				event.preventDefault();
+				(currentIndex >= 0 ? items[currentIndex] : items[0]).click();
+				break;
+		}
+	}
+
 	return (
 		<div className={styles[commandStyleKeys.inputWrapper]}>
 			<CommandSearchIcon />
-			<input ref={ref} value={value ?? context.search} onChange={handleChange} className={`${styles[commandStyleKeys.input]} ${className}`} {...props} />
+			<input
+				ref={ref}
+				value={value ?? context.search}
+				onChange={handleChange}
+				onKeyDown={handleKeyDown}
+				className={`${styles[commandStyleKeys.input]} ${className}`}
+				{...props}
+			/>
 		</div>
 	);
 });
