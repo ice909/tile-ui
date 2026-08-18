@@ -17,11 +17,13 @@
 		"docs:check": "node scripts/check-docs.mjs",
 		"test": "pnpm test:core && pnpm test:buildx",
 		"test:core": "pnpm --filter @tile-ui/core test",
-		"test:buildx": "pnpm --filter @tile-ui/buildx test"
+		"test:buildx": "pnpm --filter @tile-ui/buildx test",
+		"release": "node scripts/release.mjs"
 	},
 	"devDependencies": {
 		"oxfmt": "^0.44.0",
 		"oxlint": "^1.18.0",
+		"release-it": "^21.0.2",
 		"turbo": "^2.4.0",
 		"typescript": "^7.0.2",
 		"vitest": "^3.2.4"

@@ -1,0 +1,11 @@
+{
+	"npm": {
+		"publish": false
+	},
+	"git": {
+		"commitMessage": "chore(vue): release v${version}",
+		"tagName": "vue/v${version}",
+		"tagAnnotation": "vue/v${version}",
+		"requireCleanWorkingDir": false
+	}
+}

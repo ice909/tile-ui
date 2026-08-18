@@ -1,0 +1,11 @@
+{
+	"npm": {
+		"publish": false
+	},
+	"git": {
+		"commitMessage": "chore(react): release v${version}",
+		"tagName": "react/v${version}",
+		"tagAnnotation": "react/v${version}",
+		"requireCleanWorkingDir": false
+	}
+}

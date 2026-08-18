@@ -1,6 +1,6 @@
 {
 	"name": "@tile-ui/styles",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"private": false,
 	"homepage": "https://github.com/zmide/tile-ui/tree/main/packages/styles",
 	"bugs": {
@@ -31,7 +31,8 @@
 		"build": "node build.js",
 		"lint": "oxlint -c .oxlintrc.json .",
 		"type:check": "node -e \"process.exit(0)\"",
-		"clean": "rm -rf css"
+		"clean": "rm -rf css",
+		"release": "release-it"
 	},
 	"devDependencies": {
 		"sass": "^1.86.3"

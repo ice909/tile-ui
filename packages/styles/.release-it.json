@@ -1,0 +1,11 @@
+{
+	"npm": {
+		"publish": false
+	},
+	"git": {
+		"commitMessage": "chore(styles): release v${version}",
+		"tagName": "styles/v${version}",
+		"tagAnnotation": "styles/v${version}",
+		"requireCleanWorkingDir": false
+	}
+}
