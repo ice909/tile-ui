@@ -1,11 +1,11 @@
-import { TToggleGroup, TToggleGroupItem } from '@tile-ui/vue';
+import { ToggleGroup, ToggleGroupItem } from '@tile-ui/vue';
 
 export default function ToggleGroupDemo() {
 	return (
-		<TToggleGroup type="single" defaultValue="left">
-			<TToggleGroupItem value="left">Left</TToggleGroupItem>
-			<TToggleGroupItem value="center">Center</TToggleGroupItem>
-			<TToggleGroupItem value="right">Right</TToggleGroupItem>
-		</TToggleGroup>
+		<ToggleGroup type="single" defaultValue="left">
+			<ToggleGroupItem value="left">Left</ToggleGroupItem>
+			<ToggleGroupItem value="center">Center</ToggleGroupItem>
+			<ToggleGroupItem value="right">Right</ToggleGroupItem>
+		</ToggleGroup>
 	);
 }

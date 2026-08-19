@@ -3,8 +3,8 @@ import { getBadgeStyleKeys } from '@tile-ui/core';
 import type { BadgeVariant } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/badge.module.scss';
 
-export const TBadge = defineComponent({
-	name: 'TBadge',
+export const Badge = defineComponent({
+	name: 'Badge',
 	props: {
 		variant: {
 			type: String as PropType<BadgeVariant>,
@@ -19,4 +19,4 @@ export const TBadge = defineComponent({
 	},
 });
 
-export default TBadge;
+export default Badge;

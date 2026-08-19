@@ -2,8 +2,8 @@ import { defineComponent, h } from 'vue';
 import { tableStyleKeys } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/table.module.scss';
 
-export const TTable = defineComponent({
-	name: 'TTable',
+export const Table = defineComponent({
+	name: 'Table',
 	inheritAttrs: false,
 	setup(_props, { slots, attrs }) {
 		return () => {
@@ -16,53 +16,53 @@ export const TTable = defineComponent({
 	},
 });
 
-export const TTableHeader = defineComponent({
-	name: 'TTableHeader',
+export const TableHeader = defineComponent({
+	name: 'TableHeader',
 	setup(_props, { slots, attrs }) {
 		return () => h('thead', { ...attrs, class: [styles[tableStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TTableBody = defineComponent({
-	name: 'TTableBody',
+export const TableBody = defineComponent({
+	name: 'TableBody',
 	setup(_props, { slots, attrs }) {
 		return () => h('tbody', { ...attrs, class: [styles[tableStyleKeys.body], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TTableFooter = defineComponent({
-	name: 'TTableFooter',
+export const TableFooter = defineComponent({
+	name: 'TableFooter',
 	setup(_props, { slots, attrs }) {
 		return () => h('tfoot', { ...attrs, class: [styles[tableStyleKeys.footer], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TTableRow = defineComponent({
-	name: 'TTableRow',
+export const TableRow = defineComponent({
+	name: 'TableRow',
 	setup(_props, { slots, attrs }) {
 		return () => h('tr', { ...attrs, class: [styles[tableStyleKeys.row], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TTableHead = defineComponent({
-	name: 'TTableHead',
+export const TableHead = defineComponent({
+	name: 'TableHead',
 	setup(_props, { slots, attrs }) {
 		return () => h('th', { ...attrs, class: [styles[tableStyleKeys.head], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TTableCell = defineComponent({
-	name: 'TTableCell',
+export const TableCell = defineComponent({
+	name: 'TableCell',
 	setup(_props, { slots, attrs }) {
 		return () => h('td', { ...attrs, class: [styles[tableStyleKeys.cell], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TTableCaption = defineComponent({
-	name: 'TTableCaption',
+export const TableCaption = defineComponent({
+	name: 'TableCaption',
 	setup(_props, { slots, attrs }) {
 		return () => h('caption', { ...attrs, class: [styles[tableStyleKeys.caption], attrs.class] }, slots.default?.());
 	},
 });
 
-export default TTable;
+export default Table;

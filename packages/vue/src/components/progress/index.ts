@@ -1,1 +1,1 @@
-export { TProgress } from './progress';
+export { Progress } from './progress';

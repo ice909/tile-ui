@@ -1,12 +1,12 @@
-import { TField, TFieldLabel, TFieldDescription, TFieldMessage } from '@tile-ui/vue';
+import { Field, FieldLabel, FieldDescription, FieldMessage } from '@tile-ui/vue';
 
 export default function FieldDemo() {
 	return (
-		<TField name="email" required invalid>
-			<TFieldLabel htmlFor="demo-email">Email</TFieldLabel>
+		<Field name="email" required invalid>
+			<FieldLabel htmlFor="demo-email">Email</FieldLabel>
 			<input id="demo-email" class="component-preview__native-field" placeholder="you@example.com" />
-			<TFieldDescription>We never share your email.</TFieldDescription>
-			<TFieldMessage variant="error">An email address is required.</TFieldMessage>
-		</TField>
+			<FieldDescription>We never share your email.</FieldDescription>
+			<FieldMessage variant="error">An email address is required.</FieldMessage>
+		</Field>
 	);
 }

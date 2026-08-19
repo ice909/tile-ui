@@ -119,7 +119,7 @@ function contextMenuChevronIcon() {
 function useContextMenuContext(): ContextMenuContext {
 	const context = inject(ContextMenuContextKey);
 	if (!context) {
-		throw new Error('TContextMenu 子组件必须位于 <TContextMenu> 内部。');
+		throw new Error('ContextMenu 子组件必须位于 <ContextMenu> 内部。');
 	}
 	return context;
 }
@@ -127,7 +127,7 @@ function useContextMenuContext(): ContextMenuContext {
 function useContextMenuContentContext(): ContextMenuContentContext {
 	const context = inject(ContextMenuContentContextKey);
 	if (!context) {
-		throw new Error('TContextMenu 菜单项必须位于 <TContextMenuContent> 或 <TContextMenuSubContent> 内部。');
+		throw new Error('ContextMenu 菜单项必须位于 <ContextMenuContent> 或 <ContextMenuSubContent> 内部。');
 	}
 	return context;
 }
@@ -135,7 +135,7 @@ function useContextMenuContentContext(): ContextMenuContentContext {
 function useContextMenuSubContext(): ContextMenuSubContext {
 	const context = inject(ContextMenuSubContextKey);
 	if (!context) {
-		throw new Error('TContextMenu 子菜单组件必须位于 <TContextMenuSub> 内部。');
+		throw new Error('ContextMenu 子菜单组件必须位于 <ContextMenuSub> 内部。');
 	}
 	return context;
 }
@@ -143,13 +143,13 @@ function useContextMenuSubContext(): ContextMenuSubContext {
 function useContextMenuRadioGroupContext(): ContextMenuRadioGroupContext {
 	const context = inject(ContextMenuRadioGroupContextKey);
 	if (!context) {
-		throw new Error('TContextMenuRadioItem 必须位于 <TContextMenuRadioGroup> 内部。');
+		throw new Error('ContextMenuRadioItem 必须位于 <ContextMenuRadioGroup> 内部。');
 	}
 	return context;
 }
 
-export const TContextMenu = defineComponent({
-	name: 'TContextMenu',
+export const ContextMenu = defineComponent({
+	name: 'ContextMenu',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -193,15 +193,15 @@ export const TContextMenu = defineComponent({
 	},
 });
 
-export const TContextMenuPortal = defineComponent({
-	name: 'TContextMenuPortal',
+export const ContextMenuPortal = defineComponent({
+	name: 'ContextMenuPortal',
 	setup(_props, { slots }) {
 		return () => slots.default?.();
 	},
 });
 
-export const TContextMenuTrigger = defineComponent({
-	name: 'TContextMenuTrigger',
+export const ContextMenuTrigger = defineComponent({
+	name: 'ContextMenuTrigger',
 	inheritAttrs: false,
 	props: {
 		asChild: { type: Boolean, default: false },
@@ -237,8 +237,8 @@ export const TContextMenuTrigger = defineComponent({
 	},
 });
 
-export const TContextMenuContent = defineComponent({
-	name: 'TContextMenuContent',
+export const ContextMenuContent = defineComponent({
+	name: 'ContextMenuContent',
 	inheritAttrs: false,
 	setup(_props, { slots, attrs }) {
 		const context = useContextMenuContext();
@@ -401,15 +401,15 @@ export const TContextMenuContent = defineComponent({
 	},
 });
 
-export const TContextMenuGroup = defineComponent({
-	name: 'TContextMenuGroup',
+export const ContextMenuGroup = defineComponent({
+	name: 'ContextMenuGroup',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, role: 'group', class: [styles[contextMenuStyleKeys.group], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TContextMenuLabel = defineComponent({
-	name: 'TContextMenuLabel',
+export const ContextMenuLabel = defineComponent({
+	name: 'ContextMenuLabel',
 	inheritAttrs: false,
 	props: {
 		inset: { type: Boolean, default: false },
@@ -419,22 +419,22 @@ export const TContextMenuLabel = defineComponent({
 	},
 });
 
-export const TContextMenuSeparator = defineComponent({
-	name: 'TContextMenuSeparator',
+export const ContextMenuSeparator = defineComponent({
+	name: 'ContextMenuSeparator',
 	setup(_props, { attrs }) {
 		return () => h('div', { ...attrs, role: 'separator', class: [styles[contextMenuStyleKeys.separator], attrs.class] });
 	},
 });
 
-export const TContextMenuShortcut = defineComponent({
-	name: 'TContextMenuShortcut',
+export const ContextMenuShortcut = defineComponent({
+	name: 'ContextMenuShortcut',
 	setup(_props, { slots, attrs }) {
 		return () => h('span', { ...attrs, class: [styles[contextMenuStyleKeys.shortcut], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TContextMenuItem = defineComponent({
-	name: 'TContextMenuItem',
+export const ContextMenuItem = defineComponent({
+	name: 'ContextMenuItem',
 	inheritAttrs: false,
 	props: {
 		inset: { type: Boolean, default: false },
@@ -483,8 +483,8 @@ export const TContextMenuItem = defineComponent({
 	},
 });
 
-export const TContextMenuCheckboxItem = defineComponent({
-	name: 'TContextMenuCheckboxItem',
+export const ContextMenuCheckboxItem = defineComponent({
+	name: 'ContextMenuCheckboxItem',
 	inheritAttrs: false,
 	props: {
 		checked: { type: Boolean, default: undefined },
@@ -538,8 +538,8 @@ export const TContextMenuCheckboxItem = defineComponent({
 	},
 });
 
-export const TContextMenuRadioGroup = defineComponent({
-	name: 'TContextMenuRadioGroup',
+export const ContextMenuRadioGroup = defineComponent({
+	name: 'ContextMenuRadioGroup',
 	inheritAttrs: false,
 	props: {
 		value: { type: String, default: undefined },
@@ -565,8 +565,8 @@ export const TContextMenuRadioGroup = defineComponent({
 	},
 });
 
-export const TContextMenuRadioItem = defineComponent({
-	name: 'TContextMenuRadioItem',
+export const ContextMenuRadioItem = defineComponent({
+	name: 'ContextMenuRadioItem',
 	inheritAttrs: false,
 	props: {
 		value: { type: String, required: true },
@@ -614,8 +614,8 @@ export const TContextMenuRadioItem = defineComponent({
 	},
 });
 
-export const TContextMenuSub = defineComponent({
-	name: 'TContextMenuSub',
+export const ContextMenuSub = defineComponent({
+	name: 'ContextMenuSub',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -641,8 +641,8 @@ export const TContextMenuSub = defineComponent({
 	},
 });
 
-export const TContextMenuSubTrigger = defineComponent({
-	name: 'TContextMenuSubTrigger',
+export const ContextMenuSubTrigger = defineComponent({
+	name: 'ContextMenuSubTrigger',
 	inheritAttrs: false,
 	props: {
 		inset: { type: Boolean, default: false },
@@ -715,8 +715,8 @@ export const TContextMenuSubTrigger = defineComponent({
 	},
 });
 
-export const TContextMenuSubContent = defineComponent({
-	name: 'TContextMenuSubContent',
+export const ContextMenuSubContent = defineComponent({
+	name: 'ContextMenuSubContent',
 	inheritAttrs: false,
 	setup(_props, { slots, attrs }) {
 		const sub = useContextMenuSubContext();
@@ -861,4 +861,4 @@ export const TContextMenuSubContent = defineComponent({
 	},
 });
 
-export default TContextMenu;
+export default ContextMenu;

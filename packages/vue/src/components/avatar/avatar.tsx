@@ -10,8 +10,8 @@ interface AvatarContextValue {
 
 const AvatarContextKey: InjectionKey<AvatarContextValue> = Symbol('tile-avatar');
 
-export const TAvatar = defineComponent({
-	name: 'TAvatar',
+export const Avatar = defineComponent({
+	name: 'Avatar',
 	props: {
 		size: {
 			type: String as () => 'default' | 'sm' | 'lg',
@@ -27,8 +27,8 @@ export const TAvatar = defineComponent({
 	},
 });
 
-export const TAvatarImage = defineComponent({
-	name: 'TAvatarImage',
+export const AvatarImage = defineComponent({
+	name: 'AvatarImage',
 	props: {
 		src: { type: String, default: undefined },
 		alt: { type: String, default: '' },
@@ -37,7 +37,7 @@ export const TAvatarImage = defineComponent({
 	setup(props, { attrs, emit }) {
 		const contextValue = inject(AvatarContextKey);
 		if (!contextValue) {
-			throw new Error('TAvatarImage must be used within <TAvatar>.');
+			throw new Error('AvatarImage must be used within <Avatar>.');
 		}
 		const context: AvatarContextValue = contextValue;
 
@@ -80,12 +80,12 @@ export const TAvatarImage = defineComponent({
 	},
 });
 
-export const TAvatarFallback = defineComponent({
-	name: 'TAvatarFallback',
+export const AvatarFallback = defineComponent({
+	name: 'AvatarFallback',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(AvatarContextKey);
 		if (!contextValue) {
-			throw new Error('TAvatarFallback must be used within <TAvatar>.');
+			throw new Error('AvatarFallback must be used within <Avatar>.');
 		}
 		const context: AvatarContextValue = contextValue;
 
@@ -99,25 +99,25 @@ export const TAvatarFallback = defineComponent({
 	},
 });
 
-export const TAvatarBadge = defineComponent({
-	name: 'TAvatarBadge',
+export const AvatarBadge = defineComponent({
+	name: 'AvatarBadge',
 	setup(_props, { slots, attrs }) {
 		return () => h('span', { ...attrs, class: [styles[avatarStyleKeys.badge], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TAvatarGroup = defineComponent({
-	name: 'TAvatarGroup',
+export const AvatarGroup = defineComponent({
+	name: 'AvatarGroup',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[avatarStyleKeys.group], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TAvatarGroupCount = defineComponent({
-	name: 'TAvatarGroupCount',
+export const AvatarGroupCount = defineComponent({
+	name: 'AvatarGroupCount',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[avatarStyleKeys.groupCount], attrs.class] }, slots.default?.());
 	},
 });
 
-export default TAvatar;
+export default Avatar;

@@ -1,1 +1,1 @@
-export { TCalendar, TCalendarDayButton } from './calendar';
+export { Calendar, CalendarDayButton } from './calendar';

@@ -1,11 +1,11 @@
-import { TCarousel, TCarouselContent, TCarouselItem, TCarouselPrevious, TCarouselNext } from '@tile-ui/vue';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@tile-ui/vue';
 
 export default function CarouselDemo() {
 	return (
-		<TCarousel>
-			<TCarouselContent>
+		<Carousel>
+			<CarouselContent>
 				{['Slide one', 'Slide two', 'Slide three'].map((text) => (
-					<TCarouselItem key={text}>
+					<CarouselItem key={text}>
 						<div
 							style={{
 								display: 'flex',
@@ -17,11 +17,11 @@ export default function CarouselDemo() {
 							}}>
 							<p class="component-preview__text">{text}</p>
 						</div>
-					</TCarouselItem>
+					</CarouselItem>
 				))}
-			</TCarouselContent>
-			<TCarouselPrevious />
-			<TCarouselNext />
-		</TCarousel>
+			</CarouselContent>
+			<CarouselPrevious />
+			<CarouselNext />
+		</Carousel>
 	);
 }

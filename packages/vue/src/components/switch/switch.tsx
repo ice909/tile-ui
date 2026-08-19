@@ -3,8 +3,8 @@ import { getSwitchState, switchStyleKeys } from '@tile-ui/core';
 import type { SwitchSize } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/switch.module.scss';
 
-export const TSwitch = defineComponent({
-	name: 'TSwitch',
+export const Switch = defineComponent({
+	name: 'Switch',
 	props: {
 		modelValue: { type: Boolean, default: undefined },
 		defaultChecked: { type: Boolean, default: false },
@@ -47,4 +47,4 @@ export const TSwitch = defineComponent({
 	},
 });
 
-export default TSwitch;
+export default Switch;

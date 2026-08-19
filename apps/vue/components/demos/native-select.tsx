@@ -1,10 +1,10 @@
-import { TNativeSelect, TNativeSelectOption } from '@tile-ui/vue';
+import { NativeSelect, NativeSelectOption } from '@tile-ui/vue';
 
 export default function NativeSelectDemo() {
 	return (
-		<TNativeSelect defaultValue="a" style={{ maxWidth: '260px' }}>
-			<TNativeSelectOption value="a">Option A</TNativeSelectOption>
-			<TNativeSelectOption value="b">Option B</TNativeSelectOption>
-		</TNativeSelect>
+		<NativeSelect defaultValue="a" style={{ maxWidth: '260px' }}>
+			<NativeSelectOption value="a">Option A</NativeSelectOption>
+			<NativeSelectOption value="b">Option B</NativeSelectOption>
+		</NativeSelect>
 	);
 }

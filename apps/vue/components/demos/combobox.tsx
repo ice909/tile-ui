@@ -1,8 +1,8 @@
-import { TCombobox } from '@tile-ui/vue';
+import { Combobox } from '@tile-ui/vue';
 
 export default function ComboboxDemo() {
 	return (
-		<TCombobox
+		<Combobox
 			items={[
 				{ value: 'apple', label: 'Apple' },
 				{ value: 'banana', label: 'Banana' },

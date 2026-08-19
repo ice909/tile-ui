@@ -1,16 +1,16 @@
-import { TCommand, TCommandInput, TCommandList, TCommandEmpty, TCommandGroup, TCommandItem } from '@tile-ui/vue';
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@tile-ui/vue';
 
 export default function CommandDemo() {
 	return (
-		<TCommand>
-			<TCommandInput />
-			<TCommandList>
-				<TCommandEmpty>No results found.</TCommandEmpty>
-				<TCommandGroup heading="Suggestions">
-					<TCommandItem value="calendar">Calendar</TCommandItem>
-					<TCommandItem value="search">Search</TCommandItem>
-				</TCommandGroup>
-			</TCommandList>
-		</TCommand>
+		<Command>
+			<CommandInput />
+			<CommandList>
+				<CommandEmpty>No results found.</CommandEmpty>
+				<CommandGroup heading="Suggestions">
+					<CommandItem value="calendar">Calendar</CommandItem>
+					<CommandItem value="search">Search</CommandItem>
+				</CommandGroup>
+			</CommandList>
+		</Command>
 	);
 }

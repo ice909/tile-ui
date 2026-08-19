@@ -39,8 +39,8 @@ function renderChevron(flipRight: boolean) {
 /**
  * 单个日期按钮（独立导出，供自定义网格使用）
  */
-export const TCalendarDayButton = defineComponent({
-	name: 'TCalendarDayButton',
+export const CalendarDayButton = defineComponent({
+	name: 'CalendarDayButton',
 	props: {
 		date: { type: Date, required: true },
 		modifiers: { type: Object as PropType<CalendarDayModifiers>, required: true },
@@ -82,8 +82,8 @@ export const TCalendarDayButton = defineComponent({
 /**
  * Calendar 日历组件（单选 / 多选 / 范围选择）
  */
-export const TCalendar = defineComponent({
-	name: 'TCalendar',
+export const Calendar = defineComponent({
+	name: 'Calendar',
 	props: {
 		mode: {
 			type: String as PropType<CalendarMode>,
@@ -167,7 +167,7 @@ export const TCalendar = defineComponent({
 								}
 								const modifiers = getCalendarDayModifiers(day, month.value, currentSelected.value, props.showOutsideDays, props.disabled);
 								return h('div', { key: `${weekIndex}-${dayIndex}`, role: 'gridcell', class: styles[calendarStyleKeys.day] }, [
-									h(TCalendarDayButton, {
+									h(CalendarDayButton, {
 										date: day,
 										modifiers,
 										onClick: () => handleSelect(day),
@@ -182,4 +182,4 @@ export const TCalendar = defineComponent({
 	},
 });
 
-export default TCalendar;
+export default Calendar;

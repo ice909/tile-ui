@@ -9,7 +9,7 @@ import {
 	getCarouselSelectedIndex,
 } from '@tile-ui/core';
 import type { CarouselOrientation } from '@tile-ui/core';
-import { TButton } from '../button';
+import { Button } from '../button';
 import styles from '@tile-ui/styles/scss/components/carousel.module.scss';
 
 interface CarouselContextValue {
@@ -28,7 +28,7 @@ const CarouselContextKey: InjectionKey<CarouselContextValue> = Symbol('tile-caro
 function useCarousel(): CarouselContextValue {
 	const context = inject(CarouselContextKey);
 	if (!context) {
-		throw new Error('轮播子组件必须在 <TCarousel> 内使用');
+		throw new Error('轮播子组件必须在 <Carousel> 内使用');
 	}
 	return context;
 }
@@ -64,8 +64,8 @@ const srOnlyStyle = {
 	borderWidth: 0,
 };
 
-export const TCarousel = defineComponent({
-	name: 'TCarousel',
+export const Carousel = defineComponent({
+	name: 'Carousel',
 	props: {
 		orientation: { type: String as PropType<CarouselOrientation>, default: 'horizontal' },
 	},
@@ -169,8 +169,8 @@ export const TCarousel = defineComponent({
 	},
 });
 
-export const TCarouselContent = defineComponent({
-	name: 'TCarouselContent',
+export const CarouselContent = defineComponent({
+	name: 'CarouselContent',
 	setup(_props, { slots, attrs }) {
 		const { viewportRef, handleScroll } = useCarousel();
 
@@ -192,8 +192,8 @@ export const TCarouselContent = defineComponent({
 	},
 });
 
-export const TCarouselItem = defineComponent({
-	name: 'TCarouselItem',
+export const CarouselItem = defineComponent({
+	name: 'CarouselItem',
 	setup(_props, { slots, attrs }) {
 		return () =>
 			h(
@@ -210,14 +210,14 @@ export const TCarouselItem = defineComponent({
 	},
 });
 
-export const TCarouselPrevious = defineComponent({
-	name: 'TCarouselPrevious',
+export const CarouselPrevious = defineComponent({
+	name: 'CarouselPrevious',
 	setup(_props, { slots, attrs }) {
 		const { scrollPrev, canScrollPrev } = useCarousel();
 
 		return () =>
 			h(
-				TButton,
+				Button,
 				{
 					...attrs,
 					variant: 'outline',
@@ -232,14 +232,14 @@ export const TCarouselPrevious = defineComponent({
 	},
 });
 
-export const TCarouselNext = defineComponent({
-	name: 'TCarouselNext',
+export const CarouselNext = defineComponent({
+	name: 'CarouselNext',
 	setup(_props, { slots, attrs }) {
 		const { scrollNext, canScrollNext } = useCarousel();
 
 		return () =>
 			h(
-				TButton,
+				Button,
 				{
 					...attrs,
 					variant: 'outline',
@@ -254,4 +254,4 @@ export const TCarouselNext = defineComponent({
 	},
 });
 
-export default TCarousel;
+export default Carousel;

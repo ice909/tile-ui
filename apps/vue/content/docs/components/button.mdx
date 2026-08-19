@@ -14,11 +14,11 @@ pnpm dlx shadcn@latest add @tile-ui/button
 ## Package usage
 
 ```tsx
-import { TButton } from '@tile-ui/vue';
+import { Button } from '@tile-ui/vue';
 
 export default defineComponent({
 	setup() {
-		return () => <TButton>Save changes</TButton>;
+		return () => <Button>Save changes</Button>;
 	},
 });
 ```
@@ -26,14 +26,14 @@ export default defineComponent({
 Use the `variant` prop to change the visual treatment:
 
 ```tsx
-<TButton variant="outline">Outline</TButton>
-<TButton variant="destructive">Delete</TButton>
+<Button variant="outline">Outline</Button>
+<Button variant="destructive">Delete</Button>
 ```
 
 Use the `loading` prop to disable interaction and show the inline spinner:
 
 ```tsx
-<TButton loading>Submitting...</TButton>
+<Button loading>Submitting...</Button>
 ```
 
 ## Highlights
@@ -54,7 +54,7 @@ Use the `loading` prop to disable interaction and show the inline spinner:
 
 ## API reference
 
-### TButton
+### Button
 
 | Prop       | Type                                                              | Default   | Notes                                              |
 | ---------- | ----------------------------------------------------------------- | --------- | -------------------------------------------------- |

@@ -5,8 +5,8 @@ import styles from '@tile-ui/styles/scss/components/scroll-area.module.scss';
 
 const ScrollAreaContextKey: InjectionKey<Ref<HTMLElement | null>> = Symbol('tile-scroll-area');
 
-export const TScrollArea = defineComponent({
-	name: 'TScrollArea',
+export const ScrollArea = defineComponent({
+	name: 'ScrollArea',
 	setup(_props, { slots, attrs }) {
 		const viewportRef = ref<HTMLElement | null>(null);
 		provide(ScrollAreaContextKey, viewportRef);
@@ -18,8 +18,8 @@ export const TScrollArea = defineComponent({
 	},
 });
 
-export const TScrollBar = defineComponent({
-	name: 'TScrollBar',
+export const ScrollBar = defineComponent({
+	name: 'ScrollBar',
 	props: {
 		orientation: {
 			type: String as PropType<ScrollBarOrientation>,
@@ -29,7 +29,7 @@ export const TScrollBar = defineComponent({
 	setup(props, { attrs }) {
 		const viewportValue = inject(ScrollAreaContextKey);
 		if (!viewportValue) {
-			throw new Error('TScrollBar must be used within <TScrollArea>.');
+			throw new Error('ScrollBar must be used within <ScrollArea>.');
 		}
 		const viewport: Ref<HTMLElement | null> = viewportValue;
 
@@ -170,4 +170,4 @@ export const TScrollBar = defineComponent({
 	},
 });
 
-export default TScrollArea;
+export default ScrollArea;

@@ -11,6 +11,12 @@ function read(pkgRoot: string, rel: string): string {
 	return readFileSync(resolve(pkgRoot, rel), 'utf8');
 }
 
+function componentSources(pkgRoot: string): string[] {
+	return readdirSync(resolve(pkgRoot, 'components'), { recursive: true })
+		.filter((file): file is string => typeof file === 'string' && file.endsWith('.tsx'))
+		.map((file) => read(pkgRoot, `components/${file}`));
+}
+
 interface ContractCase {
 	name: string;
 	file: string;
@@ -67,6 +73,13 @@ const reactCases: ContractCase[] = [
 	},
 ];
 
+describe('Vue 组件公开命名', () => {
+	it('与 React 一致且不包含 T 前缀', () => {
+		expect(read(vueRoot, 'index.ts')).toMatch(/export \{ Button \} from '\.\/components\/button';/);
+		expect(componentSources(vueRoot).join('\n')).not.toMatch(/export const T[A-Z]/);
+	});
+});
+
 describe('非受控状态契约（防回归）', () => {
 	for (const { name, file, defaultProp, internalRef, uncontrolledCheck } of vueCases) {
 		it(`Vue ${name} 支持非受控`, () => {
@@ -113,15 +126,15 @@ describe('尺寸测量契约（防图表/轮播放大回归）', () => {
 		expect(source).not.toMatch(/setSize\(\{ width, height \}\)/);
 	});
 
-	it('Vue TChartContainer 的 ResizeObserver 只更新宽度', () => {
+	it('Vue ChartContainer 的 ResizeObserver 只更新宽度', () => {
 		const source = read(vueRoot, 'components/chart/chart.tsx');
 		expect(source).toMatch(/const \{ width \} = entry\.contentRect/);
 		expect(source).not.toMatch(/size\.height = height/);
 	});
 
-	it('Vue TCarouselContent 挂载时初始化滚动状态', () => {
+	it('Vue CarouselContent 挂载时初始化滚动状态', () => {
 		const source = read(vueRoot, 'components/carousel/carousel.tsx');
-		expect(source).toMatch(/TCarouselContent[\s\S]*?onMounted\(\(\) => \{[\s\S]*?handleScroll\(\)/);
+		expect(source).toMatch(/CarouselContent[\s\S]*?onMounted\(\(\) => \{[\s\S]*?handleScroll\(\)/);
 	});
 });
 

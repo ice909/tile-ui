@@ -1,1 +1,1 @@
-export { TDirectionProvider, useDirection } from './direction';
+export { DirectionProvider, useDirection } from './direction';

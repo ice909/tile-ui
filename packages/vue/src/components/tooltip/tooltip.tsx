@@ -31,8 +31,8 @@ const TooltipContextKey: InjectionKey<TooltipContextValue> = Symbol('tile-toolti
 
 const TooltipProviderContextKey: InjectionKey<Ref<number>> = Symbol('tile-tooltip-provider');
 
-export const TTooltipProvider = defineComponent({
-	name: 'TTooltipProvider',
+export const TooltipProvider = defineComponent({
+	name: 'TooltipProvider',
 	props: {
 		delayDuration: { type: Number, default: 0 },
 	},
@@ -44,8 +44,8 @@ export const TTooltipProvider = defineComponent({
 	},
 });
 
-export const TTooltip = defineComponent({
-	name: 'TTooltip',
+export const Tooltip = defineComponent({
+	name: 'Tooltip',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -70,8 +70,8 @@ export const TTooltip = defineComponent({
 	},
 });
 
-export const TTooltipTrigger = defineComponent({
-	name: 'TTooltipTrigger',
+export const TooltipTrigger = defineComponent({
+	name: 'TooltipTrigger',
 	inheritAttrs: false,
 	props: {
 		asChild: { type: Boolean, default: false },
@@ -80,7 +80,7 @@ export const TTooltipTrigger = defineComponent({
 		const contextValue = inject(TooltipContextKey);
 		const provider = inject(TooltipProviderContextKey);
 		if (!contextValue) {
-			throw new Error('TTooltipTrigger must be used within <TTooltip>.');
+			throw new Error('TooltipTrigger must be used within <Tooltip>.');
 		}
 		const context: TooltipContextValue = contextValue;
 		const delayDuration = provider?.value ?? 0;
@@ -188,8 +188,8 @@ export const TTooltipTrigger = defineComponent({
 	},
 });
 
-export const TTooltipContent = defineComponent({
-	name: 'TTooltipContent',
+export const TooltipContent = defineComponent({
+	name: 'TooltipContent',
 	inheritAttrs: false,
 	props: {
 		side: { type: String as PropType<TooltipSide>, default: 'top' },
@@ -198,7 +198,7 @@ export const TTooltipContent = defineComponent({
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(TooltipContextKey);
 		if (!contextValue) {
-			throw new Error('TTooltipContent must be used within <TTooltip>.');
+			throw new Error('TooltipContent must be used within <Tooltip>.');
 		}
 		const context: TooltipContextValue = contextValue;
 
@@ -312,4 +312,4 @@ export const TTooltipContent = defineComponent({
 	},
 });
 
-export default TTooltip;
+export default Tooltip;

@@ -29,8 +29,8 @@ interface PopoverContextValue {
 
 const PopoverContextKey: InjectionKey<PopoverContextValue> = Symbol('tile-popover');
 
-export const TPopover = defineComponent({
-	name: 'TPopover',
+export const Popover = defineComponent({
+	name: 'Popover',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -55,8 +55,8 @@ export const TPopover = defineComponent({
 	},
 });
 
-export const TPopoverTrigger = defineComponent({
-	name: 'TPopoverTrigger',
+export const PopoverTrigger = defineComponent({
+	name: 'PopoverTrigger',
 	inheritAttrs: false,
 	props: {
 		asChild: { type: Boolean, default: false },
@@ -64,7 +64,7 @@ export const TPopoverTrigger = defineComponent({
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(PopoverContextKey);
 		if (!contextValue) {
-			throw new Error('TPopoverTrigger must be used within <TPopover>.');
+			throw new Error('PopoverTrigger must be used within <Popover>.');
 		}
 		const context: PopoverContextValue = contextValue;
 
@@ -97,8 +97,8 @@ export const TPopoverTrigger = defineComponent({
 	},
 });
 
-export const TPopoverContent = defineComponent({
-	name: 'TPopoverContent',
+export const PopoverContent = defineComponent({
+	name: 'PopoverContent',
 	inheritAttrs: false,
 	props: {
 		side: { type: String as PropType<PopoverSide>, default: 'bottom' },
@@ -108,7 +108,7 @@ export const TPopoverContent = defineComponent({
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(PopoverContextKey);
 		if (!contextValue) {
-			throw new Error('TPopoverContent must be used within <TPopover>.');
+			throw new Error('PopoverContent must be used within <Popover>.');
 		}
 		const context: PopoverContextValue = contextValue;
 
@@ -245,4 +245,4 @@ export const TPopoverContent = defineComponent({
 	},
 });
 
-export default TPopover;
+export default Popover;

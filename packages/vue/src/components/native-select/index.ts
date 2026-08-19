@@ -1,1 +1,1 @@
-export { TNativeSelect, TNativeSelectOption, TNativeSelectOptGroup } from './native-select';
+export { NativeSelect, NativeSelectOption, NativeSelectOptGroup } from './native-select';

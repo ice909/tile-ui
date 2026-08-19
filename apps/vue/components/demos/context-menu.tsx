@@ -1,15 +1,15 @@
-import { TContextMenu, TContextMenuTrigger, TContextMenuContent, TContextMenuItem } from '@tile-ui/vue';
+import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem } from '@tile-ui/vue';
 
 export default function ContextMenuDemo() {
 	return (
-		<TContextMenu>
-			<TContextMenuTrigger>
+		<ContextMenu>
+			<ContextMenuTrigger>
 				<div class="component-preview__action">Right-click me</div>
-			</TContextMenuTrigger>
-			<TContextMenuContent>
-				<TContextMenuItem>Copy</TContextMenuItem>
-				<TContextMenuItem>Paste</TContextMenuItem>
-			</TContextMenuContent>
-		</TContextMenu>
+			</ContextMenuTrigger>
+			<ContextMenuContent>
+				<ContextMenuItem>Copy</ContextMenuItem>
+				<ContextMenuItem>Paste</ContextMenuItem>
+			</ContextMenuContent>
+		</ContextMenu>
 	);
 }

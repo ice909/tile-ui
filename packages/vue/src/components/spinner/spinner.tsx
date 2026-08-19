@@ -3,8 +3,8 @@ import { getSpinnerSize, spinnerStyleKeys } from '@tile-ui/core';
 import type { SpinnerSize } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/spinner.module.scss';
 
-export const TSpinner = defineComponent({
-	name: 'TSpinner',
+export const Spinner = defineComponent({
+	name: 'Spinner',
 	props: {
 		size: {
 			type: String as PropType<SpinnerSize>,
@@ -35,4 +35,4 @@ export const TSpinner = defineComponent({
 	},
 });
 
-export default TSpinner;
+export default Spinner;

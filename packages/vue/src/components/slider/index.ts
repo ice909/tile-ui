@@ -1,1 +1,1 @@
-export { TSlider, TSliderTrack, TSliderRange, TSliderThumb } from './slider';
+export { Slider, SliderTrack, SliderRange, SliderThumb } from './slider';

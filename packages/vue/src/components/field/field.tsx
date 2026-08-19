@@ -14,8 +14,8 @@ interface FieldContextValue {
 
 const FieldContextKey: InjectionKey<FieldContextValue> = Symbol('tile-field');
 
-export const TField = defineComponent({
-	name: 'TField',
+export const Field = defineComponent({
+	name: 'Field',
 	props: {
 		name: String,
 		invalid: { type: Boolean, default: false },
@@ -50,15 +50,15 @@ export const TField = defineComponent({
 	},
 });
 
-export const TFieldLabel = defineComponent({
-	name: 'TFieldLabel',
+export const FieldLabel = defineComponent({
+	name: 'FieldLabel',
 	props: {
 		htmlFor: String,
 	},
 	setup(props, { slots, attrs }) {
 		const context = inject(FieldContextKey);
 		if (!context) {
-			throw new Error('TFieldLabel must be used within <TField>.');
+			throw new Error('FieldLabel must be used within <Field>.');
 		}
 
 		return () =>
@@ -76,12 +76,12 @@ export const TFieldLabel = defineComponent({
 	},
 });
 
-export const TFieldDescription = defineComponent({
-	name: 'TFieldDescription',
+export const FieldDescription = defineComponent({
+	name: 'FieldDescription',
 	setup(_props, { slots, attrs }) {
 		const context = inject(FieldContextKey);
 		if (!context) {
-			throw new Error('TFieldDescription must be used within <TField>.');
+			throw new Error('FieldDescription must be used within <Field>.');
 		}
 
 		return () =>
@@ -98,8 +98,8 @@ export const TFieldDescription = defineComponent({
 	},
 });
 
-export const TFieldMessage = defineComponent({
-	name: 'TFieldMessage',
+export const FieldMessage = defineComponent({
+	name: 'FieldMessage',
 	props: {
 		variant: {
 			type: String as PropType<FieldMessageVariant>,
@@ -109,7 +109,7 @@ export const TFieldMessage = defineComponent({
 	setup(props, { slots, attrs }) {
 		const context = inject(FieldContextKey);
 		if (!context) {
-			throw new Error('TFieldMessage must be used within <TField>.');
+			throw new Error('FieldMessage must be used within <Field>.');
 		}
 
 		const styleKeys = computed(() => getFieldMessageStyleKeys(props.variant));
@@ -131,4 +131,4 @@ export const TFieldMessage = defineComponent({
 	},
 });
 
-export default TField;
+export default Field;

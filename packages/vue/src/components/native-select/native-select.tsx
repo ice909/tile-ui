@@ -3,8 +3,8 @@ import { getNativeSelectState, nativeSelectStyleKeys } from '@tile-ui/core';
 import type { NativeSelectSize } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/native-select.module.scss';
 
-export const TNativeSelect = defineComponent({
-	name: 'TNativeSelect',
+export const NativeSelect = defineComponent({
+	name: 'NativeSelect',
 	props: {
 		modelValue: { type: String, default: undefined },
 		defaultValue: { type: String, default: '' },
@@ -65,8 +65,8 @@ export const TNativeSelect = defineComponent({
 	},
 });
 
-export const TNativeSelectOption = defineComponent({
-	name: 'TNativeSelectOption',
+export const NativeSelectOption = defineComponent({
+	name: 'NativeSelectOption',
 	props: {
 		value: { type: String, default: undefined },
 		label: String,
@@ -89,8 +89,8 @@ export const TNativeSelectOption = defineComponent({
 	},
 });
 
-export const TNativeSelectOptGroup = defineComponent({
-	name: 'TNativeSelectOptGroup',
+export const NativeSelectOptGroup = defineComponent({
+	name: 'NativeSelectOptGroup',
 	props: {
 		label: String,
 		disabled: { type: Boolean, default: false },
@@ -111,4 +111,4 @@ export const TNativeSelectOptGroup = defineComponent({
 	},
 });
 
-export default TNativeSelect;
+export default NativeSelect;

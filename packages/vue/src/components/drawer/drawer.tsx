@@ -51,8 +51,8 @@ function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => vo
 	};
 }
 
-export const TDrawer = defineComponent({
-	name: 'TDrawer',
+export const Drawer = defineComponent({
+	name: 'Drawer',
 	props: {
 		direction: { type: String as PropType<DrawerDirection>, default: 'right' },
 		modal: { type: Boolean, default: true },
@@ -95,15 +95,15 @@ export const TDrawer = defineComponent({
 	},
 });
 
-export const TDrawerTrigger = defineComponent({
-	name: 'TDrawerTrigger',
+export const DrawerTrigger = defineComponent({
+	name: 'DrawerTrigger',
 	props: {
 		asChild: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(DrawerContextKey);
 		if (!contextValue) {
-			throw new Error('TDrawerTrigger must be used within <TDrawer>.');
+			throw new Error('DrawerTrigger must be used within <Drawer>.');
 		}
 		const context: DrawerContext = contextValue;
 
@@ -132,15 +132,15 @@ export const TDrawerTrigger = defineComponent({
 	},
 });
 
-export const TDrawerClose = defineComponent({
-	name: 'TDrawerClose',
+export const DrawerClose = defineComponent({
+	name: 'DrawerClose',
 	props: {
 		asChild: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(DrawerContextKey);
 		if (!contextValue) {
-			throw new Error('TDrawerClose must be used within <TDrawer>.');
+			throw new Error('DrawerClose must be used within <Drawer>.');
 		}
 		const context: DrawerContext = contextValue;
 
@@ -169,12 +169,12 @@ export const TDrawerClose = defineComponent({
 	},
 });
 
-export const TDrawerOverlay = defineComponent({
-	name: 'TDrawerOverlay',
+export const DrawerOverlay = defineComponent({
+	name: 'DrawerOverlay',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(DrawerContextKey);
 		if (!contextValue) {
-			throw new Error('TDrawerOverlay must be used within <TDrawer>.');
+			throw new Error('DrawerOverlay must be used within <Drawer>.');
 		}
 		const context: DrawerContext = contextValue;
 
@@ -197,15 +197,15 @@ export const TDrawerOverlay = defineComponent({
 	},
 });
 
-export const TDrawerContent = defineComponent({
-	name: 'TDrawerContent',
+export const DrawerContent = defineComponent({
+	name: 'DrawerContent',
 	props: {
 		showCloseButton: { type: Boolean, default: true },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(DrawerContextKey);
 		if (!contextValue) {
-			throw new Error('TDrawerContent must be used within <TDrawer>.');
+			throw new Error('DrawerContent must be used within <Drawer>.');
 		}
 		const context: DrawerContext = contextValue;
 		const contentRef = ref<HTMLElement | null>(null);
@@ -369,26 +369,26 @@ export const TDrawerContent = defineComponent({
 	},
 });
 
-export const TDrawerHeader = defineComponent({
-	name: 'TDrawerHeader',
+export const DrawerHeader = defineComponent({
+	name: 'DrawerHeader',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[drawerStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TDrawerFooter = defineComponent({
-	name: 'TDrawerFooter',
+export const DrawerFooter = defineComponent({
+	name: 'DrawerFooter',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[drawerStyleKeys.footer], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TDrawerTitle = defineComponent({
-	name: 'TDrawerTitle',
+export const DrawerTitle = defineComponent({
+	name: 'DrawerTitle',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(DrawerContextKey);
 		if (!contextValue) {
-			throw new Error('TDrawerTitle must be used within <TDrawer>.');
+			throw new Error('DrawerTitle must be used within <Drawer>.');
 		}
 		const context: DrawerContext = contextValue;
 
@@ -396,12 +396,12 @@ export const TDrawerTitle = defineComponent({
 	},
 });
 
-export const TDrawerDescription = defineComponent({
-	name: 'TDrawerDescription',
+export const DrawerDescription = defineComponent({
+	name: 'DrawerDescription',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(DrawerContextKey);
 		if (!contextValue) {
-			throw new Error('TDrawerDescription must be used within <TDrawer>.');
+			throw new Error('DrawerDescription must be used within <Drawer>.');
 		}
 		const context: DrawerContext = contextValue;
 
@@ -409,4 +409,4 @@ export const TDrawerDescription = defineComponent({
 	},
 });
 
-export default TDrawer;
+export default Drawer;

@@ -1,20 +1,20 @@
-import { TAccordion, TAccordionItem, TAccordionTrigger, TAccordionContent } from '@tile-ui/vue';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@tile-ui/vue';
 
 export default function AccordionDemo() {
 	return (
-		<TAccordion type="single" collapsible defaultValue="one">
-			<TAccordionItem value="one">
-				<TAccordionTrigger>Section one</TAccordionTrigger>
-				<TAccordionContent>
+		<Accordion type="single" collapsible defaultValue="one">
+			<AccordionItem value="one">
+				<AccordionTrigger>Section one</AccordionTrigger>
+				<AccordionContent>
 					<p class="component-preview__text">Content one.</p>
-				</TAccordionContent>
-			</TAccordionItem>
-			<TAccordionItem value="two">
-				<TAccordionTrigger>Section two</TAccordionTrigger>
-				<TAccordionContent>
+				</AccordionContent>
+			</AccordionItem>
+			<AccordionItem value="two">
+				<AccordionTrigger>Section two</AccordionTrigger>
+				<AccordionContent>
 					<p class="component-preview__text">Content two.</p>
-				</TAccordionContent>
-			</TAccordionItem>
-		</TAccordion>
+				</AccordionContent>
+			</AccordionItem>
+		</Accordion>
 	);
 }

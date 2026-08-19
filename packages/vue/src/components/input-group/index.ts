@@ -1,1 +1,1 @@
-export { TInputGroup, TInputGroupAddon, TInputGroupButton, TInputGroupText, TInputGroupInput, TInputGroupTextarea } from './input-group';
+export { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupInput, InputGroupTextarea } from './input-group';

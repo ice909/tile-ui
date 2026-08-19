@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'vue';
-import { TCheckbox } from '@tile-ui/vue';
+import { Checkbox } from '@tile-ui/vue';
 
 export default defineComponent({
 	name: 'CheckboxDemo',
@@ -7,14 +7,14 @@ export default defineComponent({
 		const checked = ref(true);
 		return () => (
 			<div class="button-group">
-				<TCheckbox
+				<Checkbox
 					modelValue={checked.value}
 					onUpdate:modelValue={(next) => {
 						checked.value = next === true;
 					}}
 				/>
-				<TCheckbox defaultChecked="indeterminate" />
-				<TCheckbox disabled />
+				<Checkbox defaultChecked="indeterminate" />
+				<Checkbox disabled />
 			</div>
 		);
 	},

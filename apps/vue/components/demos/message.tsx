@@ -1,14 +1,14 @@
-import { TMessageGroup, TMessage, TMessageContent } from '@tile-ui/vue';
+import { MessageGroup, Message, MessageContent } from '@tile-ui/vue';
 
 export default function MessageDemo() {
 	return (
-		<TMessageGroup>
-			<TMessage align="end">
-				<TMessageContent>Hi there</TMessageContent>
-			</TMessage>
-			<TMessage align="start">
-				<TMessageContent>Hey! What can I help with?</TMessageContent>
-			</TMessage>
-		</TMessageGroup>
+		<MessageGroup>
+			<Message align="end">
+				<MessageContent>Hi there</MessageContent>
+			</Message>
+			<Message align="start">
+				<MessageContent>Hey! What can I help with?</MessageContent>
+			</Message>
+		</MessageGroup>
 	);
 }

@@ -1,1 +1,1 @@
-export { TLabel } from './label';
+export { Label } from './label';

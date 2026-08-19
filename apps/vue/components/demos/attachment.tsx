@@ -1,20 +1,20 @@
-import { TAttachment, TAttachmentMedia, TAttachmentFileIcon, TAttachmentContent, TAttachmentTitle, TAttachmentDescription, TAttachmentActions, TButton } from '@tile-ui/vue';
+import { Attachment, AttachmentMedia, AttachmentFileIcon, AttachmentContent, AttachmentTitle, AttachmentDescription, AttachmentActions, Button } from '@tile-ui/vue';
 
 export default function AttachmentDemo() {
 	return (
-		<TAttachment>
-			<TAttachmentMedia>
-				<TAttachmentFileIcon kind="pdf" />
-			</TAttachmentMedia>
-			<TAttachmentContent>
-				<TAttachmentTitle>report.pdf</TAttachmentTitle>
-				<TAttachmentDescription>2.4 MB</TAttachmentDescription>
-			</TAttachmentContent>
-			<TAttachmentActions>
-				<TButton size="sm" variant="outline">
+		<Attachment>
+			<AttachmentMedia>
+				<AttachmentFileIcon kind="pdf" />
+			</AttachmentMedia>
+			<AttachmentContent>
+				<AttachmentTitle>report.pdf</AttachmentTitle>
+				<AttachmentDescription>2.4 MB</AttachmentDescription>
+			</AttachmentContent>
+			<AttachmentActions>
+				<Button size="sm" variant="outline">
 					Download
-				</TButton>
-			</TAttachmentActions>
-		</TAttachment>
+				</Button>
+			</AttachmentActions>
+		</Attachment>
 	);
 }

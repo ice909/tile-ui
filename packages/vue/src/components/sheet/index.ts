@@ -1,1 +1,1 @@
-export { TSheet, TSheetTrigger, TSheetClose, TSheetOverlay, TSheetContent, TSheetHeader, TSheetFooter, TSheetTitle, TSheetDescription } from './sheet';
+export { Sheet, SheetTrigger, SheetClose, SheetOverlay, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from './sheet';

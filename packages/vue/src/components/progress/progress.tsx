@@ -2,8 +2,8 @@ import { defineComponent, computed, h } from 'vue';
 import { getProgressOffset, progressStyleKeys } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/progress.module.scss';
 
-export const TProgress = defineComponent({
-	name: 'TProgress',
+export const Progress = defineComponent({
+	name: 'Progress',
 	props: {
 		value: { type: Number, default: 0 },
 		min: { type: Number, default: 0 },
@@ -28,4 +28,4 @@ export const TProgress = defineComponent({
 	},
 });
 
-export default TProgress;
+export default Progress;

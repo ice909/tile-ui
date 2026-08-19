@@ -2,8 +2,8 @@ import { defineComponent, computed, h, onMounted, ref, useId } from 'vue';
 import { getInputIds, getInputAriaProps } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/input.module.scss';
 
-export const TInput = defineComponent({
-	name: 'TInput',
+export const Input = defineComponent({
+	name: 'Input',
 	props: {
 		label: String,
 		error: String,
@@ -79,4 +79,4 @@ export const TInput = defineComponent({
 	},
 });
 
-export default TInput;
+export default Input;

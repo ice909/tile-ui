@@ -1,1 +1,1 @@
-export { TItem, TItemMedia, TItemContent, TItemActions, TItemGroup, TItemSeparator, TItemTitle, TItemDescription, TItemHeader, TItemFooter } from './item';
+export { Item, ItemMedia, ItemContent, ItemActions, ItemGroup, ItemSeparator, ItemTitle, ItemDescription, ItemHeader, ItemFooter } from './item';

@@ -3,8 +3,8 @@ import { buttonGroupStyleKeys, getButtonGroupStyleKeys } from '@tile-ui/core';
 import type { ButtonGroupOrientation } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/button-group.module.scss';
 
-export const TButtonGroup = defineComponent({
-	name: 'TButtonGroup',
+export const ButtonGroup = defineComponent({
+	name: 'ButtonGroup',
 	props: {
 		orientation: {
 			type: String as PropType<ButtonGroupOrientation>,
@@ -20,8 +20,8 @@ export const TButtonGroup = defineComponent({
 	},
 });
 
-export const TButtonGroupText = defineComponent({
-	name: 'TButtonGroupText',
+export const ButtonGroupText = defineComponent({
+	name: 'ButtonGroupText',
 	props: {
 		asChild: { type: Boolean, default: false },
 	},
@@ -47,8 +47,8 @@ export const TButtonGroupText = defineComponent({
 	},
 });
 
-export const TButtonGroupSeparator = defineComponent({
-	name: 'TButtonGroupSeparator',
+export const ButtonGroupSeparator = defineComponent({
+	name: 'ButtonGroupSeparator',
 	props: {
 		orientation: {
 			type: String as PropType<ButtonGroupOrientation>,
@@ -68,4 +68,4 @@ export const TButtonGroupSeparator = defineComponent({
 	},
 });
 
-export default TButtonGroup;
+export default ButtonGroup;

@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'vue';
-import { TSwitch } from '@tile-ui/vue';
+import { Switch } from '@tile-ui/vue';
 
 export default defineComponent({
 	name: 'SwitchDemo',
@@ -7,13 +7,13 @@ export default defineComponent({
 		const checked = ref(true);
 		return () => (
 			<div class="button-group">
-				<TSwitch
+				<Switch
 					modelValue={checked.value}
 					onUpdate:modelValue={(next: boolean) => {
 						checked.value = next;
 					}}
 				/>
-				<TSwitch size="sm" />
+				<Switch size="sm" />
 			</div>
 		);
 	},

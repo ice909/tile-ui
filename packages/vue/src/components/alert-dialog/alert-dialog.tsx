@@ -18,7 +18,7 @@ import {
 import type { ButtonSize, ButtonVariant } from '@tile-ui/core';
 import { alertDialogStyleKeys, getAlertDialogState } from '@tile-ui/core';
 import type { AlertDialogSize } from '@tile-ui/core';
-import { TButton } from '../button';
+import { Button } from '../button';
 import styles from '@tile-ui/styles/scss/components/alert-dialog.module.scss';
 
 interface AlertDialogContextValue {
@@ -51,8 +51,8 @@ function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => vo
 	};
 }
 
-export const TAlertDialog = defineComponent({
-	name: 'TAlertDialog',
+export const AlertDialog = defineComponent({
+	name: 'AlertDialog',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -91,15 +91,15 @@ export const TAlertDialog = defineComponent({
 	},
 });
 
-export const TAlertDialogTrigger = defineComponent({
-	name: 'TAlertDialogTrigger',
+export const AlertDialogTrigger = defineComponent({
+	name: 'AlertDialogTrigger',
 	props: {
 		asChild: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(AlertDialogContextKey);
 		if (!contextValue) {
-			throw new Error('TAlertDialogTrigger must be used within <TAlertDialog>.');
+			throw new Error('AlertDialogTrigger must be used within <AlertDialog>.');
 		}
 		const context: AlertDialogContext = contextValue;
 
@@ -128,12 +128,12 @@ export const TAlertDialogTrigger = defineComponent({
 	},
 });
 
-export const TAlertDialogOverlay = defineComponent({
-	name: 'TAlertDialogOverlay',
+export const AlertDialogOverlay = defineComponent({
+	name: 'AlertDialogOverlay',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(AlertDialogContextKey);
 		if (!contextValue) {
-			throw new Error('TAlertDialogOverlay must be used within <TAlertDialog>.');
+			throw new Error('AlertDialogOverlay must be used within <AlertDialog>.');
 		}
 		const context: AlertDialogContext = contextValue;
 
@@ -156,8 +156,8 @@ export const TAlertDialogOverlay = defineComponent({
 	},
 });
 
-export const TAlertDialogContent = defineComponent({
-	name: 'TAlertDialogContent',
+export const AlertDialogContent = defineComponent({
+	name: 'AlertDialogContent',
 	props: {
 		size: {
 			type: String as PropType<AlertDialogSize>,
@@ -167,7 +167,7 @@ export const TAlertDialogContent = defineComponent({
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(AlertDialogContextKey);
 		if (!contextValue) {
-			throw new Error('TAlertDialogContent must be used within <TAlertDialog>.');
+			throw new Error('AlertDialogContent must be used within <AlertDialog>.');
 		}
 		const context: AlertDialogContext = contextValue;
 		const contentRef = ref<HTMLElement | null>(null);
@@ -276,26 +276,26 @@ export const TAlertDialogContent = defineComponent({
 	},
 });
 
-export const TAlertDialogHeader = defineComponent({
-	name: 'TAlertDialogHeader',
+export const AlertDialogHeader = defineComponent({
+	name: 'AlertDialogHeader',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[alertDialogStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TAlertDialogFooter = defineComponent({
-	name: 'TAlertDialogFooter',
+export const AlertDialogFooter = defineComponent({
+	name: 'AlertDialogFooter',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[alertDialogStyleKeys.footer], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TAlertDialogTitle = defineComponent({
-	name: 'TAlertDialogTitle',
+export const AlertDialogTitle = defineComponent({
+	name: 'AlertDialogTitle',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(AlertDialogContextKey);
 		if (!contextValue) {
-			throw new Error('TAlertDialogTitle must be used within <TAlertDialog>.');
+			throw new Error('AlertDialogTitle must be used within <AlertDialog>.');
 		}
 		const context: AlertDialogContext = contextValue;
 
@@ -303,12 +303,12 @@ export const TAlertDialogTitle = defineComponent({
 	},
 });
 
-export const TAlertDialogDescription = defineComponent({
-	name: 'TAlertDialogDescription',
+export const AlertDialogDescription = defineComponent({
+	name: 'AlertDialogDescription',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(AlertDialogContextKey);
 		if (!contextValue) {
-			throw new Error('TAlertDialogDescription must be used within <TAlertDialog>.');
+			throw new Error('AlertDialogDescription must be used within <AlertDialog>.');
 		}
 		const context: AlertDialogContext = contextValue;
 
@@ -316,8 +316,8 @@ export const TAlertDialogDescription = defineComponent({
 	},
 });
 
-export const TAlertDialogAction = defineComponent({
-	name: 'TAlertDialogAction',
+export const AlertDialogAction = defineComponent({
+	name: 'AlertDialogAction',
 	props: {
 		variant: {
 			type: String as PropType<ButtonVariant>,
@@ -331,7 +331,7 @@ export const TAlertDialogAction = defineComponent({
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(AlertDialogContextKey);
 		if (!contextValue) {
-			throw new Error('TAlertDialogAction must be used within <TAlertDialog>.');
+			throw new Error('AlertDialogAction must be used within <AlertDialog>.');
 		}
 		const context: AlertDialogContext = contextValue;
 
@@ -341,7 +341,7 @@ export const TAlertDialogAction = defineComponent({
 
 		return () =>
 			h(
-				TButton,
+				Button,
 				{
 					...attrs,
 					type: 'button',
@@ -354,8 +354,8 @@ export const TAlertDialogAction = defineComponent({
 	},
 });
 
-export const TAlertDialogCancel = defineComponent({
-	name: 'TAlertDialogCancel',
+export const AlertDialogCancel = defineComponent({
+	name: 'AlertDialogCancel',
 	props: {
 		variant: {
 			type: String as PropType<ButtonVariant>,
@@ -369,7 +369,7 @@ export const TAlertDialogCancel = defineComponent({
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(AlertDialogContextKey);
 		if (!contextValue) {
-			throw new Error('TAlertDialogCancel must be used within <TAlertDialog>.');
+			throw new Error('AlertDialogCancel must be used within <AlertDialog>.');
 		}
 		const context: AlertDialogContext = contextValue;
 
@@ -379,7 +379,7 @@ export const TAlertDialogCancel = defineComponent({
 
 		return () =>
 			h(
-				TButton,
+				Button,
 				{
 					...attrs,
 					type: 'button',
@@ -392,4 +392,4 @@ export const TAlertDialogCancel = defineComponent({
 	},
 });
 
-export default TAlertDialog;
+export default AlertDialog;

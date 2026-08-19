@@ -14,8 +14,8 @@ type TabsContext = ComputedRef<TabsContextValue>;
 
 const TabsContextKey: InjectionKey<TabsContext> = Symbol('tile-tabs');
 
-export const TTabs = defineComponent({
-	name: 'TTabs',
+export const Tabs = defineComponent({
+	name: 'Tabs',
 	props: {
 		modelValue: { type: String, default: undefined },
 		defaultValue: { type: String, default: '' },
@@ -49,8 +49,8 @@ export const TTabs = defineComponent({
 	},
 });
 
-export const TTabsList = defineComponent({
-	name: 'TTabsList',
+export const TabsList = defineComponent({
+	name: 'TabsList',
 	props: {
 		variant: {
 			type: String as PropType<TabsListVariant>,
@@ -60,7 +60,7 @@ export const TTabsList = defineComponent({
 	setup(props, { slots }) {
 		const context = inject(TabsContextKey);
 		if (!context) {
-			throw new Error('TTabsList must be used within <TTabs>.');
+			throw new Error('TabsList must be used within <Tabs>.');
 		}
 
 		const variantKey = computed(() => getTabsListVariantKey(props.variant));
@@ -121,8 +121,8 @@ export const TTabsList = defineComponent({
 	},
 });
 
-export const TTabsTrigger = defineComponent({
-	name: 'TTabsTrigger',
+export const TabsTrigger = defineComponent({
+	name: 'TabsTrigger',
 	props: {
 		value: { type: String, required: true },
 		disabled: { type: Boolean, default: false },
@@ -130,7 +130,7 @@ export const TTabsTrigger = defineComponent({
 	setup(props, { slots }) {
 		const context = inject(TabsContextKey);
 		if (!context) {
-			throw new Error('TTabsTrigger must be used within <TTabs>.');
+			throw new Error('TabsTrigger must be used within <Tabs>.');
 		}
 
 		const active = computed(() => context.value.value === props.value);
@@ -160,15 +160,15 @@ export const TTabsTrigger = defineComponent({
 	},
 });
 
-export const TTabsContent = defineComponent({
-	name: 'TTabsContent',
+export const TabsContent = defineComponent({
+	name: 'TabsContent',
 	props: {
 		value: { type: String, required: true },
 	},
 	setup(props, { slots }) {
 		const context = inject(TabsContextKey);
 		if (!context) {
-			throw new Error('TTabsContent must be used within <TTabs>.');
+			throw new Error('TabsContent must be used within <Tabs>.');
 		}
 
 		const active = computed(() => context.value.value === props.value);
@@ -193,4 +193,4 @@ export const TTabsContent = defineComponent({
 	},
 });
 
-export default TTabs;
+export default Tabs;

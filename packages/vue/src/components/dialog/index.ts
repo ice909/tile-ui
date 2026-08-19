@@ -1,1 +1,1 @@
-export { TDialog, TDialogTrigger, TDialogClose, TDialogOverlay, TDialogContent, TDialogHeader, TDialogFooter, TDialogTitle, TDialogDescription } from './dialog';
+export { Dialog, DialogTrigger, DialogClose, DialogOverlay, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from './dialog';

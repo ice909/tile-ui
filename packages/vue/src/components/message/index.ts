@@ -1,1 +1,1 @@
-export { TMessageGroup, TMessage, TMessageAvatar, TMessageContent, TMessageHeader, TMessageFooter } from './message';
+export { MessageGroup, Message, MessageAvatar, MessageContent, MessageHeader, MessageFooter } from './message';

@@ -1,1 +1,1 @@
-export { TCombobox } from './combobox';
+export { Combobox } from './combobox';

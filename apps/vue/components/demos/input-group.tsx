@@ -1,10 +1,10 @@
-import { TInputGroup, TInputGroupAddon, TInputGroupInput } from '@tile-ui/vue';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@tile-ui/vue';
 
 export default function InputGroupDemo() {
 	return (
-		<TInputGroup>
-			<TInputGroupAddon>https://</TInputGroupAddon>
-			<TInputGroupInput placeholder="example.com" />
-		</TInputGroup>
+		<InputGroup>
+			<InputGroupAddon>https://</InputGroupAddon>
+			<InputGroupInput placeholder="example.com" />
+		</InputGroup>
 	);
 }

@@ -59,8 +59,8 @@ function renderToastIcon(type: SonnerType) {
 
 const closeIcon = h('svg', svgAttrs(), [h('path', { d: 'M18 6 6 18' }), h('path', { d: 'm6 6 12 12' })]);
 
-export const TToaster = defineComponent({
-	name: 'TToaster',
+export const Toaster = defineComponent({
+	name: 'Toaster',
 	props: {
 		position: { type: String as PropType<SonnerPosition>, default: 'bottom-right' },
 		duration: { type: Number, default: undefined },
@@ -136,4 +136,4 @@ export const TToaster = defineComponent({
 	},
 });
 
-export default TToaster;
+export default Toaster;

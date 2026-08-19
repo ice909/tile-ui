@@ -1,8 +1,8 @@
-import { TCalendar, toast } from '@tile-ui/vue';
+import { Calendar, toast } from '@tile-ui/vue';
 
 export default function CalendarDemo() {
 	return (
-		<TCalendar
+		<Calendar
 			mode="single"
 			onSelect={(selection) => {
 				toast.info(`Selected ${selection instanceof Date ? selection.toDateString() : 'date'}`);

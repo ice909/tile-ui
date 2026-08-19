@@ -1,11 +1,11 @@
-import { TRadioGroup, TRadioGroupItem } from '@tile-ui/vue';
+import { RadioGroup, RadioGroupItem } from '@tile-ui/vue';
 
 export default function RadioGroupDemo() {
 	return (
-		<TRadioGroup defaultValue="a" orientation="horizontal">
-			<TRadioGroupItem value="a" />
-			<TRadioGroupItem value="b" />
-			<TRadioGroupItem value="c" />
-		</TRadioGroup>
+		<RadioGroup defaultValue="a" orientation="horizontal">
+			<RadioGroupItem value="a" />
+			<RadioGroupItem value="b" />
+			<RadioGroupItem value="c" />
+		</RadioGroup>
 	);
 }

@@ -13,8 +13,8 @@ type CollapsibleContext = ComputedRef<CollapsibleContextValue>;
 
 const CollapsibleContextKey: InjectionKey<CollapsibleContext> = Symbol('tile-collapsible');
 
-export const TCollapsible = defineComponent({
-	name: 'TCollapsible',
+export const Collapsible = defineComponent({
+	name: 'Collapsible',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -53,12 +53,12 @@ export const TCollapsible = defineComponent({
 	},
 });
 
-export const TCollapsibleTrigger = defineComponent({
-	name: 'TCollapsibleTrigger',
+export const CollapsibleTrigger = defineComponent({
+	name: 'CollapsibleTrigger',
 	setup(_props, { slots }) {
 		const context = inject(CollapsibleContextKey);
 		if (!context) {
-			throw new Error('TCollapsibleTrigger must be used within <TCollapsible>.');
+			throw new Error('CollapsibleTrigger must be used within <Collapsible>.');
 		}
 
 		return () =>
@@ -78,12 +78,12 @@ export const TCollapsibleTrigger = defineComponent({
 	},
 });
 
-export const TCollapsibleContent = defineComponent({
-	name: 'TCollapsibleContent',
+export const CollapsibleContent = defineComponent({
+	name: 'CollapsibleContent',
 	setup(_props, { slots }) {
 		const context = inject(CollapsibleContextKey);
 		if (!context) {
-			throw new Error('TCollapsibleContent must be used within <TCollapsible>.');
+			throw new Error('CollapsibleContent must be used within <Collapsible>.');
 		}
 
 		return () =>
@@ -93,4 +93,4 @@ export const TCollapsibleContent = defineComponent({
 	},
 });
 
-export default TCollapsible;
+export default Collapsible;

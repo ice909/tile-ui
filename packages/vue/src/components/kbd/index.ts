@@ -1,1 +1,1 @@
-export { TKbd, TKbdGroup } from './kbd';
+export { Kbd, KbdGroup } from './kbd';

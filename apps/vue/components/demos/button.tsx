@@ -1,15 +1,15 @@
-import { TButton } from '@tile-ui/vue';
+import { Button } from '@tile-ui/vue';
 
 export default function ButtonDemo() {
 	return (
 		<div class="component-preview__stack">
 			<div class="button-group">
-				<TButton>Default</TButton>
-				<TButton variant="secondary">Secondary</TButton>
-				<TButton variant="outline">Outline</TButton>
-				<TButton variant="ghost">Ghost</TButton>
-				<TButton variant="destructive">Destructive</TButton>
-				<TButton loading>Loading</TButton>
+				<Button>Default</Button>
+				<Button variant="secondary">Secondary</Button>
+				<Button variant="outline">Outline</Button>
+				<Button variant="ghost">Ghost</Button>
+				<Button variant="destructive">Destructive</Button>
+				<Button loading>Loading</Button>
 			</div>
 		</div>
 	);

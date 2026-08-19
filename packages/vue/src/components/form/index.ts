@@ -1,1 +1,1 @@
-export { TForm, TFormItem, TFormLabel, TFormControl, TFormDescription, TFormMessage, TFormField } from './form';
+export { Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField } from './form';

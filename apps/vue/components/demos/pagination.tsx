@@ -1,24 +1,24 @@
-import { TPagination, TPaginationContent, TPaginationItem, TPaginationPrevious, TPaginationLink, TPaginationNext } from '@tile-ui/vue';
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from '@tile-ui/vue';
 
 export default function PaginationDemo() {
 	return (
-		<TPagination>
-			<TPaginationContent>
-				<TPaginationItem>
-					<TPaginationPrevious />
-				</TPaginationItem>
-				<TPaginationItem>
-					<TPaginationLink href="#" isActive>
+		<Pagination>
+			<PaginationContent>
+				<PaginationItem>
+					<PaginationPrevious />
+				</PaginationItem>
+				<PaginationItem>
+					<PaginationLink href="#" isActive>
 						1
-					</TPaginationLink>
-				</TPaginationItem>
-				<TPaginationItem>
-					<TPaginationLink href="#">2</TPaginationLink>
-				</TPaginationItem>
-				<TPaginationItem>
-					<TPaginationNext />
-				</TPaginationItem>
-			</TPaginationContent>
-		</TPagination>
+					</PaginationLink>
+				</PaginationItem>
+				<PaginationItem>
+					<PaginationLink href="#">2</PaginationLink>
+				</PaginationItem>
+				<PaginationItem>
+					<PaginationNext />
+				</PaginationItem>
+			</PaginationContent>
+		</Pagination>
 	);
 }

@@ -1,1 +1,1 @@
-export { TCarousel, TCarouselContent, TCarouselItem, TCarouselPrevious, TCarouselNext } from './carousel';
+export { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from './carousel';

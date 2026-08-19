@@ -127,7 +127,7 @@ function menubarChevronIcon() {
 function useMenubarContext(): MenubarContext {
 	const context = inject(MenubarContextKey);
 	if (!context) {
-		throw new Error('TMenubar 子组件必须位于 <TMenubar> 内部。');
+		throw new Error('Menubar 子组件必须位于 <Menubar> 内部。');
 	}
 	return context;
 }
@@ -135,7 +135,7 @@ function useMenubarContext(): MenubarContext {
 function useMenubarMenuContext(): MenubarMenuContext {
 	const context = inject(MenubarMenuContextKey);
 	if (!context) {
-		throw new Error('TMenubar 菜单子组件必须位于 <TMenubarMenu> 内部。');
+		throw new Error('Menubar 菜单子组件必须位于 <MenubarMenu> 内部。');
 	}
 	return context;
 }
@@ -143,7 +143,7 @@ function useMenubarMenuContext(): MenubarMenuContext {
 function useMenubarContentContext(): MenubarContentContext {
 	const context = inject(MenubarContentContextKey);
 	if (!context) {
-		throw new Error('TMenubar 菜单项必须位于 <TMenubarContent> 或 <TMenubarSubContent> 内部。');
+		throw new Error('Menubar 菜单项必须位于 <MenubarContent> 或 <MenubarSubContent> 内部。');
 	}
 	return context;
 }
@@ -151,7 +151,7 @@ function useMenubarContentContext(): MenubarContentContext {
 function useMenubarSubContext(): MenubarSubContext {
 	const context = inject(MenubarSubContextKey);
 	if (!context) {
-		throw new Error('TMenubar 子菜单组件必须位于 <TMenubarSub> 内部。');
+		throw new Error('Menubar 子菜单组件必须位于 <MenubarSub> 内部。');
 	}
 	return context;
 }
@@ -159,13 +159,13 @@ function useMenubarSubContext(): MenubarSubContext {
 function useMenubarRadioGroupContext(): MenubarRadioGroupContext {
 	const context = inject(MenubarRadioGroupContextKey);
 	if (!context) {
-		throw new Error('TMenubarRadioItem 必须位于 <TMenubarRadioGroup> 内部。');
+		throw new Error('MenubarRadioItem 必须位于 <MenubarRadioGroup> 内部。');
 	}
 	return context;
 }
 
-export const TMenubar = defineComponent({
-	name: 'TMenubar',
+export const Menubar = defineComponent({
+	name: 'Menubar',
 	props: {
 		value: { type: String, default: undefined },
 		defaultValue: { type: String, default: undefined },
@@ -190,15 +190,15 @@ export const TMenubar = defineComponent({
 	},
 });
 
-export const TMenubarPortal = defineComponent({
-	name: 'TMenubarPortal',
+export const MenubarPortal = defineComponent({
+	name: 'MenubarPortal',
 	setup(_props, { slots }) {
 		return () => slots.default?.();
 	},
 });
 
-export const TMenubarMenu = defineComponent({
-	name: 'TMenubarMenu',
+export const MenubarMenu = defineComponent({
+	name: 'MenubarMenu',
 	props: {
 		value: { type: String, required: true },
 	},
@@ -226,8 +226,8 @@ export const TMenubarMenu = defineComponent({
 	},
 });
 
-export const TMenubarTrigger = defineComponent({
-	name: 'TMenubarTrigger',
+export const MenubarTrigger = defineComponent({
+	name: 'MenubarTrigger',
 	inheritAttrs: false,
 	props: {
 		disabled: { type: Boolean, default: false },
@@ -282,7 +282,7 @@ function createMenubarContentBase({ isSub = false }: { isSub?: boolean } = {}) {
 	}
 
 	return defineComponent({
-		name: isSub ? 'TMenubarSubContent' : 'TMenubarContent',
+		name: isSub ? 'MenubarSubContent' : 'MenubarContent',
 		inheritAttrs: false,
 		props: {
 			side: { type: String as PropType<MenubarSide>, default: 'bottom' },
@@ -475,18 +475,18 @@ function createMenubarContentBase({ isSub = false }: { isSub?: boolean } = {}) {
 	});
 }
 
-export const TMenubarContent = createMenubarContentBase({ isSub: false });
-export const TMenubarSubContent = createMenubarContentBase({ isSub: true });
+export const MenubarContent = createMenubarContentBase({ isSub: false });
+export const MenubarSubContent = createMenubarContentBase({ isSub: true });
 
-export const TMenubarGroup = defineComponent({
-	name: 'TMenubarGroup',
+export const MenubarGroup = defineComponent({
+	name: 'MenubarGroup',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, role: 'group', class: [styles[menubarStyleKeys.group], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TMenubarLabel = defineComponent({
-	name: 'TMenubarLabel',
+export const MenubarLabel = defineComponent({
+	name: 'MenubarLabel',
 	inheritAttrs: false,
 	props: {
 		inset: { type: Boolean, default: false },
@@ -496,22 +496,22 @@ export const TMenubarLabel = defineComponent({
 	},
 });
 
-export const TMenubarSeparator = defineComponent({
-	name: 'TMenubarSeparator',
+export const MenubarSeparator = defineComponent({
+	name: 'MenubarSeparator',
 	setup(_props, { attrs }) {
 		return () => h('div', { ...attrs, role: 'separator', class: [styles[menubarStyleKeys.separator], attrs.class] });
 	},
 });
 
-export const TMenubarShortcut = defineComponent({
-	name: 'TMenubarShortcut',
+export const MenubarShortcut = defineComponent({
+	name: 'MenubarShortcut',
 	setup(_props, { slots, attrs }) {
 		return () => h('span', { ...attrs, class: [styles[menubarStyleKeys.shortcut], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TMenubarItem = defineComponent({
-	name: 'TMenubarItem',
+export const MenubarItem = defineComponent({
+	name: 'MenubarItem',
 	inheritAttrs: false,
 	props: {
 		inset: { type: Boolean, default: false },
@@ -560,8 +560,8 @@ export const TMenubarItem = defineComponent({
 	},
 });
 
-export const TMenubarCheckboxItem = defineComponent({
-	name: 'TMenubarCheckboxItem',
+export const MenubarCheckboxItem = defineComponent({
+	name: 'MenubarCheckboxItem',
 	inheritAttrs: false,
 	props: {
 		checked: { type: Boolean, default: undefined },
@@ -615,8 +615,8 @@ export const TMenubarCheckboxItem = defineComponent({
 	},
 });
 
-export const TMenubarRadioGroup = defineComponent({
-	name: 'TMenubarRadioGroup',
+export const MenubarRadioGroup = defineComponent({
+	name: 'MenubarRadioGroup',
 	inheritAttrs: false,
 	props: {
 		value: { type: String, default: undefined },
@@ -642,8 +642,8 @@ export const TMenubarRadioGroup = defineComponent({
 	},
 });
 
-export const TMenubarRadioItem = defineComponent({
-	name: 'TMenubarRadioItem',
+export const MenubarRadioItem = defineComponent({
+	name: 'MenubarRadioItem',
 	inheritAttrs: false,
 	props: {
 		value: { type: String, required: true },
@@ -691,8 +691,8 @@ export const TMenubarRadioItem = defineComponent({
 	},
 });
 
-export const TMenubarSub = defineComponent({
-	name: 'TMenubarSub',
+export const MenubarSub = defineComponent({
+	name: 'MenubarSub',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -718,8 +718,8 @@ export const TMenubarSub = defineComponent({
 	},
 });
 
-export const TMenubarSubTrigger = defineComponent({
-	name: 'TMenubarSubTrigger',
+export const MenubarSubTrigger = defineComponent({
+	name: 'MenubarSubTrigger',
 	inheritAttrs: false,
 	props: {
 		inset: { type: Boolean, default: false },
@@ -792,4 +792,4 @@ export const TMenubarSubTrigger = defineComponent({
 	},
 });
 
-export default TMenubar;
+export default Menubar;

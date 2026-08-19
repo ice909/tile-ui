@@ -14,23 +14,23 @@ pnpm dlx shadcn@latest add @tile-ui/card
 ## Package usage
 
 ```tsx
-import { TCard, TCardHeader, TCardTitle, TCardDescription, TCardContent, TCardFooter } from '@tile-ui/vue';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@tile-ui/vue';
 ```
 
 ```tsx
-<TCard>
-	<TCardHeader>
-		<TCardTitle>Starter workspace</TCardTitle>
-		<TCardDescription>Ship a consistent docs and component experience.</TCardDescription>
-	</TCardHeader>
-	<TCardContent>
+<Card>
+	<CardHeader>
+		<CardTitle>Starter workspace</CardTitle>
+		<CardDescription>Ship a consistent docs and component experience.</CardDescription>
+	</CardHeader>
+	<CardContent>
 		<p>Use cards for summaries, settings surfaces, marketing CTAs, and denser information blocks.</p>
-	</TCardContent>
-	<TCardFooter>
-		<TButton variant="outline">Preview</TButton>
-		<TButton>Install</TButton>
-	</TCardFooter>
-</TCard>
+	</CardContent>
+	<CardFooter>
+		<Button variant="outline">Preview</Button>
+		<Button>Install</Button>
+	</CardFooter>
+</Card>
 ```
 
 ## Highlights
@@ -50,29 +50,29 @@ import { TCard, TCardHeader, TCardTitle, TCardDescription, TCardContent, TCardFo
 
 ## API reference
 
-### TCard
+### Card
 
 | Prop | Type                        | Default | Notes                                |
 | ---- | --------------------------- | ------- | ------------------------------------ |
 | `as` | `div \| article \| section` | `div`   | Chooses the underlying HTML element. |
 
-### TCardHeader
+### CardHeader
 
 No custom props. Renders a header region with consistent spacing.
 
-### TCardTitle
+### CardTitle
 
 No custom props. Renders an `<h3>` heading.
 
-### TCardDescription
+### CardDescription
 
 No custom props. Renders supporting copy below the title.
 
-### TCardContent
+### CardContent
 
 No custom props. The main content region with consistent padding.
 
-### TCardFooter
+### CardFooter
 
 No custom props. An action row aligned to the end of the card.
 

@@ -12,11 +12,11 @@ import {
 	sidebarStyleKeys,
 } from '@tile-ui/core';
 import type { SidebarCollapsible, SidebarContextValue, SidebarMenuButtonSize, SidebarMenuButtonVariant, SidebarSide, SidebarSetOpen, SidebarVariant } from '@tile-ui/core';
-import { TButton } from '../button';
-import { TSeparator } from '../separator';
-import { TSheet, TSheetContent, TSheetDescription, TSheetHeader, TSheetTitle } from '../sheet';
-import { TSkeleton } from '../skeleton';
-import { TTooltip, TTooltipContent, TTooltipTrigger } from '../tooltip';
+import { Button } from '../button';
+import { Separator } from '../separator';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../sheet';
+import { Skeleton } from '../skeleton';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip';
 import styles from '@tile-ui/styles/scss/components/sidebar.module.scss';
 
 type SidebarContext = ComputedRef<SidebarContextValue>;
@@ -26,7 +26,7 @@ const SidebarContextKey: InjectionKey<SidebarContext> = Symbol('tile-sidebar');
 function useSidebar(): SidebarContext {
 	const context = inject(SidebarContextKey);
 	if (!context) {
-		throw new Error('侧边栏子组件必须在 <TSidebarProvider> 内使用');
+		throw new Error('侧边栏子组件必须在 <SidebarProvider> 内使用');
 	}
 	return context;
 }
@@ -50,8 +50,8 @@ function renderPanelLeftIcon() {
 	);
 }
 
-export const TSidebarProvider = defineComponent({
-	name: 'TSidebarProvider',
+export const SidebarProvider = defineComponent({
+	name: 'SidebarProvider',
 	props: {
 		defaultOpen: { type: Boolean, default: true },
 		open: { type: Boolean, default: undefined },
@@ -131,8 +131,8 @@ export const TSidebarProvider = defineComponent({
 	},
 });
 
-export const TSidebar = defineComponent({
-	name: 'TSidebar',
+export const Sidebar = defineComponent({
+	name: 'Sidebar',
 	props: {
 		side: { type: String as PropType<SidebarSide>, default: 'left' },
 		variant: { type: String as PropType<SidebarVariant>, default: 'sidebar' },
@@ -153,12 +153,12 @@ export const TSidebar = defineComponent({
 
 			if (ctx.isMobile) {
 				return h(
-					TSheet,
+					Sheet,
 					{ open: ctx.openMobile, 'onUpdate:open': (value: boolean) => ctx.setOpenMobile(value) },
 					{
 						default: () =>
 							h(
-								TSheetContent,
+								SheetContent,
 								{
 									...restAttrs,
 									'data-slot': 'sidebar',
@@ -171,12 +171,12 @@ export const TSidebar = defineComponent({
 								{
 									default: () => [
 										h(
-											TSheetHeader,
+											SheetHeader,
 											{ class: styles[sidebarStyleKeys.srOnly] },
 											{
 												default: () => [
-													h(TSheetTitle, null, { default: () => 'Sidebar' }),
-													h(TSheetDescription, null, { default: () => 'Displays the mobile sidebar.' }),
+													h(SheetTitle, null, { default: () => 'Sidebar' }),
+													h(SheetDescription, null, { default: () => 'Displays the mobile sidebar.' }),
 												],
 											},
 										),
@@ -204,8 +204,8 @@ export const TSidebar = defineComponent({
 	},
 });
 
-export const TSidebarTrigger = defineComponent({
-	name: 'TSidebarTrigger',
+export const SidebarTrigger = defineComponent({
+	name: 'SidebarTrigger',
 	setup(_props, { slots, attrs }) {
 		const context = useSidebar();
 
@@ -215,7 +215,7 @@ export const TSidebarTrigger = defineComponent({
 
 		return () =>
 			h(
-				TButton,
+				Button,
 				{
 					...attrs,
 					variant: 'ghost',
@@ -229,8 +229,8 @@ export const TSidebarTrigger = defineComponent({
 	},
 });
 
-export const TSidebarRail = defineComponent({
-	name: 'TSidebarRail',
+export const SidebarRail = defineComponent({
+	name: 'SidebarRail',
 	setup(_props, { attrs }) {
 		const context = useSidebar();
 
@@ -247,15 +247,15 @@ export const TSidebarRail = defineComponent({
 	},
 });
 
-export const TSidebarInset = defineComponent({
-	name: 'TSidebarInset',
+export const SidebarInset = defineComponent({
+	name: 'SidebarInset',
 	setup(_props, { slots, attrs }) {
 		return () => h('main', { ...attrs, 'data-slot': 'sidebar-inset', class: [styles[sidebarStyleKeys.inset], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarInput = defineComponent({
-	name: 'TSidebarInput',
+export const SidebarInput = defineComponent({
+	name: 'SidebarInput',
 	props: {
 		modelValue: String,
 		type: { type: String, default: 'text' },
@@ -276,78 +276,78 @@ export const TSidebarInput = defineComponent({
 	},
 });
 
-export const TSidebarHeader = defineComponent({
-	name: 'TSidebarHeader',
+export const SidebarHeader = defineComponent({
+	name: 'SidebarHeader',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'sidebar-header', class: [styles[sidebarStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarFooter = defineComponent({
-	name: 'TSidebarFooter',
+export const SidebarFooter = defineComponent({
+	name: 'SidebarFooter',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'sidebar-footer', class: [styles[sidebarStyleKeys.footer], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarSeparator = defineComponent({
-	name: 'TSidebarSeparator',
+export const SidebarSeparator = defineComponent({
+	name: 'SidebarSeparator',
 	setup(_props, { attrs }) {
-		return () => h(TSeparator, { ...attrs, 'data-slot': 'sidebar-separator', class: [styles[sidebarStyleKeys.separator], attrs.class] });
+		return () => h(Separator, { ...attrs, 'data-slot': 'sidebar-separator', class: [styles[sidebarStyleKeys.separator], attrs.class] });
 	},
 });
 
-export const TSidebarContent = defineComponent({
-	name: 'TSidebarContent',
+export const SidebarContent = defineComponent({
+	name: 'SidebarContent',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'sidebar-content', class: [styles[sidebarStyleKeys.content], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarGroup = defineComponent({
-	name: 'TSidebarGroup',
+export const SidebarGroup = defineComponent({
+	name: 'SidebarGroup',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'sidebar-group', class: [styles[sidebarStyleKeys.group], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarGroupLabel = defineComponent({
-	name: 'TSidebarGroupLabel',
+export const SidebarGroupLabel = defineComponent({
+	name: 'SidebarGroupLabel',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'sidebar-group-label', class: [styles[sidebarStyleKeys.groupLabel], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarGroupAction = defineComponent({
-	name: 'TSidebarGroupAction',
+export const SidebarGroupAction = defineComponent({
+	name: 'SidebarGroupAction',
 	setup(_props, { slots, attrs }) {
 		return () => h('button', { ...attrs, 'data-slot': 'sidebar-group-action', class: [styles[sidebarStyleKeys.groupAction], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarGroupContent = defineComponent({
-	name: 'TSidebarGroupContent',
+export const SidebarGroupContent = defineComponent({
+	name: 'SidebarGroupContent',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'sidebar-group-content', class: [styles[sidebarStyleKeys.groupContent], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarMenu = defineComponent({
-	name: 'TSidebarMenu',
+export const SidebarMenu = defineComponent({
+	name: 'SidebarMenu',
 	setup(_props, { slots, attrs }) {
 		return () => h('ul', { ...attrs, 'data-slot': 'sidebar-menu', class: [styles[sidebarStyleKeys.menu], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarMenuItem = defineComponent({
-	name: 'TSidebarMenuItem',
+export const SidebarMenuItem = defineComponent({
+	name: 'SidebarMenuItem',
 	setup(_props, { slots, attrs }) {
 		return () => h('li', { ...attrs, 'data-slot': 'sidebar-menu-item', class: [styles[sidebarStyleKeys.menuItem], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarMenuButton = defineComponent({
-	name: 'TSidebarMenuButton',
+export const SidebarMenuButton = defineComponent({
+	name: 'SidebarMenuButton',
 	props: {
 		isActive: { type: Boolean, default: false },
 		tooltip: String,
@@ -374,15 +374,15 @@ export const TSidebarMenuButton = defineComponent({
 				return button;
 			}
 
-			return h(TTooltip, null, {
-				default: () => [h(TTooltipTrigger, { asChild: true }, { default: () => button }), h(TTooltipContent, { side: 'right' }, { default: () => props.tooltip })],
+			return h(Tooltip, null, {
+				default: () => [h(TooltipTrigger, { asChild: true }, { default: () => button }), h(TooltipContent, { side: 'right' }, { default: () => props.tooltip })],
 			});
 		};
 	},
 });
 
-export const TSidebarMenuAction = defineComponent({
-	name: 'TSidebarMenuAction',
+export const SidebarMenuAction = defineComponent({
+	name: 'SidebarMenuAction',
 	props: {
 		showOnHover: { type: Boolean, default: false },
 	},
@@ -401,15 +401,15 @@ export const TSidebarMenuAction = defineComponent({
 	},
 });
 
-export const TSidebarMenuBadge = defineComponent({
-	name: 'TSidebarMenuBadge',
+export const SidebarMenuBadge = defineComponent({
+	name: 'SidebarMenuBadge',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'sidebar-menu-badge', class: [styles[sidebarStyleKeys.menuBadge], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarMenuSkeleton = defineComponent({
-	name: 'TSidebarMenuSkeleton',
+export const SidebarMenuSkeleton = defineComponent({
+	name: 'SidebarMenuSkeleton',
 	props: {
 		showIcon: { type: Boolean, default: false },
 	},
@@ -418,28 +418,28 @@ export const TSidebarMenuSkeleton = defineComponent({
 
 		return () =>
 			h('div', { ...attrs, 'data-slot': 'sidebar-menu-skeleton', class: [styles[sidebarStyleKeys.skeleton], attrs.class] }, [
-				props.showIcon ? h(TSkeleton, { class: styles[sidebarStyleKeys.skeletonIcon] }) : null,
-				h(TSkeleton, { class: styles[sidebarStyleKeys.skeletonText], style: { '--skeleton-width': width } }),
+				props.showIcon ? h(Skeleton, { class: styles[sidebarStyleKeys.skeletonIcon] }) : null,
+				h(Skeleton, { class: styles[sidebarStyleKeys.skeletonText], style: { '--skeleton-width': width } }),
 			]);
 	},
 });
 
-export const TSidebarMenuSub = defineComponent({
-	name: 'TSidebarMenuSub',
+export const SidebarMenuSub = defineComponent({
+	name: 'SidebarMenuSub',
 	setup(_props, { slots, attrs }) {
 		return () => h('ul', { ...attrs, 'data-slot': 'sidebar-menu-sub', class: [styles[sidebarStyleKeys.menuSub], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarMenuSubItem = defineComponent({
-	name: 'TSidebarMenuSubItem',
+export const SidebarMenuSubItem = defineComponent({
+	name: 'SidebarMenuSubItem',
 	setup(_props, { slots, attrs }) {
 		return () => h('li', { ...attrs, 'data-slot': 'sidebar-menu-sub-item', class: [styles[sidebarStyleKeys.menuSubItem], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSidebarMenuSubButton = defineComponent({
-	name: 'TSidebarMenuSubButton',
+export const SidebarMenuSubButton = defineComponent({
+	name: 'SidebarMenuSubButton',
 	props: {
 		size: { type: String as PropType<'sm' | 'md'>, default: 'md' },
 		isActive: { type: Boolean, default: false },
@@ -462,4 +462,4 @@ export const TSidebarMenuSubButton = defineComponent({
 	},
 });
 
-export default TSidebar;
+export default Sidebar;

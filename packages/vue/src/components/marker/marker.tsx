@@ -3,8 +3,8 @@ import { getMarkerVariantKey, markerStyleKeys } from '@tile-ui/core';
 import type { MarkerVariant } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/marker.module.scss';
 
-export const TMarker = defineComponent({
-	name: 'TMarker',
+export const Marker = defineComponent({
+	name: 'Marker',
 	props: {
 		variant: {
 			type: String as PropType<MarkerVariant>,
@@ -39,18 +39,18 @@ export const TMarker = defineComponent({
 	},
 });
 
-export const TMarkerIcon = defineComponent({
-	name: 'TMarkerIcon',
+export const MarkerIcon = defineComponent({
+	name: 'MarkerIcon',
 	setup(_props, { slots, attrs }) {
 		return () => h('span', { ...attrs, 'data-slot': 'marker-icon', 'aria-hidden': 'true', class: [styles[markerStyleKeys.icon], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TMarkerContent = defineComponent({
-	name: 'TMarkerContent',
+export const MarkerContent = defineComponent({
+	name: 'MarkerContent',
 	setup(_props, { slots, attrs }) {
 		return () => h('span', { ...attrs, 'data-slot': 'marker-content', class: [styles[markerStyleKeys.content], attrs.class] }, slots.default?.());
 	},
 });
 
-export default TMarker;
+export default Marker;

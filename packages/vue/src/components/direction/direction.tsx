@@ -4,8 +4,8 @@ import type { DirectionValue } from '@tile-ui/core';
 
 const DirectionContextKey: InjectionKey<Ref<DirectionValue>> = Symbol('tile-direction');
 
-export const TDirectionProvider = defineComponent({
-	name: 'TDirectionProvider',
+export const DirectionProvider = defineComponent({
+	name: 'DirectionProvider',
 	props: {
 		dir: { type: String as PropType<DirectionValue>, default: undefined },
 		direction: { type: String as PropType<DirectionValue>, default: undefined },
@@ -18,7 +18,7 @@ export const TDirectionProvider = defineComponent({
 });
 
 /**
- * 读取当前阅读方向 (需在 TDirectionProvider 内使用)
+ * 读取当前阅读方向 (需在 DirectionProvider 内使用)
  */
 export function useDirection(): Ref<DirectionValue> {
 	return inject(
@@ -27,4 +27,4 @@ export function useDirection(): Ref<DirectionValue> {
 	);
 }
 
-export default TDirectionProvider;
+export default DirectionProvider;

@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'vue';
-import { TButton, TInput, TTextarea, TLabel, TCard, TCardHeader, TCardTitle, TCardDescription, TCardContent, TCardFooter } from '@tile-ui/vue';
+import { Button, Input, Textarea, Label, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@tile-ui/vue';
 import { vueHomeLinks } from '../../common/lib/docs';
 
 const SITE_URL = 'https://vue.tileui.zmorg.cn';
@@ -60,50 +60,50 @@ export default defineComponent({
 					</div>
 
 					<div class="showcase-grid">
-						<TCard>
+						<Card>
 							{{
 								default: () => [
-									<TCardHeader>
+									<CardHeader>
 										{{
 											default: () => [
-												<TCardTitle>{{ default: () => 'Buttons' }}</TCardTitle>,
-												<TCardDescription>{{ default: () => 'Variants, sizes, and loading state.' }}</TCardDescription>,
+												<CardTitle>{{ default: () => 'Buttons' }}</CardTitle>,
+												<CardDescription>{{ default: () => 'Variants, sizes, and loading state.' }}</CardDescription>,
 											],
 										}}
-									</TCardHeader>,
-									<TCardContent>
+									</CardHeader>,
+									<CardContent>
 										{{
 											default: () => (
 												<div class="button-group">
-													<TButton>{{ default: () => 'Default' }}</TButton>
-													<TButton variant="outline">{{ default: () => 'Outline' }}</TButton>
-													<TButton variant="secondary">{{ default: () => 'Secondary' }}</TButton>
-													<TButton variant="destructive">{{ default: () => 'Destructive' }}</TButton>
-													<TButton loading>{{ default: () => 'Loading' }}</TButton>
+													<Button>{{ default: () => 'Default' }}</Button>
+													<Button variant="outline">{{ default: () => 'Outline' }}</Button>
+													<Button variant="secondary">{{ default: () => 'Secondary' }}</Button>
+													<Button variant="destructive">{{ default: () => 'Destructive' }}</Button>
+													<Button loading>{{ default: () => 'Loading' }}</Button>
 												</div>
 											),
 										}}
-									</TCardContent>,
+									</CardContent>,
 								],
 							}}
-						</TCard>
+						</Card>
 
-						<TCard>
+						<Card>
 							{{
 								default: () => [
-									<TCardHeader>
+									<CardHeader>
 										{{
 											default: () => [
-												<TCardTitle>{{ default: () => 'Inputs' }}</TCardTitle>,
-												<TCardDescription>{{ default: () => 'Shared label, helper text, and error affordances.' }}</TCardDescription>,
+												<CardTitle>{{ default: () => 'Inputs' }}</CardTitle>,
+												<CardDescription>{{ default: () => 'Shared label, helper text, and error affordances.' }}</CardDescription>,
 											],
 										}}
-									</TCardHeader>,
-									<TCardContent>
+									</CardHeader>,
+									<CardContent>
 										{{
 											default: () => (
 												<div class="form-group">
-													<TInput
+													<Input
 														label="Username"
 														placeholder="Enter your username"
 														modelValue={inputValue.value}
@@ -111,34 +111,34 @@ export default defineComponent({
 															inputValue.value = value;
 														}}
 													/>
-													<TInput label="Email" type="email" placeholder="you@example.com" helperText="We will never share it." />
-													<TInput label="Error state" error="Username already exists" modelValue="tile" />
+													<Input label="Email" type="email" placeholder="you@example.com" helperText="We will never share it." />
+													<Input label="Error state" error="Username already exists" modelValue="tile" />
 												</div>
 											),
 										}}
-									</TCardContent>,
+									</CardContent>,
 								],
 							}}
-						</TCard>
+						</Card>
 
-						<TCard>
+						<Card>
 							{{
 								default: () => [
-									<TCardHeader>
+									<CardHeader>
 										{{
 											default: () => [
-												<TCardTitle>{{ default: () => 'Textarea + Label' }}</TCardTitle>,
-												<TCardDescription>{{ default: () => 'Composable form surfaces for multi-line input.' }}</TCardDescription>,
+												<CardTitle>{{ default: () => 'Textarea + Label' }}</CardTitle>,
+												<CardDescription>{{ default: () => 'Composable form surfaces for multi-line input.' }}</CardDescription>,
 											],
 										}}
-									</TCardHeader>,
-									<TCardContent>
+									</CardHeader>,
+									<CardContent>
 										{{
 											default: () => (
 												<div class="form-group">
 													<div class="form-group">
-														<TLabel required>{{ default: () => 'Feedback' }}</TLabel>
-														<TTextarea
+														<Label required>{{ default: () => 'Feedback' }}</Label>
+														<Textarea
 															placeholder="Share what you are building..."
 															modelValue={textareaValue.value}
 															onUpdate:modelValue={(value: string) => {
@@ -146,19 +146,19 @@ export default defineComponent({
 															}}
 														/>
 													</div>
-													<TTextarea label="Validation" error="Please enter at least 10 characters." modelValue="Too short" />
+													<Textarea label="Validation" error="Please enter at least 10 characters." modelValue="Too short" />
 												</div>
 											),
 										}}
-									</TCardContent>,
-									<TCardFooter>
+									</CardContent>,
+									<CardFooter>
 										{{
-											default: () => [<TButton variant="outline">{{ default: () => 'Cancel' }}</TButton>, <TButton>{{ default: () => 'Save' }}</TButton>],
+											default: () => [<Button variant="outline">{{ default: () => 'Cancel' }}</Button>, <Button>{{ default: () => 'Save' }}</Button>],
 										}}
-									</TCardFooter>,
+									</CardFooter>,
 								],
 							}}
-						</TCard>
+						</Card>
 					</div>
 
 					<div class="showcase-footer">Tile UI Vue combines a shared SCSS design system with framework-specific ergonomics and registry-driven distribution.</div>

@@ -47,7 +47,7 @@ const SelectContentContextKey: InjectionKey<SelectContentContext> = Symbol('tile
 function useSelectContext(): SelectContext {
 	const context = inject(SelectContextKey);
 	if (!context) {
-		throw new Error('TSelect 子组件必须位于 <TSelect> 内部。');
+		throw new Error('Select 子组件必须位于 <Select> 内部。');
 	}
 	return context;
 }
@@ -55,7 +55,7 @@ function useSelectContext(): SelectContext {
 function useSelectContentContext(): SelectContentContext {
 	const context = inject(SelectContentContextKey);
 	if (!context) {
-		throw new Error('TSelectItem 必须位于 <TSelectContent> 内部。');
+		throw new Error('SelectItem 必须位于 <SelectContent> 内部。');
 	}
 	return context;
 }
@@ -138,8 +138,8 @@ function selectScrollDownIcon() {
 	);
 }
 
-export const TSelect = defineComponent({
-	name: 'TSelect',
+export const Select = defineComponent({
+	name: 'Select',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -194,8 +194,8 @@ export const TSelect = defineComponent({
 	},
 });
 
-export const TSelectTrigger = defineComponent({
-	name: 'TSelectTrigger',
+export const SelectTrigger = defineComponent({
+	name: 'SelectTrigger',
 	inheritAttrs: false,
 	props: {
 		size: { type: String as PropType<'sm' | 'default'>, default: 'default' },
@@ -239,8 +239,8 @@ export const TSelectTrigger = defineComponent({
 	},
 });
 
-export const TSelectValue = defineComponent({
-	name: 'TSelectValue',
+export const SelectValue = defineComponent({
+	name: 'SelectValue',
 	inheritAttrs: false,
 	props: {
 		placeholder: { type: String, default: undefined },
@@ -258,8 +258,8 @@ export const TSelectValue = defineComponent({
 	},
 });
 
-export const TSelectContent = defineComponent({
-	name: 'TSelectContent',
+export const SelectContent = defineComponent({
+	name: 'SelectContent',
 	inheritAttrs: false,
 	props: {
 		position: { type: String as PropType<SelectPosition>, default: 'item-aligned' },
@@ -443,22 +443,22 @@ export const TSelectContent = defineComponent({
 	},
 });
 
-export const TSelectGroup = defineComponent({
-	name: 'TSelectGroup',
+export const SelectGroup = defineComponent({
+	name: 'SelectGroup',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, role: 'group', class: [styles[selectStyleKeys.group], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSelectLabel = defineComponent({
-	name: 'TSelectLabel',
+export const SelectLabel = defineComponent({
+	name: 'SelectLabel',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[selectStyleKeys.label], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSelectItem = defineComponent({
-	name: 'TSelectItem',
+export const SelectItem = defineComponent({
+	name: 'SelectItem',
 	inheritAttrs: false,
 	props: {
 		value: { type: String, required: true },
@@ -508,25 +508,25 @@ export const TSelectItem = defineComponent({
 	},
 });
 
-export const TSelectSeparator = defineComponent({
-	name: 'TSelectSeparator',
+export const SelectSeparator = defineComponent({
+	name: 'SelectSeparator',
 	setup(_props, { attrs }) {
 		return () => h('div', { ...attrs, role: 'separator', class: [styles[selectStyleKeys.separator], attrs.class] });
 	},
 });
 
-export const TSelectScrollUpButton = defineComponent({
-	name: 'TSelectScrollUpButton',
+export const SelectScrollUpButton = defineComponent({
+	name: 'SelectScrollUpButton',
 	setup(_props, { attrs }) {
 		return () => h('div', { ...attrs, class: [styles[selectStyleKeys.scrollButton], attrs.class] }, [selectScrollUpIcon()]);
 	},
 });
 
-export const TSelectScrollDownButton = defineComponent({
-	name: 'TSelectScrollDownButton',
+export const SelectScrollDownButton = defineComponent({
+	name: 'SelectScrollDownButton',
 	setup(_props, { attrs }) {
 		return () => h('div', { ...attrs, class: [styles[selectStyleKeys.scrollButton], attrs.class] }, [selectScrollDownIcon()]);
 	},
 });
 
-export default TSelect;
+export default Select;

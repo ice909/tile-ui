@@ -1,10 +1,10 @@
-import { TTooltip, TTooltipTrigger, TTooltipContent } from '@tile-ui/vue';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@tile-ui/vue';
 
 export default function TooltipDemo() {
 	return (
-		<TTooltip>
-			<TTooltipTrigger class="component-preview__action">Hover me</TTooltipTrigger>
-			<TTooltipContent>Helpful context here.</TTooltipContent>
-		</TTooltip>
+		<Tooltip>
+			<TooltipTrigger class="component-preview__action">Hover me</TooltipTrigger>
+			<TooltipContent>Helpful context here.</TooltipContent>
+		</Tooltip>
 	);
 }

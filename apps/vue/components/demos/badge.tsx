@@ -1,14 +1,14 @@
-import { TBadge } from '@tile-ui/vue';
+import { Badge } from '@tile-ui/vue';
 
 export default function BadgeDemo() {
 	return (
 		<div class="button-group">
-			<TBadge>Default</TBadge>
-			<TBadge variant="secondary">Secondary</TBadge>
-			<TBadge variant="destructive">Destructive</TBadge>
-			<TBadge variant="outline">Outline</TBadge>
-			<TBadge variant="ghost">Ghost</TBadge>
-			<TBadge variant="link">Link</TBadge>
+			<Badge>Default</Badge>
+			<Badge variant="secondary">Secondary</Badge>
+			<Badge variant="destructive">Destructive</Badge>
+			<Badge variant="outline">Outline</Badge>
+			<Badge variant="ghost">Ghost</Badge>
+			<Badge variant="link">Link</Badge>
 		</div>
 	);
 }

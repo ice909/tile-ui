@@ -31,8 +31,8 @@ interface HoverCardContextValue {
 
 const HoverCardContextKey: InjectionKey<HoverCardContextValue> = Symbol('tile-hover-card');
 
-export const THoverCard = defineComponent({
-	name: 'THoverCard',
+export const HoverCard = defineComponent({
+	name: 'HoverCard',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -59,8 +59,8 @@ export const THoverCard = defineComponent({
 	},
 });
 
-export const THoverCardTrigger = defineComponent({
-	name: 'THoverCardTrigger',
+export const HoverCardTrigger = defineComponent({
+	name: 'HoverCardTrigger',
 	inheritAttrs: false,
 	props: {
 		asChild: { type: Boolean, default: false },
@@ -68,7 +68,7 @@ export const THoverCardTrigger = defineComponent({
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(HoverCardContextKey);
 		if (!contextValue) {
-			throw new Error('THoverCardTrigger must be used within <THoverCard>.');
+			throw new Error('HoverCardTrigger must be used within <HoverCard>.');
 		}
 		const context: HoverCardContextValue = contextValue;
 
@@ -158,8 +158,8 @@ export const THoverCardTrigger = defineComponent({
 	},
 });
 
-export const THoverCardContent = defineComponent({
-	name: 'THoverCardContent',
+export const HoverCardContent = defineComponent({
+	name: 'HoverCardContent',
 	inheritAttrs: false,
 	props: {
 		side: { type: String as PropType<HoverCardSide>, default: 'bottom' },
@@ -169,7 +169,7 @@ export const THoverCardContent = defineComponent({
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(HoverCardContextKey);
 		if (!contextValue) {
-			throw new Error('THoverCardContent must be used within <THoverCard>.');
+			throw new Error('HoverCardContent must be used within <HoverCard>.');
 		}
 		const context: HoverCardContextValue = contextValue;
 
@@ -308,4 +308,4 @@ export const THoverCardContent = defineComponent({
 	},
 });
 
-export default THoverCard;
+export default HoverCard;

@@ -3,8 +3,8 @@ import { getToggleState, getToggleStyleKeys } from '@tile-ui/core';
 import type { ToggleVariant, ToggleSize } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/toggle.module.scss';
 
-export const TToggle = defineComponent({
-	name: 'TToggle',
+export const Toggle = defineComponent({
+	name: 'Toggle',
 	props: {
 		modelValue: { type: Boolean, default: undefined },
 		defaultValue: { type: Boolean, default: false },
@@ -54,4 +54,4 @@ export const TToggle = defineComponent({
 	},
 });
 
-export default TToggle;
+export default Toggle;

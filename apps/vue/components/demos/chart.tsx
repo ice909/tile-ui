@@ -1,8 +1,8 @@
-import { TChartContainer } from '@tile-ui/vue';
+import { ChartContainer } from '@tile-ui/vue';
 
 export default function ChartDemo() {
 	return (
-		<TChartContainer
+		<ChartContainer
 			config={{ desktop: { label: 'Desktop', color: '#3b82f6' }, mobile: { label: 'Mobile', color: '#22c55e' } }}
 			data={[
 				{ x: 'Jan', desktop: 100, mobile: 80 },

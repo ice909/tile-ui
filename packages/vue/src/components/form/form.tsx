@@ -32,7 +32,7 @@ const FormItemContextKey: InjectionKey<ComputedRef<string>> = Symbol('tile-form-
 function useFormContext(): FormContextValue {
 	const context = inject(FormContextKey);
 	if (!context) {
-		throw new Error('表单子组件必须在 <TForm> 内使用');
+		throw new Error('表单子组件必须在 <Form> 内使用');
 	}
 	return context;
 }
@@ -43,7 +43,7 @@ function useFormField() {
 	const itemId = inject(FormItemContextKey);
 
 	if (!fieldName) {
-		throw new Error('useFormField 必须在 <TFormField> 内使用');
+		throw new Error('useFormField 必须在 <FormField> 内使用');
 	}
 
 	return computed(() => {
@@ -65,8 +65,8 @@ function useFormField() {
 	});
 }
 
-export const TForm = defineComponent({
-	name: 'TForm',
+export const Form = defineComponent({
+	name: 'Form',
 	props: {
 		defaultValues: { type: Object as PropType<FormValues>, default: () => ({}) },
 		resolver: { type: Function as PropType<(values: FormValues) => FormErrors | Promise<FormErrors>>, default: undefined },
@@ -85,8 +85,8 @@ export const TForm = defineComponent({
 	},
 });
 
-export const TFormField = defineComponent({
-	name: 'TFormField',
+export const FormField = defineComponent({
+	name: 'FormField',
 	props: {
 		name: { type: String, required: true },
 	},
@@ -121,8 +121,8 @@ export const TFormField = defineComponent({
 	},
 });
 
-export const TFormItem = defineComponent({
-	name: 'TFormItem',
+export const FormItem = defineComponent({
+	name: 'FormItem',
 	setup(_props, { slots, attrs }) {
 		const id = `tile-form-item-${useId()}`;
 		provide(
@@ -134,8 +134,8 @@ export const TFormItem = defineComponent({
 	},
 });
 
-export const TFormLabel = defineComponent({
-	name: 'TFormLabel',
+export const FormLabel = defineComponent({
+	name: 'FormLabel',
 	setup(_props, { slots, attrs }) {
 		const field = useFormField();
 
@@ -154,8 +154,8 @@ export const TFormLabel = defineComponent({
 	},
 });
 
-export const TFormControl = defineComponent({
-	name: 'TFormControl',
+export const FormControl = defineComponent({
+	name: 'FormControl',
 	setup(_props, { slots }) {
 		const field = useFormField();
 
@@ -177,8 +177,8 @@ export const TFormControl = defineComponent({
 	},
 });
 
-export const TFormDescription = defineComponent({
-	name: 'TFormDescription',
+export const FormDescription = defineComponent({
+	name: 'FormDescription',
 	setup(_props, { slots, attrs }) {
 		const field = useFormField();
 
@@ -187,8 +187,8 @@ export const TFormDescription = defineComponent({
 	},
 });
 
-export const TFormMessage = defineComponent({
-	name: 'TFormMessage',
+export const FormMessage = defineComponent({
+	name: 'FormMessage',
 	setup(_props, { slots, attrs }) {
 		const field = useFormField();
 
@@ -205,4 +205,4 @@ export const TFormMessage = defineComponent({
 	},
 });
 
-export default TForm;
+export default Form;

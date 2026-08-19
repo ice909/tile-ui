@@ -3,8 +3,8 @@ import { getButtonStyleKeys, isButtonDisabled } from '@tile-ui/core';
 import type { ButtonVariant, ButtonSize } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/button.module.scss';
 
-export const TButton = defineComponent({
-	name: 'TButton',
+export const Button = defineComponent({
+	name: 'Button',
 	props: {
 		variant: {
 			type: String as PropType<ButtonVariant>,
@@ -64,4 +64,4 @@ export const TButton = defineComponent({
 	},
 });
 
-export default TButton;
+export default Button;

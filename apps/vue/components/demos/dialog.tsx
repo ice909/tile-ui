@@ -1,19 +1,19 @@
-import { TDialog, TDialogTrigger, TDialogContent, TDialogHeader, TDialogTitle, TDialogDescription, TDialogFooter, TButton } from '@tile-ui/vue';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from '@tile-ui/vue';
 
 export default function DialogDemo() {
 	return (
-		<TDialog>
-			<TDialogTrigger class="component-preview__action">Open dialog</TDialogTrigger>
-			<TDialogContent>
-				<TDialogHeader>
-					<TDialogTitle>Edit profile</TDialogTitle>
-					<TDialogDescription>Make changes to your profile here.</TDialogDescription>
-				</TDialogHeader>
-				<TDialogFooter>
-					<TButton variant="outline">Cancel</TButton>
-					<TButton>Save</TButton>
-				</TDialogFooter>
-			</TDialogContent>
-		</TDialog>
+		<Dialog>
+			<DialogTrigger class="component-preview__action">Open dialog</DialogTrigger>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>Edit profile</DialogTitle>
+					<DialogDescription>Make changes to your profile here.</DialogDescription>
+				</DialogHeader>
+				<DialogFooter>
+					<Button variant="outline">Cancel</Button>
+					<Button>Save</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	);
 }

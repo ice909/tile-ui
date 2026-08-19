@@ -8,12 +8,14 @@
  * 文件自身的 import 即实际使用的 import，天然正确。
  */
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import ts from 'typescript';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
+const require = createRequire(path.join(root, 'apps/react/package.json'));
+const ts = require('typescript');
 
 export function getDemoDir(framework) {
 	return path.join(root, `apps/${framework}/components/demos`);

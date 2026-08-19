@@ -2,8 +2,8 @@ import { defineComponent, computed, h } from 'vue';
 import { getLabelClassKeys } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/label.module.scss';
 
-export const TLabel = defineComponent({
-	name: 'TLabel',
+export const Label = defineComponent({
+	name: 'Label',
 	props: {
 		required: { type: Boolean, default: false },
 		htmlFor: String,
@@ -16,4 +16,4 @@ export const TLabel = defineComponent({
 	},
 });
 
-export default TLabel;
+export default Label;

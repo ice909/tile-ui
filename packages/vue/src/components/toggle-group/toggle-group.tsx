@@ -15,8 +15,8 @@ type ToggleGroupContext = ComputedRef<ToggleGroupContextValue>;
 
 const ToggleGroupContextKey: InjectionKey<ToggleGroupContext> = Symbol('tile-toggle-group');
 
-export const TToggleGroup = defineComponent({
-	name: 'TToggleGroup',
+export const ToggleGroup = defineComponent({
+	name: 'ToggleGroup',
 	props: {
 		modelValue: {
 			type: [String, Array] as PropType<string | string[]>,
@@ -67,8 +67,8 @@ export const TToggleGroup = defineComponent({
 	},
 });
 
-export const TToggleGroupItem = defineComponent({
-	name: 'TToggleGroupItem',
+export const ToggleGroupItem = defineComponent({
+	name: 'ToggleGroupItem',
 	props: {
 		value: { type: String, required: true },
 		variant: {
@@ -84,7 +84,7 @@ export const TToggleGroupItem = defineComponent({
 	setup(props, { slots, attrs }) {
 		const context = inject(ToggleGroupContextKey);
 		if (!context) {
-			throw new Error('TToggleGroupItem must be used within <TToggleGroup>.');
+			throw new Error('ToggleGroupItem must be used within <ToggleGroup>.');
 		}
 		const contextRef = context;
 
@@ -122,4 +122,4 @@ export const TToggleGroupItem = defineComponent({
 	},
 });
 
-export default TToggleGroup;
+export default ToggleGroup;

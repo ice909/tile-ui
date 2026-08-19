@@ -1,15 +1,15 @@
-import { TMenubar, TMenubarMenu, TMenubarTrigger, TMenubarContent, TMenubarItem } from '@tile-ui/vue';
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } from '@tile-ui/vue';
 
 export default function MenubarDemo() {
 	return (
-		<TMenubar>
-			<TMenubarMenu value="file">
-				<TMenubarTrigger>File</TMenubarTrigger>
-				<TMenubarContent>
-					<TMenubarItem>New</TMenubarItem>
-					<TMenubarItem>Open</TMenubarItem>
-				</TMenubarContent>
-			</TMenubarMenu>
-		</TMenubar>
+		<Menubar>
+			<MenubarMenu value="file">
+				<MenubarTrigger>File</MenubarTrigger>
+				<MenubarContent>
+					<MenubarItem>New</MenubarItem>
+					<MenubarItem>Open</MenubarItem>
+				</MenubarContent>
+			</MenubarMenu>
+		</Menubar>
 	);
 }

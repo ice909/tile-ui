@@ -2,8 +2,8 @@ import { computed, defineComponent, h } from 'vue';
 import { aspectRatioStyleKeys, getAspectRatioPadding } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/aspect-ratio.module.scss';
 
-export const TAspectRatio = defineComponent({
-	name: 'TAspectRatio',
+export const AspectRatio = defineComponent({
+	name: 'AspectRatio',
 	props: {
 		ratio: { type: Number, default: 1 },
 	},
@@ -24,4 +24,4 @@ export const TAspectRatio = defineComponent({
 	},
 });
 
-export default TAspectRatio;
+export default AspectRatio;

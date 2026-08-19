@@ -14,8 +14,8 @@ type RadioGroupContext = ComputedRef<RadioGroupContextValue>;
 
 const RadioGroupContextKey: InjectionKey<RadioGroupContext> = Symbol('tile-radio-group');
 
-export const TRadioGroup = defineComponent({
-	name: 'TRadioGroup',
+export const RadioGroup = defineComponent({
+	name: 'RadioGroup',
 	props: {
 		modelValue: { type: String, default: undefined },
 		defaultValue: { type: String, default: '' },
@@ -63,8 +63,8 @@ export const TRadioGroup = defineComponent({
 	},
 });
 
-export const TRadioGroupItem = defineComponent({
-	name: 'TRadioGroupItem',
+export const RadioGroupItem = defineComponent({
+	name: 'RadioGroupItem',
 	props: {
 		value: { type: String, required: true },
 		disabled: { type: Boolean, default: false },
@@ -72,7 +72,7 @@ export const TRadioGroupItem = defineComponent({
 	setup(props, { slots }) {
 		const context = inject(RadioGroupContextKey);
 		if (!context) {
-			throw new Error('TRadioGroupItem must be used within <TRadioGroup>.');
+			throw new Error('RadioGroupItem must be used within <RadioGroup>.');
 		}
 
 		const checked = computed(() => context.value.value === props.value);
@@ -103,4 +103,4 @@ export const TRadioGroupItem = defineComponent({
 	},
 });
 
-export default TRadioGroup;
+export default RadioGroup;

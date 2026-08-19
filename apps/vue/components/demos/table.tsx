@@ -1,20 +1,20 @@
-import { TTable, TTableHeader, TTableRow, TTableHead, TTableBody, TTableCell } from '@tile-ui/vue';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@tile-ui/vue';
 
 export default function TableDemo() {
 	return (
-		<TTable>
-			<TTableHeader>
-				<TTableRow>
-					<TTableHead>Name</TTableHead>
-					<TTableHead>Role</TTableHead>
-				</TTableRow>
-			</TTableHeader>
-			<TTableBody>
-				<TTableRow>
-					<TTableCell>Tile UI</TTableCell>
-					<TTableCell>Design system</TTableCell>
-				</TTableRow>
-			</TTableBody>
-		</TTable>
+		<Table>
+			<TableHeader>
+				<TableRow>
+					<TableHead>Name</TableHead>
+					<TableHead>Role</TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
+				<TableRow>
+					<TableCell>Tile UI</TableCell>
+					<TableCell>Design system</TableCell>
+				</TableRow>
+			</TableBody>
+		</Table>
 	);
 }

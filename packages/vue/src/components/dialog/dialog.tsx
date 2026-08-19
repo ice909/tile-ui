@@ -1,6 +1,6 @@
 import { cloneVNode, computed, defineComponent, h, inject, nextTick, onBeforeUnmount, provide, ref, useId, watch, Teleport, type ComputedRef, type InjectionKey } from 'vue';
 import { dialogStyleKeys, getDialogState } from '@tile-ui/core';
-import { TButton } from '../button';
+import { Button } from '../button';
 import styles from '@tile-ui/styles/scss/components/dialog.module.scss';
 
 interface DialogContextValue {
@@ -33,8 +33,8 @@ function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => vo
 	};
 }
 
-export const TDialog = defineComponent({
-	name: 'TDialog',
+export const Dialog = defineComponent({
+	name: 'Dialog',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -73,15 +73,15 @@ export const TDialog = defineComponent({
 	},
 });
 
-export const TDialogTrigger = defineComponent({
-	name: 'TDialogTrigger',
+export const DialogTrigger = defineComponent({
+	name: 'DialogTrigger',
 	props: {
 		asChild: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(DialogContextKey);
 		if (!contextValue) {
-			throw new Error('TDialogTrigger must be used within <TDialog>.');
+			throw new Error('DialogTrigger must be used within <Dialog>.');
 		}
 		const context: DialogContext = contextValue;
 
@@ -110,15 +110,15 @@ export const TDialogTrigger = defineComponent({
 	},
 });
 
-export const TDialogClose = defineComponent({
-	name: 'TDialogClose',
+export const DialogClose = defineComponent({
+	name: 'DialogClose',
 	props: {
 		asChild: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(DialogContextKey);
 		if (!contextValue) {
-			throw new Error('TDialogClose must be used within <TDialog>.');
+			throw new Error('DialogClose must be used within <Dialog>.');
 		}
 		const context: DialogContext = contextValue;
 
@@ -147,12 +147,12 @@ export const TDialogClose = defineComponent({
 	},
 });
 
-export const TDialogOverlay = defineComponent({
-	name: 'TDialogOverlay',
+export const DialogOverlay = defineComponent({
+	name: 'DialogOverlay',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(DialogContextKey);
 		if (!contextValue) {
-			throw new Error('TDialogOverlay must be used within <TDialog>.');
+			throw new Error('DialogOverlay must be used within <Dialog>.');
 		}
 		const context: DialogContext = contextValue;
 
@@ -175,15 +175,15 @@ export const TDialogOverlay = defineComponent({
 	},
 });
 
-export const TDialogContent = defineComponent({
-	name: 'TDialogContent',
+export const DialogContent = defineComponent({
+	name: 'DialogContent',
 	props: {
 		showCloseButton: { type: Boolean, default: true },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(DialogContextKey);
 		if (!contextValue) {
-			throw new Error('TDialogContent must be used within <TDialog>.');
+			throw new Error('DialogContent must be used within <Dialog>.');
 		}
 		const context: DialogContext = contextValue;
 		const contentRef = ref<HTMLElement | null>(null);
@@ -326,22 +326,22 @@ export const TDialogContent = defineComponent({
 	},
 });
 
-export const TDialogHeader = defineComponent({
-	name: 'TDialogHeader',
+export const DialogHeader = defineComponent({
+	name: 'DialogHeader',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[dialogStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TDialogFooter = defineComponent({
-	name: 'TDialogFooter',
+export const DialogFooter = defineComponent({
+	name: 'DialogFooter',
 	props: {
 		showCloseButton: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(DialogContextKey);
 		if (!contextValue) {
-			throw new Error('TDialogFooter must be used within <TDialog>.');
+			throw new Error('DialogFooter must be used within <Dialog>.');
 		}
 		const context: DialogContext = contextValue;
 
@@ -349,7 +349,7 @@ export const TDialogFooter = defineComponent({
 			const footerChildren = [...(slots.default?.() ?? [])];
 
 			if (props.showCloseButton) {
-				footerChildren.push(h(TButton, { type: 'button', variant: 'outline', onClick: () => context.value.close() }, { default: () => 'Close' }));
+				footerChildren.push(h(Button, { type: 'button', variant: 'outline', onClick: () => context.value.close() }, { default: () => 'Close' }));
 			}
 
 			return h('div', { ...attrs, class: [styles[dialogStyleKeys.footer], attrs.class] }, footerChildren);
@@ -357,12 +357,12 @@ export const TDialogFooter = defineComponent({
 	},
 });
 
-export const TDialogTitle = defineComponent({
-	name: 'TDialogTitle',
+export const DialogTitle = defineComponent({
+	name: 'DialogTitle',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(DialogContextKey);
 		if (!contextValue) {
-			throw new Error('TDialogTitle must be used within <TDialog>.');
+			throw new Error('DialogTitle must be used within <Dialog>.');
 		}
 		const context: DialogContext = contextValue;
 
@@ -370,12 +370,12 @@ export const TDialogTitle = defineComponent({
 	},
 });
 
-export const TDialogDescription = defineComponent({
-	name: 'TDialogDescription',
+export const DialogDescription = defineComponent({
+	name: 'DialogDescription',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(DialogContextKey);
 		if (!contextValue) {
-			throw new Error('TDialogDescription must be used within <TDialog>.');
+			throw new Error('DialogDescription must be used within <Dialog>.');
 		}
 		const context: DialogContext = contextValue;
 
@@ -383,4 +383,4 @@ export const TDialogDescription = defineComponent({
 	},
 });
 
-export default TDialog;
+export default Dialog;

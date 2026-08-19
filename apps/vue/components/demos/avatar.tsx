@@ -1,26 +1,26 @@
-import { TAvatar, TAvatarFallback, TAvatarGroup, TAvatarGroupCount } from '@tile-ui/vue';
+import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount } from '@tile-ui/vue';
 
 export default function AvatarDemo() {
 	return (
 		<div class="button-group">
-			<TAvatar size="sm">
-				<TAvatarFallback>TU</TAvatarFallback>
-			</TAvatar>
-			<TAvatar>
-				<TAvatarFallback>TU</TAvatarFallback>
-			</TAvatar>
-			<TAvatar size="lg">
-				<TAvatarFallback>TU</TAvatarFallback>
-			</TAvatar>
-			<TAvatarGroup>
-				<TAvatar>
-					<TAvatarFallback>A</TAvatarFallback>
-				</TAvatar>
-				<TAvatar>
-					<TAvatarFallback>B</TAvatarFallback>
-				</TAvatar>
-				<TAvatarGroupCount>+3</TAvatarGroupCount>
-			</TAvatarGroup>
+			<Avatar size="sm">
+				<AvatarFallback>TU</AvatarFallback>
+			</Avatar>
+			<Avatar>
+				<AvatarFallback>TU</AvatarFallback>
+			</Avatar>
+			<Avatar size="lg">
+				<AvatarFallback>TU</AvatarFallback>
+			</Avatar>
+			<AvatarGroup>
+				<Avatar>
+					<AvatarFallback>A</AvatarFallback>
+				</Avatar>
+				<Avatar>
+					<AvatarFallback>B</AvatarFallback>
+				</Avatar>
+				<AvatarGroupCount>+3</AvatarGroupCount>
+			</AvatarGroup>
 		</div>
 	);
 }

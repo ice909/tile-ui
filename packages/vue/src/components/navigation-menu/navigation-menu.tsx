@@ -28,7 +28,7 @@ const NavigationMenuItemContextKey: InjectionKey<NavigationMenuItemContext> = Sy
 function useNavigationMenuContext(): NavigationMenuContext {
 	const context = inject(NavigationMenuContextKey);
 	if (!context) {
-		throw new Error('TNavigationMenu 子组件必须位于 <TNavigationMenu> 内部。');
+		throw new Error('NavigationMenu 子组件必须位于 <NavigationMenu> 内部。');
 	}
 	return context;
 }
@@ -36,7 +36,7 @@ function useNavigationMenuContext(): NavigationMenuContext {
 function useNavigationMenuItemContext(): NavigationMenuItemContext {
 	const context = inject(NavigationMenuItemContextKey);
 	if (!context) {
-		throw new Error('TNavigationMenu 触发器/内容必须位于 <TNavigationMenuItem> 内部。');
+		throw new Error('NavigationMenu 触发器/内容必须位于 <NavigationMenuItem> 内部。');
 	}
 	return context;
 }
@@ -61,8 +61,8 @@ function navigationMenuChevronIcon() {
 	);
 }
 
-export const TNavigationMenu = defineComponent({
-	name: 'TNavigationMenu',
+export const NavigationMenu = defineComponent({
+	name: 'NavigationMenu',
 	props: {
 		viewport: { type: Boolean, default: true },
 		value: { type: String, default: undefined },
@@ -101,8 +101,8 @@ export const TNavigationMenu = defineComponent({
 	},
 });
 
-export const TNavigationMenuList = defineComponent({
-	name: 'TNavigationMenuList',
+export const NavigationMenuList = defineComponent({
+	name: 'NavigationMenuList',
 	setup(_props, { slots, attrs }) {
 		function handleKeydown(event: KeyboardEvent) {
 			const isNext = event.key === 'ArrowRight';
@@ -138,8 +138,8 @@ export const TNavigationMenuList = defineComponent({
 	},
 });
 
-export const TNavigationMenuItem = defineComponent({
-	name: 'TNavigationMenuItem',
+export const NavigationMenuItem = defineComponent({
+	name: 'NavigationMenuItem',
 	props: {
 		value: { type: String, required: true },
 	},
@@ -156,8 +156,8 @@ export const TNavigationMenuItem = defineComponent({
 	},
 });
 
-export const TNavigationMenuTrigger = defineComponent({
-	name: 'TNavigationMenuTrigger',
+export const NavigationMenuTrigger = defineComponent({
+	name: 'NavigationMenuTrigger',
 	inheritAttrs: false,
 	setup(_props, { slots, attrs }) {
 		const context = useNavigationMenuContext();
@@ -228,8 +228,8 @@ export const TNavigationMenuTrigger = defineComponent({
 	},
 });
 
-export const TNavigationMenuContent = defineComponent({
-	name: 'TNavigationMenuContent',
+export const NavigationMenuContent = defineComponent({
+	name: 'NavigationMenuContent',
 	inheritAttrs: false,
 	setup(_props, { slots, attrs }) {
 		const context = useNavigationMenuContext();
@@ -261,8 +261,8 @@ export const TNavigationMenuContent = defineComponent({
 	},
 });
 
-export const TNavigationMenuViewport = defineComponent({
-	name: 'TNavigationMenuViewport',
+export const NavigationMenuViewport = defineComponent({
+	name: 'NavigationMenuViewport',
 	inheritAttrs: false,
 	setup(_props, { slots, attrs }) {
 		const context = useNavigationMenuContext();
@@ -274,8 +274,8 @@ export const TNavigationMenuViewport = defineComponent({
 	},
 });
 
-export const TNavigationMenuIndicator = defineComponent({
-	name: 'TNavigationMenuIndicator',
+export const NavigationMenuIndicator = defineComponent({
+	name: 'NavigationMenuIndicator',
 	inheritAttrs: false,
 	setup(_props, { attrs }) {
 		const context = useNavigationMenuContext();
@@ -298,8 +298,8 @@ export const TNavigationMenuIndicator = defineComponent({
 	},
 });
 
-export const TNavigationMenuLink = defineComponent({
-	name: 'TNavigationMenuLink',
+export const NavigationMenuLink = defineComponent({
+	name: 'NavigationMenuLink',
 	inheritAttrs: false,
 	props: {
 		active: { type: Boolean, default: false },
@@ -320,4 +320,4 @@ export const TNavigationMenuLink = defineComponent({
 	},
 });
 
-export default TNavigationMenu;
+export default NavigationMenu;

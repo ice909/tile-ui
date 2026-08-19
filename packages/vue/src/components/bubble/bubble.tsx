@@ -3,15 +3,15 @@ import { bubbleStyleKeys, getBubbleStyleKeys } from '@tile-ui/core';
 import type { BubbleAlign, BubbleReactionsSide, BubbleVariant } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/bubble.module.scss';
 
-export const TBubbleGroup = defineComponent({
-	name: 'TBubbleGroup',
+export const BubbleGroup = defineComponent({
+	name: 'BubbleGroup',
 	setup(_props, { slots }) {
 		return () => h('div', { 'data-slot': 'bubble-group', class: styles[bubbleStyleKeys.group] }, slots.default?.());
 	},
 });
 
-export const TBubble = defineComponent({
-	name: 'TBubble',
+export const Bubble = defineComponent({
+	name: 'Bubble',
 	props: {
 		variant: { type: String as PropType<BubbleVariant>, default: 'default' },
 		align: { type: String as PropType<BubbleAlign>, default: 'start' },
@@ -33,8 +33,8 @@ export const TBubble = defineComponent({
 	},
 });
 
-export const TBubbleContent = defineComponent({
-	name: 'TBubbleContent',
+export const BubbleContent = defineComponent({
+	name: 'BubbleContent',
 	inheritAttrs: false,
 	props: {
 		asChild: { type: Boolean, default: false },
@@ -61,8 +61,8 @@ export const TBubbleContent = defineComponent({
 	},
 });
 
-export const TBubbleReactions = defineComponent({
-	name: 'TBubbleReactions',
+export const BubbleReactions = defineComponent({
+	name: 'BubbleReactions',
 	props: {
 		side: { type: String as PropType<BubbleReactionsSide>, default: 'bottom' },
 		align: { type: String as PropType<BubbleAlign>, default: 'end' },
@@ -82,4 +82,4 @@ export const TBubbleReactions = defineComponent({
 	},
 });
 
-export default TBubble;
+export default Bubble;

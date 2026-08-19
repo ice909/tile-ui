@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { TDirectionProvider } from '@tile-ui/vue';
+import { DirectionProvider } from '@tile-ui/vue';
 
 export default defineComponent({
 	name: 'DirectionDemo',
@@ -7,13 +7,13 @@ export default defineComponent({
 		const rtl = ref(false);
 		return () => (
 			<div class="component-preview__stack">
-				<TDirectionProvider dir={rtl.value ? 'rtl' : 'ltr'}>
+				<DirectionProvider dir={rtl.value ? 'rtl' : 'ltr'}>
 					<div style={{ display: 'flex', gap: '8px' }}>
 						<span class="component-preview__text">One</span>
 						<span class="component-preview__text">Two</span>
 						<span class="component-preview__text">Three</span>
 					</div>
-				</TDirectionProvider>
+				</DirectionProvider>
 				<div class="button-group">
 					<button
 						type="button"

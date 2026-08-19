@@ -87,7 +87,13 @@ function main() {
 
 	console.log(`\n\x1b[32m✓ 已提交：${message}\x1b[0m`);
 	console.log(`\x1b[32m✓ 已打 tag：${released.map((r) => `${r.name}/v${r.version}`).join('、')}\x1b[0m`);
-	console.log('\n下一步：git push && git push --tags（触发 GitHub Actions 发布）');
+	// GitHub 限制：一次 push 超过 3 个 tag 不产生 push 事件（CI 不触发），必须分批
+	const tags = released.map((r) => `${r.name}/v${r.version}`);
+	const batches = [];
+	for (let i = 0; i < tags.length; i += 3) batches.push(tags.slice(i, i + 3));
+	console.log('\n下一步（GitHub 限制一次最多推 3 个 tag，需分批 push 触发 CI）：');
+	console.log('  git push origin master');
+	for (const batch of batches) console.log(`  git push origin ${batch.join(' ')}`);
 }
 
 main();

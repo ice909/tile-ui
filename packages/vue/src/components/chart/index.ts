@@ -1,1 +1,1 @@
-export { TChartContainer, TChartTooltip, TChartTooltipContent, TChartLegend, TChartLegendContent, TChartStyle } from './chart';
+export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle } from './chart';

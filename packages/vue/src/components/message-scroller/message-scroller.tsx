@@ -20,13 +20,13 @@ const MessageScrollerContextKey: InjectionKey<MessageScrollerContext> = Symbol('
 function useMessageScrollerContext(): MessageScrollerContext {
 	const context = inject(MessageScrollerContextKey);
 	if (!context) {
-		throw new Error('MessageScroller sub-components must be used within <TMessageScrollerProvider>.');
+		throw new Error('MessageScroller sub-components must be used within <MessageScrollerProvider>.');
 	}
 	return context;
 }
 
-export const TMessageScrollerProvider = defineComponent({
-	name: 'TMessageScrollerProvider',
+export const MessageScrollerProvider = defineComponent({
+	name: 'MessageScrollerProvider',
 	setup(_props, { slots }) {
 		const viewportRef = ref<HTMLElement | null>(null);
 		const contentRef = ref<HTMLElement | null>(null);
@@ -116,15 +116,15 @@ export const TMessageScrollerProvider = defineComponent({
 	},
 });
 
-export const TMessageScroller = defineComponent({
-	name: 'TMessageScroller',
+export const MessageScroller = defineComponent({
+	name: 'MessageScroller',
 	setup(_props, { slots }) {
 		return () => h('div', { 'data-slot': 'message-scroller', class: styles[messageScrollerStyleKeys.root] }, slots.default?.());
 	},
 });
 
-export const TMessageScrollerViewport = defineComponent({
-	name: 'TMessageScrollerViewport',
+export const MessageScrollerViewport = defineComponent({
+	name: 'MessageScrollerViewport',
 	setup(_props, { slots, attrs }) {
 		const context = useMessageScrollerContext();
 
@@ -149,8 +149,8 @@ export const TMessageScrollerViewport = defineComponent({
 	},
 });
 
-export const TMessageScrollerContent = defineComponent({
-	name: 'TMessageScrollerContent',
+export const MessageScrollerContent = defineComponent({
+	name: 'MessageScrollerContent',
 	setup(_props, { slots, attrs }) {
 		const context = useMessageScrollerContext();
 
@@ -173,8 +173,8 @@ export const TMessageScrollerContent = defineComponent({
 	},
 });
 
-export const TMessageScrollerItem = defineComponent({
-	name: 'TMessageScrollerItem',
+export const MessageScrollerItem = defineComponent({
+	name: 'MessageScrollerItem',
 	props: {
 		scrollAnchor: { type: Boolean, default: false },
 	},
@@ -215,8 +215,8 @@ const arrowDownSvg = h(
 	[h('path', { d: 'M12 5v14' }), h('path', { d: 'm19 12-7 7-7-7' })],
 );
 
-export const TMessageScrollerButton = defineComponent({
-	name: 'TMessageScrollerButton',
+export const MessageScrollerButton = defineComponent({
+	name: 'MessageScrollerButton',
 	inheritAttrs: false,
 	props: {
 		direction: { type: String as PropType<MessageScrollerDirection>, default: 'end' },
@@ -270,4 +270,4 @@ export function useMessageScrollerVisibility() {
 	return { visible: context.buttonActive };
 }
 
-export default TMessageScroller;
+export default MessageScroller;

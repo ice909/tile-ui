@@ -1,12 +1,12 @@
-import { TCollapsible, TCollapsibleTrigger, TCollapsibleContent } from '@tile-ui/vue';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@tile-ui/vue';
 
 export default function CollapsibleDemo() {
 	return (
-		<TCollapsible>
-			<TCollapsibleTrigger class="component-preview__action">Toggle details</TCollapsibleTrigger>
-			<TCollapsibleContent>
+		<Collapsible>
+			<CollapsibleTrigger class="component-preview__action">Toggle details</CollapsibleTrigger>
+			<CollapsibleContent>
 				<p class="component-preview__text">This content is hidden until you expand it.</p>
-			</TCollapsibleContent>
-		</TCollapsible>
+			</CollapsibleContent>
+		</Collapsible>
 	);
 }

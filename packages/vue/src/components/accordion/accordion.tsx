@@ -25,8 +25,8 @@ type AccordionItemContext = ComputedRef<AccordionItemContextValue>;
 
 const AccordionItemContextKey: InjectionKey<AccordionItemContext> = Symbol('tile-accordion-item');
 
-export const TAccordion = defineComponent({
-	name: 'TAccordion',
+export const Accordion = defineComponent({
+	name: 'Accordion',
 	props: {
 		modelValue: {
 			type: [String, Array] as PropType<string | string[]>,
@@ -85,8 +85,8 @@ export const TAccordion = defineComponent({
 	},
 });
 
-export const TAccordionItem = defineComponent({
-	name: 'TAccordionItem',
+export const AccordionItem = defineComponent({
+	name: 'AccordionItem',
 	props: {
 		value: { type: String, required: true },
 		disabled: { type: Boolean, default: false },
@@ -94,7 +94,7 @@ export const TAccordionItem = defineComponent({
 	setup(props, { slots }) {
 		const accordion = inject(AccordionContextKey);
 		if (!accordion) {
-			throw new Error('TAccordionItem must be used within <TAccordion>.');
+			throw new Error('AccordionItem must be used within <Accordion>.');
 		}
 
 		const open = computed(() =>
@@ -116,17 +116,17 @@ export const TAccordionItem = defineComponent({
 	},
 });
 
-export const TAccordionTrigger = defineComponent({
-	name: 'TAccordionTrigger',
+export const AccordionTrigger = defineComponent({
+	name: 'AccordionTrigger',
 	setup(_props, { slots }) {
 		const accordion = inject(AccordionContextKey);
 		if (!accordion) {
-			throw new Error('TAccordionTrigger must be used within <TAccordion>.');
+			throw new Error('AccordionTrigger must be used within <Accordion>.');
 		}
 
 		const item = inject(AccordionItemContextKey);
 		if (!item) {
-			throw new Error('TAccordionTrigger must be used within <TAccordionItem>.');
+			throw new Error('AccordionTrigger must be used within <AccordionItem>.');
 		}
 
 		function handleKeydown(event: KeyboardEvent) {
@@ -198,12 +198,12 @@ export const TAccordionTrigger = defineComponent({
 	},
 });
 
-export const TAccordionContent = defineComponent({
-	name: 'TAccordionContent',
+export const AccordionContent = defineComponent({
+	name: 'AccordionContent',
 	setup(_props, { slots }) {
 		const item = inject(AccordionItemContextKey);
 		if (!item) {
-			throw new Error('TAccordionContent must be used within <TAccordionItem>.');
+			throw new Error('AccordionContent must be used within <AccordionItem>.');
 		}
 
 		return () =>
@@ -213,4 +213,4 @@ export const TAccordionContent = defineComponent({
 	},
 });
 
-export default TAccordion;
+export default Accordion;

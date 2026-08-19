@@ -1,1 +1,1 @@
-export { TMarker, TMarkerIcon, TMarkerContent } from './marker';
+export { Marker, MarkerIcon, MarkerContent } from './marker';

@@ -1,12 +1,12 @@
-import { THoverCard, THoverCardTrigger, THoverCardContent } from '@tile-ui/vue';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@tile-ui/vue';
 
 export default function HoverCardDemo() {
 	return (
-		<THoverCard>
-			<THoverCardTrigger class="component-preview__action">Hover me</THoverCardTrigger>
-			<THoverCardContent>
+		<HoverCard>
+			<HoverCardTrigger class="component-preview__action">Hover me</HoverCardTrigger>
+			<HoverCardContent>
 				<p class="component-preview__text">Preview content on hover.</p>
-			</THoverCardContent>
-		</THoverCard>
+			</HoverCardContent>
+		</HoverCard>
 	);
 }

@@ -9,15 +9,17 @@
  * 已手工编写预览的组件（button/card/input/label/textarea）不在此生成范围内。
  */
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import ts from 'typescript';
 
 import { renderUsageImports } from './demo-files.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
+const require = createRequire(path.join(root, 'apps/react/package.json'));
+const ts = require('typescript');
 
 const SKIP = new Set([
 	'button',
@@ -689,25 +691,14 @@ function renderDepsTable(name, item) {
 	return `| Item | Purpose |\n| ---- | ------- |\n${body}`;
 }
 
-function toVueUsage(usage, compNames) {
-	let out = usage;
-	const names = new Set([...compNames, ...allCompNames]);
-	const sorted = [...names].sort((a, b) => b.length - a.length);
-	for (const n of sorted) {
-		out = out.replace(new RegExp(`<${n}(?=[\\s>/])`, 'g'), `<T${n}`);
-		out = out.replace(new RegExp(`</${n}>`, 'g'), `</T${n}>`);
-	}
-	return out;
-}
-
 function buildDoc({ name, meta, item, apis, framework }) {
 	const isReact = framework === 'react';
 	const mainName = mainOverrides[name] ?? pascalCase(name);
-	const importName = isReact ? mainName : `T${mainName}`;
+	const importName = mainName;
 	const pkg = isReact ? '@tile-ui/react' : '@tile-ui/vue';
 	const title = pascalCase(name);
 
-	const usage = isReact ? meta.usage : toVueUsage(meta.usage, compNamesFor(name));
+	const usage = meta.usage;
 
 	// Package usage 段的 import 从 usage 代码实际用到的包导出推导（含 hooks/composables 子路径）。
 	const usageImports = renderUsageImports(framework, usage).join('\n') || `import { ${importName} } from '${pkg}';`;
@@ -755,32 +746,6 @@ function buildDoc({ name, meta, item, apis, framework }) {
 	}
 
 	return `${blocks.join('\n')}\n`;
-}
-
-function parseReactExports() {
-	const indexPath = path.join(root, 'packages/react/src/components/index.ts');
-	const src = fs.readFileSync(indexPath, 'utf-8');
-	const map = new Map();
-	const re = /export\s*\{([^}]*)\}\s*from\s*'\.\/([^']+)'/g;
-	let match;
-	while ((match = re.exec(src))) {
-		const dir = match[2];
-		const names = match[1]
-			.split(',')
-			.map((s) => s.trim())
-			.filter((s) => s && !s.startsWith('type ') && /^[A-Z]/.test(s));
-		if (names.length) {
-			map.set(dir, names);
-		}
-	}
-	return map;
-}
-
-const reactExports = parseReactExports();
-const allCompNames = new Set([...reactExports.values()].flat());
-
-function compNamesFor(name) {
-	return reactExports.get(name) ?? [mainOverrides[name] ?? pascalCase(name)];
 }
 
 function main() {

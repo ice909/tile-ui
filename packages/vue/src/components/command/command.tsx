@@ -20,7 +20,7 @@ const CommandContextKey: InjectionKey<CommandContext> = Symbol('tile-command');
 function useCommandContext(): CommandContext {
 	const context = inject(CommandContextKey);
 	if (!context) {
-		throw new Error('TCommand 子组件必须位于 <TCommand> 内部。');
+		throw new Error('Command 子组件必须位于 <Command> 内部。');
 	}
 	return context;
 }
@@ -45,8 +45,8 @@ function commandSearchIcon() {
 	);
 }
 
-export const TCommand = defineComponent({
-	name: 'TCommand',
+export const Command = defineComponent({
+	name: 'Command',
 	inheritAttrs: false,
 	props: {
 		items: { type: Array as PropType<CommandItemDef[]>, default: undefined },
@@ -84,20 +84,20 @@ export const TCommand = defineComponent({
 
 			if (props.groups && props.groups.length > 0) {
 				content = props.groups.map((group) =>
-					h(TCommandGroup, { key: group.value, heading: group.label }, () =>
+					h(CommandGroup, { key: group.value, heading: group.label }, () =>
 						group.items.map((item) =>
-							h(TCommandItem, { key: item.value, value: item.value, keywords: item.keywords, disabled: item.disabled }, () => [
+							h(CommandItem, { key: item.value, value: item.value, keywords: item.keywords, disabled: item.disabled }, () => [
 								item.label ?? item.value,
-								item.shortcut ? h(TCommandShortcut, () => [item.shortcut]) : null,
+								item.shortcut ? h(CommandShortcut, () => [item.shortcut]) : null,
 							]),
 						),
 					),
 				);
 			} else if (props.items && props.items.length > 0) {
 				content = props.items.map((item) =>
-					h(TCommandItem, { key: item.value, value: item.value, keywords: item.keywords, disabled: item.disabled }, () => [
+					h(CommandItem, { key: item.value, value: item.value, keywords: item.keywords, disabled: item.disabled }, () => [
 						item.label ?? item.value,
-						item.shortcut ? h(TCommandShortcut, () => [item.shortcut]) : null,
+						item.shortcut ? h(CommandShortcut, () => [item.shortcut]) : null,
 					]),
 				);
 			}
@@ -107,8 +107,8 @@ export const TCommand = defineComponent({
 	},
 });
 
-export const TCommandInput = defineComponent({
-	name: 'TCommandInput',
+export const CommandInput = defineComponent({
+	name: 'CommandInput',
 	inheritAttrs: false,
 	setup(_props, { attrs }) {
 		const context = useCommandContext();
@@ -128,8 +128,8 @@ export const TCommandInput = defineComponent({
 	},
 });
 
-export const TCommandList = defineComponent({
-	name: 'TCommandList',
+export const CommandList = defineComponent({
+	name: 'CommandList',
 	setup(_props, { slots, attrs }) {
 		const context = useCommandContext();
 
@@ -182,8 +182,8 @@ export const TCommandList = defineComponent({
 	},
 });
 
-export const TCommandEmpty = defineComponent({
-	name: 'TCommandEmpty',
+export const CommandEmpty = defineComponent({
+	name: 'CommandEmpty',
 	setup(_props, { slots, attrs }) {
 		const context = useCommandContext();
 		return () => {
@@ -195,8 +195,8 @@ export const TCommandEmpty = defineComponent({
 	},
 });
 
-export const TCommandGroup = defineComponent({
-	name: 'TCommandGroup',
+export const CommandGroup = defineComponent({
+	name: 'CommandGroup',
 	inheritAttrs: false,
 	props: {
 		heading: { type: String, default: undefined },
@@ -210,8 +210,8 @@ export const TCommandGroup = defineComponent({
 	},
 });
 
-export const TCommandItem = defineComponent({
-	name: 'TCommandItem',
+export const CommandItem = defineComponent({
+	name: 'CommandItem',
 	inheritAttrs: false,
 	props: {
 		value: { type: String, required: true },
@@ -279,22 +279,22 @@ export const TCommandItem = defineComponent({
 	},
 });
 
-export const TCommandSeparator = defineComponent({
-	name: 'TCommandSeparator',
+export const CommandSeparator = defineComponent({
+	name: 'CommandSeparator',
 	setup(_props, { attrs }) {
 		return () => h('div', { ...attrs, class: [styles[commandStyleKeys.separator], attrs.class] });
 	},
 });
 
-export const TCommandShortcut = defineComponent({
-	name: 'TCommandShortcut',
+export const CommandShortcut = defineComponent({
+	name: 'CommandShortcut',
 	setup(_props, { slots, attrs }) {
 		return () => h('span', { ...attrs, class: [styles[commandStyleKeys.shortcut], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TCommandDialog = defineComponent({
-	name: 'TCommandDialog',
+export const CommandDialog = defineComponent({
+	name: 'CommandDialog',
 	props: {
 		open: { type: Boolean, default: false },
 		title: { type: String, default: 'Command Palette' },
@@ -370,4 +370,4 @@ export const TCommandDialog = defineComponent({
 	},
 });
 
-export default TCommand;
+export default Command;

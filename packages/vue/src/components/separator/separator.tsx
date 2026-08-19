@@ -3,8 +3,8 @@ import { getSeparatorStyleKeys } from '@tile-ui/core';
 import type { SeparatorOrientation } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/separator.module.scss';
 
-export const TSeparator = defineComponent({
-	name: 'TSeparator',
+export const Separator = defineComponent({
+	name: 'Separator',
 	props: {
 		orientation: {
 			type: String as PropType<SeparatorOrientation>,
@@ -26,4 +26,4 @@ export const TSeparator = defineComponent({
 	},
 });
 
-export default TSeparator;
+export default Separator;

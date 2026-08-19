@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'vue';
-import { TTextarea } from '@tile-ui/vue';
+import { Textarea } from '@tile-ui/vue';
 
 export default defineComponent({
 	name: 'TextareaDemo',
@@ -7,7 +7,7 @@ export default defineComponent({
 		const value = ref('');
 		return () => (
 			<div class="component-preview__stack">
-				<TTextarea
+				<Textarea
 					label="Summary"
 					helperText="Keep it short and specific for reviewers."
 					modelValue={value.value}
@@ -16,7 +16,7 @@ export default defineComponent({
 					}}
 					placeholder="Describe the release in one paragraph"
 				/>
-				<TTextarea label="Validation example" error="Please provide at least 20 characters before submitting." defaultValue="Too short" />
+				<Textarea label="Validation example" error="Please provide at least 20 characters before submitting." defaultValue="Too short" />
 			</div>
 		);
 	},

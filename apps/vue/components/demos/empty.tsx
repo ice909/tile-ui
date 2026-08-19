@@ -1,11 +1,11 @@
-import { TEmpty, TEmptyMedia, TEmptyTitle, TEmptyDescription } from '@tile-ui/vue';
+import { Empty, EmptyMedia, EmptyTitle, EmptyDescription } from '@tile-ui/vue';
 
 export default function EmptyDemo() {
 	return (
-		<TEmpty>
-			<TEmptyMedia variant="default">+</TEmptyMedia>
-			<TEmptyTitle>No results</TEmptyTitle>
-			<TEmptyDescription>Try adjusting your search or filters.</TEmptyDescription>
-		</TEmpty>
+		<Empty>
+			<EmptyMedia variant="default">+</EmptyMedia>
+			<EmptyTitle>No results</EmptyTitle>
+			<EmptyDescription>Try adjusting your search or filters.</EmptyDescription>
+		</Empty>
 	);
 }

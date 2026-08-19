@@ -42,8 +42,8 @@ function comboboxChevronIcon() {
 	);
 }
 
-export const TCombobox = defineComponent({
-	name: 'TCombobox',
+export const Combobox = defineComponent({
+	name: 'Combobox',
 	inheritAttrs: false,
 	props: {
 		items: { type: Array as PropType<ComboboxItem[]>, required: true },
@@ -304,4 +304,4 @@ export const TCombobox = defineComponent({
 	},
 });
 
-export default TCombobox;
+export default Combobox;

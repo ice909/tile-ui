@@ -1,1 +1,1 @@
-export { TDrawer, TDrawerTrigger, TDrawerClose, TDrawerOverlay, TDrawerContent, TDrawerHeader, TDrawerFooter, TDrawerTitle, TDrawerDescription } from './drawer';
+export { Drawer, DrawerTrigger, DrawerClose, DrawerOverlay, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription } from './drawer';

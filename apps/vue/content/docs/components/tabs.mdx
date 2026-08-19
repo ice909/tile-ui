@@ -14,16 +14,16 @@ pnpm dlx shadcn@latest add @tile-ui/tabs
 ## Package usage
 
 ```tsx
-import { TTabs, TTabsList, TTabsTrigger, TTabsContent } from '@tile-ui/vue';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@tile-ui/vue';
 
-<TTabs defaultValue="account">
-	<TTabsList>
-		<TTabsTrigger value="account">Account</TTabsTrigger>
-		<TTabsTrigger value="settings">Settings</TTabsTrigger>
-	</TTabsList>
-	<TTabsContent value="account">Account content.</TTabsContent>
-	<TTabsContent value="settings">Settings content.</TTabsContent>
-</TTabs>
+<Tabs defaultValue="account">
+	<TabsList>
+		<TabsTrigger value="account">Account</TabsTrigger>
+		<TabsTrigger value="settings">Settings</TabsTrigger>
+	</TabsList>
+	<TabsContent value="account">Account content.</TabsContent>
+	<TabsContent value="settings">Settings content.</TabsContent>
+</Tabs>
 ```
 
 ## Highlights

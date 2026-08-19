@@ -1,12 +1,1 @@
-export {
-	TSelect,
-	TSelectTrigger,
-	TSelectValue,
-	TSelectContent,
-	TSelectGroup,
-	TSelectLabel,
-	TSelectItem,
-	TSelectSeparator,
-	TSelectScrollUpButton,
-	TSelectScrollDownButton,
-} from './select';
+export { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem, SelectSeparator, SelectScrollUpButton, SelectScrollDownButton } from './select';

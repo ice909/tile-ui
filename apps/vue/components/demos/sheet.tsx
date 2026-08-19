@@ -1,15 +1,15 @@
-import { TSheet, TSheetTrigger, TSheetContent, TSheetHeader, TSheetTitle, TSheetDescription } from '@tile-ui/vue';
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@tile-ui/vue';
 
 export default function SheetDemo() {
 	return (
-		<TSheet>
-			<TSheetTrigger class="component-preview__action">Open sheet</TSheetTrigger>
-			<TSheetContent side="right">
-				<TSheetHeader>
-					<TSheetTitle>Details</TSheetTitle>
-					<TSheetDescription>Supporting details for this panel.</TSheetDescription>
-				</TSheetHeader>
-			</TSheetContent>
-		</TSheet>
+		<Sheet>
+			<SheetTrigger class="component-preview__action">Open sheet</SheetTrigger>
+			<SheetContent side="right">
+				<SheetHeader>
+					<SheetTitle>Details</SheetTitle>
+					<SheetDescription>Supporting details for this panel.</SheetDescription>
+				</SheetHeader>
+			</SheetContent>
+		</Sheet>
 	);
 }

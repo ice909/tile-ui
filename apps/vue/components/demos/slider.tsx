@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'vue';
-import { TSlider, TSliderTrack, TSliderRange, TSliderThumb } from '@tile-ui/vue';
+import { Slider, SliderTrack, SliderRange, SliderThumb } from '@tile-ui/vue';
 
 export default defineComponent({
 	name: 'SliderDemo',
@@ -7,18 +7,18 @@ export default defineComponent({
 		const value = ref(40);
 		return () => (
 			<div class="component-preview__stack">
-				<TSlider
+				<Slider
 					modelValue={value.value}
 					onUpdate:modelValue={(next: number) => {
 						value.value = next;
 					}}
 					max={100}
 					step={1}>
-					<TSliderTrack>
-						<TSliderRange />
-						<TSliderThumb />
-					</TSliderTrack>
-				</TSlider>
+					<SliderTrack>
+						<SliderRange />
+						<SliderThumb />
+					</SliderTrack>
+				</Slider>
 				<p class="component-preview__text">
 					Value:
 					<strong>{value.value}</strong>

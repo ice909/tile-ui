@@ -1,8 +1,8 @@
-import { TScrollArea } from '@tile-ui/vue';
+import { ScrollArea } from '@tile-ui/vue';
 
 export default function ScrollAreaDemo() {
 	return (
-		<TScrollArea style={{ maxHeight: '140px' }}>
+		<ScrollArea style={{ maxHeight: '140px' }}>
 			<div style={{ paddingRight: '16px' }}>
 				{Array.from({ length: 12 }, (_, i) => (
 					<p key={i} class="component-preview__text">
@@ -11,6 +11,6 @@ export default function ScrollAreaDemo() {
 					</p>
 				))}
 			</div>
-		</TScrollArea>
+		</ScrollArea>
 	);
 }

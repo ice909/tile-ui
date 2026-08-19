@@ -1,1 +1,1 @@
-export { TPagination, TPaginationContent, TPaginationItem, TPaginationLink, TPaginationPrevious, TPaginationNext, TPaginationEllipsis } from './pagination';
+export { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from './pagination';

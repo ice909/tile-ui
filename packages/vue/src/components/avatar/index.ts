@@ -1,1 +1,1 @@
-export { TAvatar, TAvatarImage, TAvatarFallback, TAvatarBadge, TAvatarGroup, TAvatarGroupCount } from './avatar';
+export { Avatar, AvatarImage, AvatarFallback, AvatarBadge, AvatarGroup, AvatarGroupCount } from './avatar';

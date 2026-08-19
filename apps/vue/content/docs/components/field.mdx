@@ -14,14 +14,14 @@ pnpm dlx shadcn@latest add @tile-ui/field
 ## Package usage
 
 ```tsx
-import { TField, TFieldLabel, TFieldDescription, TFieldMessage } from '@tile-ui/vue';
+import { Field, FieldLabel, FieldDescription, FieldMessage } from '@tile-ui/vue';
 
-<TField name="email" required>
-	<TFieldLabel htmlFor="email">Email</TFieldLabel>
+<Field name="email" required>
+	<FieldLabel htmlFor="email">Email</FieldLabel>
 	<input id="email" />
-	<TFieldDescription>We never share your email.</TFieldDescription>
-	<TFieldMessage variant="error">Required.</TFieldMessage>
-</TField>
+	<FieldDescription>We never share your email.</FieldDescription>
+	<FieldMessage variant="error">Required.</FieldMessage>
+</Field>
 ```
 
 ## Highlights

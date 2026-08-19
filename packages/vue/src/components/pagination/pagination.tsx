@@ -48,29 +48,29 @@ function renderMoreHorizontal() {
 	);
 }
 
-export const TPagination = defineComponent({
-	name: 'TPagination',
+export const Pagination = defineComponent({
+	name: 'Pagination',
 	setup(_props, { slots, attrs }) {
 		return () => h('nav', { ...attrs, role: 'navigation', 'aria-label': 'pagination', class: [styles[paginationStyleKeys.root], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TPaginationContent = defineComponent({
-	name: 'TPaginationContent',
+export const PaginationContent = defineComponent({
+	name: 'PaginationContent',
 	setup(_props, { slots, attrs }) {
 		return () => h('ul', { ...attrs, class: [styles[paginationStyleKeys.content], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TPaginationItem = defineComponent({
-	name: 'TPaginationItem',
+export const PaginationItem = defineComponent({
+	name: 'PaginationItem',
 	setup(_props, { slots, attrs }) {
 		return () => h('li', { ...attrs, class: [styles[paginationStyleKeys.item], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TPaginationLink = defineComponent({
-	name: 'TPaginationLink',
+export const PaginationLink = defineComponent({
+	name: 'PaginationLink',
 	props: {
 		href: String,
 		isActive: { type: Boolean, default: false },
@@ -95,8 +95,8 @@ export const TPaginationLink = defineComponent({
 	},
 });
 
-export const TPaginationPrevious = defineComponent({
-	name: 'TPaginationPrevious',
+export const PaginationPrevious = defineComponent({
+	name: 'PaginationPrevious',
 	setup(_props, { slots, attrs }) {
 		return () =>
 			h(
@@ -111,8 +111,8 @@ export const TPaginationPrevious = defineComponent({
 	},
 });
 
-export const TPaginationNext = defineComponent({
-	name: 'TPaginationNext',
+export const PaginationNext = defineComponent({
+	name: 'PaginationNext',
 	setup(_props, { slots, attrs }) {
 		return () =>
 			h(
@@ -127,8 +127,8 @@ export const TPaginationNext = defineComponent({
 	},
 });
 
-export const TPaginationEllipsis = defineComponent({
-	name: 'TPaginationEllipsis',
+export const PaginationEllipsis = defineComponent({
+	name: 'PaginationEllipsis',
 	setup(_props, { slots, attrs }) {
 		return () =>
 			h('span', { ...attrs, 'aria-hidden': 'true', class: [styles[paginationStyleKeys.ellipsis], attrs.class] }, [
@@ -138,4 +138,4 @@ export const TPaginationEllipsis = defineComponent({
 	},
 });
 
-export default TPagination;
+export default Pagination;

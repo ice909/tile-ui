@@ -1,4 +1,4 @@
-import { toast, TToaster } from '@tile-ui/vue';
+import { toast, Toaster } from '@tile-ui/vue';
 
 export default function SonnerDemo() {
 	return (
@@ -14,7 +14,7 @@ export default function SonnerDemo() {
 					Error
 				</button>
 			</div>
-			<TToaster position="bottom-right" />
+			<Toaster position="bottom-right" />
 		</div>
 	);
 }

@@ -17,7 +17,7 @@ const ResizableContextKey: InjectionKey<ResizableContextValue> = Symbol('tile-re
 function useResizable(): ResizableContextValue {
 	const context = inject(ResizableContextKey);
 	if (!context) {
-		throw new Error('可调整尺寸子组件必须在 <TResizablePanelGroup> 内使用');
+		throw new Error('可调整尺寸子组件必须在 <ResizablePanelGroup> 内使用');
 	}
 	return context;
 }
@@ -64,8 +64,8 @@ function renderGripIcon() {
 	);
 }
 
-export const TResizablePanelGroup = defineComponent({
-	name: 'TResizablePanelGroup',
+export const ResizablePanelGroup = defineComponent({
+	name: 'ResizablePanelGroup',
 	props: {
 		direction: { type: String as PropType<ResizableDirection>, default: 'horizontal' },
 		id: String,
@@ -123,8 +123,8 @@ export const TResizablePanelGroup = defineComponent({
 	},
 });
 
-export const TResizablePanel = defineComponent({
-	name: 'TResizablePanel',
+export const ResizablePanel = defineComponent({
+	name: 'ResizablePanel',
 	setup(_props, { slots, attrs }) {
 		const { getSize, registerPanel } = useResizable();
 		const index = registerPanel();
@@ -144,8 +144,8 @@ export const TResizablePanel = defineComponent({
 	},
 });
 
-export const TResizableHandle = defineComponent({
-	name: 'TResizableHandle',
+export const ResizableHandle = defineComponent({
+	name: 'ResizableHandle',
 	props: {
 		withHandle: { type: Boolean, default: false },
 	},
@@ -208,4 +208,4 @@ export const TResizableHandle = defineComponent({
 	},
 });
 
-export default TResizablePanelGroup;
+export default ResizablePanelGroup;

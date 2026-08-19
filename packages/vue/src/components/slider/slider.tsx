@@ -17,8 +17,8 @@ type SliderContext = ComputedRef<SliderContextValue>;
 
 const SliderContextKey: InjectionKey<SliderContext> = Symbol('tile-slider');
 
-export const TSlider = defineComponent({
-	name: 'TSlider',
+export const Slider = defineComponent({
+	name: 'Slider',
 	props: {
 		modelValue: { type: Number, default: undefined },
 		defaultValue: { type: Number, default: 0 },
@@ -108,24 +108,24 @@ export const TSlider = defineComponent({
 	},
 });
 
-export const TSliderTrack = defineComponent({
-	name: 'TSliderTrack',
+export const SliderTrack = defineComponent({
+	name: 'SliderTrack',
 	setup(_props, { slots }) {
 		const context = inject(SliderContextKey);
 		if (!context) {
-			throw new Error('TSliderTrack must be used within <TSlider>.');
+			throw new Error('SliderTrack must be used within <Slider>.');
 		}
 
 		return () => h('div', { class: styles[sliderStyleKeys.track], 'data-orientation': context.value.orientation }, slots.default?.());
 	},
 });
 
-export const TSliderRange = defineComponent({
-	name: 'TSliderRange',
+export const SliderRange = defineComponent({
+	name: 'SliderRange',
 	setup(_props) {
 		const context = inject(SliderContextKey);
 		if (!context) {
-			throw new Error('TSliderRange must be used within <TSlider>.');
+			throw new Error('SliderRange must be used within <Slider>.');
 		}
 
 		return () => {
@@ -136,12 +136,12 @@ export const TSliderRange = defineComponent({
 	},
 });
 
-export const TSliderThumb = defineComponent({
-	name: 'TSliderThumb',
+export const SliderThumb = defineComponent({
+	name: 'SliderThumb',
 	setup(_props) {
 		const contextValue = inject(SliderContextKey);
 		if (!contextValue) {
-			throw new Error('TSliderThumb must be used within <TSlider>.');
+			throw new Error('SliderThumb must be used within <Slider>.');
 		}
 		const context: SliderContext = contextValue;
 
@@ -196,4 +196,4 @@ export const TSliderThumb = defineComponent({
 	},
 });
 
-export default TSlider;
+export default Slider;

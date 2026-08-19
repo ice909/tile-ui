@@ -14,17 +14,17 @@ pnpm dlx shadcn@latest add @tile-ui/input
 ## Package usage
 
 ```tsx
-import { TInput } from '@tile-ui/vue';
+import { Input } from '@tile-ui/vue';
 ```
 
 ```tsx
-<TInput label="Display name" helperText="Shown on your public profile." />
+<Input label="Display name" helperText="Shown on your public profile." />
 ```
 
 Use `modelValue` with `onUpdate:modelValue` for two-way binding. The `label` and `helperText` props render the field anatomy without an extra form wrapper. When `error` is set, it replaces the helper text and wires `aria-invalid` and `aria-describedby` automatically:
 
 ```tsx
-<TInput label="Username" error="Username already exists" modelValue="tile" />
+<Input label="Username" error="Username already exists" modelValue="tile" />
 ```
 
 ## Highlights
@@ -45,7 +45,7 @@ Use `modelValue` with `onUpdate:modelValue` for two-way binding. The `label` and
 
 ## API reference
 
-### TInput
+### Input
 
 | Prop          | Type      | Default | Notes                                             |
 | ------------- | --------- | ------- | ------------------------------------------------- |

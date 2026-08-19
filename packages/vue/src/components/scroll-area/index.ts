@@ -1,1 +1,1 @@
-export { TScrollArea, TScrollBar } from './scroll-area';
+export { ScrollArea, ScrollBar } from './scroll-area';

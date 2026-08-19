@@ -1,11 +1,11 @@
-import { TSpinner } from '@tile-ui/vue';
+import { Spinner } from '@tile-ui/vue';
 
 export default function SpinnerDemo() {
 	return (
 		<div class="button-group">
-			<TSpinner size="sm" />
-			<TSpinner />
-			<TSpinner size="lg" />
+			<Spinner size="sm" />
+			<Spinner />
+			<Spinner size="lg" />
 		</div>
 	);
 }

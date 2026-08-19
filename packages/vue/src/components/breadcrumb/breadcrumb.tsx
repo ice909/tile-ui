@@ -31,29 +31,29 @@ function renderMoreHorizontal() {
 	);
 }
 
-export const TBreadcrumb = defineComponent({
-	name: 'TBreadcrumb',
+export const Breadcrumb = defineComponent({
+	name: 'Breadcrumb',
 	setup(_props, { slots }) {
 		return () => h('nav', { 'aria-label': 'breadcrumb', class: styles[breadcrumbStyleKeys.root] }, slots.default?.());
 	},
 });
 
-export const TBreadcrumbList = defineComponent({
-	name: 'TBreadcrumbList',
+export const BreadcrumbList = defineComponent({
+	name: 'BreadcrumbList',
 	setup(_props, { slots }) {
 		return () => h('ol', { class: styles[breadcrumbStyleKeys.list] }, slots.default?.());
 	},
 });
 
-export const TBreadcrumbItem = defineComponent({
-	name: 'TBreadcrumbItem',
+export const BreadcrumbItem = defineComponent({
+	name: 'BreadcrumbItem',
 	setup(_props, { slots }) {
 		return () => h('li', { class: styles[breadcrumbStyleKeys.item] }, slots.default?.());
 	},
 });
 
-export const TBreadcrumbLink = defineComponent({
-	name: 'TBreadcrumbLink',
+export const BreadcrumbLink = defineComponent({
+	name: 'BreadcrumbLink',
 	props: {
 		href: String,
 	},
@@ -62,23 +62,23 @@ export const TBreadcrumbLink = defineComponent({
 	},
 });
 
-export const TBreadcrumbPage = defineComponent({
-	name: 'TBreadcrumbPage',
+export const BreadcrumbPage = defineComponent({
+	name: 'BreadcrumbPage',
 	setup(_props, { slots }) {
 		return () => h('span', { role: 'link', 'aria-disabled': 'true', 'aria-current': 'page', class: styles[breadcrumbStyleKeys.page] }, slots.default?.());
 	},
 });
 
-export const TBreadcrumbSeparator = defineComponent({
-	name: 'TBreadcrumbSeparator',
+export const BreadcrumbSeparator = defineComponent({
+	name: 'BreadcrumbSeparator',
 	setup(_props, { slots }) {
 		return () =>
 			h('li', { role: 'presentation', 'aria-hidden': 'true', class: styles[breadcrumbStyleKeys.separator] }, slots.default ? slots.default() : [renderChevronRight()]);
 	},
 });
 
-export const TBreadcrumbEllipsis = defineComponent({
-	name: 'TBreadcrumbEllipsis',
+export const BreadcrumbEllipsis = defineComponent({
+	name: 'BreadcrumbEllipsis',
 	setup(_props) {
 		return () =>
 			h('span', { role: 'presentation', 'aria-hidden': 'true', class: styles[breadcrumbStyleKeys.ellipsis] }, [
@@ -88,4 +88,4 @@ export const TBreadcrumbEllipsis = defineComponent({
 	},
 });
 
-export default TBreadcrumb;
+export default Breadcrumb;

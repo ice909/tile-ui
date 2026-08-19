@@ -1,12 +1,12 @@
-import { TPopover, TPopoverTrigger, TPopoverContent } from '@tile-ui/vue';
+import { Popover, PopoverTrigger, PopoverContent } from '@tile-ui/vue';
 
 export default function PopoverDemo() {
 	return (
-		<TPopover>
-			<TPopoverTrigger class="component-preview__action">Open popover</TPopoverTrigger>
-			<TPopoverContent>
+		<Popover>
+			<PopoverTrigger class="component-preview__action">Open popover</PopoverTrigger>
+			<PopoverContent>
 				<p class="component-preview__text">Rich content anchored to the trigger.</p>
-			</TPopoverContent>
-		</TPopover>
+			</PopoverContent>
+		</Popover>
 	);
 }

@@ -2,8 +2,8 @@ import { defineComponent, computed, h, onMounted, ref, useId } from 'vue';
 import { getTextareaIds, getTextareaAriaProps } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/textarea.module.scss';
 
-export const TTextarea = defineComponent({
-	name: 'TTextarea',
+export const Textarea = defineComponent({
+	name: 'Textarea',
 	props: {
 		label: String,
 		error: String,
@@ -77,4 +77,4 @@ export const TTextarea = defineComponent({
 	},
 });
 
-export default TTextarea;
+export default Textarea;

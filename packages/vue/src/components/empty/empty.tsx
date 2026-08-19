@@ -3,22 +3,22 @@ import { emptyStyleKeys, getEmptyMediaVariantKey } from '@tile-ui/core';
 import type { EmptyMediaVariant } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/empty.module.scss';
 
-export const TEmpty = defineComponent({
-	name: 'TEmpty',
+export const Empty = defineComponent({
+	name: 'Empty',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'empty', class: [styles[emptyStyleKeys.root], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TEmptyHeader = defineComponent({
-	name: 'TEmptyHeader',
+export const EmptyHeader = defineComponent({
+	name: 'EmptyHeader',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'empty-header', class: [styles[emptyStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TEmptyMedia = defineComponent({
-	name: 'TEmptyMedia',
+export const EmptyMedia = defineComponent({
+	name: 'EmptyMedia',
 	props: {
 		variant: {
 			type: String as PropType<EmptyMediaVariant>,
@@ -33,25 +33,25 @@ export const TEmptyMedia = defineComponent({
 	},
 });
 
-export const TEmptyTitle = defineComponent({
-	name: 'TEmptyTitle',
+export const EmptyTitle = defineComponent({
+	name: 'EmptyTitle',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'empty-title', class: [styles[emptyStyleKeys.title], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TEmptyDescription = defineComponent({
-	name: 'TEmptyDescription',
+export const EmptyDescription = defineComponent({
+	name: 'EmptyDescription',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'empty-description', class: [styles[emptyStyleKeys.description], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TEmptyContent = defineComponent({
-	name: 'TEmptyContent',
+export const EmptyContent = defineComponent({
+	name: 'EmptyContent',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'empty-content', class: [styles[emptyStyleKeys.content], attrs.class] }, slots.default?.());
 	},
 });
 
-export default TEmpty;
+export default Empty;

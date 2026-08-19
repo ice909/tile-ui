@@ -1,1 +1,1 @@
-export { TSeparator } from './separator';
+export { Separator } from './separator';

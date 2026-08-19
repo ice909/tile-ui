@@ -1,1 +1,1 @@
-export { TEmpty, TEmptyHeader, TEmptyMedia, TEmptyTitle, TEmptyDescription, TEmptyContent } from './empty';
+export { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from './empty';

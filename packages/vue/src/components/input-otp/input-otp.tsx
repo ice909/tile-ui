@@ -22,13 +22,13 @@ const InputOtpContextKey: InjectionKey<InputOtpContext> = Symbol('tile-input-otp
 function useInputOtpContext(): InputOtpContext {
 	const context = inject(InputOtpContextKey);
 	if (!context) {
-		throw new Error('InputOTP sub-components must be used within <TInputOTP>.');
+		throw new Error('InputOTP sub-components must be used within <InputOTP>.');
 	}
 	return context;
 }
 
-export const TInputOTP = defineComponent({
-	name: 'TInputOTP',
+export const InputOTP = defineComponent({
+	name: 'InputOTP',
 	props: {
 		modelValue: { type: String, default: undefined },
 		defaultValue: { type: String, default: '' },
@@ -161,15 +161,15 @@ export const TInputOTP = defineComponent({
 	},
 });
 
-export const TInputOTPGroup = defineComponent({
-	name: 'TInputOTPGroup',
+export const InputOTPGroup = defineComponent({
+	name: 'InputOTPGroup',
 	setup(_props, { slots }) {
 		return () => h('div', { 'data-slot': 'input-otp-group', class: styles[inputOtpStyleKeys.group] }, slots.default?.());
 	},
 });
 
-export const TInputOTPSlot = defineComponent({
-	name: 'TInputOTPSlot',
+export const InputOTPSlot = defineComponent({
+	name: 'InputOTPSlot',
 	inheritAttrs: false,
 	props: {
 		index: { type: Number, required: true },
@@ -215,8 +215,8 @@ export const TInputOTPSlot = defineComponent({
 	},
 });
 
-export const TInputOTPSeparator = defineComponent({
-	name: 'TInputOTPSeparator',
+export const InputOTPSeparator = defineComponent({
+	name: 'InputOTPSeparator',
 	setup(_props, { slots }) {
 		return () =>
 			h(
@@ -243,4 +243,4 @@ export const TInputOTPSeparator = defineComponent({
 	},
 });
 
-export default TInputOTP;
+export default InputOTP;

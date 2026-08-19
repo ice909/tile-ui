@@ -1,10 +1,10 @@
 export {
-	TNavigationMenu,
-	TNavigationMenuList,
-	TNavigationMenuItem,
-	TNavigationMenuTrigger,
-	TNavigationMenuContent,
-	TNavigationMenuViewport,
-	TNavigationMenuIndicator,
-	TNavigationMenuLink,
+	NavigationMenu,
+	NavigationMenuList,
+	NavigationMenuItem,
+	NavigationMenuTrigger,
+	NavigationMenuContent,
+	NavigationMenuViewport,
+	NavigationMenuIndicator,
+	NavigationMenuLink,
 } from './navigation-menu';

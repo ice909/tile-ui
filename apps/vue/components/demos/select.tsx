@@ -1,16 +1,16 @@
-import { TSelect, TSelectTrigger, TSelectValue, TSelectContent, TSelectItem } from '@tile-ui/vue';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@tile-ui/vue';
 
 export default function SelectDemo() {
 	return (
-		<TSelect defaultValue="apple" style={{ width: '220px' }}>
-			<TSelectTrigger>
-				<TSelectValue placeholder="Choose a fruit" />
-			</TSelectTrigger>
-			<TSelectContent>
-				<TSelectItem value="apple">Apple</TSelectItem>
-				<TSelectItem value="banana">Banana</TSelectItem>
-				<TSelectItem value="cherry">Cherry</TSelectItem>
-			</TSelectContent>
-		</TSelect>
+		<Select defaultValue="apple" style={{ width: '220px' }}>
+			<SelectTrigger>
+				<SelectValue placeholder="Choose a fruit" />
+			</SelectTrigger>
+			<SelectContent>
+				<SelectItem value="apple">Apple</SelectItem>
+				<SelectItem value="banana">Banana</SelectItem>
+				<SelectItem value="cherry">Cherry</SelectItem>
+			</SelectContent>
+		</Select>
 	);
 }

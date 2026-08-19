@@ -1,1 +1,1 @@
-export { TBreadcrumb, TBreadcrumbList, TBreadcrumbItem, TBreadcrumbLink, TBreadcrumbPage, TBreadcrumbSeparator, TBreadcrumbEllipsis } from './breadcrumb';
+export { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from './breadcrumb';

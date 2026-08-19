@@ -1,27 +1,27 @@
-import { TNavigationMenu, TNavigationMenuList, TNavigationMenuItem, TNavigationMenuTrigger, TNavigationMenuContent, TNavigationMenuViewport } from '@tile-ui/vue';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuViewport } from '@tile-ui/vue';
 
 export default function NavigationMenuDemo() {
 	return (
-		<TNavigationMenu>
-			<TNavigationMenuList>
-				<TNavigationMenuItem value="docs">
-					<TNavigationMenuTrigger>Docs</TNavigationMenuTrigger>
-					<TNavigationMenuContent>
+		<NavigationMenu>
+			<NavigationMenuList>
+				<NavigationMenuItem value="docs">
+					<NavigationMenuTrigger>Docs</NavigationMenuTrigger>
+					<NavigationMenuContent>
 						<div style={{ padding: '12px' }}>
 							<p class="component-preview__text">Documentation links live here.</p>
 						</div>
-					</TNavigationMenuContent>
-				</TNavigationMenuItem>
-				<TNavigationMenuItem value="components">
-					<TNavigationMenuTrigger>Components</TNavigationMenuTrigger>
-					<TNavigationMenuContent>
+					</NavigationMenuContent>
+				</NavigationMenuItem>
+				<NavigationMenuItem value="components">
+					<NavigationMenuTrigger>Components</NavigationMenuTrigger>
+					<NavigationMenuContent>
 						<div style={{ padding: '12px' }}>
 							<p class="component-preview__text">Component links live here.</p>
 						</div>
-					</TNavigationMenuContent>
-				</TNavigationMenuItem>
-			</TNavigationMenuList>
-			<TNavigationMenuViewport />
-		</TNavigationMenu>
+					</NavigationMenuContent>
+				</NavigationMenuItem>
+			</NavigationMenuList>
+			<NavigationMenuViewport />
+		</NavigationMenu>
 	);
 }

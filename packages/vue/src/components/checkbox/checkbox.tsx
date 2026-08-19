@@ -3,8 +3,8 @@ import { checkboxStyleKeys, getCheckboxState, getNextCheckboxState } from '@tile
 import type { CheckboxCheckedState } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/checkbox.module.scss';
 
-export const TCheckbox = defineComponent({
-	name: 'TCheckbox',
+export const Checkbox = defineComponent({
+	name: 'Checkbox',
 	props: {
 		modelValue: {
 			type: [Boolean, String] as PropType<boolean | 'indeterminate'>,
@@ -83,4 +83,4 @@ export const TCheckbox = defineComponent({
 	},
 });
 
-export default TCheckbox;
+export default Checkbox;

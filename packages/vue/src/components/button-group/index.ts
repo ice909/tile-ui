@@ -1,1 +1,1 @@
-export { TButtonGroup, TButtonGroupText, TButtonGroupSeparator } from './button-group';
+export { ButtonGroup, ButtonGroupText, ButtonGroupSeparator } from './button-group';

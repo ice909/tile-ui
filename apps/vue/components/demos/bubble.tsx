@@ -1,14 +1,14 @@
-import { TBubbleGroup, TBubble, TBubbleContent } from '@tile-ui/vue';
+import { BubbleGroup, Bubble, BubbleContent } from '@tile-ui/vue';
 
 export default function BubbleDemo() {
 	return (
-		<TBubbleGroup>
-			<TBubble align="start">
-				<TBubbleContent>Hello there</TBubbleContent>
-			</TBubble>
-			<TBubble align="end" variant="tinted">
-				<TBubbleContent>Hi! How can I help?</TBubbleContent>
-			</TBubble>
-		</TBubbleGroup>
+		<BubbleGroup>
+			<Bubble align="start">
+				<BubbleContent>Hello there</BubbleContent>
+			</Bubble>
+			<Bubble align="end" variant="tinted">
+				<BubbleContent>Hi! How can I help?</BubbleContent>
+			</Bubble>
+		</BubbleGroup>
 	);
 }

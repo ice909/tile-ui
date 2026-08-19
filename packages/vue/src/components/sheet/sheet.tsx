@@ -49,8 +49,8 @@ function composeEventHandlers(...handlers: Array<unknown>): (event: Event) => vo
 	};
 }
 
-export const TSheet = defineComponent({
-	name: 'TSheet',
+export const Sheet = defineComponent({
+	name: 'Sheet',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -89,15 +89,15 @@ export const TSheet = defineComponent({
 	},
 });
 
-export const TSheetTrigger = defineComponent({
-	name: 'TSheetTrigger',
+export const SheetTrigger = defineComponent({
+	name: 'SheetTrigger',
 	props: {
 		asChild: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(SheetContextKey);
 		if (!contextValue) {
-			throw new Error('TSheetTrigger must be used within <TSheet>.');
+			throw new Error('SheetTrigger must be used within <Sheet>.');
 		}
 		const context: SheetContext = contextValue;
 
@@ -126,15 +126,15 @@ export const TSheetTrigger = defineComponent({
 	},
 });
 
-export const TSheetClose = defineComponent({
-	name: 'TSheetClose',
+export const SheetClose = defineComponent({
+	name: 'SheetClose',
 	props: {
 		asChild: { type: Boolean, default: false },
 	},
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(SheetContextKey);
 		if (!contextValue) {
-			throw new Error('TSheetClose must be used within <TSheet>.');
+			throw new Error('SheetClose must be used within <Sheet>.');
 		}
 		const context: SheetContext = contextValue;
 
@@ -163,12 +163,12 @@ export const TSheetClose = defineComponent({
 	},
 });
 
-export const TSheetOverlay = defineComponent({
-	name: 'TSheetOverlay',
+export const SheetOverlay = defineComponent({
+	name: 'SheetOverlay',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(SheetContextKey);
 		if (!contextValue) {
-			throw new Error('TSheetOverlay must be used within <TSheet>.');
+			throw new Error('SheetOverlay must be used within <Sheet>.');
 		}
 		const context: SheetContext = contextValue;
 
@@ -191,8 +191,8 @@ export const TSheetOverlay = defineComponent({
 	},
 });
 
-export const TSheetContent = defineComponent({
-	name: 'TSheetContent',
+export const SheetContent = defineComponent({
+	name: 'SheetContent',
 	props: {
 		side: {
 			type: String as PropType<SheetSide>,
@@ -203,7 +203,7 @@ export const TSheetContent = defineComponent({
 	setup(props, { slots, attrs }) {
 		const contextValue = inject(SheetContextKey);
 		if (!contextValue) {
-			throw new Error('TSheetContent must be used within <TSheet>.');
+			throw new Error('SheetContent must be used within <Sheet>.');
 		}
 		const context: SheetContext = contextValue;
 		const contentRef = ref<HTMLElement | null>(null);
@@ -359,26 +359,26 @@ export const TSheetContent = defineComponent({
 	},
 });
 
-export const TSheetHeader = defineComponent({
-	name: 'TSheetHeader',
+export const SheetHeader = defineComponent({
+	name: 'SheetHeader',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[sheetStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSheetFooter = defineComponent({
-	name: 'TSheetFooter',
+export const SheetFooter = defineComponent({
+	name: 'SheetFooter',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[sheetStyleKeys.footer], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TSheetTitle = defineComponent({
-	name: 'TSheetTitle',
+export const SheetTitle = defineComponent({
+	name: 'SheetTitle',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(SheetContextKey);
 		if (!contextValue) {
-			throw new Error('TSheetTitle must be used within <TSheet>.');
+			throw new Error('SheetTitle must be used within <Sheet>.');
 		}
 		const context: SheetContext = contextValue;
 
@@ -386,12 +386,12 @@ export const TSheetTitle = defineComponent({
 	},
 });
 
-export const TSheetDescription = defineComponent({
-	name: 'TSheetDescription',
+export const SheetDescription = defineComponent({
+	name: 'SheetDescription',
 	setup(_props, { slots, attrs }) {
 		const contextValue = inject(SheetContextKey);
 		if (!contextValue) {
-			throw new Error('TSheetDescription must be used within <TSheet>.');
+			throw new Error('SheetDescription must be used within <Sheet>.');
 		}
 		const context: SheetContext = contextValue;
 
@@ -399,4 +399,4 @@ export const TSheetDescription = defineComponent({
 	},
 });
 
-export default TSheet;
+export default Sheet;

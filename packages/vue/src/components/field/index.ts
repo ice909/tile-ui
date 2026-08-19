@@ -1,1 +1,1 @@
-export { TField, TFieldLabel, TFieldDescription, TFieldMessage } from './field';
+export { Field, FieldLabel, FieldDescription, FieldMessage } from './field';

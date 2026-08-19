@@ -18,7 +18,7 @@
       "path": "packages/vue/src/components/kbd/kbd.tsx",
       "type": "registry:ui",
       "target": "components/ui/kbd/kbd.tsx",
-      "content": "import { defineComponent, h } from 'vue';\nimport { kbdStyleKeys } from '../lib/core';\nimport styles from './kbd.module.scss';\n\nexport const TKbd = defineComponent({\n\tname: 'TKbd',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('kbd', { class: styles[kbdStyleKeys.base] }, slots.default?.());\n\t},\n});\n\nexport const TKbdGroup = defineComponent({\n\tname: 'TKbdGroup',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('kbd', { class: styles[kbdStyleKeys.group] }, slots.default?.());\n\t},\n});\n\nexport default TKbd;\n"
+      "content": "import { defineComponent, h } from 'vue';\nimport { kbdStyleKeys } from '../lib/core';\nimport styles from './kbd.module.scss';\n\nexport const Kbd = defineComponent({\n\tname: 'Kbd',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('kbd', { class: styles[kbdStyleKeys.base] }, slots.default?.());\n\t},\n});\n\nexport const KbdGroup = defineComponent({\n\tname: 'KbdGroup',\n\tsetup(_props, { slots }) {\n\t\treturn () => h('kbd', { class: styles[kbdStyleKeys.group] }, slots.default?.());\n\t},\n});\n\nexport default Kbd;\n"
     },
     {
       "path": "packages/styles/scss/components/kbd.module.scss",

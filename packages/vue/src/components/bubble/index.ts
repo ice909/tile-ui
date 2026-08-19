@@ -1,1 +1,1 @@
-export { TBubbleGroup, TBubble, TBubbleContent, TBubbleReactions } from './bubble';
+export { BubbleGroup, Bubble, BubbleContent, BubbleReactions } from './bubble';

@@ -1,1 +1,1 @@
-export { TTable, TTableHeader, TTableBody, TTableFooter, TTableRow, TTableHead, TTableCell, TTableCaption } from './table';
+export { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption } from './table';

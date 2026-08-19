@@ -35,14 +35,14 @@ export default defineNuxtConfig({
 ## Package usage
 
 ```tsx
-import { TButton, TInput } from '@tile-ui/vue';
+import { Button, Input } from '@tile-ui/vue';
 
 export default defineComponent({
 	setup() {
 		return () => (
 			<form class="form-group">
-				<TInput label="Project name" helperText="Shown in the dashboard and generated URLs." />
-				<TButton type="submit">Create project</TButton>
+				<Input label="Project name" helperText="Shown in the dashboard and generated URLs." />
+				<Button type="submit">Create project</Button>
 			</form>
 		);
 	},

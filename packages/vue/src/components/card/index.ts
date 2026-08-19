@@ -1,1 +1,1 @@
-export { TCard, TCardHeader, TCardTitle, TCardDescription, TCardAction, TCardContent, TCardFooter } from './card';
+export { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from './card';

@@ -1,191 +1,191 @@
 // Components
-export { TButton } from './components/button';
-export { TInput } from './components/input';
-export { TTextarea } from './components/textarea';
-export { TLabel } from './components/label';
-export { TCard, TCardHeader, TCardTitle, TCardDescription, TCardAction, TCardContent, TCardFooter } from './components/card';
-export { TBadge } from './components/badge';
-export { TSkeleton } from './components/skeleton';
-export { TKbd, TKbdGroup } from './components/kbd';
-export { TSeparator } from './components/separator';
-export { TTable, TTableHeader, TTableBody, TTableFooter, TTableRow, TTableHead, TTableCell, TTableCaption } from './components/table';
-export { TProgress } from './components/progress';
-export { TAvatar, TAvatarImage, TAvatarFallback, TAvatarBadge, TAvatarGroup, TAvatarGroupCount } from './components/avatar';
-export { TSwitch } from './components/switch';
-export { TCheckbox } from './components/checkbox';
-export { TCollapsible, TCollapsibleTrigger, TCollapsibleContent } from './components/collapsible';
-export { TBreadcrumb, TBreadcrumbList, TBreadcrumbItem, TBreadcrumbLink, TBreadcrumbPage, TBreadcrumbSeparator, TBreadcrumbEllipsis } from './components/breadcrumb';
-export { TPagination, TPaginationContent, TPaginationItem, TPaginationLink, TPaginationPrevious, TPaginationNext, TPaginationEllipsis } from './components/pagination';
-export { TAlert, TAlertTitle, TAlertDescription } from './components/alert';
-export { TAspectRatio } from './components/aspect-ratio';
-export { TSpinner } from './components/spinner';
-export { TEmpty, TEmptyHeader, TEmptyMedia, TEmptyTitle, TEmptyDescription, TEmptyContent } from './components/empty';
-export { TMarker, TMarkerIcon, TMarkerContent } from './components/marker';
-export { TItem, TItemMedia, TItemContent, TItemActions, TItemGroup, TItemSeparator, TItemTitle, TItemDescription, TItemHeader, TItemFooter } from './components/item';
-export { TButtonGroup, TButtonGroupText, TButtonGroupSeparator } from './components/button-group';
-export { TInputGroup, TInputGroupAddon, TInputGroupButton, TInputGroupText, TInputGroupInput, TInputGroupTextarea } from './components/input-group';
-export { TNativeSelect, TNativeSelectOption, TNativeSelectOptGroup } from './components/native-select';
-export { TField, TFieldLabel, TFieldDescription, TFieldMessage } from './components/field';
-export { TToggle } from './components/toggle';
-export { TToggleGroup, TToggleGroupItem } from './components/toggle-group';
-export { TTabs, TTabsList, TTabsTrigger, TTabsContent } from './components/tabs';
-export { TAccordion, TAccordionItem, TAccordionTrigger, TAccordionContent } from './components/accordion';
-export { TRadioGroup, TRadioGroupItem } from './components/radio-group';
-export { TSlider, TSliderTrack, TSliderRange, TSliderThumb } from './components/slider';
-export { TScrollArea, TScrollBar } from './components/scroll-area';
-export { TTooltip, TTooltipTrigger, TTooltipContent, TTooltipProvider } from './components/tooltip';
-export { TPopover, TPopoverTrigger, TPopoverContent } from './components/popover';
-export { THoverCard, THoverCardTrigger, THoverCardContent } from './components/hover-card';
-export { TDialog, TDialogTrigger, TDialogClose, TDialogOverlay, TDialogContent, TDialogHeader, TDialogFooter, TDialogTitle, TDialogDescription } from './components/dialog';
+export { Button } from './components/button';
+export { Input } from './components/input';
+export { Textarea } from './components/textarea';
+export { Label } from './components/label';
+export { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from './components/card';
+export { Badge } from './components/badge';
+export { Skeleton } from './components/skeleton';
+export { Kbd, KbdGroup } from './components/kbd';
+export { Separator } from './components/separator';
+export { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption } from './components/table';
+export { Progress } from './components/progress';
+export { Avatar, AvatarImage, AvatarFallback, AvatarBadge, AvatarGroup, AvatarGroupCount } from './components/avatar';
+export { Switch } from './components/switch';
+export { Checkbox } from './components/checkbox';
+export { Collapsible, CollapsibleTrigger, CollapsibleContent } from './components/collapsible';
+export { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from './components/breadcrumb';
+export { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from './components/pagination';
+export { Alert, AlertTitle, AlertDescription } from './components/alert';
+export { AspectRatio } from './components/aspect-ratio';
+export { Spinner } from './components/spinner';
+export { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from './components/empty';
+export { Marker, MarkerIcon, MarkerContent } from './components/marker';
+export { Item, ItemMedia, ItemContent, ItemActions, ItemGroup, ItemSeparator, ItemTitle, ItemDescription, ItemHeader, ItemFooter } from './components/item';
+export { ButtonGroup, ButtonGroupText, ButtonGroupSeparator } from './components/button-group';
+export { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupInput, InputGroupTextarea } from './components/input-group';
+export { NativeSelect, NativeSelectOption, NativeSelectOptGroup } from './components/native-select';
+export { Field, FieldLabel, FieldDescription, FieldMessage } from './components/field';
+export { Toggle } from './components/toggle';
+export { ToggleGroup, ToggleGroupItem } from './components/toggle-group';
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './components/tabs';
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './components/accordion';
+export { RadioGroup, RadioGroupItem } from './components/radio-group';
+export { Slider, SliderTrack, SliderRange, SliderThumb } from './components/slider';
+export { ScrollArea, ScrollBar } from './components/scroll-area';
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './components/tooltip';
+export { Popover, PopoverTrigger, PopoverContent } from './components/popover';
+export { HoverCard, HoverCardTrigger, HoverCardContent } from './components/hover-card';
+export { Dialog, DialogTrigger, DialogClose, DialogOverlay, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from './components/dialog';
 export {
-	TAlertDialog,
-	TAlertDialogTrigger,
-	TAlertDialogOverlay,
-	TAlertDialogContent,
-	TAlertDialogHeader,
-	TAlertDialogFooter,
-	TAlertDialogTitle,
-	TAlertDialogDescription,
-	TAlertDialogAction,
-	TAlertDialogCancel,
+	AlertDialog,
+	AlertDialogTrigger,
+	AlertDialogOverlay,
+	AlertDialogContent,
+	AlertDialogHeader,
+	AlertDialogFooter,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogAction,
+	AlertDialogCancel,
 } from './components/alert-dialog';
-export { TSheet, TSheetTrigger, TSheetClose, TSheetOverlay, TSheetContent, TSheetHeader, TSheetFooter, TSheetTitle, TSheetDescription } from './components/sheet';
+export { Sheet, SheetTrigger, SheetClose, SheetOverlay, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from './components/sheet';
 export {
-	TDropdownMenu,
-	TDropdownMenuPortal,
-	TDropdownMenuTrigger,
-	TDropdownMenuContent,
-	TDropdownMenuGroup,
-	TDropdownMenuLabel,
-	TDropdownMenuItem,
-	TDropdownMenuCheckboxItem,
-	TDropdownMenuRadioGroup,
-	TDropdownMenuRadioItem,
-	TDropdownMenuSeparator,
-	TDropdownMenuShortcut,
-	TDropdownMenuSub,
-	TDropdownMenuSubTrigger,
-	TDropdownMenuSubContent,
+	DropdownMenu,
+	DropdownMenuPortal,
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuLabel,
+	DropdownMenuItem,
+	DropdownMenuCheckboxItem,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuSeparator,
+	DropdownMenuShortcut,
+	DropdownMenuSub,
+	DropdownMenuSubTrigger,
+	DropdownMenuSubContent,
 } from './components/dropdown-menu';
 export {
-	TContextMenu,
-	TContextMenuPortal,
-	TContextMenuTrigger,
-	TContextMenuContent,
-	TContextMenuGroup,
-	TContextMenuLabel,
-	TContextMenuItem,
-	TContextMenuCheckboxItem,
-	TContextMenuRadioGroup,
-	TContextMenuRadioItem,
-	TContextMenuSeparator,
-	TContextMenuShortcut,
-	TContextMenuSub,
-	TContextMenuSubTrigger,
-	TContextMenuSubContent,
+	ContextMenu,
+	ContextMenuPortal,
+	ContextMenuTrigger,
+	ContextMenuContent,
+	ContextMenuGroup,
+	ContextMenuLabel,
+	ContextMenuItem,
+	ContextMenuCheckboxItem,
+	ContextMenuRadioGroup,
+	ContextMenuRadioItem,
+	ContextMenuSeparator,
+	ContextMenuShortcut,
+	ContextMenuSub,
+	ContextMenuSubTrigger,
+	ContextMenuSubContent,
 } from './components/context-menu';
 export {
-	TMenubar,
-	TMenubarPortal,
-	TMenubarMenu,
-	TMenubarTrigger,
-	TMenubarContent,
-	TMenubarGroup,
-	TMenubarLabel,
-	TMenubarItem,
-	TMenubarCheckboxItem,
-	TMenubarRadioGroup,
-	TMenubarRadioItem,
-	TMenubarSeparator,
-	TMenubarShortcut,
-	TMenubarSub,
-	TMenubarSubTrigger,
-	TMenubarSubContent,
+	Menubar,
+	MenubarPortal,
+	MenubarMenu,
+	MenubarTrigger,
+	MenubarContent,
+	MenubarGroup,
+	MenubarLabel,
+	MenubarItem,
+	MenubarCheckboxItem,
+	MenubarRadioGroup,
+	MenubarRadioItem,
+	MenubarSeparator,
+	MenubarShortcut,
+	MenubarSub,
+	MenubarSubTrigger,
+	MenubarSubContent,
 } from './components/menubar';
 export {
-	TNavigationMenu,
-	TNavigationMenuList,
-	TNavigationMenuItem,
-	TNavigationMenuTrigger,
-	TNavigationMenuContent,
-	TNavigationMenuViewport,
-	TNavigationMenuIndicator,
-	TNavigationMenuLink,
+	NavigationMenu,
+	NavigationMenuList,
+	NavigationMenuItem,
+	NavigationMenuTrigger,
+	NavigationMenuContent,
+	NavigationMenuViewport,
+	NavigationMenuIndicator,
+	NavigationMenuLink,
 } from './components/navigation-menu';
 export {
-	TSelect,
-	TSelectTrigger,
-	TSelectValue,
-	TSelectContent,
-	TSelectGroup,
-	TSelectLabel,
-	TSelectItem,
-	TSelectSeparator,
-	TSelectScrollUpButton,
-	TSelectScrollDownButton,
+	Select,
+	SelectTrigger,
+	SelectValue,
+	SelectContent,
+	SelectGroup,
+	SelectLabel,
+	SelectItem,
+	SelectSeparator,
+	SelectScrollUpButton,
+	SelectScrollDownButton,
 } from './components/select';
-export { TCombobox } from './components/combobox';
-export { TCommand, TCommandInput, TCommandList, TCommandEmpty, TCommandGroup, TCommandItem, TCommandSeparator, TCommandShortcut, TCommandDialog } from './components/command';
-export { TChartContainer, TChartTooltip, TChartTooltipContent, TChartLegend, TChartLegendContent, TChartStyle } from './components/chart';
-export { TCalendar, TCalendarDayButton } from './components/calendar';
-export { TDrawer, TDrawerTrigger, TDrawerClose, TDrawerOverlay, TDrawerContent, TDrawerHeader, TDrawerFooter, TDrawerTitle, TDrawerDescription } from './components/drawer';
-export { TForm, TFormItem, TFormLabel, TFormControl, TFormDescription, TFormMessage, TFormField } from './components/form';
+export { Combobox } from './components/combobox';
+export { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut, CommandDialog } from './components/command';
+export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle } from './components/chart';
+export { Calendar, CalendarDayButton } from './components/calendar';
+export { Drawer, DrawerTrigger, DrawerClose, DrawerOverlay, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription } from './components/drawer';
+export { Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField } from './components/form';
 export {
-	TSidebar,
-	TSidebarContent,
-	TSidebarFooter,
-	TSidebarGroup,
-	TSidebarGroupAction,
-	TSidebarGroupContent,
-	TSidebarGroupLabel,
-	TSidebarHeader,
-	TSidebarInput,
-	TSidebarInset,
-	TSidebarMenu,
-	TSidebarMenuAction,
-	TSidebarMenuBadge,
-	TSidebarMenuButton,
-	TSidebarMenuItem,
-	TSidebarMenuSkeleton,
-	TSidebarMenuSub,
-	TSidebarMenuSubButton,
-	TSidebarMenuSubItem,
-	TSidebarProvider,
-	TSidebarRail,
-	TSidebarSeparator,
-	TSidebarTrigger,
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarGroup,
+	SidebarGroupAction,
+	SidebarGroupContent,
+	SidebarGroupLabel,
+	SidebarHeader,
+	SidebarInput,
+	SidebarInset,
+	SidebarMenu,
+	SidebarMenuAction,
+	SidebarMenuBadge,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	SidebarMenuSkeleton,
+	SidebarMenuSub,
+	SidebarMenuSubButton,
+	SidebarMenuSubItem,
+	SidebarProvider,
+	SidebarRail,
+	SidebarSeparator,
+	SidebarTrigger,
 } from './components/sidebar';
-export { TCarousel, TCarouselContent, TCarouselItem, TCarouselPrevious, TCarouselNext } from './components/carousel';
-export { TResizablePanelGroup, TResizablePanel, TResizableHandle } from './components/resizable';
+export { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from './components/carousel';
+export { ResizablePanelGroup, ResizablePanel, ResizableHandle } from './components/resizable';
 export {
-	TAttachment,
-	TAttachmentGroup,
-	TAttachmentMedia,
-	TAttachmentContent,
-	TAttachmentTitle,
-	TAttachmentDescription,
-	TAttachmentActions,
-	TAttachmentAction,
-	TAttachmentTrigger,
-	TAttachmentCard,
-	TAttachmentFileIcon,
+	Attachment,
+	AttachmentGroup,
+	AttachmentMedia,
+	AttachmentContent,
+	AttachmentTitle,
+	AttachmentDescription,
+	AttachmentActions,
+	AttachmentAction,
+	AttachmentTrigger,
+	AttachmentCard,
+	AttachmentFileIcon,
 } from './components/attachment';
-export { TBubbleGroup, TBubble, TBubbleContent, TBubbleReactions } from './components/bubble';
-export { TDirectionProvider, useDirection } from './components/direction';
-export { TMessageGroup, TMessage, TMessageAvatar, TMessageContent, TMessageHeader, TMessageFooter } from './components/message';
+export { BubbleGroup, Bubble, BubbleContent, BubbleReactions } from './components/bubble';
+export { DirectionProvider, useDirection } from './components/direction';
+export { MessageGroup, Message, MessageAvatar, MessageContent, MessageHeader, MessageFooter } from './components/message';
 export {
-	TMessageScrollerProvider,
-	TMessageScroller,
-	TMessageScrollerViewport,
-	TMessageScrollerContent,
-	TMessageScrollerItem,
-	TMessageScrollerButton,
+	MessageScrollerProvider,
+	MessageScroller,
+	MessageScrollerViewport,
+	MessageScrollerContent,
+	MessageScrollerItem,
+	MessageScrollerButton,
 	useMessageScroller,
 	useMessageScrollerScrollable,
 	useMessageScrollerVisibility,
 } from './components/message-scroller';
-export { TToaster, useToast, toast } from './components/sonner';
-export { TInputOTP, TInputOTPGroup, TInputOTPSlot, TInputOTPSeparator } from './components/input-otp';
+export { Toaster, useToast, toast } from './components/sonner';
+export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from './components/input-otp';
 
 // Composables（同时保留 @tile-ui/vue/composables 子路径导出）
 export { useLocalStorage, useSessionStorage } from './composables/use-local-storage';

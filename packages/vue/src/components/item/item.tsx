@@ -3,23 +3,23 @@ import { getItemMediaVariantKey, getItemSizeKey, getItemVariantKey, itemStyleKey
 import type { ItemMediaVariant, ItemSize, ItemVariant } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/item.module.scss';
 
-export const TItemGroup = defineComponent({
-	name: 'TItemGroup',
+export const ItemGroup = defineComponent({
+	name: 'ItemGroup',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, role: 'list', 'data-slot': 'item-group', class: [styles[itemStyleKeys.group], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TItemSeparator = defineComponent({
-	name: 'TItemSeparator',
+export const ItemSeparator = defineComponent({
+	name: 'ItemSeparator',
 	setup(_props, { attrs }) {
 		return () =>
 			h('div', { ...attrs, role: 'separator', 'aria-orientation': 'horizontal', 'data-slot': 'item-separator', class: [styles[itemStyleKeys.separator], attrs.class] });
 	},
 });
 
-export const TItem = defineComponent({
-	name: 'TItem',
+export const Item = defineComponent({
+	name: 'Item',
 	props: {
 		variant: {
 			type: String as PropType<ItemVariant>,
@@ -59,8 +59,8 @@ export const TItem = defineComponent({
 	},
 });
 
-export const TItemMedia = defineComponent({
-	name: 'TItemMedia',
+export const ItemMedia = defineComponent({
+	name: 'ItemMedia',
 	props: {
 		variant: {
 			type: String as PropType<ItemMediaVariant>,
@@ -78,46 +78,46 @@ export const TItemMedia = defineComponent({
 	},
 });
 
-export const TItemContent = defineComponent({
-	name: 'TItemContent',
+export const ItemContent = defineComponent({
+	name: 'ItemContent',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'item-content', class: [styles[itemStyleKeys.content], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TItemTitle = defineComponent({
-	name: 'TItemTitle',
+export const ItemTitle = defineComponent({
+	name: 'ItemTitle',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'item-title', class: [styles[itemStyleKeys.title], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TItemDescription = defineComponent({
-	name: 'TItemDescription',
+export const ItemDescription = defineComponent({
+	name: 'ItemDescription',
 	setup(_props, { slots, attrs }) {
 		return () => h('p', { ...attrs, 'data-slot': 'item-description', class: [styles[itemStyleKeys.description], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TItemActions = defineComponent({
-	name: 'TItemActions',
+export const ItemActions = defineComponent({
+	name: 'ItemActions',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'item-actions', class: [styles[itemStyleKeys.actions], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TItemHeader = defineComponent({
-	name: 'TItemHeader',
+export const ItemHeader = defineComponent({
+	name: 'ItemHeader',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'item-header', class: [styles[itemStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TItemFooter = defineComponent({
-	name: 'TItemFooter',
+export const ItemFooter = defineComponent({
+	name: 'ItemFooter',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, 'data-slot': 'item-footer', class: [styles[itemStyleKeys.footer], attrs.class] }, slots.default?.());
 	},
 });
 
-export default TItem;
+export default Item;

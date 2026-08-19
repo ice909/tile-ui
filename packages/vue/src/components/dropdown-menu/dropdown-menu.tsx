@@ -118,7 +118,7 @@ function dropdownMenuChevronIcon() {
 function useDropdownMenuContext(): DropdownMenuContext {
 	const context = inject(DropdownMenuContextKey);
 	if (!context) {
-		throw new Error('TDropdownMenu 子组件必须位于 <TDropdownMenu> 内部。');
+		throw new Error('DropdownMenu 子组件必须位于 <DropdownMenu> 内部。');
 	}
 	return context;
 }
@@ -126,7 +126,7 @@ function useDropdownMenuContext(): DropdownMenuContext {
 function useDropdownMenuContentContext(): DropdownMenuContentContext {
 	const context = inject(DropdownMenuContentContextKey);
 	if (!context) {
-		throw new Error('TDropdownMenu 菜单项必须位于 <TDropdownMenuContent> 或 <TDropdownMenuSubContent> 内部。');
+		throw new Error('DropdownMenu 菜单项必须位于 <DropdownMenuContent> 或 <DropdownMenuSubContent> 内部。');
 	}
 	return context;
 }
@@ -134,7 +134,7 @@ function useDropdownMenuContentContext(): DropdownMenuContentContext {
 function useDropdownMenuSubContext(): DropdownMenuSubContext {
 	const context = inject(DropdownMenuSubContextKey);
 	if (!context) {
-		throw new Error('TDropdownMenu 子菜单组件必须位于 <TDropdownMenuSub> 内部。');
+		throw new Error('DropdownMenu 子菜单组件必须位于 <DropdownMenuSub> 内部。');
 	}
 	return context;
 }
@@ -142,13 +142,13 @@ function useDropdownMenuSubContext(): DropdownMenuSubContext {
 function useDropdownMenuRadioGroupContext(): DropdownMenuRadioGroupContext {
 	const context = inject(DropdownMenuRadioGroupContextKey);
 	if (!context) {
-		throw new Error('TDropdownMenuRadioItem 必须位于 <TDropdownMenuRadioGroup> 内部。');
+		throw new Error('DropdownMenuRadioItem 必须位于 <DropdownMenuRadioGroup> 内部。');
 	}
 	return context;
 }
 
-export const TDropdownMenu = defineComponent({
-	name: 'TDropdownMenu',
+export const DropdownMenu = defineComponent({
+	name: 'DropdownMenu',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -185,15 +185,15 @@ export const TDropdownMenu = defineComponent({
 	},
 });
 
-export const TDropdownMenuPortal = defineComponent({
-	name: 'TDropdownMenuPortal',
+export const DropdownMenuPortal = defineComponent({
+	name: 'DropdownMenuPortal',
 	setup(_props, { slots }) {
 		return () => slots.default?.();
 	},
 });
 
-export const TDropdownMenuTrigger = defineComponent({
-	name: 'TDropdownMenuTrigger',
+export const DropdownMenuTrigger = defineComponent({
+	name: 'DropdownMenuTrigger',
 	inheritAttrs: false,
 	props: {
 		asChild: { type: Boolean, default: false },
@@ -257,7 +257,7 @@ function createDropdownMenuContentBase({ isSub = false }: { isSub?: boolean } = 
 	}
 
 	return defineComponent({
-		name: isSub ? 'TDropdownMenuSubContent' : 'TDropdownMenuContent',
+		name: isSub ? 'DropdownMenuSubContent' : 'DropdownMenuContent',
 		inheritAttrs: false,
 		props: {
 			side: { type: String as PropType<DropdownMenuSide>, default: 'bottom' },
@@ -458,18 +458,18 @@ function createDropdownMenuContentBase({ isSub = false }: { isSub?: boolean } = 
 	});
 }
 
-export const TDropdownMenuContent = createDropdownMenuContentBase({ isSub: false });
-export const TDropdownMenuSubContent = createDropdownMenuContentBase({ isSub: true });
+export const DropdownMenuContent = createDropdownMenuContentBase({ isSub: false });
+export const DropdownMenuSubContent = createDropdownMenuContentBase({ isSub: true });
 
-export const TDropdownMenuGroup = defineComponent({
-	name: 'TDropdownMenuGroup',
+export const DropdownMenuGroup = defineComponent({
+	name: 'DropdownMenuGroup',
 	setup(_props, { slots, attrs }) {
 		return () => h('div', { ...attrs, role: 'group', class: [styles[dropdownMenuStyleKeys.group], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TDropdownMenuLabel = defineComponent({
-	name: 'TDropdownMenuLabel',
+export const DropdownMenuLabel = defineComponent({
+	name: 'DropdownMenuLabel',
 	inheritAttrs: false,
 	props: {
 		inset: { type: Boolean, default: false },
@@ -479,22 +479,22 @@ export const TDropdownMenuLabel = defineComponent({
 	},
 });
 
-export const TDropdownMenuSeparator = defineComponent({
-	name: 'TDropdownMenuSeparator',
+export const DropdownMenuSeparator = defineComponent({
+	name: 'DropdownMenuSeparator',
 	setup(_props, { attrs }) {
 		return () => h('div', { ...attrs, role: 'separator', class: [styles[dropdownMenuStyleKeys.separator], attrs.class] });
 	},
 });
 
-export const TDropdownMenuShortcut = defineComponent({
-	name: 'TDropdownMenuShortcut',
+export const DropdownMenuShortcut = defineComponent({
+	name: 'DropdownMenuShortcut',
 	setup(_props, { slots, attrs }) {
 		return () => h('span', { ...attrs, class: [styles[dropdownMenuStyleKeys.shortcut], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TDropdownMenuItem = defineComponent({
-	name: 'TDropdownMenuItem',
+export const DropdownMenuItem = defineComponent({
+	name: 'DropdownMenuItem',
 	inheritAttrs: false,
 	props: {
 		inset: { type: Boolean, default: false },
@@ -543,8 +543,8 @@ export const TDropdownMenuItem = defineComponent({
 	},
 });
 
-export const TDropdownMenuCheckboxItem = defineComponent({
-	name: 'TDropdownMenuCheckboxItem',
+export const DropdownMenuCheckboxItem = defineComponent({
+	name: 'DropdownMenuCheckboxItem',
 	inheritAttrs: false,
 	props: {
 		checked: { type: Boolean, default: undefined },
@@ -599,8 +599,8 @@ export const TDropdownMenuCheckboxItem = defineComponent({
 	},
 });
 
-export const TDropdownMenuRadioGroup = defineComponent({
-	name: 'TDropdownMenuRadioGroup',
+export const DropdownMenuRadioGroup = defineComponent({
+	name: 'DropdownMenuRadioGroup',
 	inheritAttrs: false,
 	props: {
 		value: { type: String, default: undefined },
@@ -626,8 +626,8 @@ export const TDropdownMenuRadioGroup = defineComponent({
 	},
 });
 
-export const TDropdownMenuRadioItem = defineComponent({
-	name: 'TDropdownMenuRadioItem',
+export const DropdownMenuRadioItem = defineComponent({
+	name: 'DropdownMenuRadioItem',
 	inheritAttrs: false,
 	props: {
 		value: { type: String, required: true },
@@ -677,8 +677,8 @@ export const TDropdownMenuRadioItem = defineComponent({
 	},
 });
 
-export const TDropdownMenuSub = defineComponent({
-	name: 'TDropdownMenuSub',
+export const DropdownMenuSub = defineComponent({
+	name: 'DropdownMenuSub',
 	props: {
 		open: { type: Boolean, default: undefined },
 		defaultOpen: { type: Boolean, default: false },
@@ -704,8 +704,8 @@ export const TDropdownMenuSub = defineComponent({
 	},
 });
 
-export const TDropdownMenuSubTrigger = defineComponent({
-	name: 'TDropdownMenuSubTrigger',
+export const DropdownMenuSubTrigger = defineComponent({
+	name: 'DropdownMenuSubTrigger',
 	inheritAttrs: false,
 	props: {
 		inset: { type: Boolean, default: false },
@@ -778,4 +778,4 @@ export const TDropdownMenuSubTrigger = defineComponent({
 	},
 });
 
-export default TDropdownMenu;
+export default DropdownMenu;

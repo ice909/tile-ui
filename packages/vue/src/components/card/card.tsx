@@ -3,8 +3,8 @@ import { cardStyleKeys } from '@tile-ui/core';
 import type { CardElement } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/card.module.scss';
 
-export const TCard = defineComponent({
-	name: 'TCard',
+export const Card = defineComponent({
+	name: 'Card',
 	props: {
 		as: {
 			type: String as PropType<CardElement>,
@@ -16,46 +16,46 @@ export const TCard = defineComponent({
 	},
 });
 
-export const TCardHeader = defineComponent({
-	name: 'TCardHeader',
+export const CardHeader = defineComponent({
+	name: 'CardHeader',
 	setup(_, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[cardStyleKeys.header], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TCardTitle = defineComponent({
-	name: 'TCardTitle',
+export const CardTitle = defineComponent({
+	name: 'CardTitle',
 	setup(_, { slots, attrs }) {
 		return () => h('h3', { ...attrs, class: [styles[cardStyleKeys.title], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TCardDescription = defineComponent({
-	name: 'TCardDescription',
+export const CardDescription = defineComponent({
+	name: 'CardDescription',
 	setup(_, { slots, attrs }) {
 		return () => h('p', { ...attrs, class: [styles[cardStyleKeys.description], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TCardAction = defineComponent({
-	name: 'TCardAction',
+export const CardAction = defineComponent({
+	name: 'CardAction',
 	setup(_, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[cardStyleKeys.action], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TCardContent = defineComponent({
-	name: 'TCardContent',
+export const CardContent = defineComponent({
+	name: 'CardContent',
 	setup(_, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[cardStyleKeys.content], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TCardFooter = defineComponent({
-	name: 'TCardFooter',
+export const CardFooter = defineComponent({
+	name: 'CardFooter',
 	setup(_, { slots, attrs }) {
 		return () => h('div', { ...attrs, class: [styles[cardStyleKeys.footer], attrs.class] }, slots.default?.());
 	},
 });
 
-export default TCard;
+export default Card;

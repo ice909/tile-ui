@@ -1,20 +1,20 @@
-import { TMarker, TMarkerIcon, TMarkerContent } from '@tile-ui/vue';
+import { Marker, MarkerIcon, MarkerContent } from '@tile-ui/vue';
 
 export default function MarkerDemo() {
 	return (
 		<div class="button-group">
-			<TMarker variant="default">
-				<TMarkerIcon />
-				<TMarkerContent>Default</TMarkerContent>
-			</TMarker>
-			<TMarker variant="separator">
-				<TMarkerIcon />
-				<TMarkerContent>Separator</TMarkerContent>
-			</TMarker>
-			<TMarker variant="border">
-				<TMarkerIcon />
-				<TMarkerContent>Border</TMarkerContent>
-			</TMarker>
+			<Marker variant="default">
+				<MarkerIcon />
+				<MarkerContent>Default</MarkerContent>
+			</Marker>
+			<Marker variant="separator">
+				<MarkerIcon />
+				<MarkerContent>Separator</MarkerContent>
+			</Marker>
+			<Marker variant="border">
+				<MarkerIcon />
+				<MarkerContent>Border</MarkerContent>
+			</Marker>
 		</div>
 	);
 }

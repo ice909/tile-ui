@@ -1,1 +1,1 @@
-export { TCommand, TCommandInput, TCommandList, TCommandEmpty, TCommandGroup, TCommandItem, TCommandSeparator, TCommandShortcut, TCommandDialog } from './command';
+export { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut, CommandDialog } from './command';

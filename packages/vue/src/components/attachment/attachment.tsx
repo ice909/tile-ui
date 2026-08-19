@@ -10,13 +10,13 @@ import {
 } from '@tile-ui/core';
 import type { AttachmentFileKind, AttachmentMediaVariant, AttachmentOrientation, AttachmentSize, AttachmentState, ButtonSize, ButtonVariant } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/attachment.module.scss';
-import { TButton } from '../button/button';
+import { Button } from '../button/button';
 
 /**
  * 按文件类型渲染对应的内联 SVG 图标
  */
-export const TAttachmentFileIcon = defineComponent({
-	name: 'TAttachmentFileIcon',
+export const AttachmentFileIcon = defineComponent({
+	name: 'AttachmentFileIcon',
 	props: {
 		kind: { type: String as PropType<AttachmentFileKind>, default: 'generic' },
 	},
@@ -92,8 +92,8 @@ function trashIcon(): VNode {
 	return h('svg', svgAttrs(), [h('path', { d: 'M3 6h18' }), h('path', { d: 'M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6' }), h('path', { d: 'M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2' })]);
 }
 
-export const TAttachment = defineComponent({
-	name: 'TAttachment',
+export const Attachment = defineComponent({
+	name: 'Attachment',
 	props: {
 		state: { type: String as PropType<AttachmentState>, default: 'done' },
 		size: { type: String as PropType<AttachmentSize>, default: 'default' },
@@ -122,8 +122,8 @@ export const TAttachment = defineComponent({
 	},
 });
 
-export const TAttachmentGroup = defineComponent({
-	name: 'TAttachmentGroup',
+export const AttachmentGroup = defineComponent({
+	name: 'AttachmentGroup',
 	setup(_props, { slots, attrs }) {
 		return () => {
 			const userClass = attrs.class;
@@ -135,8 +135,8 @@ export const TAttachmentGroup = defineComponent({
 	},
 });
 
-export const TAttachmentMedia = defineComponent({
-	name: 'TAttachmentMedia',
+export const AttachmentMedia = defineComponent({
+	name: 'AttachmentMedia',
 	props: {
 		variant: { type: String as PropType<AttachmentMediaVariant>, default: 'icon' },
 	},
@@ -161,8 +161,8 @@ export const TAttachmentMedia = defineComponent({
 	},
 });
 
-export const TAttachmentContent = defineComponent({
-	name: 'TAttachmentContent',
+export const AttachmentContent = defineComponent({
+	name: 'AttachmentContent',
 	setup(_props, { slots, attrs }) {
 		return () => {
 			const userClass = attrs.class;
@@ -174,8 +174,8 @@ export const TAttachmentContent = defineComponent({
 	},
 });
 
-export const TAttachmentTitle = defineComponent({
-	name: 'TAttachmentTitle',
+export const AttachmentTitle = defineComponent({
+	name: 'AttachmentTitle',
 	setup(_props, { slots, attrs }) {
 		return () => {
 			const userClass = attrs.class;
@@ -187,8 +187,8 @@ export const TAttachmentTitle = defineComponent({
 	},
 });
 
-export const TAttachmentDescription = defineComponent({
-	name: 'TAttachmentDescription',
+export const AttachmentDescription = defineComponent({
+	name: 'AttachmentDescription',
 	setup(_props, { slots, attrs }) {
 		return () => {
 			const userClass = attrs.class;
@@ -200,8 +200,8 @@ export const TAttachmentDescription = defineComponent({
 	},
 });
 
-export const TAttachmentActions = defineComponent({
-	name: 'TAttachmentActions',
+export const AttachmentActions = defineComponent({
+	name: 'AttachmentActions',
 	setup(_props, { slots, attrs }) {
 		return () => {
 			const userClass = attrs.class;
@@ -213,8 +213,8 @@ export const TAttachmentActions = defineComponent({
 	},
 });
 
-export const TAttachmentAction = defineComponent({
-	name: 'TAttachmentAction',
+export const AttachmentAction = defineComponent({
+	name: 'AttachmentAction',
 	props: {
 		variant: { type: String as PropType<ButtonVariant>, default: 'ghost' },
 		size: { type: String as PropType<ButtonSize>, default: 'icon-xs' },
@@ -226,7 +226,7 @@ export const TAttachmentAction = defineComponent({
 			delete restAttrs.class;
 
 			return h(
-				TButton,
+				Button,
 				{
 					...restAttrs,
 					'data-slot': 'attachment-action',
@@ -240,8 +240,8 @@ export const TAttachmentAction = defineComponent({
 	},
 });
 
-export const TAttachmentTrigger = defineComponent({
-	name: 'TAttachmentTrigger',
+export const AttachmentTrigger = defineComponent({
+	name: 'AttachmentTrigger',
 	inheritAttrs: false,
 	props: {
 		asChild: { type: Boolean, default: false },
@@ -273,8 +273,8 @@ export const TAttachmentTrigger = defineComponent({
 	},
 });
 
-export const TAttachmentCard = defineComponent({
-	name: 'TAttachmentCard',
+export const AttachmentCard = defineComponent({
+	name: 'AttachmentCard',
 	props: {
 		name: { type: String, default: undefined },
 		size: { type: Number, default: undefined },
@@ -299,7 +299,7 @@ export const TAttachmentCard = defineComponent({
 			const actions: unknown[] = [];
 			if (hasListener(attrs, 'download')) {
 				actions.push(
-					h(TAttachmentAction, { 'aria-label': '下载', disabled: !actionable || props.downloading, onClick: (event: MouseEvent) => emit('download', event) }, () =>
+					h(AttachmentAction, { 'aria-label': '下载', disabled: !actionable || props.downloading, onClick: (event: MouseEvent) => emit('download', event) }, () =>
 						downloadIcon(),
 					),
 				);
@@ -307,22 +307,22 @@ export const TAttachmentCard = defineComponent({
 			if (props.action != null) {
 				actions.push(props.action);
 			} else if (hasListener(attrs, 'remove')) {
-				actions.push(h(TAttachmentAction, { 'aria-label': '删除', disabled: !actionable, onClick: (event: MouseEvent) => emit('remove', event) }, () => trashIcon()));
+				actions.push(h(AttachmentAction, { 'aria-label': '删除', disabled: !actionable, onClick: (event: MouseEvent) => emit('remove', event) }, () => trashIcon()));
 			}
 
 			const children: unknown[] = [
-				h(TAttachmentMedia, { variant: 'icon' }, () => h(TAttachmentFileIcon, { kind })),
-				h(TAttachmentContent, {}, () => [
-					displayName ? h(TAttachmentTitle, {}, () => displayName) : null,
-					description ? h(TAttachmentDescription, {}, () => description) : null,
+				h(AttachmentMedia, { variant: 'icon' }, () => h(AttachmentFileIcon, { kind })),
+				h(AttachmentContent, {}, () => [
+					displayName ? h(AttachmentTitle, {}, () => displayName) : null,
+					description ? h(AttachmentDescription, {}, () => description) : null,
 				]),
 			];
 			if (actions.length > 0) {
-				children.push(h(TAttachmentActions, {}, () => actions));
+				children.push(h(AttachmentActions, {}, () => actions));
 			}
 
 			return h(
-				TAttachment,
+				Attachment,
 				{
 					...restAttrs,
 					state: props.state,
@@ -340,4 +340,4 @@ function hasListener(attrs: Record<string, unknown>, name: string): boolean {
 	return typeof attrs[`on${name.charAt(0).toUpperCase()}${name.slice(1)}`] === 'function';
 }
 
-export default TAttachment;
+export default Attachment;

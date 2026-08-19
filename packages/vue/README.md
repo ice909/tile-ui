@@ -10,8 +10,8 @@ pnpm add @tile-ui/vue @tile-ui/core @tile-ui/styles
 
 ## Exports
 
-- Components: `TButton`, `TInput`, `TTextarea`, `TLabel`, `TCard`
-- Card parts: `TCardHeader`, `TCardTitle`, `TCardDescription`, `TCardContent`, `TCardFooter`
+- Components: `Button`, `Input`, `Textarea`, `Label`, `Card`
+- Card parts: `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`
 - Composables: `useLocalStorage`, `useSessionStorage`, `useWindowSize`, `useMediaQuery`, `useIsMobile`, `useOnlineStatus`, `useScrollPosition`, `useCopyToClipboard`, `useClickOutside`, `useKeyPress`, `useMousePosition`
 - Composables subpath export: `@tile-ui/vue/composables`
 
@@ -21,20 +21,20 @@ pnpm add @tile-ui/vue @tile-ui/core @tile-ui/styles
 <script setup lang="ts">
 import '@tile-ui/styles/css/globals.css';
 
-import { TButton, TCard, TCardContent, TCardHeader, TCardTitle, useMediaQuery } from '@tile-ui/vue';
+import { Button, Card, CardContent, CardHeader, CardTitle, useMediaQuery } from '@tile-ui/vue';
 
 const isDesktop = useMediaQuery('(min-width: 1024px)');
 </script>
 
 <template>
-	<TCard>
-		<TCardHeader>
-			<TCardTitle>{{ isDesktop ? 'Desktop' : 'Mobile' }}</TCardTitle>
-		</TCardHeader>
-		<TCardContent>
-			<TButton>Tile UI</TButton>
-		</TCardContent>
-	</TCard>
+	<Card>
+		<CardHeader>
+			<CardTitle>{{ isDesktop ? 'Desktop' : 'Mobile' }}</CardTitle>
+		</CardHeader>
+		<CardContent>
+			<Button>Tile UI</Button>
+		</CardContent>
+	</Card>
 </template>
 ```
 

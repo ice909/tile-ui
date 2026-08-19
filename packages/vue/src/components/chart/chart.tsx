@@ -42,18 +42,18 @@ type ChartContext = ComputedRef<ChartContextValue>;
 const ChartContextKey: InjectionKey<ChartContext> = Symbol('tile-chart');
 
 /**
- * 读取图表上下文 (必须在 TChartContainer 内使用)
+ * 读取图表上下文 (必须在 ChartContainer 内使用)
  */
 function useChart(): ChartContext {
 	const context = inject(ChartContextKey);
 	if (!context) {
-		throw new Error('图表子组件必须在 <TChartContainer /> 内使用');
+		throw new Error('图表子组件必须在 <ChartContainer /> 内使用');
 	}
 	return context;
 }
 
-export const TChartStyle = defineComponent({
-	name: 'TChartStyle',
+export const ChartStyle = defineComponent({
+	name: 'ChartStyle',
 	props: {
 		id: { type: String, required: true },
 		config: { type: Object as PropType<ChartConfig>, required: true },
@@ -70,8 +70,8 @@ export const TChartStyle = defineComponent({
 	},
 });
 
-export const TChartContainer = defineComponent({
-	name: 'TChartContainer',
+export const ChartContainer = defineComponent({
+	name: 'ChartContainer',
 	props: {
 		config: { type: Object as PropType<ChartConfig>, required: true },
 		data: { type: Array as PropType<ChartDatum[]>, default: () => [] },
@@ -161,7 +161,7 @@ export const TChartContainer = defineComponent({
 			const restAttrs = { ...attrs };
 			delete restAttrs.class;
 
-			const children: any[] = [h(TChartStyle, { id: chartId, config: props.config })];
+			const children: any[] = [h(ChartStyle, { id: chartId, config: props.config })];
 
 			const svgChildren: any[] = [];
 
@@ -248,7 +248,7 @@ export const TChartContainer = defineComponent({
 
 			if (props.showTooltip && activeIndex.value !== null) {
 				children.push(
-					h(TChartTooltipContent, {
+					h(ChartTooltipContent, {
 						active: true,
 						payload: entries.value,
 						label: tooltipLabel.value,
@@ -262,7 +262,7 @@ export const TChartContainer = defineComponent({
 			}
 
 			if (props.showLegend) {
-				children.push(h(TChartLegendContent, { payload: legendItems.value }));
+				children.push(h(ChartLegendContent, { payload: legendItems.value }));
 			}
 
 			if (slots.default) {
@@ -274,8 +274,8 @@ export const TChartContainer = defineComponent({
 	},
 });
 
-export const TChartTooltipContent = defineComponent({
-	name: 'TChartTooltipContent',
+export const ChartTooltipContent = defineComponent({
+	name: 'ChartTooltipContent',
 	props: {
 		active: { type: Boolean, default: false },
 		payload: { type: Array as PropType<ChartTooltipEntry[]>, default: () => [] },
@@ -334,8 +334,8 @@ export const TChartTooltipContent = defineComponent({
 	},
 });
 
-export const TChartLegendContent = defineComponent({
-	name: 'TChartLegendContent',
+export const ChartLegendContent = defineComponent({
+	name: 'ChartLegendContent',
 	props: {
 		payload: { type: Array as PropType<ChartLegendItem[]>, default: () => [] },
 		hideIcon: { type: Boolean, default: false },
@@ -364,8 +364,8 @@ export const TChartLegendContent = defineComponent({
 	},
 });
 
-export const TChartTooltip = defineComponent({
-	name: 'TChartTooltip',
+export const ChartTooltip = defineComponent({
+	name: 'ChartTooltip',
 	setup(_props, { slots, attrs }) {
 		const context = useChart();
 
@@ -378,18 +378,18 @@ export const TChartTooltip = defineComponent({
 				return slots.default({ active: activeIndex !== null, payload: entries, label });
 			}
 
-			return h(TChartTooltipContent, { ...attrs, active: activeIndex !== null, payload: entries, label });
+			return h(ChartTooltipContent, { ...attrs, active: activeIndex !== null, payload: entries, label });
 		};
 	},
 });
 
-export const TChartLegend = defineComponent({
-	name: 'TChartLegend',
+export const ChartLegend = defineComponent({
+	name: 'ChartLegend',
 	setup(_props, { attrs }) {
 		const context = useChart();
 
-		return () => h(TChartLegendContent, { ...attrs, payload: getChartLegendItems(context.value.layout) });
+		return () => h(ChartLegendContent, { ...attrs, payload: getChartLegendItems(context.value.layout) });
 	},
 });
 
-export default TChartContainer;
+export default ChartContainer;

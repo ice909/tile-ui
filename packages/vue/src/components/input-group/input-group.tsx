@@ -2,10 +2,10 @@ import { computed, defineComponent, h, type PropType } from 'vue';
 import { getInputGroupAddonStyleKeys, getInputGroupStyleKeys, inputGroupStyleKeys } from '@tile-ui/core';
 import type { InputGroupAddonAlign, InputGroupVariant, ButtonVariant, ButtonSize } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/input-group.module.scss';
-import { TButton } from '../button';
+import { Button } from '../button';
 
-export const TInputGroup = defineComponent({
-	name: 'TInputGroup',
+export const InputGroup = defineComponent({
+	name: 'InputGroup',
 	props: {
 		variant: {
 			type: String as PropType<InputGroupVariant>,
@@ -20,8 +20,8 @@ export const TInputGroup = defineComponent({
 	},
 });
 
-export const TInputGroupAddon = defineComponent({
-	name: 'TInputGroupAddon',
+export const InputGroupAddon = defineComponent({
+	name: 'InputGroupAddon',
 	props: {
 		variant: {
 			type: String as PropType<InputGroupVariant>,
@@ -61,8 +61,8 @@ export const TInputGroupAddon = defineComponent({
 	},
 });
 
-export const TInputGroupButton = defineComponent({
-	name: 'TInputGroupButton',
+export const InputGroupButton = defineComponent({
+	name: 'InputGroupButton',
 	props: {
 		variant: {
 			type: String as PropType<ButtonVariant>,
@@ -80,7 +80,7 @@ export const TInputGroupButton = defineComponent({
 	setup(props, { slots, attrs }) {
 		return () =>
 			h(
-				TButton,
+				Button,
 				{
 					...attrs,
 					type: props.type,
@@ -93,15 +93,15 @@ export const TInputGroupButton = defineComponent({
 	},
 });
 
-export const TInputGroupText = defineComponent({
-	name: 'TInputGroupText',
+export const InputGroupText = defineComponent({
+	name: 'InputGroupText',
 	setup(_props, { slots, attrs }) {
 		return () => h('span', { ...attrs, 'data-slot': 'input-group-text', class: [styles[inputGroupStyleKeys.text], attrs.class] }, slots.default?.());
 	},
 });
 
-export const TInputGroupInput = defineComponent({
-	name: 'TInputGroupInput',
+export const InputGroupInput = defineComponent({
+	name: 'InputGroupInput',
 	props: {
 		modelValue: String,
 		placeholder: String,
@@ -126,8 +126,8 @@ export const TInputGroupInput = defineComponent({
 	},
 });
 
-export const TInputGroupTextarea = defineComponent({
-	name: 'TInputGroupTextarea',
+export const InputGroupTextarea = defineComponent({
+	name: 'InputGroupTextarea',
 	props: {
 		modelValue: String,
 		placeholder: String,
@@ -152,4 +152,4 @@ export const TInputGroupTextarea = defineComponent({
 	},
 });
 
-export default TInputGroup;
+export default InputGroup;
