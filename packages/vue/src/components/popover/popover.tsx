@@ -76,23 +76,23 @@ export const PopoverTrigger = defineComponent({
 			context.triggerRef.value = (el as HTMLElement | null) ?? null;
 		}
 
-		const triggerProps = {
+		const triggerProps = computed(() => ({
 			ref: setRef,
 			'aria-haspopup': 'dialog',
 			'aria-expanded': context.open.value ? 'true' : 'false',
 			'aria-controls': context.contentId,
 			'data-state': getPopoverState(context.open.value),
 			onClick: handleClick,
-		};
+		}));
 
 		return () => {
 			const child = slots.default?.()[0];
 
 			if (props.asChild && child) {
-				return cloneVNode(child, mergeProps(child.props ?? {}, triggerProps));
+				return cloneVNode(child, mergeProps(child.props ?? {}, triggerProps.value));
 			}
 
-			return h('button', { ...attrs, ...triggerProps, type: 'button', class: [styles[popoverStyleKeys.trigger], attrs.class] }, slots.default?.());
+			return h('button', { ...attrs, ...triggerProps.value, type: 'button', class: [styles[popoverStyleKeys.trigger], attrs.class] }, slots.default?.());
 		};
 	},
 });
@@ -167,6 +167,7 @@ export const PopoverContent = defineComponent({
 			function handleKeyDown(event: KeyboardEvent) {
 				if (event.key === 'Escape') {
 					context.setOpen(false);
+					context.triggerRef.value?.focus();
 				}
 			}
 

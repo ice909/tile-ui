@@ -5,6 +5,7 @@ export default function NativeSelectDemo() {
 		<NativeSelect defaultValue="a" style={{ maxWidth: '260px' }}>
 			<NativeSelectOption value="a">Option A</NativeSelectOption>
 			<NativeSelectOption value="b">Option B</NativeSelectOption>
+			<NativeSelectOption value="c">Option C</NativeSelectOption>
 		</NativeSelect>
 	);
 }

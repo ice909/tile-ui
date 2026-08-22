@@ -110,7 +110,10 @@ export const Command = defineComponent({
 export const CommandInput = defineComponent({
 	name: 'CommandInput',
 	inheritAttrs: false,
-	setup(_props, { attrs }) {
+	props: {
+		placeholder: { type: String, default: undefined },
+	},
+	setup(props, { attrs }) {
 		const context = useCommandContext();
 
 		return () =>
@@ -118,6 +121,7 @@ export const CommandInput = defineComponent({
 				commandSearchIcon(),
 				h('input', {
 					...attrs,
+					placeholder: props.placeholder,
 					value: context.value.search,
 					onInput: (event: Event) => {
 						context.value.setSearch((event.target as HTMLInputElement).value);

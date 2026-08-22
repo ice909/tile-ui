@@ -15,6 +15,13 @@ export default function ItemDemo() {
 					</Button>
 				</ItemActions>
 			</Item>
+			<Item variant="outline">
+				<ItemMedia>+</ItemMedia>
+				<ItemContent>
+					<ItemTitle>Outlined item</ItemTitle>
+					<ItemDescription>Highlighted with the outline variant.</ItemDescription>
+				</ItemContent>
+			</Item>
 		</div>
 	);
 }

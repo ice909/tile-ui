@@ -150,36 +150,30 @@ export const TooltipTrigger = defineComponent({
 			context.triggerRef.value = (el as HTMLElement | null) ?? null;
 		}
 
-		const triggerProps = {
+		const triggerProps = computed(() => ({
 			ref: setRef,
 			'data-state': getTooltipState(context.open.value),
+			'aria-describedby': context.open.value ? context.contentId : undefined,
 			onMouseenter: handleMouseenter,
 			onMouseleave: handleMouseleave,
 			onFocus: handleFocus,
 			onBlur: handleBlur,
 			onKeydown: handleKeydown,
-		};
+		}));
 
 		return () => {
 			const child = slots.default?.()[0];
 
 			if (props.asChild && child) {
-				return cloneVNode(
-					child,
-					mergeProps(child.props ?? {}, {
-						...triggerProps,
-						'aria-describedby': context.open.value ? context.contentId : undefined,
-					}),
-				);
+				return cloneVNode(child, mergeProps(child.props ?? {}, triggerProps.value));
 			}
 
 			return h(
 				'button',
 				{
 					...attrs,
-					...triggerProps,
+					...triggerProps.value,
 					type: 'button',
-					'aria-describedby': context.open.value ? context.contentId : undefined,
 					class: [styles[tooltipStyleKeys.trigger], attrs.class],
 				},
 				slots.default?.(),

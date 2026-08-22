@@ -204,7 +204,7 @@ export const InputOTPSlot = defineComponent({
 							context.setActiveIndex(props.index);
 							(event.target as HTMLInputElement).select();
 						},
-						onChange: (event: Event) => context.handleInputChange(props.index, (event.target as HTMLInputElement).value),
+						onInput: (event: Event) => context.handleInputChange(props.index, (event.target as HTMLInputElement).value),
 						onKeydown: (event: KeyboardEvent) => context.handleSlotKeyDown(props.index, event),
 						onPaste: (event: ClipboardEvent) => context.handlePaste(event),
 					}),

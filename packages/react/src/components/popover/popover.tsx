@@ -162,6 +162,7 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(({ 
 		function handleKeyDown(event: KeyboardEvent) {
 			if (event.key === 'Escape') {
 				setOpen(false);
+				triggerRef.current?.focus();
 			}
 		}
 

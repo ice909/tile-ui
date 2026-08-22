@@ -215,7 +215,7 @@ export const DropdownMenuTrigger = defineComponent({
 			}
 		}
 
-		const triggerProps = {
+		const triggerProps = computed(() => ({
 			ref: context.value.triggerRef,
 			'aria-haspopup': 'menu',
 			'aria-expanded': context.value.open ? 'true' : 'false',
@@ -223,21 +223,21 @@ export const DropdownMenuTrigger = defineComponent({
 			'data-state': getDropdownMenuState(context.value.open),
 			onClick: handleClick,
 			onKeydown: handleKeyDown,
-		};
+		}));
 
 		return () => {
 			const child = slots.default?.()[0];
 
 			if (props.asChild && child) {
 				const childProps = (child.props ?? {}) as Record<string, unknown>;
-				return h(child, { ...childProps, ...triggerProps });
+				return h(child, { ...childProps, ...triggerProps.value });
 			}
 
 			return h(
 				'button',
 				{
 					...attrs,
-					...triggerProps,
+					...triggerProps.value,
 					type: 'button',
 					class: [styles[dropdownMenuStyleKeys.trigger], attrs.class],
 				},
@@ -310,9 +310,26 @@ function createDropdownMenuContentBase({ isSub = false }: { isSub?: boolean } = 
 				items[0].focus();
 			}
 
+			// 菜单从 hidden 过渡到 visible 需要几十毫秒，期间元素不可聚焦，
+			// 因此轮询到可见后再聚焦首个菜单项，保证键盘导航可用。
+			function focusFirstItemWhenVisible() {
+				const deadline = Date.now() + 300;
+				const tryFocus = () => {
+					const item = itemsRef.value[0];
+					if (item && getComputedStyle(item).visibility !== 'hidden') {
+						highlightFirst();
+						return;
+					}
+					if (Date.now() < deadline) {
+						setTimeout(tryFocus, 20);
+					}
+				};
+				tryFocus();
+			}
+
 			function handleOpen() {
 				updatePosition();
-				highlightFirst();
+				focusFirstItemWhenVisible();
 				window.addEventListener('resize', updatePosition);
 				document.addEventListener('scroll', updatePosition, true);
 
@@ -362,6 +379,7 @@ function createDropdownMenuContentBase({ isSub = false }: { isSub?: boolean } = 
 						handleClose();
 					}
 				},
+				{ flush: 'post' },
 			);
 
 			watch(

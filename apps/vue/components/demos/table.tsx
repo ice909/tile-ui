@@ -14,6 +14,10 @@ export default function TableDemo() {
 					<TableCell>Tile UI</TableCell>
 					<TableCell>Design system</TableCell>
 				</TableRow>
+				<TableRow>
+					<TableCell>shadcn</TableCell>
+					<TableCell>Registry</TableCell>
+				</TableRow>
 			</TableBody>
 		</Table>
 	);

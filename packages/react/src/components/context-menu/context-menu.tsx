@@ -205,7 +205,16 @@ const ContextMenuTrigger = React.forwardRef<HTMLElement, ContextMenuTriggerProps
 	const state = getContextMenuState(context.open);
 
 	return (
-		<Comp ref={setRef} data-state={state} className={asChild ? undefined : `${styles[contextMenuStyleKeys.trigger]} ${className}`} onContextMenu={handleContextMenu} {...props}>
+		<Comp
+			ref={setRef}
+			data-state={state}
+			tabIndex={-1}
+			aria-haspopup="menu"
+			aria-expanded={context.open}
+			aria-controls={context.contentId}
+			className={asChild ? undefined : `${styles[contextMenuStyleKeys.trigger]} ${className}`}
+			onContextMenu={handleContextMenu}
+			{...props}>
 			{children}
 		</Comp>
 	);
@@ -215,7 +224,7 @@ ContextMenuTrigger.displayName = 'ContextMenuTrigger';
 export interface ContextMenuContentProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentProps>(({ className = '', children, ...props }, ref) => {
-	const { open, position, setPosition, closeAll } = useContextMenuContext();
+	const { open, position, setPosition, triggerRef, closeAll, contentId } = useContextMenuContext();
 	const contentRef = useRef<HTMLDivElement | null>(null);
 	const itemsRef = useRef<HTMLElement[]>([]);
 	const latestPositionRef = useRef(position);
@@ -289,6 +298,7 @@ const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentPr
 		function handleKeyDown(event: KeyboardEvent) {
 			if (event.key === 'Escape') {
 				closeAll();
+				triggerRef.current?.focus();
 			}
 		}
 
@@ -298,7 +308,7 @@ const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentPr
 			document.removeEventListener('pointerdown', handlePointerDown);
 			document.removeEventListener('keydown', handleKeyDown);
 		};
-	}, [open, closeAll]);
+	}, [open, closeAll, triggerRef]);
 
 	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
 		const items = itemsRef.current.filter((item) => item.getAttribute('data-disabled') !== 'true');
@@ -346,6 +356,7 @@ const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentPr
 		<ContextMenuContentContext.Provider value={{ itemsRef, close: closeAll }}>
 			<div
 				ref={setRef}
+				id={contentId}
 				role="menu"
 				tabIndex={-1}
 				data-state={state}

@@ -136,7 +136,7 @@ export const HoverCardTrigger = defineComponent({
 			context.triggerRef.value = (el as HTMLElement | null) ?? null;
 		}
 
-		const triggerProps = {
+		const triggerProps = computed(() => ({
 			ref: setRef,
 			'data-state': getHoverCardState(context.open.value),
 			onPointerenter: handlePointerenter,
@@ -144,16 +144,16 @@ export const HoverCardTrigger = defineComponent({
 			onFocus: handleFocus,
 			onBlur: handleBlur,
 			onKeydown: handleKeydown,
-		};
+		}));
 
 		return () => {
 			const child = slots.default?.()[0];
 
 			if (props.asChild && child) {
-				return cloneVNode(child, mergeProps(child.props ?? {}, triggerProps));
+				return cloneVNode(child, mergeProps(child.props ?? {}, triggerProps.value));
 			}
 
-			return h('button', { ...attrs, ...triggerProps, type: 'button', class: [styles[hoverCardStyleKeys.trigger], attrs.class] }, slots.default?.());
+			return h('button', { ...attrs, ...triggerProps.value, type: 'button', class: [styles[hoverCardStyleKeys.trigger], attrs.class] }, slots.default?.());
 		};
 	},
 });

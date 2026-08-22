@@ -73,7 +73,7 @@ export const ResizablePanelGroup = defineComponent({
 	setup(props, { slots, attrs }) {
 		const containerRef = ref<HTMLElement | null>(null);
 		const sizes = ref<number[]>(readStoredSizes(props.id));
-		let panelCount = 0;
+		const panelCount = ref(0);
 
 		watch(
 			sizes,
@@ -86,19 +86,21 @@ export const ResizablePanelGroup = defineComponent({
 		);
 
 		function registerPanel() {
-			return panelCount++;
+			const index = panelCount.value;
+			panelCount.value += 1;
+			return index;
 		}
 
 		function registerHandle() {
-			return Math.max(0, panelCount - 1);
+			return Math.max(0, panelCount.value - 1);
 		}
 
 		function getSize(index: number) {
-			return sizes.value[index] ?? 100 / Math.max(panelCount, 1);
+			return sizes.value[index] ?? 100 / Math.max(panelCount.value, 1);
 		}
 
 		function resize(index: number, delta: number) {
-			const total = Math.max(panelCount, 2);
+			const total = Math.max(panelCount.value, 2);
 			const current = Array.from({ length: total }, (_item, itemIndex) => sizes.value[itemIndex] ?? 100 / total);
 			sizes.value = computeResizableSizes(current, index, delta);
 		}
