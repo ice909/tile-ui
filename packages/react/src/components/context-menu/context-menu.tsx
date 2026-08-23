@@ -14,6 +14,7 @@ import type {
 	ContextMenuSubTriggerBaseProps,
 	ContextMenuTriggerBaseProps,
 } from '@tile-ui/core';
+import { PortalProvider, usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/context-menu.module.scss';
 
 interface ContextMenuContextValue {
@@ -169,11 +170,12 @@ const ContextMenu = React.forwardRef<HTMLDivElement, ContextMenuProps>(({ classN
 ContextMenu.displayName = 'ContextMenu';
 
 export interface ContextMenuPortalProps {
+	container?: PortalContainer;
 	children?: React.ReactNode;
 }
 
-const ContextMenuPortal = ({ children }: ContextMenuPortalProps) => {
-	return <>{children}</>;
+const ContextMenuPortal = ({ container, children }: ContextMenuPortalProps) => {
+	return <PortalProvider container={container}>{children}</PortalProvider>;
 };
 ContextMenuPortal.displayName = 'ContextMenuPortal';
 
@@ -221,10 +223,13 @@ const ContextMenuTrigger = React.forwardRef<HTMLElement, ContextMenuTriggerProps
 });
 ContextMenuTrigger.displayName = 'ContextMenuTrigger';
 
-export interface ContextMenuContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface ContextMenuContentProps extends React.HTMLAttributes<HTMLDivElement> {
+	container?: PortalContainer;
+}
 
-const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentProps>(({ className = '', children, ...props }, ref) => {
+const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentProps>(({ className = '', container, children, ...props }, ref) => {
 	const { open, position, setPosition, triggerRef, closeAll, contentId } = useContextMenuContext();
+	const portalContainer = usePortalContainer(container);
 	const contentRef = useRef<HTMLDivElement | null>(null);
 	const itemsRef = useRef<HTMLElement[]>([]);
 	const latestPositionRef = useRef(position);
@@ -369,11 +374,11 @@ const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentPr
 		</ContextMenuContentContext.Provider>
 	);
 
-	if (!open || typeof document === 'undefined') {
+	if (!open || !portalContainer) {
 		return null;
 	}
 
-	return createPortal(content, document.body);
+	return createPortal(content, portalContainer);
 });
 ContextMenuContent.displayName = 'ContextMenuContent';
 
@@ -705,10 +710,13 @@ const ContextMenuSubTrigger = React.forwardRef<HTMLDivElement, ContextMenuSubTri
 });
 ContextMenuSubTrigger.displayName = 'ContextMenuSubTrigger';
 
-export interface ContextMenuSubContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface ContextMenuSubContentProps extends React.HTMLAttributes<HTMLDivElement> {
+	container?: PortalContainer;
+}
 
-const ContextMenuSubContent = React.forwardRef<HTMLDivElement, ContextMenuSubContentProps>(({ className = '', children, ...props }, ref) => {
+const ContextMenuSubContent = React.forwardRef<HTMLDivElement, ContextMenuSubContentProps>(({ className = '', container, children, ...props }, ref) => {
 	const { open, setOpen, triggerRef } = useContextMenuSubContext();
+	const portalContainer = usePortalContainer(container);
 	const [position, setPosition] = useState<ContextMenuPosition | null>(null);
 	const contentRef = useRef<HTMLDivElement | null>(null);
 	const itemsRef = useRef<HTMLElement[]>([]);
@@ -831,11 +839,11 @@ const ContextMenuSubContent = React.forwardRef<HTMLDivElement, ContextMenuSubCon
 		</ContextMenuContentContext.Provider>
 	);
 
-	if (!open || typeof document === 'undefined') {
+	if (!open || !portalContainer) {
 		return null;
 	}
 
-	return createPortal(content, document.body);
+	return createPortal(content, portalContainer);
 });
 ContextMenuSubContent.displayName = 'ContextMenuSubContent';
 

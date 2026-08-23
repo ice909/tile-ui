@@ -17,6 +17,7 @@ import {
 } from 'vue';
 import { drawerStyleKeys, getDrawerState, getDrawerTranslateStyle } from '@tile-ui/core';
 import type { DrawerDirection } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/drawer.module.scss';
 
 interface DrawerContextValue {
@@ -201,8 +202,10 @@ export const DrawerContent = defineComponent({
 	name: 'DrawerContent',
 	props: {
 		showCloseButton: { type: Boolean, default: true },
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	setup(props, { slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const contextValue = inject(DrawerContextKey);
 		if (!contextValue) {
 			throw new Error('DrawerContent must be used within <Drawer>.');
@@ -336,7 +339,7 @@ export const DrawerContent = defineComponent({
 			const contentAttrs = { ...attrs };
 			delete contentAttrs.class;
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				context.value.modal
 					? h('div', {
 							'data-state': getDrawerState(context.value.open),

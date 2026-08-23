@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef,
 import { createPortal } from 'react-dom';
 import { comboboxStyleKeys, filterComboboxItems, getSelectState, moveComboboxIndex } from '@tile-ui/core';
 import type { ComboboxBaseProps, ComboboxItem } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/combobox.module.scss';
 
 function ComboboxCheckIcon() {
@@ -41,7 +42,9 @@ function ComboboxChevronIcon() {
 	);
 }
 
-export interface ComboboxProps extends React.HTMLAttributes<HTMLDivElement>, ComboboxBaseProps {}
+export interface ComboboxProps extends React.HTMLAttributes<HTMLDivElement>, ComboboxBaseProps {
+	container?: PortalContainer;
+}
 
 const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 	(
@@ -58,10 +61,12 @@ const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 			maxItems,
 			disabled = false,
 			filter,
+			container,
 			...props
 		},
 		ref,
 	) => {
+		const portalContainer = usePortalContainer(container);
 		const [open, setOpen] = useState(false);
 		const [query, setQuery] = useState('');
 		const [activeValue, setActiveValue] = useState<string | null>(null);
@@ -284,7 +289,7 @@ const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 					</span>
 					<ComboboxChevronIcon />
 				</button>
-				{typeof document !== 'undefined' && open ? createPortal(content, document.body) : content}
+				{open && portalContainer ? createPortal(content, portalContainer) : null}
 			</div>
 		);
 	},

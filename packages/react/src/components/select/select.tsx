@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useId, useLay
 import { createPortal } from 'react-dom';
 import { getSelectCheckState, getSelectPosition, getSelectState, selectStyleKeys } from '@tile-ui/core';
 import type { SelectBaseProps, SelectContentBaseProps, SelectItemBaseProps, SelectPositionResult, SelectTriggerBaseProps } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/select.module.scss';
 
 interface SelectContextValue {
@@ -200,11 +201,14 @@ const SelectValue = React.forwardRef<HTMLSpanElement, SelectValueProps>(({ class
 });
 SelectValue.displayName = 'SelectValue';
 
-export interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement>, SelectContentBaseProps {}
+export interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement>, SelectContentBaseProps {
+	container?: PortalContainer;
+}
 
 const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
-	({ className = '', position = 'item-aligned', align = 'center', sideOffset = 4, children, ...props }, ref) => {
+	({ className = '', position = 'item-aligned', align = 'center', sideOffset = 4, container, children, ...props }, ref) => {
 		const { open, setOpen, triggerRef, contentId } = useSelectContext();
+		const portalContainer = usePortalContainer(container);
 		const [coords, setCoords] = useState<SelectPositionResult | null>(null);
 		const contentRef = useRef<HTMLDivElement | null>(null);
 		const itemsRef = useRef<HTMLElement[]>([]);
@@ -352,11 +356,11 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 			</SelectContentContext.Provider>
 		);
 
-		if (!open || typeof document === 'undefined') {
+		if (!open || !portalContainer) {
 			return null;
 		}
 
-		return createPortal(content, document.body);
+		return createPortal(content, portalContainer);
 	},
 );
 SelectContent.displayName = 'SelectContent';

@@ -16,18 +16,19 @@ Tile UI React can be consumed as packages or as copy-paste registry items distri
 pnpm add @tile-ui/react @tile-ui/styles @tile-ui/core
 ```
 
-## Global styles
+## Theme setup
 
-Import the shared global styles once in your app entry.
+Tile components use shadcn-compatible semantic CSS variables. If the application already has a shadcn theme, import only Tile's extension tokens once:
 
 ```tsx
-import '@tile-ui/styles/scss/globals.scss';
+import '@tile-ui/styles/scss/tokens.scss';
 ```
 
-For a Next.js app, add the stylesheet to the root layout so it loads on every route.
+For a Next.js app, add the stylesheet to the root layout so it loads on every route. Keep your existing global stylesheet and reset.
 
 ```tsx
-import '@tile-ui/styles/scss/globals.scss';
+import '@tile-ui/styles/scss/tokens.scss';
+import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
@@ -37,6 +38,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	);
 }
 ```
+
+If the application does not already define semantic variables, import `theme.scss` for Tile's optional default light and dark palette. Add `reset.scss` only when the application also needs Tile's reset:
+
+```tsx
+import '@tile-ui/styles/scss/theme.scss';
+import '@tile-ui/styles/scss/reset.scss'; // Optional.
+```
+
+See [Theming](/docs/theming) for entry-point details, dark mode, scoped themes, and portal behavior.
 
 ## Package usage
 
@@ -68,11 +78,17 @@ First, register the Tile UI namespace in `components.json` so shadcn can resolve
 ```
 
 ```bash
-pnpm dlx shadcn@latest add @tile-ui/styles @tile-ui/button
+pnpm dlx shadcn@latest add @tile-ui/button
 pnpm dlx shadcn@latest add @tile-ui/card
 ```
 
-The CLI will resolve shared items such as `@tile-ui/core` and `@tile-ui/utils` automatically.
+The CLI resolves shared items such as `@tile-ui/core`, `@tile-ui/utils`, and `@tile-ui/styles` automatically. The styles dependency copies the required Sass files and injects only Tile's `--tile-*` extension variables into the global stylesheet configured by `components.json`; the semantic palette still comes from your host theme.
+
+If the application does not already provide shadcn-compatible semantic variables, install Tile's optional default palette explicitly:
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/theme-default
+```
 
 ## Registry output
 
@@ -86,16 +102,9 @@ styles/*
 
 That keeps React components, hooks, and shared SCSS assets colocated in a way that works well for Next.js projects.
 
-## Global styles for registry installs
-
-For registry installs, point the import at the copied local file instead of the package:
-
-```tsx
-import './styles/globals.scss';
-```
-
 ## Next steps
 
 1. Review [Components](/docs/components) for the core primitives.
-2. Review [Hooks](/docs/hooks) for app-level helpers.
-3. Review [Registry](/docs/registry) if you plan to copy source into your project.
+2. Configure [Theming](/docs/theming) for package installs or custom themes.
+3. Review [Hooks](/docs/hooks) for app-level helpers.
+4. Review [Registry](/docs/registry) if you plan to copy source into your project.

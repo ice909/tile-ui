@@ -11,7 +11,8 @@
     "sass"
   ],
   "registryDependencies": [
-    "@tile-ui/core"
+    "@tile-ui/core",
+    "@tile-ui/styles"
   ],
   "files": [
     {
@@ -24,7 +25,7 @@
       "path": "packages/styles/scss/components/switch.module.scss",
       "type": "registry:file",
       "target": "components/ui/switch/switch.module.scss",
-      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\tdisplay: inline-flex;\n\tflex-shrink: 0;\n\talign-items: center;\n\tborder-radius: $radius-full;\n\tborder: 1px solid transparent;\n\tbox-shadow: $shadow-sm;\n\ttransition: background-color $transition-fast;\n\toutline: none;\n\n\t&:focus-visible {\n\t\tborder-color: $ring;\n\t\tbox-shadow:\n\t\t\t0 0 0 1px $ring,\n\t\t\t0 0 0 3px rgba($ring, 0.5);\n\t}\n\n\t&:disabled {\n\t\tcursor: not-allowed;\n\t\topacity: 0.5;\n\t}\n\n\t&[data-size='default'] {\n\t\twidth: 2rem;\n\t\theight: 1.15rem;\n\t}\n\n\t&[data-size='sm'] {\n\t\twidth: 1.5rem;\n\t\theight: 0.875rem;\n\t}\n\n\t&[data-state='checked'] {\n\t\tbackground-color: $primary;\n\t}\n\n\t&[data-state='unchecked'] {\n\t\tbackground-color: $input;\n\t}\n}\n\n.thumb {\n\tpointer-events: none;\n\tdisplay: block;\n\tborder-radius: $radius-full;\n\tbackground-color: $background;\n\ttransition: transform $transition-normal;\n\n\t[data-size='default'] & {\n\t\twidth: 1rem;\n\t\theight: 1rem;\n\t}\n\n\t[data-size='sm'] & {\n\t\twidth: 0.75rem;\n\t\theight: 0.75rem;\n\t}\n\n\t[data-state='checked'] & {\n\t\ttransform: translateX(calc(100% - 2px));\n\t}\n\n\t[data-state='unchecked'] & {\n\t\ttransform: translateX(0);\n\t}\n}\n"
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\tdisplay: inline-flex;\n\tflex-shrink: 0;\n\talign-items: center;\n\tborder-radius: $radius-full;\n\tborder: 1px solid transparent;\n\tbox-shadow: $shadow-sm;\n\ttransition: background-color $transition-fast;\n\toutline: none;\n\n\t&:focus-visible {\n\t\tborder-color: $ring;\n\t\tbox-shadow:\n\t\t\t0 0 0 1px $ring,\n\t\t\t0 0 0 3px color-mix(in srgb, $ring 50%, transparent);\n\t}\n\n\t&:disabled {\n\t\tcursor: not-allowed;\n\t\topacity: 0.5;\n\t}\n\n\t&[data-size='default'] {\n\t\twidth: 2rem;\n\t\theight: 1.15rem;\n\t}\n\n\t&[data-size='sm'] {\n\t\twidth: 1.5rem;\n\t\theight: 0.875rem;\n\t}\n\n\t&[data-state='checked'] {\n\t\tbackground-color: $primary;\n\t}\n\n\t&[data-state='unchecked'] {\n\t\tbackground-color: $input;\n\t}\n}\n\n.thumb {\n\tpointer-events: none;\n\tdisplay: block;\n\tborder-radius: $radius-full;\n\tbackground-color: $background;\n\ttransition: transform $transition-normal;\n\n\t[data-size='default'] & {\n\t\twidth: 1rem;\n\t\theight: 1rem;\n\t}\n\n\t[data-size='sm'] & {\n\t\twidth: 0.75rem;\n\t\theight: 0.75rem;\n\t}\n\n\t[data-state='checked'] & {\n\t\ttransform: translateX(calc(100% - 2px));\n\t}\n\n\t[data-state='unchecked'] & {\n\t\ttransform: translateX(0);\n\t}\n}\n"
     }
   ]
 }

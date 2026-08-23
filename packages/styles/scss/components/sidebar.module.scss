@@ -1,12 +1,12 @@
 @use 'variables/colors' as *;
 
-// 侧边栏专用颜色 (从现有 token 派生，避免新增依赖)
-$sidebar-bg: $card;
-$sidebar-fg: $card-foreground;
-$sidebar-border: $border;
-$sidebar-accent: $accent;
-$sidebar-accent-fg: $accent-foreground;
-$sidebar-ring: $ring;
+// 侧边栏使用标准 shadcn 扩展令牌。
+$sidebar-bg: var(--sidebar);
+$sidebar-fg: var(--sidebar-foreground);
+$sidebar-border: var(--sidebar-border);
+$sidebar-accent: var(--sidebar-accent);
+$sidebar-accent-fg: var(--sidebar-accent-foreground);
+$sidebar-ring: var(--sidebar-ring);
 
 // 根包裹层
 .wrapper {
@@ -102,7 +102,7 @@ $sidebar-ring: $ring;
 	padding-inline: $spacing-2;
 	font-size: $text-xs;
 	font-weight: $font-medium;
-	color: rgba($sidebar-fg, 0.7);
+	color: color-mix(in srgb, $sidebar-fg 70%, transparent);
 
 	svg {
 		width: 1rem;

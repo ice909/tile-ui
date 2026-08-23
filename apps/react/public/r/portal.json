@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "portal",
+  "type": "registry:lib",
+  "title": "Portal",
+  "description": "Shared portal container provider and hook for React Tile UI overlays.",
+  "files": [
+    {
+      "path": "packages/react/src/components/portal/index.ts",
+      "type": "registry:lib",
+      "target": "components/ui/portal/index.ts",
+      "content": "export { PortalProvider, usePortalContainer, type PortalContainer, type PortalProviderProps } from './portal';\n"
+    },
+    {
+      "path": "packages/react/src/components/portal/portal.tsx",
+      "type": "registry:lib",
+      "target": "components/ui/portal/portal.tsx",
+      "content": "import React, { createContext, useContext, useEffect, useState } from 'react';\n\nexport type PortalContainer = Element | null;\n\nconst PortalContainerContext = createContext<PortalContainer>(null);\n\nexport interface PortalProviderProps {\n\tcontainer?: PortalContainer;\n\tchildren?: React.ReactNode;\n}\n\nfunction PortalProvider({ container = null, children }: PortalProviderProps) {\n\tconst parentContainer = useContext(PortalContainerContext);\n\n\treturn <PortalContainerContext.Provider value={container ?? parentContainer}>{children}</PortalContainerContext.Provider>;\n}\n\nPortalProvider.displayName = 'PortalProvider';\n\nfunction usePortalContainer(container?: PortalContainer): PortalContainer {\n\tconst contextContainer = useContext(PortalContainerContext);\n\tconst [defaultContainer, setDefaultContainer] = useState<PortalContainer>(null);\n\n\tuseEffect(() => {\n\t\tsetDefaultContainer(document.body);\n\t}, []);\n\n\treturn container ?? contextContainer ?? defaultContainer;\n}\n\nexport { PortalProvider, usePortalContainer };\n"
+    }
+  ]
+}

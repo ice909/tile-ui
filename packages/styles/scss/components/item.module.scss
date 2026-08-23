@@ -27,7 +27,7 @@
 
 	&:focus-visible {
 		border-color: $ring;
-		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+		box-shadow: 0 0 0 3px color-mix(in srgb, $ring 50%, transparent);
 	}
 
 	a {
@@ -35,7 +35,7 @@
 	}
 
 	a:hover {
-		background-color: rgba($accent, 0.5);
+		background-color: color-mix(in srgb, $accent 50%, transparent);
 	}
 
 	// 样式变体
@@ -48,7 +48,7 @@
 	}
 
 	&.variantMuted {
-		background-color: rgba($muted, 0.5);
+		background-color: color-mix(in srgb, $muted 50%, transparent);
 	}
 
 	// 尺寸变体

@@ -1,4 +1,5 @@
 // Components
+export { PortalProvider, usePortalContainer, type PortalContainer } from './components/portal';
 export { Button } from './components/button';
 export { Input } from './components/input';
 export { Textarea } from './components/textarea';

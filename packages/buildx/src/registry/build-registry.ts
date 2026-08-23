@@ -4,6 +4,7 @@ import { buildItemJson, buildRegistryIndex } from './pipeline/build-item-json';
 import { cleanupOutput } from './pipeline/cleanup-output';
 import { resolveItemFiles } from './pipeline/resolve-item-files';
 import { validateManifest } from './pipeline/validate-manifest';
+import { validateSassDependencies } from './pipeline/validate-sass-dependencies';
 import { writeJsonFile } from './pipeline/write-output';
 import type { BuiltRegistryFile } from './pipeline/build-item-json';
 import type { RegistryBuildOptions } from './types';
@@ -18,6 +19,7 @@ export async function buildRegistry(options: RegistryBuildOptions) {
 		})) ?? [];
 
 	const expectedFileNames = ['registry.json'];
+	const builtItems = new Map<string, BuiltRegistryFile[]>();
 
 	for (const item of options.manifest.items) {
 		const resolvedFiles = await resolveItemFiles(options.workspaceRoot, item, virtualFiles);
@@ -46,7 +48,13 @@ export async function buildRegistry(options: RegistryBuildOptions) {
 			});
 		}
 
-		const itemJson = buildItemJson(options.manifest, item, files);
+		builtItems.set(item.name, files);
+	}
+
+	validateSassDependencies(options.manifest, builtItems);
+
+	for (const item of options.manifest.items) {
+		const itemJson = buildItemJson(options.manifest, item, builtItems.get(item.name) ?? []);
 		const itemFileName = `${item.name}.json`;
 		expectedFileNames.push(itemFileName);
 		await writeJsonFile(path.join(options.outDir, itemFileName), itemJson);

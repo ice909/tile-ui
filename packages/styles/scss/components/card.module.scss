@@ -1,4 +1,3 @@
-@use 'sass:color';
 @use 'variables/colors' as *;
 
 .card {
@@ -42,7 +41,7 @@
 
 .cardDescription {
 	font-size: $text-sm;
-	color: color.mix(white, $foreground, 60%);
+	color: $muted-foreground;
 	line-height: $leading-normal;
 	margin: 0;
 }

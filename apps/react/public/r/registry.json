@@ -29,18 +29,80 @@
       ]
     },
     {
+      "name": "portal",
+      "type": "registry:lib",
+      "title": "Portal",
+      "description": "Shared portal container provider and hook for React Tile UI overlays.",
+      "files": [
+        {
+          "path": "packages/react/src/components/portal/index.ts",
+          "type": "registry:lib",
+          "target": "components/ui/portal/index.ts"
+        },
+        {
+          "path": "packages/react/src/components/portal/portal.tsx",
+          "type": "registry:lib",
+          "target": "components/ui/portal/portal.tsx"
+        }
+      ]
+    },
+    {
       "name": "styles",
-      "type": "registry:file",
+      "type": "registry:style",
       "title": "Styles",
-      "description": "Shared SCSS assets required by Tile UI registry items.",
+      "description": "Tile UI runtime extensions and shared Sass dependencies.",
       "devDependencies": [
         "sass"
       ],
+      "cssVars": {
+        "light": {
+          "tile-success": "#22c55e",
+          "tile-success-foreground": "#fafafa",
+          "tile-warning": "#f59e0b",
+          "tile-warning-foreground": "#fafafa",
+          "tile-info": "#3b82f6",
+          "tile-info-foreground": "#fafafa",
+          "tile-overlay": "rgb(0 0 0 / 0.5)",
+          "tile-shadow-color": "0 0 0",
+          "tile-radius-full": "9999px",
+          "tile-text-xs": "0.75rem",
+          "tile-text-sm": "0.875rem",
+          "tile-text-base": "1rem",
+          "tile-text-lg": "1.125rem",
+          "tile-text-xl": "1.25rem",
+          "tile-text-2xl": "1.5rem",
+          "tile-text-3xl": "1.875rem",
+          "tile-font-light": "300",
+          "tile-font-normal": "400",
+          "tile-font-medium": "500",
+          "tile-font-semibold": "600",
+          "tile-font-bold": "700",
+          "tile-leading-none": "1",
+          "tile-leading-tight": "1.25",
+          "tile-leading-normal": "1.5",
+          "tile-leading-relaxed": "1.625"
+        }
+      },
       "files": [
+        {
+          "path": "packages/styles/scss/tokens.scss",
+          "type": "registry:file",
+          "target": "styles/tokens.scss"
+        },
         {
           "path": "packages/styles/scss/globals.scss",
           "type": "registry:file",
           "target": "styles/globals.scss"
+        },
+        {
+          "path": "packages/styles/scss/theme.scss",
+          "type": "registry:file",
+          "target": "styles/theme.scss"
+        },
+        {
+          "path": "packages/styles/scss/reset.scss",
+          "type": "registry:file",
+          "target": "styles/reset.scss"
         },
         {
           "path": "packages/styles/scss/variables/_colors.scss",
@@ -51,6 +113,110 @@
           "path": "packages/styles/scss/mixins/_utils.scss",
           "type": "registry:file",
           "target": "styles/mixins/_utils.scss"
+        }
+      ]
+    },
+    {
+      "name": "theme-default",
+      "type": "registry:theme",
+      "title": "Default Theme",
+      "description": "Optional Tile UI default palette and runtime token theme.",
+      "registryDependencies": [
+        "@tile-ui/styles"
+      ],
+      "cssVars": {
+        "light": {
+          "background": "#ffffff",
+          "foreground": "#18181b",
+          "card": "#ffffff",
+          "card-foreground": "#18181b",
+          "popover": "#ffffff",
+          "popover-foreground": "#18181b",
+          "primary": "#18181b",
+          "primary-foreground": "#fafafa",
+          "secondary": "#f4f4f5",
+          "secondary-foreground": "#18181b",
+          "muted": "#f4f4f5",
+          "muted-foreground": "#71717a",
+          "accent": "#f4f4f5",
+          "accent-foreground": "#18181b",
+          "destructive": "#ef4444",
+          "destructive-foreground": "#fafafa",
+          "border": "#e4e4e7",
+          "input": "#e4e4e7",
+          "ring": "#18181b",
+          "chart-1": "#e76e50",
+          "chart-2": "#2a9d90",
+          "chart-3": "#274754",
+          "chart-4": "#e8c468",
+          "chart-5": "#f4a462",
+          "sidebar": "var(--card)",
+          "sidebar-foreground": "var(--card-foreground)",
+          "sidebar-primary": "var(--primary)",
+          "sidebar-primary-foreground": "var(--primary-foreground)",
+          "sidebar-accent": "var(--accent)",
+          "sidebar-accent-foreground": "var(--accent-foreground)",
+          "sidebar-border": "var(--border)",
+          "sidebar-ring": "var(--ring)",
+          "radius": "0.5rem",
+          "tile-success": "#22c55e",
+          "tile-success-foreground": "#fafafa",
+          "tile-warning": "#f59e0b",
+          "tile-warning-foreground": "#fafafa",
+          "tile-info": "#3b82f6",
+          "tile-info-foreground": "#fafafa",
+          "tile-overlay": "rgb(0 0 0 / 0.5)",
+          "tile-shadow-color": "0 0 0",
+          "tile-radius-full": "9999px",
+          "tile-text-xs": "0.75rem",
+          "tile-text-sm": "0.875rem",
+          "tile-text-base": "1rem",
+          "tile-text-lg": "1.125rem",
+          "tile-text-xl": "1.25rem",
+          "tile-text-2xl": "1.5rem",
+          "tile-text-3xl": "1.875rem",
+          "tile-font-light": "300",
+          "tile-font-normal": "400",
+          "tile-font-medium": "500",
+          "tile-font-semibold": "600",
+          "tile-font-bold": "700",
+          "tile-leading-none": "1",
+          "tile-leading-tight": "1.25",
+          "tile-leading-normal": "1.5",
+          "tile-leading-relaxed": "1.625"
+        },
+        "dark": {
+          "background": "#09090b",
+          "foreground": "#fafafa",
+          "card": "#09090b",
+          "card-foreground": "#fafafa",
+          "popover": "#09090b",
+          "popover-foreground": "#fafafa",
+          "primary": "#fafafa",
+          "primary-foreground": "#18181b",
+          "secondary": "#27272a",
+          "secondary-foreground": "#fafafa",
+          "muted": "#27272a",
+          "muted-foreground": "#a1a1aa",
+          "accent": "#27272a",
+          "accent-foreground": "#fafafa",
+          "destructive": "#7f1d1d",
+          "destructive-foreground": "#fafafa",
+          "border": "#27272a",
+          "input": "#27272a",
+          "ring": "#d4d4d8",
+          "chart-1": "#2662d9",
+          "chart-2": "#2eb88a",
+          "chart-3": "#e88c30",
+          "chart-4": "#af57db",
+          "chart-5": "#e23670"
+        }
+      },
+      "files": [
+        {
+          "path": "packages/styles/scss/theme.scss",
+          "type": "registry:file",
+          "target": "styles/theme.scss"
         }
       ]
     },
@@ -106,7 +272,8 @@
       ],
       "registryDependencies": [
         "@tile-ui/core",
-        "@tile-ui/utils"
+        "@tile-ui/utils",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -130,7 +297,8 @@
       ],
       "registryDependencies": [
         "@tile-ui/core",
-        "@tile-ui/utils"
+        "@tile-ui/utils",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -154,7 +322,8 @@
       ],
       "registryDependencies": [
         "@tile-ui/core",
-        "@tile-ui/utils"
+        "@tile-ui/utils",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -180,7 +349,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -203,7 +373,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -229,7 +400,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -252,7 +424,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -275,7 +448,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -298,7 +472,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -321,7 +496,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -344,7 +520,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -367,7 +544,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -390,7 +568,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -413,7 +592,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -436,7 +616,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -462,7 +643,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -485,7 +667,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -508,7 +691,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -531,7 +715,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -554,7 +739,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -577,7 +763,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -603,7 +790,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -629,7 +817,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -655,7 +844,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -679,7 +869,8 @@
       ],
       "registryDependencies": [
         "@tile-ui/core",
-        "button"
+        "button",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -702,7 +893,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -725,7 +917,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -748,7 +941,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -771,7 +965,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -794,7 +989,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -817,7 +1013,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -840,7 +1037,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -863,7 +1061,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -886,7 +1085,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -913,7 +1113,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -940,7 +1142,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -967,7 +1171,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -994,7 +1200,10 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "button",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1022,7 +1231,9 @@
       ],
       "registryDependencies": [
         "@tile-ui/core",
-        "button"
+        "button",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1049,7 +1260,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1076,7 +1289,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1103,7 +1318,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1129,7 +1346,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1156,7 +1375,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1182,7 +1402,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1208,7 +1430,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1234,7 +1458,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1257,7 +1483,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1280,7 +1507,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1307,7 +1535,9 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/portal",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1334,7 +1564,8 @@
       ],
       "registryDependencies": [
         "@tile-ui/core",
-        "label"
+        "label",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1366,7 +1597,8 @@
         "separator",
         "sheet",
         "skeleton",
-        "tooltip"
+        "tooltip",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1390,7 +1622,8 @@
       ],
       "registryDependencies": [
         "@tile-ui/core",
-        "button"
+        "button",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1413,7 +1646,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1440,7 +1674,8 @@
       ],
       "registryDependencies": [
         "@tile-ui/core",
-        "button"
+        "button",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1466,7 +1701,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1489,7 +1725,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1512,7 +1749,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1535,7 +1773,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1558,7 +1797,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {
@@ -1581,7 +1821,8 @@
         "sass"
       ],
       "registryDependencies": [
-        "@tile-ui/core"
+        "@tile-ui/core",
+        "@tile-ui/styles"
       ],
       "files": [
         {

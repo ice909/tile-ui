@@ -17,6 +17,7 @@ import {
 } from 'vue';
 import { dropdownMenuStyleKeys, getDropdownMenuCheckState, getDropdownMenuPosition, getDropdownMenuState } from '@tile-ui/core';
 import type { DropdownMenuAlign, DropdownMenuSide } from '@tile-ui/core';
+import { PortalProvider, usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/dropdown-menu.module.scss';
 
 interface DropdownMenuContextValue {
@@ -187,8 +188,11 @@ export const DropdownMenu = defineComponent({
 
 export const DropdownMenuPortal = defineComponent({
 	name: 'DropdownMenuPortal',
-	setup(_props, { slots }) {
-		return () => slots.default?.();
+	props: {
+		container: { type: Object as PropType<PortalContainer>, default: null },
+	},
+	setup(props, { slots }) {
+		return () => h(PortalProvider, { container: props.container }, slots);
 	},
 });
 
@@ -264,8 +268,10 @@ function createDropdownMenuContentBase({ isSub = false }: { isSub?: boolean } = 
 			align: { type: String as PropType<DropdownMenuAlign>, default: 'center' },
 			sideOffset: { type: Number, default: 4 },
 			alignOffset: { type: Number, default: 0 },
+			container: { type: Object as PropType<PortalContainer>, default: null },
 		},
 		setup(props, { slots, attrs }) {
+			const portalContainer = usePortalContainer(() => props.container);
 			const context = (isSub ? useDropdownMenuSubContext() : useDropdownMenuContext()) as ComputedRef<ContentContext>;
 			const contentRef = ref<HTMLElement | null>(null);
 			const itemsRef = ref<HTMLElement[]>([]);
@@ -452,7 +458,7 @@ function createDropdownMenuContentBase({ isSub = false }: { isSub?: boolean } = 
 				delete restAttrs.class;
 				delete restAttrs.style;
 
-				return h(Teleport, { to: 'body' }, [
+				return h(Teleport, { to: portalContainer.value }, [
 					h(
 						'div',
 						{

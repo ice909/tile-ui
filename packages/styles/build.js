@@ -23,22 +23,20 @@ if (!fs.existsSync(COMPONENTS_DIR)) fs.mkdirSync(COMPONENTS_DIR, { recursive: tr
 
 // 编译全局样式
 function compileFile(inputPath, outputPath) {
-	try {
-		const result = sass.compile(inputPath, {
-			loadPaths: [path.resolve(SCSS_DIR)],
-			style: 'compressed',
-		});
-		fs.writeFileSync(outputPath, result.css);
-		console.log(`  ${path.relative(__dirname, outputPath)}`);
-	} catch (err) {
-		console.error(`  Failed: ${path.relative(__dirname, inputPath)} - ${err.message}`);
-	}
+	const result = sass.compile(inputPath, {
+		loadPaths: [path.resolve(SCSS_DIR)],
+		style: 'compressed',
+	});
+	fs.writeFileSync(outputPath, result.css);
+	console.log(`  ${path.relative(__dirname, outputPath)}`);
 }
 
 console.log('Compiling SCSS -> CSS...');
 
-// 编译 globals.scss
-compileFile(path.resolve(SCSS_DIR, 'globals.scss'), path.resolve(CSS_DIR, 'globals.css'));
+// 编译公开入口
+for (const entry of ['tokens', 'theme', 'reset', 'globals']) {
+	compileFile(path.resolve(SCSS_DIR, `${entry}.scss`), path.resolve(CSS_DIR, `${entry}.css`));
+}
 
 // 编译组件样式 (CSS Modules 仅用于参考，实际 module 化需框架支持)
 const componentsDir = path.resolve(SCSS_DIR, 'components');

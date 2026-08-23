@@ -1,3 +1,4 @@
+export { PortalProvider, usePortalContainer, type PortalContainer, type PortalProviderProps } from './portal';
 export { Button, type ButtonProps } from './button';
 export { Input, type InputProps } from './input';
 export { Textarea, type TextareaProps } from './textarea';

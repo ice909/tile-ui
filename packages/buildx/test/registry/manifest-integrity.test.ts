@@ -96,6 +96,12 @@ describe.each([
 		}
 	});
 
+	it('每个包含 SCSS 的 UI item 都依赖共享 styles item', () => {
+		for (const item of manifest.items.filter((i) => i.type === 'registry:ui' && i.files.some((file) => file.source.endsWith('.scss')))) {
+			expect(item.registryDependencies, `${item.name} 缺少 @tile-ui/styles`).toContain('@tile-ui/styles');
+		}
+	});
+
 	it('registryDependencies 引用的 item 均存在', () => {
 		const names = new Set(manifest.items.map((item) => item.name));
 		for (const item of manifest.items) {
@@ -104,6 +110,36 @@ describe.each([
 					const local = dep.slice('@tile-ui/'.length);
 					expect(names.has(local), `${item.name} 引用未知依赖 ${dep}`).toBe(true);
 				}
+			}
+		}
+	});
+
+	it('所有 portal 消费者都声明可解析的 portal registry 依赖', () => {
+		const portal = manifest.items.find((item) => item.name === 'portal');
+		expect(portal?.type).toBe('registry:lib');
+		expect(portal?.files).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					target: 'components/ui/portal/index.ts',
+				}),
+				expect.objectContaining({
+					target: 'components/ui/portal/portal.tsx',
+				}),
+			]),
+		);
+
+		for (const item of manifest.items) {
+			const importsPortal = item.files.some((file) => {
+				if (!fs.existsSync(path.join(workspaceRoot, file.source))) {
+					return false;
+				}
+
+				return fs.readFileSync(path.join(workspaceRoot, file.source), 'utf-8').includes("from '../portal'");
+			});
+
+			if (importsPortal) {
+				expect(item.registryDependencies, `${item.name} 缺少 portal registry 依赖`).toContain('@tile-ui/portal');
+				expect(item.registryDependencies, `${item.name} 仍包含未命名空间化的 portal registry 依赖`).not.toContain('portal');
 			}
 		}
 	});

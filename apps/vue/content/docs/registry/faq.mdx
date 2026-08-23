@@ -15,6 +15,10 @@ No. Registry items are copy-paste distributions. The package is optional.
 
 The Vue registry packages framework-agnostic logic into a dedicated item that other Vue items can depend on.
 
+## Do I install styles separately?
+
+No. UI items depend on `@tile-ui/styles` automatically. The CLI copies the shared Sass support files and merges semantic CSS variables into the configured global stylesheet. Tile's default theme and reset remain optional; see [Theming](/docs/theming) for when to use them.
+
 ## How do items resolve `@tile-ui/core`?
 
 Register the Tile UI namespace in `components.json`. The CLI then resolves shared dependencies like `@tile-ui/core` and `@tile-ui/utils` through that namespace without hardcoding a domain into each item.

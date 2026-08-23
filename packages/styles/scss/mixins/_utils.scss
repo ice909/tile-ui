@@ -82,19 +82,19 @@ $breakpoints: (
 
 // 主题变量生成
 @mixin theme-variables($theme-prefix: 'tile') {
-	#{$theme-prefix}-primary: #{$primary};
-	#{$theme-prefix}-primary-foreground: #{$primary-foreground};
-	#{$theme-prefix}-secondary: #{$secondary};
-	#{$theme-prefix}-secondary-foreground: #{$secondary-foreground};
-	#{$theme-prefix}-accent: #{$accent};
-	#{$theme-prefix}-accent-foreground: #{$accent-foreground};
-	#{$theme-prefix}-destructive: #{$destructive};
-	#{$theme-prefix}-destructive-foreground: #{$destructive-foreground};
-	#{$theme-prefix}-background: #{$background};
-	#{$theme-prefix}-foreground: #{$foreground};
-	#{$theme-prefix}-border: #{$border};
-	#{$theme-prefix}-input: #{$input};
-	#{$theme-prefix}-ring: #{$ring};
+	--#{$theme-prefix}-primary: var(--primary);
+	--#{$theme-prefix}-primary-foreground: var(--primary-foreground);
+	--#{$theme-prefix}-secondary: var(--secondary);
+	--#{$theme-prefix}-secondary-foreground: var(--secondary-foreground);
+	--#{$theme-prefix}-accent: var(--accent);
+	--#{$theme-prefix}-accent-foreground: var(--accent-foreground);
+	--#{$theme-prefix}-destructive: var(--destructive);
+	--#{$theme-prefix}-destructive-foreground: var(--destructive-foreground);
+	--#{$theme-prefix}-background: var(--background);
+	--#{$theme-prefix}-foreground: var(--foreground);
+	--#{$theme-prefix}-border: var(--border);
+	--#{$theme-prefix}-input: var(--input);
+	--#{$theme-prefix}-ring: var(--ring);
 }
 
 // 焦点状态

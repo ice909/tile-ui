@@ -46,6 +46,8 @@ export const CHART_DEFAULT_PADDING: Required<ChartPadding> = { top: 16, right: 1
  */
 export const CHART_DEFAULT_COLORS = ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#a855f7', '#06b6d4'] as const;
 
+const CHART_CSS_PALETTE_SIZE = 5;
+
 /**
  * 根据主题取配置项颜色
  */
@@ -56,15 +58,14 @@ export function getChartConfigColor(item: ChartConfigItem | undefined, theme: 'l
 /**
  * 获取系列颜色 (优先系列自定义颜色，其次 config，最后默认调色板)
  */
-export function getChartSeriesColor(config: ChartConfig, series: ChartSeriesItem, index: number, theme: 'light' | 'dark' = 'light'): string {
+export function getChartSeriesColor(config: ChartConfig, series: ChartSeriesItem, index: number, theme: 'light' | 'dark' = 'light', cssVariableScope?: string): string {
 	if (series.color) {
 		return series.color;
 	}
-	const configColor = getChartConfigColor(config[series.key], theme);
-	if (configColor) {
-		return configColor;
-	}
-	return CHART_DEFAULT_COLORS[index % CHART_DEFAULT_COLORS.length];
+	const paletteIndex = index % CHART_CSS_PALETTE_SIZE;
+	const paletteFallback = `var(--chart-${paletteIndex + 1}, ${CHART_DEFAULT_COLORS[paletteIndex]})`;
+	const fallback = getChartConfigColor(config[series.key], theme) ?? paletteFallback;
+	return `var(${getChartCssVarName(series.key, cssVariableScope)}, ${fallback})`;
 }
 
 /**
@@ -178,7 +179,7 @@ export function mapChartValue(value: number, min: number, max: number, innerHeig
  * 计算完整图表布局 (纯数学，供两个框架复用)
  */
 export function computeChartLayout(options: ChartLayoutOptions): ChartLayout {
-	const { data, config, series, xKey, type, width, height, yTickCount = 5, integerOnly = false, theme = 'light' } = options;
+	const { data, config, series, xKey, type, width, height, yTickCount = 5, integerOnly = false, theme = 'light', cssVariableScope } = options;
 	const padding: Required<ChartPadding> = { ...CHART_DEFAULT_PADDING, ...options.padding };
 
 	const innerWidth = Math.max(0, width - padding.left - padding.right);
@@ -207,7 +208,7 @@ export function computeChartLayout(options: ChartLayoutOptions): ChartLayout {
 		return {
 			key: item.key,
 			name: getChartSeriesName(config, item),
-			color: getChartSeriesColor(config, item, index, theme),
+			color: getChartSeriesColor(config, item, index, theme, cssVariableScope),
 			type: item.type ?? type,
 			points,
 		};
@@ -348,12 +349,19 @@ export function getChartLegendItems(layout: ChartLayout): ChartLegendItem[] {
 /**
  * 获取配置键对应的 CSS 变量名 (如 `--color-desktop`)
  */
-export function getChartCssVarName(key: string): string {
-	return `--color-${key}`;
+export function getChartCssVarName(key: string, scope?: string): string {
+	const toIdentifier = (value: string, fallback: string) =>
+		Array.from(value, (character) => (/^[a-zA-Z0-9-]$/.test(character) ? character : `_u${character.codePointAt(0)?.toString(16)}_`)).join('') || fallback;
+	const keyIdentifier = toIdentifier(key, 'series');
+	return scope ? `--chart-${toIdentifier(scope, 'scope')}-color-${keyIdentifier}` : `--color-${keyIdentifier}`;
+}
+
+function getSafeChartCssValue(value: string | undefined): string | undefined {
+	return value && !/[;{}\r\n]/.test(value) ? value : undefined;
 }
 
 /**
- * 生成 ChartStyle 注入的主题 CSS (按主题与 data-chart id 作用域)
+ * 生成 ChartStyle 注入的主题 CSS (每个图表使用独立变量，主题边界通过继承就近生效)
  */
 export function buildChartThemeCss(id: string, config: ChartConfig): string {
 	const colorConfig = Object.entries(config).filter(([, item]) => item.theme ?? item.color);
@@ -362,19 +370,21 @@ export function buildChartThemeCss(id: string, config: ChartConfig): string {
 		return '';
 	}
 
-	return (Object.entries(CHART_THEMES) as Array<[keyof typeof CHART_THEMES, string]>)
-		.map(([theme, prefix]) => {
-			const declarations = colorConfig
-				.map(([key, item]) => {
-					const color = getChartConfigColor(item, theme);
-					return color ? `  ${getChartCssVarName(key)}: ${color};` : null;
-				})
-				.filter((line): line is string => line !== null)
-				.join('\n');
+	const declarations = (theme: keyof typeof CHART_THEMES) =>
+		colorConfig
+			.map(([key, item]) => {
+				const color = getSafeChartCssValue(getChartConfigColor(item, theme));
+				return color ? `  ${getChartCssVarName(key, id)}: ${color};` : null;
+			})
+			.filter((line): line is string => line !== null)
+			.join('\n');
+	const lightDeclarations = declarations('light');
+	const darkDeclarations = declarations('dark');
 
-			return `${prefix} [data-chart=${id}] {\n${declarations}\n}`;
-		})
-		.join('\n');
+	const css = [`.light, [data-theme="light"] {\n${lightDeclarations}\n}`, `.dark, [data-theme="dark"] {\n${darkDeclarations}\n}`].join('\n');
+
+	// style 元素是 HTML raw-text，上屏前转义 `<`，同时由 CSS 解析器还原原值。
+	return css.replace(/</g, '\\3c ');
 }
 
 /**

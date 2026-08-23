@@ -60,7 +60,7 @@
 	width: 0.5rem;
 	height: 0.5rem;
 	flex-shrink: 0;
-	border-radius: 2px;
+	border-radius: $radius-xs;
 }
 
 // Tooltip 容器
@@ -70,7 +70,7 @@
 	min-width: 8rem;
 	align-items: start;
 	gap: $spacing-1_5;
-	border: 1px solid rgba($border, 0.5);
+	border: 1px solid color-mix(in srgb, $border 50%, transparent);
 	border-radius: $radius;
 	background-color: $popover;
 	padding: $spacing-1_5 $spacing-2_5;
@@ -119,7 +119,7 @@
 // Tooltip 指示器
 .tooltipIndicator {
 	flex-shrink: 0;
-	border-radius: 2px;
+	border-radius: $radius-xs;
 
 	&[data-indicator='dot'] {
 		width: 0.625rem;

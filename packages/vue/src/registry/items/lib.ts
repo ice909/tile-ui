@@ -29,4 +29,25 @@ export const vueLibItems: PackageRegistryItem[] = [
 			},
 		],
 	},
+	{
+		name: 'portal',
+		type: 'registry:lib',
+		title: 'Portal',
+		description: 'Shared portal container provider and composable for Vue Tile UI overlays.',
+		dependencies: ['vue'],
+		files: [
+			{
+				source: 'packages/vue/src/components/portal/index.ts',
+				type: 'registry:lib',
+				transform: 'copy',
+				target: 'components/ui/portal/index.ts',
+			},
+			{
+				source: 'packages/vue/src/components/portal/portal.tsx',
+				type: 'registry:lib',
+				transform: 'vue-component',
+				target: 'components/ui/portal/portal.tsx',
+			},
+		],
+	},
 ];

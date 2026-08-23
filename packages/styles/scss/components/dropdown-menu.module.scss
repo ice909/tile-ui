@@ -134,7 +134,7 @@
 		color: $destructive;
 
 		&[data-highlighted='true'] {
-			background-color: rgba(239, 68, 68, 0.1);
+			background-color: color-mix(in srgb, $destructive 10%, transparent);
 			color: $destructive;
 		}
 	}

@@ -18,7 +18,7 @@
 
 	&:focus-visible {
 		outline: none;
-		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+		box-shadow: 0 0 0 3px color-mix(in srgb, $ring 50%, transparent);
 	}
 }
 

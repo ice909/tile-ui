@@ -12,7 +12,8 @@
   ],
   "registryDependencies": [
     "@tile-ui/core",
-    "button"
+    "button",
+    "@tile-ui/styles"
   ],
   "files": [
     {

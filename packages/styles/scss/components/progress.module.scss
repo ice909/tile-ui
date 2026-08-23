@@ -6,7 +6,7 @@
 	width: 100%;
 	overflow: hidden;
 	border-radius: $radius-full;
-	background-color: rgba($primary, 0.2);
+	background-color: color-mix(in srgb, $primary 20%, transparent);
 }
 
 .indicator {

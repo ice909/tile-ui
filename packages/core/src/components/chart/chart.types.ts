@@ -83,6 +83,8 @@ export interface ChartLayoutOptions {
 	integerOnly?: boolean;
 	/** 当前主题 (light/dark，用于取 theme 颜色) */
 	theme?: 'light' | 'dark';
+	/** 图表专属 CSS 变量作用域，避免嵌套图表之间继承颜色 */
+	cssVariableScope?: string;
 }
 
 /**

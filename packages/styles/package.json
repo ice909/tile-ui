@@ -20,6 +20,12 @@
 	"exports": {
 		"./scss/*": "./scss/*",
 		"./css/*": "./css/*",
+		"./tokens.scss": "./scss/tokens.scss",
+		"./tokens.css": "./css/tokens.css",
+		"./theme.scss": "./scss/theme.scss",
+		"./theme.css": "./css/theme.css",
+		"./reset.scss": "./scss/reset.scss",
+		"./reset.css": "./css/reset.css",
 		"./globals.scss": "./scss/globals.scss",
 		"./globals.css": "./css/globals.css"
 	},

@@ -1,1 +1,1 @@
-.label{display:block;font-size:.875rem;font-weight:500;color:#18181b;line-height:1.5;cursor:pointer}.label.required::after{content:" *";color:#ef4444}
+.label{display:block;font-size:var(--tile-text-sm);font-weight:var(--tile-font-medium);color:var(--foreground);line-height:var(--tile-leading-normal);cursor:pointer}.label.required::after{content:" *";color:var(--destructive)}

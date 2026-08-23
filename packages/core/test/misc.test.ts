@@ -6,6 +6,7 @@ import {
 	clampCarouselScroll,
 	computeResizableSizes,
 	createSonnerStore,
+	resolveSonnerTheme,
 	formatAttachmentSize,
 	getAspectRatioPadding,
 	getAttachmentActionState,
@@ -174,6 +175,15 @@ describe('MessageScroller', () => {
 });
 
 describe('Sonner store', () => {
+	it('继承宿主主题并解析显式和系统主题', () => {
+		expect(resolveSonnerTheme(undefined, false)).toBeUndefined();
+		expect(resolveSonnerTheme(undefined, true)).toBeUndefined();
+		expect(resolveSonnerTheme('light', true)).toBe('light');
+		expect(resolveSonnerTheme('dark', false)).toBe('dark');
+		expect(resolveSonnerTheme('system', false)).toBe('light');
+		expect(resolveSonnerTheme('system', true)).toBe('dark');
+	});
+
 	it('add / getToasts / update / dismiss / remove / dismissAll', () => {
 		const store = createSonnerStore();
 		const id = store.add({ title: 'hi' });

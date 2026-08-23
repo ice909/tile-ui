@@ -29,4 +29,24 @@ export const reactLibItems: PackageRegistryItem[] = [
 			},
 		],
 	},
+	{
+		name: 'portal',
+		type: 'registry:lib',
+		title: 'Portal',
+		description: 'Shared portal container provider and hook for React Tile UI overlays.',
+		files: [
+			{
+				source: 'packages/react/src/components/portal/index.ts',
+				type: 'registry:lib',
+				transform: 'copy',
+				target: 'components/ui/portal/index.ts',
+			},
+			{
+				source: 'packages/react/src/components/portal/portal.tsx',
+				type: 'registry:lib',
+				transform: 'react-component',
+				target: 'components/ui/portal/portal.tsx',
+			},
+		],
+	},
 ];

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSyncExternalStore } from 'react';
-import { buildSonnerToastApi, createSonnerStore, getSonnerPositionStyleKeys, sonnerStyleKeys } from '@tile-ui/core';
-import type { SonnerPosition, SonnerToast, SonnerToasterBaseProps, SonnerType } from '@tile-ui/core';
+import { buildSonnerToastApi, createSonnerStore, getSonnerPositionStyleKeys, resolveSonnerTheme, sonnerStyleKeys } from '@tile-ui/core';
+import type { SonnerPosition, SonnerTheme, SonnerToast, SonnerToasterBaseProps, SonnerType } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/sonner.module.scss';
 
 const sonnerStore = createSonnerStore();
@@ -156,12 +156,30 @@ function ToastIcon({ type }: { type: SonnerType }) {
 	}
 }
 
+function useResolvedTheme(theme: SonnerTheme | undefined): 'light' | 'dark' | undefined {
+	const [systemTheme, setSystemTheme] = React.useState<'light' | 'dark'>('light');
+
+	React.useEffect(() => {
+		if (theme !== 'system') {
+			return;
+		}
+		const media = window.matchMedia('(prefers-color-scheme: dark)');
+		const update = () => setSystemTheme(media.matches ? 'dark' : 'light');
+		update();
+		media.addEventListener('change', update);
+		return () => media.removeEventListener('change', update);
+	}, [theme]);
+
+	return resolveSonnerTheme(theme, systemTheme === 'dark');
+}
+
 export interface ToasterProps extends SonnerToasterBaseProps {
 	className?: string;
 }
 
 function Toaster({ position = 'bottom-right', duration, theme, richColors = false, closeButton = true, className = '' }: ToasterProps) {
 	const toasts = useSyncExternalStore(sonnerStore.subscribe, sonnerStore.getToasts, sonnerStore.getToasts);
+	const resolvedTheme = useResolvedTheme(theme);
 
 	React.useEffect(() => {
 		if (duration !== undefined) {
@@ -188,12 +206,16 @@ function Toaster({ position = 'bottom-right', duration, theme, richColors = fals
 					<div
 						key={groupPosition}
 						data-slot="toaster"
-						data-theme={theme}
+						data-theme={resolvedTheme}
 						data-rich-colors={richColors ? 'true' : undefined}
-						className={[styles[styleKeys.base], styles[styleKeys.position], className].filter(Boolean).join(' ')}>
+						className={[styles[styleKeys.base], styles[styleKeys.position], resolvedTheme, className].filter(Boolean).join(' ')}>
 						{list.map((item) => (
 							<div key={item.id} data-slot="toast" data-type={item.type} data-dismissing={item.dismissing} className={styles[sonnerStyleKeys.toast]}>
-								<ToastIcon type={item.type} />
+								{item.type !== 'default' && (
+									<div className={styles[sonnerStyleKeys.icon]}>
+										<ToastIcon type={item.type} />
+									</div>
+								)}
 								<div className={styles[sonnerStyleKeys.content]}>
 									{item.title !== undefined && <div className={styles[sonnerStyleKeys.title]}>{item.title}</div>}
 									{item.description !== undefined && <div className={styles[sonnerStyleKeys.description]}>{item.description}</div>}

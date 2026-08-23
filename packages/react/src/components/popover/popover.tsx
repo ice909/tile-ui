@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Slot } from '@radix-ui/react-slot';
 import { getPopoverPosition, getPopoverState, popoverStyleKeys } from '@tile-ui/core';
 import type { PopoverBaseProps, PopoverContentBaseProps, PopoverPosition, PopoverTriggerBaseProps } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/popover.module.scss';
 
 interface PopoverContextValue {
@@ -88,119 +89,124 @@ const PopoverTrigger = React.forwardRef<HTMLButtonElement, PopoverTriggerProps>(
 });
 PopoverTrigger.displayName = 'PopoverTrigger';
 
-export interface PopoverContentProps extends React.HTMLAttributes<HTMLDivElement>, PopoverContentBaseProps {}
+export interface PopoverContentProps extends React.HTMLAttributes<HTMLDivElement>, PopoverContentBaseProps {
+	container?: PortalContainer;
+}
 
-const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(({ className = '', side = 'bottom', align = 'center', sideOffset = 4, children, ...props }, ref) => {
-	const { open, triggerRef, contentId, setOpen } = usePopoverContext();
-	const [position, setPosition] = useState<PopoverPosition | null>(null);
-	const contentRef = useRef<HTMLDivElement | null>(null);
+const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
+	({ className = '', side = 'bottom', align = 'center', sideOffset = 4, container, children, ...props }, ref) => {
+		const { open, triggerRef, contentId, setOpen } = usePopoverContext();
+		const portalContainer = usePortalContainer(container);
+		const [position, setPosition] = useState<PopoverPosition | null>(null);
+		const contentRef = useRef<HTMLDivElement | null>(null);
 
-	function setRef(element: HTMLDivElement | null) {
-		contentRef.current = element;
-		if (typeof ref === 'function') {
-			ref(element);
-		} else if (ref) {
-			ref.current = element;
+		function setRef(element: HTMLDivElement | null) {
+			contentRef.current = element;
+			if (typeof ref === 'function') {
+				ref(element);
+			} else if (ref) {
+				ref.current = element;
+			}
 		}
-	}
 
-	useLayoutEffect(() => {
-		if (!open) {
-			return;
-		}
+		useLayoutEffect(() => {
+			if (!open) {
+				return;
+			}
 
-		function updatePosition() {
-			const trigger = triggerRef.current;
+			function updatePosition() {
+				const trigger = triggerRef.current;
+				const content = contentRef.current;
+				if (!trigger || !content) {
+					return;
+				}
+
+				const triggerRect = trigger.getBoundingClientRect();
+				const contentSize = { width: content.offsetWidth, height: content.offsetHeight };
+				const viewport = { width: window.innerWidth, height: window.innerHeight };
+				setPosition(getPopoverPosition({ triggerRect, contentSize, side, align, sideOffset, viewport }));
+			}
+
+			updatePosition();
+
 			const content = contentRef.current;
-			if (!trigger || !content) {
+			if (content && !content.contains(document.activeElement)) {
+				content.focus();
+			}
+
+			window.addEventListener('resize', updatePosition);
+			document.addEventListener('scroll', updatePosition, true);
+
+			return () => {
+				window.removeEventListener('resize', updatePosition);
+				document.removeEventListener('scroll', updatePosition, true);
+			};
+		}, [open, side, align, sideOffset, triggerRef]);
+
+		useEffect(() => {
+			if (!open) {
 				return;
 			}
 
-			const triggerRect = trigger.getBoundingClientRect();
-			const contentSize = { width: content.offsetWidth, height: content.offsetHeight };
-			const viewport = { width: window.innerWidth, height: window.innerHeight };
-			setPosition(getPopoverPosition({ triggerRect, contentSize, side, align, sideOffset, viewport }));
-		}
-
-		updatePosition();
-
-		const content = contentRef.current;
-		if (content && !content.contains(document.activeElement)) {
-			content.focus();
-		}
-
-		window.addEventListener('resize', updatePosition);
-		document.addEventListener('scroll', updatePosition, true);
-
-		return () => {
-			window.removeEventListener('resize', updatePosition);
-			document.removeEventListener('scroll', updatePosition, true);
-		};
-	}, [open, side, align, sideOffset, triggerRef]);
-
-	useEffect(() => {
-		if (!open) {
-			return;
-		}
-
-		function handlePointerDown(event: PointerEvent) {
-			const target = event.target as Node | null;
-			const content = contentRef.current;
-			const trigger = triggerRef.current;
-			if (!target) {
-				return;
-			}
-			if (content && content.contains(target)) {
-				return;
-			}
-			if (trigger && trigger.contains(target)) {
-				return;
-			}
-			setOpen(false);
-		}
-
-		function handleKeyDown(event: KeyboardEvent) {
-			if (event.key === 'Escape') {
+			function handlePointerDown(event: PointerEvent) {
+				const target = event.target as Node | null;
+				const content = contentRef.current;
+				const trigger = triggerRef.current;
+				if (!target) {
+					return;
+				}
+				if (content && content.contains(target)) {
+					return;
+				}
+				if (trigger && trigger.contains(target)) {
+					return;
+				}
 				setOpen(false);
-				triggerRef.current?.focus();
 			}
+
+			function handleKeyDown(event: KeyboardEvent) {
+				if (event.key === 'Escape') {
+					setOpen(false);
+					triggerRef.current?.focus();
+				}
+			}
+
+			document.addEventListener('pointerdown', handlePointerDown);
+			document.addEventListener('keydown', handleKeyDown);
+
+			return () => {
+				document.removeEventListener('pointerdown', handlePointerDown);
+				document.removeEventListener('keydown', handleKeyDown);
+			};
+		}, [open, triggerRef, setOpen]);
+
+		const state = getPopoverState(open);
+		const classes = [styles[popoverStyleKeys.content], className].filter(Boolean).join(' ');
+
+		const content = (
+			<div
+				ref={setRef}
+				id={contentId}
+				role="dialog"
+				aria-modal="false"
+				tabIndex={-1}
+				data-state={state}
+				data-side={side}
+				data-align={align}
+				className={classes}
+				style={position ? { top: `${position.top}px`, left: `${position.left}px` } : undefined}
+				{...props}>
+				{children}
+			</div>
+		);
+
+		if (!open || !portalContainer) {
+			return null;
 		}
 
-		document.addEventListener('pointerdown', handlePointerDown);
-		document.addEventListener('keydown', handleKeyDown);
-
-		return () => {
-			document.removeEventListener('pointerdown', handlePointerDown);
-			document.removeEventListener('keydown', handleKeyDown);
-		};
-	}, [open, triggerRef, setOpen]);
-
-	const state = getPopoverState(open);
-	const classes = [styles[popoverStyleKeys.content], className].filter(Boolean).join(' ');
-
-	const content = (
-		<div
-			ref={setRef}
-			id={contentId}
-			role="dialog"
-			aria-modal="false"
-			tabIndex={-1}
-			data-state={state}
-			data-side={side}
-			data-align={align}
-			className={classes}
-			style={position ? { top: `${position.top}px`, left: `${position.left}px` } : undefined}
-			{...props}>
-			{children}
-		</div>
-	);
-
-	if (!open || typeof document === 'undefined') {
-		return null;
-	}
-
-	return createPortal(content, document.body);
-});
+		return createPortal(content, portalContainer);
+	},
+);
 PopoverContent.displayName = 'PopoverContent';
 
 export { Popover, PopoverTrigger, PopoverContent };

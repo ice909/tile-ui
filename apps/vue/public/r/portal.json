@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "portal",
+  "type": "registry:lib",
+  "title": "Portal",
+  "description": "Shared portal container provider and composable for Vue Tile UI overlays.",
+  "dependencies": [
+    "vue"
+  ],
+  "files": [
+    {
+      "path": "packages/vue/src/components/portal/index.ts",
+      "type": "registry:lib",
+      "target": "components/ui/portal/index.ts",
+      "content": "export { PortalProvider, usePortalContainer, type PortalContainer } from './portal';\n"
+    },
+    {
+      "path": "packages/vue/src/components/portal/portal.tsx",
+      "type": "registry:lib",
+      "target": "components/ui/portal/portal.tsx",
+      "content": "import { computed, defineComponent, inject, provide, type ComputedRef, type InjectionKey, type PropType } from 'vue';\n\nexport type PortalContainer = Element | null;\n\nconst PortalContainerKey: InjectionKey<ComputedRef<PortalContainer>> = Symbol('tile-portal-container');\n\nexport const PortalProvider = defineComponent({\n\tname: 'PortalProvider',\n\tprops: {\n\t\tcontainer: { type: Object as PropType<PortalContainer>, default: null },\n\t},\n\tsetup(props, { slots }) {\n\t\tconst parentContainer = inject(\n\t\t\tPortalContainerKey,\n\t\t\tcomputed(() => null),\n\t\t);\n\n\t\tprovide(\n\t\t\tPortalContainerKey,\n\t\t\tcomputed(() => props.container ?? parentContainer.value),\n\t\t);\n\n\t\treturn () => slots.default?.();\n\t},\n});\n\nexport function usePortalContainer(container?: () => PortalContainer | undefined): ComputedRef<Element | string> {\n\tconst contextContainer = inject(\n\t\tPortalContainerKey,\n\t\tcomputed(() => null),\n\t);\n\n\treturn computed(() => container?.() ?? contextContainer.value ?? 'body');\n}\n"
+    }
+  ]
+}

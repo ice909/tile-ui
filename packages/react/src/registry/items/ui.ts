@@ -1,6 +1,6 @@
 import type { PackageRegistryItem } from '@tile-ui/buildx/registry/types';
 
-export const reactUiItems: PackageRegistryItem[] = [
+const reactUiItemsBase: PackageRegistryItem[] = [
 	{
 		name: 'button',
 		type: 'registry:ui',
@@ -729,7 +729,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Tooltip overlay for Tile UI.',
 		dependencies: ['@radix-ui/react-slot', 'react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/tooltip/tooltip.tsx',
@@ -751,7 +751,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Popover overlay for Tile UI.',
 		dependencies: ['@radix-ui/react-slot', 'react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/popover/popover.tsx',
@@ -773,7 +773,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Hover card overlay for Tile UI.',
 		dependencies: ['@radix-ui/react-slot', 'react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/hover-card/hover-card.tsx',
@@ -795,7 +795,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Modal dialog for Tile UI.',
 		dependencies: ['@radix-ui/react-slot', 'react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', 'button', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/dialog/dialog.tsx',
@@ -817,7 +817,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Alert dialog for Tile UI.',
 		dependencies: ['@radix-ui/react-slot', 'react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core', 'button'],
+		registryDependencies: ['@tile-ui/core', 'button', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/alert-dialog/alert-dialog.tsx',
@@ -839,7 +839,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Side sheet overlay for Tile UI.',
 		dependencies: ['@radix-ui/react-slot', 'react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/sheet/sheet.tsx',
@@ -861,7 +861,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Dropdown menu with checkbox and radio items for Tile UI.',
 		dependencies: ['@radix-ui/react-slot', 'react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/dropdown-menu/dropdown-menu.tsx',
@@ -883,7 +883,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Right-click context menu for Tile UI.',
 		dependencies: ['@radix-ui/react-slot', 'react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/context-menu/context-menu.tsx',
@@ -905,7 +905,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Horizontal menu bar for Tile UI.',
 		dependencies: ['react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/menubar/menubar.tsx',
@@ -949,7 +949,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Custom select dropdown for Tile UI.',
 		dependencies: ['react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/select/select.tsx',
@@ -971,7 +971,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Searchable combobox for Tile UI.',
 		dependencies: ['react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/combobox/combobox.tsx',
@@ -993,7 +993,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Command palette primitives for Tile UI.',
 		dependencies: ['react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/command/command.tsx',
@@ -1057,7 +1057,7 @@ export const reactUiItems: PackageRegistryItem[] = [
 		description: 'Drawer overlay for Tile UI.',
 		dependencies: ['@radix-ui/react-slot', 'react-dom'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/react/src/components/drawer/drawer.tsx',
@@ -1308,3 +1308,8 @@ export const reactUiItems: PackageRegistryItem[] = [
 		],
 	},
 ];
+
+export const reactUiItems = reactUiItemsBase.map((item) => ({
+	...item,
+	registryDependencies: [...new Set([...(item.registryDependencies ?? []), '@tile-ui/styles'])],
+}));

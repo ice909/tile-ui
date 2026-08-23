@@ -1,6 +1,6 @@
 import type { PackageRegistryItem } from '@tile-ui/buildx/registry/types';
 
-export const vueUiItems: PackageRegistryItem[] = [
+const vueUiItemsBase: PackageRegistryItem[] = [
 	{
 		name: 'button',
 		type: 'registry:ui',
@@ -756,7 +756,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Tooltip overlay for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/tooltip/tooltip.tsx',
@@ -778,7 +778,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Popover overlay for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/popover/popover.tsx',
@@ -800,7 +800,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Hover card overlay for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/hover-card/hover-card.tsx',
@@ -822,7 +822,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Modal dialog for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', 'button', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/dialog/dialog.tsx',
@@ -844,7 +844,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Alert dialog for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core', 'button'],
+		registryDependencies: ['@tile-ui/core', 'button', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/alert-dialog/alert-dialog.tsx',
@@ -866,7 +866,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Side sheet overlay for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/sheet/sheet.tsx',
@@ -888,7 +888,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Dropdown menu with checkbox and radio items for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/dropdown-menu/dropdown-menu.tsx',
@@ -910,7 +910,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Right-click context menu for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/context-menu/context-menu.tsx',
@@ -932,7 +932,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Horizontal menu bar for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/menubar/menubar.tsx',
@@ -976,7 +976,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Custom select dropdown for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/select/select.tsx',
@@ -998,7 +998,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Searchable combobox for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/combobox/combobox.tsx',
@@ -1020,7 +1020,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Command palette primitives for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/command/command.tsx',
@@ -1086,7 +1086,7 @@ export const vueUiItems: PackageRegistryItem[] = [
 		description: 'Drawer overlay for Tile UI.',
 		dependencies: ['vue'],
 		devDependencies: ['sass'],
-		registryDependencies: ['@tile-ui/core'],
+		registryDependencies: ['@tile-ui/core', '@tile-ui/portal'],
 		files: [
 			{
 				source: 'packages/vue/src/components/drawer/drawer.tsx',
@@ -1344,3 +1344,8 @@ export const vueUiItems: PackageRegistryItem[] = [
 		],
 	},
 ];
+
+export const vueUiItems = vueUiItemsBase.map((item) => ({
+	...item,
+	registryDependencies: [...new Set([...(item.registryDependencies ?? []), '@tile-ui/styles'])],
+}));

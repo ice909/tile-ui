@@ -1,4 +1,3 @@
-@use 'sass:color';
 @use 'variables/colors' as *;
 
 .inputWrapper {
@@ -28,7 +27,7 @@
 	&:focus {
 		outline: none;
 		border-color: $ring;
-		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+		box-shadow: 0 0 0 3px color-mix(in srgb, $ring 50%, transparent);
 	}
 
 	&:disabled,
@@ -36,7 +35,7 @@
 		pointer-events: none;
 		opacity: 0.5;
 		cursor: not-allowed;
-		background-color: color.mix(white, $background, 50%);
+		background-color: $field-disabled;
 	}
 
 	&.error {

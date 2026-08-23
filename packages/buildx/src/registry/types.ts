@@ -1,4 +1,12 @@
-export type RegistryItemType = 'registry:ui' | 'registry:hook' | 'registry:lib' | 'registry:file';
+export type RegistryItemType = 'registry:ui' | 'registry:hook' | 'registry:lib' | 'registry:file' | 'registry:style' | 'registry:theme' | 'registry:base';
+
+export interface RegistryCssVars {
+	theme?: Record<string, string>;
+	light?: Record<string, string>;
+	dark?: Record<string, string>;
+}
+
+export type RegistryCssValue = string | { [key: string]: RegistryCssValue };
 
 export type RegistryTransformKind = 'copy' | 'style' | 'react-component' | 'vue-component' | 'react-hook' | 'vue-composable' | 'build-utils' | 'build-vue-core' | 'build-react-lib';
 
@@ -17,6 +25,20 @@ export interface PackageRegistryItem {
 	dependencies?: string[];
 	devDependencies?: string[];
 	registryDependencies?: string[];
+	tailwind?: {
+		config?: {
+			content?: string[];
+			theme?: Record<string, unknown>;
+			plugins?: string[];
+		};
+	};
+	cssVars?: RegistryCssVars;
+	css?: Record<string, RegistryCssValue>;
+	extends?: string;
+	style?: string;
+	baseColor?: string;
+	theme?: string;
+	iconLibrary?: string;
 	files: PackageRegistryFileSource[];
 	meta?: Record<string, unknown>;
 }

@@ -1,6 +1,7 @@
 import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, useId, watch, Teleport, type PropType } from 'vue';
 import { comboboxStyleKeys, filterComboboxItems, getSelectState, moveComboboxIndex } from '@tile-ui/core';
 import type { ComboboxItem } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/combobox.module.scss';
 
 function comboboxCheckIcon() {
@@ -56,9 +57,11 @@ export const Combobox = defineComponent({
 		maxItems: { type: Number, default: undefined },
 		disabled: { type: Boolean, default: false },
 		filter: { type: Function as PropType<(item: ComboboxItem, query: string) => boolean>, default: undefined },
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	emits: ['update:value'],
 	setup(props, { emit, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const open = ref(false);
 		const query = ref('');
 		const activeValue = ref<string | null>(null);
@@ -298,7 +301,7 @@ export const Combobox = defineComponent({
 						comboboxChevronIcon(),
 					],
 				),
-				open.value ? h(Teleport, { to: 'body' }, [content]) : null,
+				open.value ? h(Teleport, { to: portalContainer.value }, [content]) : null,
 			]);
 		};
 	},

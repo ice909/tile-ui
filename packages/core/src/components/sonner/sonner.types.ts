@@ -49,6 +49,6 @@ export interface SonnerToasterBaseProps {
 	closeButton?: boolean;
 	/** 是否使用富色 (按类型着色) */
 	richColors?: boolean;
-	/** 主题 */
+	/** 主题；未指定时继承宿主主题 */
 	theme?: SonnerTheme;
 }

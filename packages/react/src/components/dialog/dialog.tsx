@@ -4,6 +4,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { dialogStyleKeys, getDialogState } from '@tile-ui/core';
 import type { DialogBaseProps } from '@tile-ui/core';
 import { Button } from '../button';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/dialog.module.scss';
 
 interface DialogContextValue {
@@ -137,10 +138,12 @@ DialogOverlay.displayName = 'DialogOverlay';
 
 export interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
 	showCloseButton?: boolean;
+	container?: PortalContainer;
 }
 
-const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(({ className = '', showCloseButton = true, children, ...props }, ref) => {
+const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(({ className = '', showCloseButton = true, container, children, ...props }, ref) => {
 	const { open, close, titleId, descriptionId } = useDialogContext();
+	const portalContainer = usePortalContainer(container);
 	const contentRef = useRef<HTMLDivElement | null>(null);
 
 	function setContentRef(element: HTMLDivElement | null) {
@@ -212,7 +215,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(({ cl
 		};
 	}, [close, open]);
 
-	if (!open) {
+	if (!open || !portalContainer) {
 		return null;
 	}
 
@@ -251,7 +254,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(({ cl
 				)}
 			</div>
 		</>,
-		document.body,
+		portalContainer,
 	);
 });
 DialogContent.displayName = 'DialogContent';

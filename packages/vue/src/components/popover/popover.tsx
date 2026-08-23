@@ -18,6 +18,7 @@ import {
 } from 'vue';
 import { getPopoverPosition, getPopoverState, popoverStyleKeys } from '@tile-ui/core';
 import type { PopoverAlign, PopoverSide } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/popover.module.scss';
 
 interface PopoverContextValue {
@@ -104,8 +105,10 @@ export const PopoverContent = defineComponent({
 		side: { type: String as PropType<PopoverSide>, default: 'bottom' },
 		align: { type: String as PropType<PopoverAlign>, default: 'center' },
 		sideOffset: { type: Number, default: 4 },
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	setup(props, { slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const contextValue = inject(PopoverContextKey);
 		if (!contextValue) {
 			throw new Error('PopoverContent must be used within <Popover>.');
@@ -223,7 +226,7 @@ export const PopoverContent = defineComponent({
 			delete restAttrs.class;
 			delete restAttrs.style;
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h(
 					'div',
 					{

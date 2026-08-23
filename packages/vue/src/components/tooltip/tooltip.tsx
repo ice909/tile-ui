@@ -18,6 +18,7 @@ import {
 } from 'vue';
 import { getTooltipPosition, getTooltipState, tooltipStyleKeys, TOOLTIP_CLOSE_DELAY_MS } from '@tile-ui/core';
 import type { TooltipSide } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/tooltip.module.scss';
 
 interface TooltipContextValue {
@@ -188,8 +189,10 @@ export const TooltipContent = defineComponent({
 	props: {
 		side: { type: String as PropType<TooltipSide>, default: 'top' },
 		sideOffset: { type: Number, default: 0 },
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	setup(props, { slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const contextValue = inject(TooltipContextKey);
 		if (!contextValue) {
 			throw new Error('TooltipContent must be used within <Tooltip>.');
@@ -284,7 +287,7 @@ export const TooltipContent = defineComponent({
 
 			const children = [...(slots.default?.() ?? []), h('span', { class: styles[tooltipStyleKeys.arrow], 'aria-hidden': 'true' })];
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h(
 					'div',
 					{

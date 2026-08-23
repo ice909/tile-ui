@@ -16,6 +16,7 @@ import {
 	type Ref,
 } from 'vue';
 import { contextMenuStyleKeys, getContextMenuCheckState, getContextMenuPosition, getContextMenuState } from '@tile-ui/core';
+import { PortalProvider, usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/context-menu.module.scss';
 
 interface ContextMenuContextValue {
@@ -195,8 +196,11 @@ export const ContextMenu = defineComponent({
 
 export const ContextMenuPortal = defineComponent({
 	name: 'ContextMenuPortal',
-	setup(_props, { slots }) {
-		return () => slots.default?.();
+	props: {
+		container: { type: Object as PropType<PortalContainer>, default: null },
+	},
+	setup(props, { slots }) {
+		return () => h(PortalProvider, { container: props.container }, slots);
 	},
 });
 
@@ -244,7 +248,11 @@ export const ContextMenuTrigger = defineComponent({
 export const ContextMenuContent = defineComponent({
 	name: 'ContextMenuContent',
 	inheritAttrs: false,
-	setup(_props, { slots, attrs }) {
+	props: {
+		container: { type: Object as PropType<PortalContainer>, default: null },
+	},
+	setup(props, { slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const context = useContextMenuContext();
 		const contentRef = ref<HTMLElement | null>(null);
 		const itemsRef = ref<HTMLElement[]>([]);
@@ -402,7 +410,7 @@ export const ContextMenuContent = defineComponent({
 			delete restAttrs.class;
 			delete restAttrs.style;
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h(
 					'div',
 					{
@@ -740,7 +748,11 @@ export const ContextMenuSubTrigger = defineComponent({
 export const ContextMenuSubContent = defineComponent({
 	name: 'ContextMenuSubContent',
 	inheritAttrs: false,
-	setup(_props, { slots, attrs }) {
+	props: {
+		container: { type: Object as PropType<PortalContainer>, default: null },
+	},
+	setup(props, { slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const sub = useContextMenuSubContext();
 		const contentRef = ref<HTMLElement | null>(null);
 		const itemsRef = ref<HTMLElement[]>([]);
@@ -863,7 +875,7 @@ export const ContextMenuSubContent = defineComponent({
 			delete restAttrs.class;
 			delete restAttrs.style;
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h(
 					'div',
 					{

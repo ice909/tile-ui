@@ -19,6 +19,7 @@ import type { ButtonSize, ButtonVariant } from '@tile-ui/core';
 import { alertDialogStyleKeys, getAlertDialogState } from '@tile-ui/core';
 import type { AlertDialogSize } from '@tile-ui/core';
 import { Button } from '../button';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/alert-dialog.module.scss';
 
 interface AlertDialogContextValue {
@@ -163,8 +164,10 @@ export const AlertDialogContent = defineComponent({
 			type: String as PropType<AlertDialogSize>,
 			default: 'default',
 		},
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	setup(props, { slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const contextValue = inject(AlertDialogContextKey);
 		if (!contextValue) {
 			throw new Error('AlertDialogContent must be used within <AlertDialog>.');
@@ -249,7 +252,7 @@ export const AlertDialogContent = defineComponent({
 			const contentAttrs = { ...attrs };
 			delete contentAttrs.class;
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h('div', {
 					'data-state': getAlertDialogState(context.value.open),
 					class: styles[alertDialogStyleKeys.overlay],

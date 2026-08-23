@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Slot } from '@radix-ui/react-slot';
 import { getHoverCardPosition, getHoverCardState, hoverCardStyleKeys } from '@tile-ui/core';
 import type { HoverCardBaseProps, HoverCardContentBaseProps, HoverCardPosition, HoverCardTriggerBaseProps } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/hover-card.module.scss';
 
 interface HoverCardContextValue {
@@ -150,11 +151,14 @@ const HoverCardTrigger = React.forwardRef<HTMLButtonElement, HoverCardTriggerPro
 });
 HoverCardTrigger.displayName = 'HoverCardTrigger';
 
-export interface HoverCardContentProps extends React.HTMLAttributes<HTMLDivElement>, HoverCardContentBaseProps {}
+export interface HoverCardContentProps extends React.HTMLAttributes<HTMLDivElement>, HoverCardContentBaseProps {
+	container?: PortalContainer;
+}
 
 const HoverCardContent = React.forwardRef<HTMLDivElement, HoverCardContentProps>(
-	({ className = '', side = 'bottom', align = 'center', sideOffset = 4, children, ...props }, ref) => {
+	({ className = '', side = 'bottom', align = 'center', sideOffset = 4, container, children, ...props }, ref) => {
 		const { open, triggerRef, contentId, closeDelay, setOpen } = useHoverCardContext();
+		const portalContainer = usePortalContainer(container);
 		const [position, setPosition] = useState<HoverCardPosition | null>(null);
 		const contentRef = useRef<HTMLDivElement | null>(null);
 		const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -263,11 +267,11 @@ const HoverCardContent = React.forwardRef<HTMLDivElement, HoverCardContentProps>
 			</div>
 		);
 
-		if (!open || typeof document === 'undefined') {
+		if (!open || !portalContainer) {
 			return null;
 		}
 
-		return createPortal(content, document.body);
+		return createPortal(content, portalContainer);
 	},
 );
 HoverCardContent.displayName = 'HoverCardContent';

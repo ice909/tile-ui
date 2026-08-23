@@ -25,7 +25,9 @@ Once configured, registry dependencies such as `@tile-ui/core` and `@tile-ui/uti
 pnpm dlx shadcn@latest add @tile-ui/button
 ```
 
-The CLI resolves shared dependencies automatically, so installing `@tile-ui/button` also brings in `@tile-ui/core` and `@tile-ui/utils` when needed.
+The CLI resolves shared dependencies automatically, so installing `@tile-ui/button` also brings in `@tile-ui/core`, `@tile-ui/utils`, and `@tile-ui/styles` when needed. The styles item copies the shared Sass support files and merges its semantic CSS variables into the global stylesheet configured by `components.json`; no separate styles command or default-theme import is required.
+
+Tile uses the same semantic variables as current shadcn themes. Existing shadcn values remain the source of truth. Tile's default theme and reset are optional choices described in [Theming](/docs/theming), not registry prerequisites.
 
 ## Build flow
 

@@ -1,0 +1,218 @@
+---
+title: Theming
+description: Configure shadcn-compatible semantic colors, Tile extension tokens, dark mode, scoped themes, and portal containers in React.
+---
+
+Tile UI reads theme values from CSS custom properties at runtime. Its primary color contract is directly compatible with the current shadcn semantic variables, so an existing shadcn theme can style Tile components without translating colors or maintaining a second palette.
+
+## Style entries
+
+`@tile-ui/styles` exposes four global entries. Choose the smallest set that matches who owns your application theme:
+
+| Entry          | Contents                                                            | When to use it                                                                        |
+| -------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `tokens.scss`  | Tile-only `--tile-*` extension tokens                               | Add Tile to an existing shadcn or custom semantic theme                               |
+| `theme.scss`   | `tokens.scss` plus Tile's optional light and dark semantic defaults | Start a non-shadcn application with a complete default theme                          |
+| `reset.scss`   | Optional reset and document base styles                             | Use when the application does not already provide a reset                             |
+| `globals.scss` | `theme.scss` plus `reset.scss`                                      | Backward-compatible all-in-one entry; avoid it when the app already owns either layer |
+
+The package also exposes compiled `.css` equivalents without the `/scss/` segment, such as `@tile-ui/styles/tokens.css` and `@tile-ui/styles/theme.css`.
+
+## Existing shadcn setup
+
+Keep your current shadcn semantic variables and import only Tile's extension tokens once in the application entry or root layout:
+
+```tsx title="app/layout.tsx"
+import '@tile-ui/styles/scss/tokens.scss';
+import './globals.css';
+```
+
+Do not import `theme.scss` merely to use Tile components. It supplies an optional default palette and is unnecessary when your existing stylesheet already defines variables such as `--background`, `--foreground`, `--primary`, `--card`, `--popover`, `--border`, `--input`, and `--ring`.
+
+`reset.scss` is also optional. Add it only if your application does not already have a reset or base layer:
+
+```tsx
+import '@tile-ui/styles/scss/tokens.scss';
+import '@tile-ui/styles/scss/reset.scss';
+```
+
+## Non-shadcn default setup
+
+When Tile should provide the initial semantic palette, import `theme.scss`. It includes the Tile extension tokens, so a separate `tokens.scss` import is not needed.
+
+```tsx title="app/layout.tsx"
+import '@tile-ui/styles/scss/theme.scss';
+import '@tile-ui/styles/scss/reset.scss'; // Optional.
+```
+
+For the legacy all-in-one behavior, use `globals.scss` instead of both imports:
+
+```tsx
+import '@tile-ui/styles/scss/globals.scss';
+```
+
+`globals.scss` is convenient for a new application that wants both Tile defaults and Tile's reset. It is not a required Tile component import.
+
+## Semantic variables
+
+Tile consumes the current shadcn semantic color contract directly:
+
+```css
+:root {
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.145 0 0);
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.145 0 0);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.145 0 0);
+	--primary: oklch(0.205 0 0);
+	--primary-foreground: oklch(0.985 0 0);
+	--secondary: oklch(0.97 0 0);
+	--secondary-foreground: oklch(0.205 0 0);
+	--muted: oklch(0.97 0 0);
+	--muted-foreground: oklch(0.556 0 0);
+	--accent: oklch(0.97 0 0);
+	--accent-foreground: oklch(0.205 0 0);
+	--destructive: oklch(0.577 0.245 27.325);
+	--destructive-foreground: oklch(0.985 0 0);
+	--border: oklch(0.922 0 0);
+	--input: oklch(0.922 0 0);
+	--ring: oklch(0.708 0 0);
+}
+```
+
+Values are inserted into normal CSS properties rather than decomposed into channel tuples. You can therefore use any valid CSS color value, including OKLCH, `color()`, `color-mix()`, hex, RGB, HSL, and references to other custom properties.
+
+## Tile extension tokens
+
+`tokens.scss` defines Tile-specific defaults under the `--tile-*` namespace. These cover status colors, hover and active states, fields, overlays, shadows, typography, and derived radius steps. Examples include:
+
+```css
+:root {
+	--tile-success: oklch(0.72 0.19 145);
+	--tile-success-foreground: white;
+	--tile-warning: oklch(0.78 0.16 75);
+	--tile-info: oklch(0.62 0.2 255);
+	--tile-overlay: rgb(0 0 0 / 55%);
+	--tile-font-sans: 'Geist', sans-serif;
+	--tile-font-mono: 'Geist Mono', monospace;
+}
+```
+
+The shipped token defaults use `:where(:root)`, which has zero selector specificity. Your application-level `:root`, `.dark`, `[data-theme]`, or scoped selectors override them normally without `!important`.
+
+## Radius, fonts, charts, and sidebar
+
+Set `--radius` to control the component radius scale. Tile derives `--tile-radius-xs`, `--tile-radius-sm`, `--tile-radius-md`, and `--tile-radius-lg` from it. Typography uses `--tile-font-sans`, `--tile-font-mono`, `--tile-text-*`, `--tile-font-*`, and `--tile-leading-*`.
+
+Charts use `--chart-1` through `--chart-5`. Sidebar components use the current shadcn sidebar contract:
+
+```css
+:root {
+	--radius: 0.75rem;
+	--tile-font-sans: 'Avenir Next', sans-serif;
+	--chart-1: oklch(0.67 0.22 35);
+	--chart-2: oklch(0.62 0.12 185);
+	--chart-3: oklch(0.4 0.07 225);
+	--chart-4: oklch(0.83 0.19 85);
+	--chart-5: oklch(0.77 0.19 70);
+	--sidebar: var(--card);
+	--sidebar-foreground: var(--card-foreground);
+	--sidebar-primary: var(--primary);
+	--sidebar-primary-foreground: var(--primary-foreground);
+	--sidebar-accent: var(--accent);
+	--sidebar-accent-foreground: var(--accent-foreground);
+	--sidebar-border: var(--border);
+	--sidebar-ring: var(--ring);
+}
+```
+
+## Dark mode and system preference
+
+Tile's optional default theme activates dark values when `.dark` or `[data-theme='dark']` is present. Light values are available on `:root`, `.light`, and `[data-theme='light']`.
+
+Add the selected class or attribute to `html` so body-level portals inherit the same theme:
+
+```tsx
+<html lang="en" className="dark">
+	<body>{children}</body>
+</html>
+```
+
+For system mode, use your existing theme manager, such as `next-themes`, to resolve `system` and update the `html` class. CSS can also follow the operating system directly:
+
+```css
+@media (prefers-color-scheme: dark) {
+	:root:not(.light):not([data-theme='light']) {
+		color-scheme: dark;
+		--background: oklch(0.145 0 0);
+		--foreground: oklch(0.985 0 0);
+		/* Define the remaining dark semantic variables here. */
+	}
+}
+```
+
+The media query does not automatically apply the declarations inside Tile's `.dark` selector. Either toggle `.dark`/`[data-theme='dark']` or provide explicit media-query values as shown.
+
+### Explicit Sonner themes
+
+Sonner inherits the surrounding semantic variables when `theme` is omitted. `theme="dark"` adds both `.dark` and `[data-theme='dark']` to the toaster, so it can activate the selector convention used by most shadcn themes. `theme="system"` resolves the operating-system preference and applies the corresponding markers consistently.
+
+`theme="light"` similarly adds `.light` and `[data-theme='light']`, but the host stylesheet must define a light palette on one of those selectors. A common shadcn theme defines light values only on `:root` and overrides them on an ancestor `.dark`; those original `:root` values cannot be recovered inside that dark subtree. In that setup, either omit `theme` to inherit, or expose the light variables under `.light` or `[data-theme='light']`. Sonner never substitutes a built-in palette or overwrites custom semantic variables.
+
+## Scoped themes
+
+Semantic variables inherit, so a theme can be limited to any subtree:
+
+```css
+.marketing-theme {
+	--primary: oklch(0.58 0.24 25);
+	--primary-foreground: white;
+	--accent: oklch(0.95 0.04 25);
+	--accent-foreground: oklch(0.25 0.08 25);
+	--radius: 1rem;
+	--tile-font-sans: 'Fraunces', serif;
+}
+```
+
+```tsx
+<section className="marketing-theme">
+	<Button>Start a campaign</Button>
+</section>
+```
+
+This works for components rendered inside the section. Portaled overlays need one additional step because a portal rendered under `body` is no longer a CSS descendant of the scoped element.
+
+## Scoped themes and portals
+
+Dialog, popover, select, tooltip, dropdown, and other overlays portal to `document.body` by default. A theme placed on `html` or `body` works automatically. For a subtree-only theme, pass the themed element through `PortalProvider`, or pass the same `container` directly to an overlay content component when only one overlay needs it.
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogTrigger, PortalProvider } from '@tile-ui/react';
+
+export function BrandedArea() {
+	const [container, setContainer] = useState<HTMLDivElement | null>(null);
+
+	return (
+		<div ref={setContainer} className="marketing-theme">
+			<PortalProvider container={container}>
+				<Dialog>
+					<DialogTrigger>Open dialog</DialogTrigger>
+					<DialogContent>The dialog inherits the scoped theme.</DialogContent>
+				</Dialog>
+			</PortalProvider>
+		</div>
+	);
+}
+```
+
+The container must be an actual `Element`, not a selector string. Keep the provider inside the themed subtree and ensure the container remains mounted while its overlays are open.
+
+## Registry installs
+
+Registry UI items declare `@tile-ui/styles` as a dependency. The shadcn CLI resolves it automatically, copies the required Sass files, and injects only Tile's `--tile-*` extension variables into the global stylesheet configured by `components.json`. Your host stylesheet remains responsible for the shadcn semantic palette. If the application has no semantic palette, install the optional `@tile-ui/theme-default` registry item explicitly.
+
+See [Installation](/docs/installation) for package and registry setup, or [Registry Getting Started](/docs/registry/getting-started) for the registry workflow.

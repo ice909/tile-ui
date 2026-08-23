@@ -1,4 +1,3 @@
-@use 'sass:color';
 @use 'variables/colors' as *;
 
 // 气泡组
@@ -48,7 +47,7 @@
 	}
 
 	&.variantTinted .content {
-		background-color: color.mix(white, $primary, 85%);
+		background-color: color-mix(in srgb, $primary 15%, $background);
 		color: $foreground;
 	}
 
@@ -66,13 +65,13 @@
 	}
 
 	&.variantDestructive .content {
-		background-color: rgba($destructive, 0.1);
+		background-color: color-mix(in srgb, $destructive 10%, transparent);
 		color: $destructive;
 	}
 
 	// 按钮/链接形态的内容悬停效果
 	&.variantDefault .content:is(button, a):hover {
-		background-color: rgba($primary, 0.8);
+		background-color: color-mix(in srgb, $primary 80%, transparent);
 	}
 
 	&.variantSecondary .content:is(button, a):hover,
@@ -84,7 +83,7 @@
 	}
 
 	&.variantDestructive .content:is(button, a):hover {
-		background-color: rgba($destructive, 0.2);
+		background-color: color-mix(in srgb, $destructive 20%, transparent);
 	}
 }
 
@@ -114,7 +113,7 @@
 
 	&:is(button, a):focus-visible {
 		border-color: $ring;
-		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+		box-shadow: 0 0 0 3px color-mix(in srgb, $ring 50%, transparent);
 	}
 }
 

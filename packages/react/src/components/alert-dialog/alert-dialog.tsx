@@ -5,6 +5,7 @@ import type { ButtonSize, ButtonVariant } from '@tile-ui/core';
 import { alertDialogStyleKeys, getAlertDialogState } from '@tile-ui/core';
 import type { AlertDialogBaseProps, AlertDialogSize } from '@tile-ui/core';
 import { Button } from '../button';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/alert-dialog.module.scss';
 
 interface AlertDialogContextValue {
@@ -114,10 +115,12 @@ AlertDialogOverlay.displayName = 'AlertDialogOverlay';
 
 export interface AlertDialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
 	size?: AlertDialogSize;
+	container?: PortalContainer;
 }
 
-const AlertDialogContent = React.forwardRef<HTMLDivElement, AlertDialogContentProps>(({ className = '', size = 'default', children, ...props }, ref) => {
+const AlertDialogContent = React.forwardRef<HTMLDivElement, AlertDialogContentProps>(({ className = '', size = 'default', container, children, ...props }, ref) => {
 	const { open, close, titleId, descriptionId } = useAlertDialogContext();
+	const portalContainer = usePortalContainer(container);
 	const contentRef = useRef<HTMLDivElement | null>(null);
 
 	function setContentRef(element: HTMLDivElement | null) {
@@ -189,7 +192,7 @@ const AlertDialogContent = React.forwardRef<HTMLDivElement, AlertDialogContentPr
 		};
 	}, [close, open]);
 
-	if (!open) {
+	if (!open || !portalContainer) {
 		return null;
 	}
 
@@ -210,7 +213,7 @@ const AlertDialogContent = React.forwardRef<HTMLDivElement, AlertDialogContentPr
 				{children}
 			</div>
 		</>,
-		document.body,
+		portalContainer,
 	);
 });
 AlertDialogContent.displayName = 'AlertDialogContent';

@@ -18,6 +18,7 @@ import {
 } from 'vue';
 import { getSelectCheckState, getSelectPosition, getSelectState, selectStyleKeys } from '@tile-ui/core';
 import type { SelectAlign, SelectPosition } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/select.module.scss';
 
 interface SelectContextValue {
@@ -265,9 +266,11 @@ export const SelectContent = defineComponent({
 		position: { type: String as PropType<SelectPosition>, default: 'item-aligned' },
 		align: { type: String as PropType<SelectAlign>, default: 'center' },
 		sideOffset: { type: Number, default: 4 },
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	setup(props, { slots, attrs }) {
 		const context = useSelectContext();
+		const portalContainer = usePortalContainer(() => props.container);
 		const contentRef = ref<HTMLElement | null>(null);
 		const itemsRef = ref<HTMLElement[]>([]);
 		const coords = ref<{ top: number; left: number } | null>(null);
@@ -421,7 +424,7 @@ export const SelectContent = defineComponent({
 			delete restAttrs.class;
 			delete restAttrs.style;
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h(
 					'div',
 					{

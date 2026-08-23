@@ -1,16 +1,8 @@
 import type { PackageRegistryManifest } from '../types';
 
 function resolveDependencyName(dependency: string) {
-	if (/^https?:\/\//.test(dependency)) {
-		return null;
-	}
-
-	if (dependency.startsWith('@')) {
-		const slashIndex = dependency.indexOf('/');
-		return slashIndex === -1 ? dependency : dependency.slice(slashIndex + 1);
-	}
-
-	return dependency;
+	const namespace = '@tile-ui/';
+	return dependency.startsWith(namespace) ? dependency.slice(namespace.length) : null;
 }
 
 export function validateManifest(manifest: PackageRegistryManifest) {
@@ -24,6 +16,10 @@ export function validateManifest(manifest: PackageRegistryManifest) {
 
 		if (!item.files.length) {
 			throw new Error(`Registry item '${item.name}' must include at least one file.`);
+		}
+
+		if (item.type === 'registry:ui' && item.files.some((file) => file.source.endsWith('.scss')) && !(item.registryDependencies ?? []).includes('@tile-ui/styles')) {
+			throw new Error(`Registry UI item '${item.name}' includes SCSS but does not depend on '@tile-ui/styles'.`);
 		}
 
 		for (const dependency of item.registryDependencies ?? []) {

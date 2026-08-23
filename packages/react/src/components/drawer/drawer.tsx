@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Slot } from '@radix-ui/react-slot';
 import { drawerStyleKeys, getDrawerState, getDrawerTranslateStyle } from '@tile-ui/core';
 import type { DrawerBaseProps, DrawerDirection } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/drawer.module.scss';
 
 interface DrawerContextValue {
@@ -138,10 +139,12 @@ DrawerOverlay.displayName = 'DrawerOverlay';
 
 export interface DrawerContentProps extends React.HTMLAttributes<HTMLDivElement> {
 	showCloseButton?: boolean;
+	container?: PortalContainer;
 }
 
-const DrawerContent = React.forwardRef<HTMLDivElement, DrawerContentProps>(({ className = '', showCloseButton = true, style, children, ...props }, ref) => {
+const DrawerContent = React.forwardRef<HTMLDivElement, DrawerContentProps>(({ className = '', showCloseButton = true, container, style, children, ...props }, ref) => {
 	const { open, close, direction, modal, titleId, descriptionId } = useDrawerContext();
+	const portalContainer = usePortalContainer(container);
 	const contentRef = useRef<HTMLDivElement | null>(null);
 	const [isVisible, setIsVisible] = useState(false);
 
@@ -228,7 +231,7 @@ const DrawerContent = React.forwardRef<HTMLDivElement, DrawerContentProps>(({ cl
 		return () => cancelAnimationFrame(frame);
 	}, [open]);
 
-	if (!open) {
+	if (!open || !portalContainer) {
 		return null;
 	}
 
@@ -270,7 +273,7 @@ const DrawerContent = React.forwardRef<HTMLDivElement, DrawerContentProps>(({ cl
 				)}
 			</div>
 		</>,
-		document.body,
+		portalContainer,
 	);
 });
 DrawerContent.displayName = 'DrawerContent';

@@ -68,7 +68,7 @@
 	position: absolute;
 	width: 0.5rem;
 	height: 0.5rem;
-	border-radius: 2px;
+	border-radius: $radius-xs;
 	background-color: $foreground;
 	pointer-events: none;
 	transform: rotate(45deg);

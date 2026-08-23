@@ -18,6 +18,7 @@ import {
 } from 'vue';
 import { getHoverCardPosition, getHoverCardState, hoverCardStyleKeys } from '@tile-ui/core';
 import type { HoverCardAlign, HoverCardSide } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/hover-card.module.scss';
 
 interface HoverCardContextValue {
@@ -165,8 +166,10 @@ export const HoverCardContent = defineComponent({
 		side: { type: String as PropType<HoverCardSide>, default: 'bottom' },
 		align: { type: String as PropType<HoverCardAlign>, default: 'center' },
 		sideOffset: { type: Number, default: 4 },
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	setup(props, { slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const contextValue = inject(HoverCardContextKey);
 		if (!contextValue) {
 			throw new Error('HoverCardContent must be used within <HoverCard>.');
@@ -283,7 +286,7 @@ export const HoverCardContent = defineComponent({
 			delete restAttrs.class;
 			delete restAttrs.style;
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h(
 					'div',
 					{

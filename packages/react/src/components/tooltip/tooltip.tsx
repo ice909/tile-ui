@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Slot } from '@radix-ui/react-slot';
 import { getTooltipPosition, getTooltipState, tooltipStyleKeys, TOOLTIP_CLOSE_DELAY_MS } from '@tile-ui/core';
 import type { TooltipBaseProps, TooltipContentBaseProps, TooltipPosition, TooltipProviderBaseProps, TooltipTriggerBaseProps } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/tooltip.module.scss';
 
 interface TooltipContextValue {
@@ -165,10 +166,13 @@ const TooltipTrigger = React.forwardRef<HTMLButtonElement, TooltipTriggerProps>(
 });
 TooltipTrigger.displayName = 'TooltipTrigger';
 
-export interface TooltipContentProps extends React.HTMLAttributes<HTMLDivElement>, TooltipContentBaseProps {}
+export interface TooltipContentProps extends React.HTMLAttributes<HTMLDivElement>, TooltipContentBaseProps {
+	container?: PortalContainer;
+}
 
-const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(({ className = '', side = 'top', sideOffset = 0, children, ...props }, ref) => {
+const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(({ className = '', side = 'top', sideOffset = 0, container, children, ...props }, ref) => {
 	const { open, triggerRef, contentId, setOpen } = useTooltipContext();
+	const portalContainer = usePortalContainer(container);
 	const [position, setPosition] = useState<TooltipPosition | null>(null);
 	const contentRef = useRef<HTMLDivElement | null>(null);
 	const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -253,11 +257,11 @@ const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(({ 
 		</div>
 	);
 
-	if (!open || typeof document === 'undefined') {
+	if (!open || !portalContainer) {
 		return null;
 	}
 
-	return createPortal(content, document.body);
+	return createPortal(content, portalContainer);
 });
 TooltipContent.displayName = 'TooltipContent';
 

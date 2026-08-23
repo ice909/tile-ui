@@ -1,6 +1,23 @@
-import { cloneVNode, computed, defineComponent, h, inject, nextTick, onBeforeUnmount, provide, ref, useId, watch, Teleport, type ComputedRef, type InjectionKey } from 'vue';
+import {
+	cloneVNode,
+	computed,
+	defineComponent,
+	h,
+	inject,
+	nextTick,
+	onBeforeUnmount,
+	provide,
+	ref,
+	useId,
+	watch,
+	Teleport,
+	type ComputedRef,
+	type InjectionKey,
+	type PropType,
+} from 'vue';
 import { dialogStyleKeys, getDialogState } from '@tile-ui/core';
 import { Button } from '../button';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/dialog.module.scss';
 
 interface DialogContextValue {
@@ -179,8 +196,10 @@ export const DialogContent = defineComponent({
 	name: 'DialogContent',
 	props: {
 		showCloseButton: { type: Boolean, default: true },
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	setup(props, { slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const contextValue = inject(DialogContextKey);
 		if (!contextValue) {
 			throw new Error('DialogContent must be used within <Dialog>.');
@@ -300,7 +319,7 @@ export const DialogContent = defineComponent({
 			const contentAttrs = { ...attrs };
 			delete contentAttrs.class;
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h('div', {
 					'data-state': getDialogState(context.value.open),
 					class: styles[dialogStyleKeys.overlay],

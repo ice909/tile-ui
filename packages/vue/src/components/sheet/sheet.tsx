@@ -17,6 +17,7 @@ import {
 } from 'vue';
 import { getSheetState, getSheetTranslateStyle, sheetStyleKeys } from '@tile-ui/core';
 import type { SheetSide } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/sheet.module.scss';
 
 interface SheetContextValue {
@@ -199,8 +200,10 @@ export const SheetContent = defineComponent({
 			default: 'right',
 		},
 		showCloseButton: { type: Boolean, default: true },
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	setup(props, { slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		const contextValue = inject(SheetContextKey);
 		if (!contextValue) {
 			throw new Error('SheetContent must be used within <Sheet>.');
@@ -328,7 +331,7 @@ export const SheetContent = defineComponent({
 			const contentAttrs = { ...attrs };
 			delete contentAttrs.class;
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h('div', {
 					'data-state': getSheetState(context.value.open),
 					class: styles[sheetStyleKeys.overlay],

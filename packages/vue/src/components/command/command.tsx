@@ -1,6 +1,7 @@
 import { computed, defineComponent, h, inject, onBeforeUnmount, onMounted, provide, ref, watch, Teleport, type ComputedRef, type InjectionKey, type PropType, type Ref } from 'vue';
 import { commandStyleKeys, matchCommandItem } from '@tile-ui/core';
 import type { CommandFilterFn, CommandGroupDef, CommandItemDef } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/command.module.scss';
 
 interface CommandContextValue {
@@ -304,9 +305,11 @@ export const CommandDialog = defineComponent({
 		title: { type: String, default: 'Command Palette' },
 		description: { type: String, default: 'Search for a command to run...' },
 		showCloseButton: { type: Boolean, default: true },
+		container: { type: Object as PropType<PortalContainer>, default: null },
 	},
 	emits: ['update:open'],
 	setup(props, { emit, slots, attrs }) {
+		const portalContainer = usePortalContainer(() => props.container);
 		function handleOverlayClick() {
 			emit('update:open', false);
 		}
@@ -364,7 +367,7 @@ export const CommandDialog = defineComponent({
 				);
 			}
 
-			return h(Teleport, { to: 'body' }, [
+			return h(Teleport, { to: portalContainer.value }, [
 				h('div', { onKeydown: handleKeyDown }, [
 					h('div', { class: styles[commandStyleKeys.dialogOverlay], onClick: handleOverlayClick }),
 					h('div', { class: [styles[commandStyleKeys.dialogContent], attrs.class], role: 'dialog', 'aria-modal': 'true' }, dialogChildren),

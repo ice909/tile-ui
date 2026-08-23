@@ -17,6 +17,7 @@ import {
 } from 'vue';
 import { getMenubarCheckState, getMenubarPosition, getMenubarState, menubarStyleKeys } from '@tile-ui/core';
 import type { MenubarAlign, MenubarSide } from '@tile-ui/core';
+import { PortalProvider, usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/menubar.module.scss';
 
 interface MenubarContextValue {
@@ -192,8 +193,11 @@ export const Menubar = defineComponent({
 
 export const MenubarPortal = defineComponent({
 	name: 'MenubarPortal',
-	setup(_props, { slots }) {
-		return () => slots.default?.();
+	props: {
+		container: { type: Object as PropType<PortalContainer>, default: null },
+	},
+	setup(props, { slots }) {
+		return () => h(PortalProvider, { container: props.container }, slots);
 	},
 });
 
@@ -289,8 +293,10 @@ function createMenubarContentBase({ isSub = false }: { isSub?: boolean } = {}) {
 			align: { type: String as PropType<MenubarAlign>, default: 'start' },
 			sideOffset: { type: Number, default: 8 },
 			alignOffset: { type: Number, default: -4 },
+			container: { type: Object as PropType<PortalContainer>, default: null },
 		},
 		setup(props, { slots, attrs }) {
+			const portalContainer = usePortalContainer(() => props.container);
 			const context = (isSub ? useMenubarSubContext() : useMenubarMenuContext()) as ComputedRef<ContentContext>;
 			const contentRef = ref<HTMLElement | null>(null);
 			const itemsRef = ref<HTMLElement[]>([]);
@@ -451,7 +457,7 @@ function createMenubarContentBase({ isSub = false }: { isSub?: boolean } = {}) {
 				delete restAttrs.class;
 				delete restAttrs.style;
 
-				return h(Teleport, { to: 'body' }, [
+				return h(Teleport, { to: portalContainer.value }, [
 					h(
 						'div',
 						{

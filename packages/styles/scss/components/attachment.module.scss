@@ -19,7 +19,7 @@
 
 	&:focus-within {
 		outline: none;
-		box-shadow: 0 0 0 1px rgba($ring, 0.5);
+		box-shadow: 0 0 0 1px color-mix(in srgb, $ring 50%, transparent);
 	}
 
 	// 尺寸
@@ -84,11 +84,11 @@
 	}
 
 	&[data-state='error'] {
-		border-color: rgba($destructive, 0.3);
+		border-color: color-mix(in srgb, $destructive 30%, transparent);
 	}
 
 	&:has(> a, > button):hover {
-		background-color: rgba($muted, 0.5);
+		background-color: color-mix(in srgb, $muted 50%, transparent);
 	}
 }
 
@@ -117,7 +117,7 @@
 	}
 
 	&[data-state='error'] {
-		border-color: rgba($destructive, 0.3);
+		border-color: color-mix(in srgb, $destructive 30%, transparent);
 	}
 }
 
@@ -183,7 +183,7 @@
 
 	// 状态
 	[data-state='error'] & {
-		background-color: rgba($destructive, 0.1);
+		background-color: color-mix(in srgb, $destructive 10%, transparent);
 		color: $destructive;
 	}
 }
@@ -225,7 +225,7 @@
 	white-space: nowrap;
 
 	[data-state='error'] & {
-		color: rgba($destructive, 0.8);
+		color: color-mix(in srgb, $destructive 80%, transparent);
 	}
 }
 

@@ -8,7 +8,8 @@
     "sass"
   ],
   "registryDependencies": [
-    "@tile-ui/core"
+    "@tile-ui/core",
+    "@tile-ui/styles"
   ],
   "files": [
     {

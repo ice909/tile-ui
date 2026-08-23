@@ -1,3 +1,4 @@
+export { PortalProvider, usePortalContainer, type PortalContainer } from './portal';
 export { Button } from './button';
 export { Input } from './input';
 export { Textarea } from './textarea';

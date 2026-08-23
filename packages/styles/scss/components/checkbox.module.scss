@@ -7,7 +7,7 @@
 	justify-content: center;
 	width: 1rem;
 	height: 1rem;
-	border-radius: 4px;
+	border-radius: $radius-sm;
 	border: 1px solid $input;
 	box-shadow: $shadow-sm;
 	transition:

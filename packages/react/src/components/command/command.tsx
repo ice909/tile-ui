@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import { createPortal } from 'react-dom';
 import { commandStyleKeys, matchCommandItem } from '@tile-ui/core';
 import type { CommandBaseProps, CommandFilterFn } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/command.module.scss';
 
 interface CommandContextValue {
@@ -338,6 +339,7 @@ export interface CommandDialogProps {
 	description?: string;
 	className?: string;
 	showCloseButton?: boolean;
+	container?: PortalContainer;
 	children?: React.ReactNode;
 }
 
@@ -348,8 +350,10 @@ const CommandDialog = ({
 	description = 'Search for a command to run...',
 	className = '',
 	showCloseButton = true,
+	container,
 	children,
 }: CommandDialogProps) => {
+	const portalContainer = usePortalContainer(container);
 	if (!open) {
 		return null;
 	}
@@ -397,11 +401,11 @@ const CommandDialog = ({
 		</div>
 	);
 
-	if (typeof document === 'undefined') {
+	if (!portalContainer) {
 		return null;
 	}
 
-	return createPortal(content, document.body);
+	return createPortal(content, portalContainer);
 };
 CommandDialog.displayName = 'CommandDialog';
 

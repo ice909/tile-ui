@@ -56,7 +56,7 @@
 		width: 0.75rem;
 		height: 1rem;
 		border: 1px solid $border;
-		border-radius: 2px;
+		border-radius: $radius-xs;
 		background-color: $border;
 
 		svg {

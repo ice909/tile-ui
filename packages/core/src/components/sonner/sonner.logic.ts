@@ -1,6 +1,6 @@
 import { generateId } from '../../utils/helpers';
 import { capitalize } from '../../utils/helpers';
-import type { SonnerAddInput, SonnerPosition, SonnerToast, SonnerType } from './sonner.types';
+import type { SonnerAddInput, SonnerPosition, SonnerTheme, SonnerToast, SonnerType } from './sonner.types';
 
 /**
  * Sonner 组件样式类名键
@@ -26,6 +26,11 @@ export const SONNER_DEFAULT_DURATION = 4000;
  * 退出动画时长 (ms)
  */
 export const SONNER_DISMISS_DURATION = 200;
+
+/** 将 system 主题解析为当前系统主题，未指定时继续继承宿主主题 */
+export function resolveSonnerTheme(theme: SonnerTheme | undefined, prefersDark: boolean): 'light' | 'dark' | undefined {
+	return theme === 'system' ? (prefersDark ? 'dark' : 'light') : theme;
+}
 
 function toPascal(value: string): string {
 	return value.split('-').map(capitalize).join('');

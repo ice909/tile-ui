@@ -15,6 +15,7 @@ import type {
 	DropdownMenuSubTriggerBaseProps,
 	DropdownMenuTriggerBaseProps,
 } from '@tile-ui/core';
+import { PortalProvider, usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/dropdown-menu.module.scss';
 
 interface DropdownMenuContextValue {
@@ -167,11 +168,12 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(({ clas
 DropdownMenu.displayName = 'DropdownMenu';
 
 export interface DropdownMenuPortalProps {
+	container?: PortalContainer;
 	children?: React.ReactNode;
 }
 
-const DropdownMenuPortal = ({ children }: DropdownMenuPortalProps) => {
-	return <>{children}</>;
+const DropdownMenuPortal = ({ container, children }: DropdownMenuPortalProps) => {
+	return <PortalProvider container={container}>{children}</PortalProvider>;
 };
 DropdownMenuPortal.displayName = 'DropdownMenuPortal';
 
@@ -226,11 +228,14 @@ const DropdownMenuTrigger = React.forwardRef<HTMLButtonElement, DropdownMenuTrig
 });
 DropdownMenuTrigger.displayName = 'DropdownMenuTrigger';
 
-export interface DropdownMenuContentProps extends React.HTMLAttributes<HTMLDivElement>, DropdownMenuContentBaseProps {}
+export interface DropdownMenuContentProps extends React.HTMLAttributes<HTMLDivElement>, DropdownMenuContentBaseProps {
+	container?: PortalContainer;
+}
 
 const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenuContentProps>(
-	({ className = '', side = 'bottom', align = 'center', sideOffset = 4, alignOffset = 0, children, ...props }, ref) => {
+	({ className = '', side = 'bottom', align = 'center', sideOffset = 4, alignOffset = 0, container, children, ...props }, ref) => {
 		const { open, triggerRef, contentId, closeAll } = useDropdownMenuContext();
+		const portalContainer = usePortalContainer(container);
 		const [position, setPosition] = useState<DropdownMenuPosition | null>(null);
 		const contentRef = useRef<HTMLDivElement | null>(null);
 		const itemsRef = useRef<HTMLElement[]>([]);
@@ -380,11 +385,11 @@ const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenuContent
 			</DropdownMenuContentContext.Provider>
 		);
 
-		if (!open || typeof document === 'undefined') {
+		if (!open || !portalContainer) {
 			return null;
 		}
 
-		return createPortal(content, document.body);
+		return createPortal(content, portalContainer);
 	},
 );
 DropdownMenuContent.displayName = 'DropdownMenuContent';
@@ -719,11 +724,14 @@ const DropdownMenuSubTrigger = React.forwardRef<HTMLDivElement, DropdownMenuSubT
 });
 DropdownMenuSubTrigger.displayName = 'DropdownMenuSubTrigger';
 
-export interface DropdownMenuSubContentProps extends React.HTMLAttributes<HTMLDivElement>, DropdownMenuContentBaseProps {}
+export interface DropdownMenuSubContentProps extends React.HTMLAttributes<HTMLDivElement>, DropdownMenuContentBaseProps {
+	container?: PortalContainer;
+}
 
 const DropdownMenuSubContent = React.forwardRef<HTMLDivElement, DropdownMenuSubContentProps>(
-	({ className = '', side = 'right', align = 'start', sideOffset = 0, alignOffset = 0, children, ...props }, ref) => {
+	({ className = '', side = 'right', align = 'start', sideOffset = 0, alignOffset = 0, container, children, ...props }, ref) => {
 		const { open, setOpen, triggerRef } = useDropdownMenuSubContext();
+		const portalContainer = usePortalContainer(container);
 		const [position, setPosition] = useState<DropdownMenuPosition | null>(null);
 		const contentRef = useRef<HTMLDivElement | null>(null);
 		const itemsRef = useRef<HTMLElement[]>([]);
@@ -849,11 +857,11 @@ const DropdownMenuSubContent = React.forwardRef<HTMLDivElement, DropdownMenuSubC
 			</DropdownMenuContentContext.Provider>
 		);
 
-		if (!open || typeof document === 'undefined') {
+		if (!open || !portalContainer) {
 			return null;
 		}
 
-		return createPortal(content, document.body);
+		return createPortal(content, portalContainer);
 	},
 );
 DropdownMenuSubContent.displayName = 'DropdownMenuSubContent';

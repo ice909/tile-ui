@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Slot } from '@radix-ui/react-slot';
 import { getSheetState, getSheetTranslateStyle, sheetStyleKeys } from '@tile-ui/core';
 import type { SheetBaseProps, SheetSide } from '@tile-ui/core';
+import { usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/sheet.module.scss';
 
 interface SheetContextValue {
@@ -137,138 +138,142 @@ SheetOverlay.displayName = 'SheetOverlay';
 export interface SheetContentProps extends React.HTMLAttributes<HTMLDivElement> {
 	side?: SheetSide;
 	showCloseButton?: boolean;
+	container?: PortalContainer;
 }
 
-const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(({ className = '', side = 'right', showCloseButton = true, style, children, ...props }, ref) => {
-	const { open, close, titleId, descriptionId } = useSheetContext();
-	const contentRef = useRef<HTMLDivElement | null>(null);
-	const [isVisible, setIsVisible] = useState(false);
+const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
+	({ className = '', side = 'right', showCloseButton = true, container, style, children, ...props }, ref) => {
+		const { open, close, titleId, descriptionId } = useSheetContext();
+		const portalContainer = usePortalContainer(container);
+		const contentRef = useRef<HTMLDivElement | null>(null);
+		const [isVisible, setIsVisible] = useState(false);
 
-	function setContentRef(element: HTMLDivElement | null) {
-		contentRef.current = element;
+		function setContentRef(element: HTMLDivElement | null) {
+			contentRef.current = element;
 
-		if (typeof ref === 'function') {
-			ref(element);
-		} else if (ref) {
-			ref.current = element;
-		}
-	}
-
-	useLayoutEffect(() => {
-		if (!open) {
-			return;
+			if (typeof ref === 'function') {
+				ref(element);
+			} else if (ref) {
+				ref.current = element;
+			}
 		}
 
-		const previouslyFocused = document.activeElement as HTMLElement | null;
-		const previousOverflow = document.body.style.overflow;
-		document.body.style.overflow = 'hidden';
-
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === 'Escape') {
-				close();
+		useLayoutEffect(() => {
+			if (!open) {
 				return;
 			}
 
-			if (event.key === 'Tab') {
-				const container = contentRef.current;
-				if (!container) {
-					return;
-				}
-				const focusables = Array.from(
-					container.querySelectorAll<HTMLElement>(
-						'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
-					),
-				).filter((el) => el.getClientRects().length > 0);
-				if (focusables.length === 0) {
-					event.preventDefault();
-					return;
-				}
-				const first = focusables[0];
-				const last = focusables[focusables.length - 1];
-				const active = document.activeElement;
+			const previouslyFocused = document.activeElement as HTMLElement | null;
+			const previousOverflow = document.body.style.overflow;
+			document.body.style.overflow = 'hidden';
 
-				if (event.shiftKey) {
-					if (active === first || active === container || !container.contains(active)) {
-						event.preventDefault();
-						last.focus();
+			const handleKeyDown = (event: KeyboardEvent) => {
+				if (event.key === 'Escape') {
+					close();
+					return;
+				}
+
+				if (event.key === 'Tab') {
+					const container = contentRef.current;
+					if (!container) {
+						return;
 					}
-				} else if (active === last || !container.contains(active)) {
-					event.preventDefault();
-					first.focus();
+					const focusables = Array.from(
+						container.querySelectorAll<HTMLElement>(
+							'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+						),
+					).filter((el) => el.getClientRects().length > 0);
+					if (focusables.length === 0) {
+						event.preventDefault();
+						return;
+					}
+					const first = focusables[0];
+					const last = focusables[focusables.length - 1];
+					const active = document.activeElement;
+
+					if (event.shiftKey) {
+						if (active === first || active === container || !container.contains(active)) {
+							event.preventDefault();
+							last.focus();
+						}
+					} else if (active === last || !container.contains(active)) {
+						event.preventDefault();
+						first.focus();
+					}
 				}
+			};
+
+			document.addEventListener('keydown', handleKeyDown);
+
+			const contentEl = contentRef.current;
+			if (contentEl) {
+				contentEl.focus();
 			}
-		};
 
-		document.addEventListener('keydown', handleKeyDown);
+			return () => {
+				document.body.style.overflow = previousOverflow;
+				document.removeEventListener('keydown', handleKeyDown);
+				previouslyFocused?.focus();
+			};
+		}, [close, open]);
 
-		const contentEl = contentRef.current;
-		if (contentEl) {
-			contentEl.focus();
+		useEffect(() => {
+			if (!open) {
+				return;
+			}
+
+			const frame = requestAnimationFrame(() => {
+				setIsVisible(true);
+			});
+
+			return () => cancelAnimationFrame(frame);
+		}, [open]);
+
+		if (!open || !portalContainer) {
+			return null;
 		}
 
-		return () => {
-			document.body.style.overflow = previousOverflow;
-			document.removeEventListener('keydown', handleKeyDown);
-			previouslyFocused?.focus();
-		};
-	}, [close, open]);
-
-	useEffect(() => {
-		if (!open) {
-			return;
-		}
-
-		const frame = requestAnimationFrame(() => {
-			setIsVisible(true);
-		});
-
-		return () => cancelAnimationFrame(frame);
-	}, [open]);
-
-	if (!open) {
-		return null;
-	}
-
-	return createPortal(
-		<>
-			<SheetOverlay />
-			<div
-				ref={setContentRef}
-				role="dialog"
-				aria-modal="true"
-				aria-labelledby={titleId}
-				aria-describedby={descriptionId}
-				tabIndex={-1}
-				data-state={getSheetState(open)}
-				data-side={side}
-				style={{ transform: isVisible ? '' : getSheetTranslateStyle(side), opacity: isVisible ? '' : 0, ...style }}
-				className={`${styles[sheetStyleKeys.content]} ${className}`}
-				{...props}>
-				{children}
-				{showCloseButton && (
-					<button type="button" aria-label="关闭" className={styles[sheetStyleKeys.close]} onClick={() => close()}>
-						<svg
-							className={styles[sheetStyleKeys.xIcon]}
-							xmlns="http://www.w3.org/2000/svg"
-							width="16"
-							height="16"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							aria-hidden="true">
-							<path d="M18 6 6 18" />
-							<path d="m6 6 12 12" />
-						</svg>
-					</button>
-				)}
-			</div>
-		</>,
-		document.body,
-	);
-});
+		return createPortal(
+			<>
+				<SheetOverlay />
+				<div
+					ref={setContentRef}
+					role="dialog"
+					aria-modal="true"
+					aria-labelledby={titleId}
+					aria-describedby={descriptionId}
+					tabIndex={-1}
+					data-state={getSheetState(open)}
+					data-side={side}
+					style={{ transform: isVisible ? '' : getSheetTranslateStyle(side), opacity: isVisible ? '' : 0, ...style }}
+					className={`${styles[sheetStyleKeys.content]} ${className}`}
+					{...props}>
+					{children}
+					{showCloseButton && (
+						<button type="button" aria-label="关闭" className={styles[sheetStyleKeys.close]} onClick={() => close()}>
+							<svg
+								className={styles[sheetStyleKeys.xIcon]}
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								aria-hidden="true">
+								<path d="M18 6 6 18" />
+								<path d="m6 6 12 12" />
+							</svg>
+						</button>
+					)}
+				</div>
+			</>,
+			portalContainer,
+		);
+	},
+);
 SheetContent.displayName = 'SheetContent';
 
 export interface SheetHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}

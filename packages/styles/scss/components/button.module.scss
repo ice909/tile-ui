@@ -1,4 +1,3 @@
-@use 'sass:color';
 @use 'variables/colors' as *;
 
 .button {
@@ -122,11 +121,11 @@
 		box-shadow: $shadow-sm;
 
 		&:hover:not(:disabled) {
-			background-color: color.mix(black, $primary, 10%);
+			background-color: $primary-hover;
 		}
 
 		&:active:not(:disabled) {
-			background-color: color.mix(black, $primary, 20%);
+			background-color: $primary-active;
 		}
 	}
 
@@ -137,7 +136,7 @@
 		box-shadow: $shadow-sm;
 
 		&:hover:not(:disabled) {
-			background-color: color.mix(black, $destructive, 10%);
+			background-color: $destructive-hover;
 		}
 	}
 
@@ -160,7 +159,7 @@
 		box-shadow: $shadow-sm;
 
 		&:hover:not(:disabled) {
-			background-color: color.mix(black, $secondary, 10%);
+			background-color: $secondary-hover;
 		}
 	}
 

@@ -115,8 +115,8 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 		}, []);
 
 		const layout = useMemo(
-			() => computeChartLayout({ config, data, series: series ?? [], xKey, type, width: size.width, height: size.height }),
-			[config, data, series, xKey, type, size],
+			() => computeChartLayout({ config, data, series: series ?? [], xKey, type, width: size.width, height: size.height, cssVariableScope: chartId }),
+			[config, data, series, xKey, type, size, chartId],
 		);
 
 		const contextValue = useMemo<ChartContextValue>(() => ({ config, layout, data, activeIndex }), [config, layout, data, activeIndex]);

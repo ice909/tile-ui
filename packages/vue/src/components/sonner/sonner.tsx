@@ -1,5 +1,5 @@
-import { defineComponent, h, shallowRef, watch, type PropType, type VNode } from 'vue';
-import { buildSonnerToastApi, createSonnerStore, getSonnerPositionStyleKeys, sonnerStyleKeys } from '@tile-ui/core';
+import { defineComponent, h, onBeforeUnmount, shallowRef, watch, type PropType, type VNode } from 'vue';
+import { buildSonnerToastApi, createSonnerStore, getSonnerPositionStyleKeys, resolveSonnerTheme, sonnerStyleKeys } from '@tile-ui/core';
 import type { SonnerPosition, SonnerTheme, SonnerToast, SonnerType } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/sonner.module.scss';
 
@@ -61,6 +61,7 @@ const closeIcon = h('svg', svgAttrs(), [h('path', { d: 'M18 6 6 18' }), h('path'
 
 export const Toaster = defineComponent({
 	name: 'Toaster',
+	inheritAttrs: false,
 	props: {
 		position: { type: String as PropType<SonnerPosition>, default: 'bottom-right' },
 		duration: { type: Number, default: undefined },
@@ -68,7 +69,29 @@ export const Toaster = defineComponent({
 		richColors: { type: Boolean, default: false },
 		closeButton: { type: Boolean, default: true },
 	},
-	setup(props) {
+	setup(props, { attrs }) {
+		const systemTheme = shallowRef<'light' | 'dark'>('light');
+		let media: MediaQueryList | undefined;
+		const updateSystemTheme = () => {
+			systemTheme.value = media?.matches ? 'dark' : 'light';
+		};
+
+		watch(
+			() => props.theme,
+			(theme) => {
+				media?.removeEventListener('change', updateSystemTheme);
+				media = undefined;
+				if (theme === 'system' && typeof window !== 'undefined') {
+					media = window.matchMedia('(prefers-color-scheme: dark)');
+					updateSystemTheme();
+					media.addEventListener('change', updateSystemTheme);
+				}
+			},
+			{ immediate: true },
+		);
+
+		onBeforeUnmount(() => media?.removeEventListener('change', updateSystemTheme));
+
 		watch(
 			() => props.duration,
 			(duration) => {
@@ -80,6 +103,10 @@ export const Toaster = defineComponent({
 		);
 
 		return () => {
+			const resolvedTheme = resolveSonnerTheme(props.theme, systemTheme.value === 'dark');
+			const userClass = attrs.class;
+			const restAttrs = { ...attrs };
+			delete restAttrs.class;
 			const groups = new Map<string, SonnerToast[]>();
 			for (const item of toasts.value) {
 				const key = item.position ?? props.position;
@@ -108,12 +135,27 @@ export const Toaster = defineComponent({
 					);
 					if (props.closeButton && item.dismissible !== false) {
 						children.push(
-							h('button', { type: 'button', 'aria-label': '关闭', class: styles[sonnerStyleKeys.close], onClick: () => sonnerStore.dismiss(item.id) }, [closeIcon]),
+							h(
+								'button',
+								{
+									type: 'button',
+									'aria-label': '关闭',
+									class: styles[sonnerStyleKeys.close],
+									onClick: () => sonnerStore.dismiss(item.id),
+								},
+								[closeIcon],
+							),
 						);
 					}
 					return h(
 						'div',
-						{ key: item.id, 'data-slot': 'toast', 'data-type': item.type, 'data-dismissing': item.dismissing ? 'true' : 'false', class: styles[sonnerStyleKeys.toast] },
+						{
+							key: item.id,
+							'data-slot': 'toast',
+							'data-type': item.type,
+							'data-dismissing': item.dismissing ? 'true' : 'false',
+							class: styles[sonnerStyleKeys.toast],
+						},
 						children,
 					);
 				});
@@ -121,11 +163,12 @@ export const Toaster = defineComponent({
 					h(
 						'div',
 						{
+							...restAttrs,
 							key: groupPosition,
 							'data-slot': 'toaster',
-							'data-theme': props.theme,
+							'data-theme': resolvedTheme,
 							'data-rich-colors': props.richColors ? 'true' : undefined,
-							class: [styles[styleKeys.base], styles[styleKeys.position]],
+							class: [styles[styleKeys.base], styles[styleKeys.position], resolvedTheme, userClass],
 						},
 						toastNodes,
 					),

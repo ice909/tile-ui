@@ -12,7 +12,8 @@
   ],
   "registryDependencies": [
     "@tile-ui/core",
-    "label"
+    "label",
+    "@tile-ui/styles"
   ],
   "files": [
     {

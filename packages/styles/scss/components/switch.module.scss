@@ -14,7 +14,7 @@
 		border-color: $ring;
 		box-shadow:
 			0 0 0 1px $ring,
-			0 0 0 3px rgba($ring, 0.5);
+			0 0 0 3px color-mix(in srgb, $ring 50%, transparent);
 	}
 
 	&:disabled {

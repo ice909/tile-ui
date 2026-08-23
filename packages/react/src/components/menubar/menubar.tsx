@@ -15,6 +15,7 @@ import type {
 	MenubarSubTriggerBaseProps,
 	MenubarTriggerBaseProps,
 } from '@tile-ui/core';
+import { PortalProvider, usePortalContainer, type PortalContainer } from '../portal';
 import styles from '@tile-ui/styles/scss/components/menubar.module.scss';
 
 interface MenubarContextValue {
@@ -169,11 +170,12 @@ const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(({ className = ''
 Menubar.displayName = 'Menubar';
 
 export interface MenubarPortalProps {
+	container?: PortalContainer;
 	children?: React.ReactNode;
 }
 
-const MenubarPortal = ({ children }: MenubarPortalProps) => {
-	return <>{children}</>;
+const MenubarPortal = ({ container, children }: MenubarPortalProps) => {
+	return <PortalProvider container={container}>{children}</PortalProvider>;
 };
 MenubarPortal.displayName = 'MenubarPortal';
 
@@ -256,11 +258,14 @@ const MenubarTrigger = React.forwardRef<HTMLButtonElement, MenubarTriggerProps>(
 });
 MenubarTrigger.displayName = 'MenubarTrigger';
 
-export interface MenubarContentProps extends React.HTMLAttributes<HTMLDivElement>, MenubarContentBaseProps {}
+export interface MenubarContentProps extends React.HTMLAttributes<HTMLDivElement>, MenubarContentBaseProps {
+	container?: PortalContainer;
+}
 
 const MenubarContent = React.forwardRef<HTMLDivElement, MenubarContentProps>(
-	({ className = '', side = 'bottom', align = 'start', sideOffset = 8, alignOffset = -4, children, ...props }, ref) => {
+	({ className = '', side = 'bottom', align = 'start', sideOffset = 8, alignOffset = -4, container, children, ...props }, ref) => {
 		const { open, triggerRef, contentId, setOpen } = useMenubarMenuContext();
+		const portalContainer = usePortalContainer(container);
 		const [position, setPosition] = useState<MenubarPosition | null>(null);
 		const contentRef = useRef<HTMLDivElement | null>(null);
 		const itemsRef = useRef<HTMLElement[]>([]);
@@ -410,11 +415,11 @@ const MenubarContent = React.forwardRef<HTMLDivElement, MenubarContentProps>(
 			</MenubarContentContext.Provider>
 		);
 
-		if (!open || typeof document === 'undefined') {
+		if (!open || !portalContainer) {
 			return null;
 		}
 
-		return createPortal(content, document.body);
+		return createPortal(content, portalContainer);
 	},
 );
 MenubarContent.displayName = 'MenubarContent';
@@ -747,11 +752,14 @@ const MenubarSubTrigger = React.forwardRef<HTMLDivElement, MenubarSubTriggerProp
 });
 MenubarSubTrigger.displayName = 'MenubarSubTrigger';
 
-export interface MenubarSubContentProps extends React.HTMLAttributes<HTMLDivElement>, MenubarContentBaseProps {}
+export interface MenubarSubContentProps extends React.HTMLAttributes<HTMLDivElement>, MenubarContentBaseProps {
+	container?: PortalContainer;
+}
 
 const MenubarSubContent = React.forwardRef<HTMLDivElement, MenubarSubContentProps>(
-	({ className = '', side = 'right', align = 'start', sideOffset = 0, alignOffset = 0, children, ...props }, ref) => {
+	({ className = '', side = 'right', align = 'start', sideOffset = 0, alignOffset = 0, container, children, ...props }, ref) => {
 		const { open, setOpen, triggerRef } = useMenubarSubContext();
+		const portalContainer = usePortalContainer(container);
 		const [position, setPosition] = useState<MenubarPosition | null>(null);
 		const contentRef = useRef<HTMLDivElement | null>(null);
 		const itemsRef = useRef<HTMLElement[]>([]);
@@ -877,11 +885,11 @@ const MenubarSubContent = React.forwardRef<HTMLDivElement, MenubarSubContentProp
 			</MenubarContentContext.Provider>
 		);
 
-		if (!open || typeof document === 'undefined') {
+		if (!open || !portalContainer) {
 			return null;
 		}
 
-		return createPortal(content, document.body);
+		return createPortal(content, portalContainer);
 	},
 );
 MenubarSubContent.displayName = 'MenubarSubContent';

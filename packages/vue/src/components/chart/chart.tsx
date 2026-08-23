@@ -124,6 +124,7 @@ export const ChartContainer = defineComponent({
 				type: props.type,
 				width: size.width,
 				height: size.height,
+				cssVariableScope: chartId,
 			}),
 		);
 

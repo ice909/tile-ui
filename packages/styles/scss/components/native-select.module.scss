@@ -1,4 +1,3 @@
-@use 'sass:color';
 @use 'variables/colors' as *;
 
 .wrapper {
@@ -34,12 +33,12 @@
 	}
 
 	&:hover:not(:disabled) {
-		background-color: color.mix(black, $background, 2%);
+		background-color: $field-hover;
 	}
 
 	&:focus-visible {
 		border-color: $ring;
-		box-shadow: 0 0 0 3px rgba($ring, 0.5);
+		box-shadow: 0 0 0 3px color-mix(in srgb, $ring 50%, transparent);
 	}
 
 	&:disabled {
@@ -61,7 +60,7 @@
 		border-color: $destructive;
 
 		&:focus-visible {
-			box-shadow: 0 0 0 3px rgba($destructive, 0.2);
+			box-shadow: 0 0 0 3px color-mix(in srgb, $destructive 20%, transparent);
 		}
 	}
 }
