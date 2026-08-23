@@ -79,8 +79,9 @@ const NavigationMenu = React.forwardRef<HTMLElement, NavigationMenuProps>(({ cla
 
 	return (
 		<NavigationMenuContext.Provider value={{ activeValue, setActiveValue, viewportEnabled: viewport, viewportRef, setIndicatorRect, indicatorRect }}>
-			<nav ref={ref} className={`${styles[navigationMenuStyleKeys.root]} ${className}`} {...props}>
+			<nav ref={ref} data-viewport={viewport} className={`${styles[navigationMenuStyleKeys.root]} ${className}`} {...props}>
 				{children}
+				{viewport && <NavigationMenuViewport />}
 			</nav>
 		</NavigationMenuContext.Provider>
 	);
@@ -232,19 +233,16 @@ NavigationMenuContent.displayName = 'NavigationMenuContent';
 export interface NavigationMenuViewportProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const NavigationMenuViewport = React.forwardRef<HTMLDivElement, NavigationMenuViewportProps>(({ className = '', children, ...props }, ref) => {
-	const { activeValue, viewportRef, indicatorRect } = useNavigationMenuContext();
+	const { activeValue, viewportRef } = useNavigationMenuContext();
 	const state = getNavigationMenuState(activeValue !== undefined);
 	const classes = [styles[navigationMenuStyleKeys.viewport], className].filter(Boolean).join(' ');
 
 	return (
-		<>
-			<div ref={ref} data-state={state} className={classes} {...props}>
-				<div ref={viewportRef} className={styles[navigationMenuStyleKeys.viewportInner]}>
-					{children}
-				</div>
+		<div ref={ref} data-state={state} className={classes} {...props}>
+			<div ref={viewportRef} className={styles[navigationMenuStyleKeys.viewportInner]}>
+				{children}
 			</div>
-			<NavigationMenuIndicator style={indicatorRect ?? undefined} />
-		</>
+		</div>
 	);
 });
 NavigationMenuViewport.displayName = 'NavigationMenuViewport';

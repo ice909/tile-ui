@@ -144,6 +144,9 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(({
 
 	function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
 		onClick?.(event);
+		if (event.defaultPrevented) {
+			return;
+		}
 		context.setOpen(!context.open);
 	}
 
@@ -206,7 +209,7 @@ export interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
-	({ className = '', position = 'item-aligned', align = 'center', sideOffset = 4, container, children, ...props }, ref) => {
+	({ className = '', position = 'item-aligned', align = 'center', sideOffset = 4, container, children, onKeyDown, ...props }, ref) => {
 		const { open, setOpen, triggerRef, contentId } = useSelectContext();
 		const portalContainer = usePortalContainer(container);
 		const [coords, setCoords] = useState<SelectPositionResult | null>(null);
@@ -288,11 +291,17 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 		}, [open, triggerRef, setOpen]);
 
 		function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+			onKeyDown?.(event);
+			if (event.defaultPrevented) {
+				return;
+			}
+
 			const items = itemsRef.current.filter((item) => item.getAttribute('data-disabled') !== 'true');
 			if (items.length === 0) {
 				if (event.key === 'Escape') {
 					event.preventDefault();
 					setOpen(false);
+					triggerRef.current?.focus();
 				}
 				return;
 			}
@@ -356,7 +365,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 			</SelectContentContext.Provider>
 		);
 
-		if (!open || !portalContainer) {
+		if (!portalContainer) {
 			return null;
 		}
 
@@ -390,7 +399,7 @@ SelectLabel.displayName = 'SelectLabel';
 
 export interface SelectItemProps extends React.HTMLAttributes<HTMLDivElement>, SelectItemBaseProps {}
 
-const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(({ className = '', value, disabled = false, children, ...props }, ref) => {
+const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(({ className = '', value, disabled = false, children, onClick, ...props }, ref) => {
 	const { itemsRef, close } = useSelectContentContext();
 	const { value: selectedValue, setValue, registerItemText } = useSelectContext();
 	const itemRef = useRef<HTMLDivElement | null>(null);
@@ -423,7 +432,11 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(({ classNam
 		}
 	}
 
-	function handleClick() {
+	function handleClick(event: React.MouseEvent<HTMLDivElement>) {
+		onClick?.(event);
+		if (event.defaultPrevented) {
+			return;
+		}
 		if (disabled) {
 			return;
 		}

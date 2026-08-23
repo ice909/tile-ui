@@ -3,6 +3,7 @@ import {
 	carouselStyleKeys,
 	getCarouselCanScrollNext,
 	getCarouselCanScrollPrev,
+	getCarouselItemScrollPosition,
 	getCarouselMaxScroll,
 	getCarouselScrollPosition,
 	getCarouselScrollSize,
@@ -103,10 +104,11 @@ export const Carousel = defineComponent({
 			const position = getCarouselScrollPosition(viewport, pos);
 			const currentIndex = getCarouselSelectedIndex(position, getCarouselScrollSize(viewport, pos));
 			const target = items[Math.max(0, currentIndex - 1)];
+			const targetPosition = getCarouselItemScrollPosition(items[0], target, pos);
 			if (pos === 'horizontal') {
-				viewport.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+				viewport.scrollTo({ left: targetPosition, behavior: 'smooth' });
 			} else {
-				viewport.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+				viewport.scrollTo({ top: targetPosition, behavior: 'smooth' });
 			}
 		}
 
@@ -123,10 +125,11 @@ export const Carousel = defineComponent({
 			const position = getCarouselScrollPosition(viewport, pos);
 			const currentIndex = getCarouselSelectedIndex(position, getCarouselScrollSize(viewport, pos));
 			const target = items[Math.min(items.length - 1, currentIndex + 1)];
+			const targetPosition = getCarouselItemScrollPosition(items[0], target, pos);
 			if (pos === 'horizontal') {
-				viewport.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+				viewport.scrollTo({ left: targetPosition, behavior: 'smooth' });
 			} else {
-				viewport.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+				viewport.scrollTo({ top: targetPosition, behavior: 'smooth' });
 			}
 		}
 

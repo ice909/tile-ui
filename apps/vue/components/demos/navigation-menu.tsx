@@ -1,4 +1,4 @@
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuViewport } from '@tile-ui/vue';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent } from '@tile-ui/vue';
 
 export default function NavigationMenuDemo() {
 	return (
@@ -21,7 +21,6 @@ export default function NavigationMenuDemo() {
 					</NavigationMenuContent>
 				</NavigationMenuItem>
 			</NavigationMenuList>
-			<NavigationMenuViewport />
 		</NavigationMenu>
 	);
 }

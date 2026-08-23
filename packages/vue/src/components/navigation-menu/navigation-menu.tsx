@@ -97,7 +97,11 @@ export const NavigationMenu = defineComponent({
 
 		provide(NavigationMenuContextKey, context);
 
-		return () => h('nav', { ...attrs, class: [styles[navigationMenuStyleKeys.root], attrs.class] }, slots.default?.());
+		return () =>
+			h('nav', { ...attrs, 'data-viewport': props.viewport, class: [styles[navigationMenuStyleKeys.root], attrs.class] }, [
+				...(slots.default?.() ?? []),
+				props.viewport ? h(NavigationMenuViewport) : null,
+			]);
 	},
 });
 

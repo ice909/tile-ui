@@ -147,8 +147,13 @@ describe('文档预览契约', () => {
 		}
 	});
 
-	it('React NavigationMenu 预览包含 Viewport', () => {
-		const source = read(reactDemos, 'navigation-menu.tsx');
-		expect(source).toContain('NavigationMenuViewport');
+	it('NavigationMenu 由根组件自动渲染 Viewport', () => {
+		const reactSource = read(reactRoot, 'components/navigation-menu/navigation-menu.tsx');
+		const vueSource = read(vueRoot, 'components/navigation-menu/navigation-menu.tsx');
+		expect(reactSource).toContain('viewport && <NavigationMenuViewport />');
+		expect(vueSource).toContain('props.viewport ? h(NavigationMenuViewport) : null');
+		expect(reactSource).not.toContain('<NavigationMenuIndicator style={indicatorRect ?? undefined} />');
+		expect(read(reactDemos, 'navigation-menu.tsx')).not.toContain('NavigationMenuViewport');
+		expect(read(vueDemos, 'navigation-menu.tsx')).not.toContain('NavigationMenuViewport');
 	});
 });

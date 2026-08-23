@@ -3,6 +3,7 @@ import {
 	carouselStyleKeys,
 	getCarouselCanScrollNext,
 	getCarouselCanScrollPrev,
+	getCarouselItemScrollPosition,
 	getCarouselMaxScroll,
 	getCarouselScrollPosition,
 	getCarouselScrollSize,
@@ -76,10 +77,11 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({ className = 
 		const position = getCarouselScrollPosition(viewport, orientation);
 		const currentIndex = getCarouselSelectedIndex(position, getCarouselScrollSize(viewport, orientation));
 		const target = items[Math.max(0, currentIndex - 1)];
+		const targetPosition = getCarouselItemScrollPosition(items[0], target, orientation);
 		if (orientation === 'horizontal') {
-			viewport.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+			viewport.scrollTo({ left: targetPosition, behavior: 'smooth' });
 		} else {
-			viewport.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+			viewport.scrollTo({ top: targetPosition, behavior: 'smooth' });
 		}
 	}, [orientation]);
 
@@ -95,10 +97,11 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({ className = 
 		const position = getCarouselScrollPosition(viewport, orientation);
 		const currentIndex = getCarouselSelectedIndex(position, getCarouselScrollSize(viewport, orientation));
 		const target = items[Math.min(items.length - 1, currentIndex + 1)];
+		const targetPosition = getCarouselItemScrollPosition(items[0], target, orientation);
 		if (orientation === 'horizontal') {
-			viewport.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+			viewport.scrollTo({ left: targetPosition, behavior: 'smooth' });
 		} else {
-			viewport.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+			viewport.scrollTo({ top: targetPosition, behavior: 'smooth' });
 		}
 	}, [orientation]);
 

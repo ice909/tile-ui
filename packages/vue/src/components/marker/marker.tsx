@@ -39,10 +39,19 @@ export const Marker = defineComponent({
 	},
 });
 
+function renderCircleIcon() {
+	return h('svg', { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 24 24', fill: 'currentColor', 'aria-hidden': 'true' }, [h('circle', { cx: '12', cy: '12', r: '6' })]);
+}
+
 export const MarkerIcon = defineComponent({
 	name: 'MarkerIcon',
 	setup(_props, { slots, attrs }) {
-		return () => h('span', { ...attrs, 'data-slot': 'marker-icon', 'aria-hidden': 'true', class: [styles[markerStyleKeys.icon], attrs.class] }, slots.default?.());
+		return () =>
+			h(
+				'span',
+				{ ...attrs, 'data-slot': 'marker-icon', 'aria-hidden': 'true', class: [styles[markerStyleKeys.icon], attrs.class] },
+				slots.default?.() ?? [renderCircleIcon()],
+			);
 	},
 });
 

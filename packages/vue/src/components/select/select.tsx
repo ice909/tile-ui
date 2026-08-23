@@ -6,6 +6,7 @@ import {
 	nextTick,
 	onBeforeUnmount,
 	onMounted,
+	onUpdated,
 	provide,
 	ref,
 	useId,
@@ -59,6 +60,15 @@ function useSelectContentContext(): SelectContentContext {
 		throw new Error('SelectItem 必须位于 <SelectContent> 内部。');
 	}
 	return context;
+}
+
+function callEventHandler(handler: unknown, event: Event) {
+	const handlers = Array.isArray(handler) ? handler : [handler];
+	for (const current of handlers) {
+		if (typeof current === 'function') {
+			current(event);
+		}
+	}
 }
 
 function selectCheckIcon() {
@@ -204,11 +214,16 @@ export const SelectTrigger = defineComponent({
 	setup(props, { slots, attrs }) {
 		const context = useSelectContext();
 
-		function handleClick() {
+		function handleClick(event: MouseEvent) {
+			callEventHandler(attrs.onClick, event);
+			if (event.defaultPrevented) {
+				return;
+			}
 			context.value.setOpen(!context.value.open);
 		}
 
 		function handleKeyDown(event: KeyboardEvent) {
+			callEventHandler(attrs.onKeydown, event);
 			if (event.defaultPrevented) {
 				return;
 			}
@@ -371,6 +386,11 @@ export const SelectContent = defineComponent({
 		onBeforeUnmount(handleClose);
 
 		function handleKeyDown(event: KeyboardEvent) {
+			callEventHandler(attrs.onKeydown, event);
+			if (event.defaultPrevented) {
+				return;
+			}
+
 			const items = itemsRef.value.filter((item) => item.getAttribute('data-disabled') !== 'true');
 
 			if (event.key === 'Escape') {
@@ -474,9 +494,17 @@ export const SelectItem = defineComponent({
 		const isSelected = computed(() => root.value.value === props.value);
 
 		onMounted(() => {
-			if (itemRef.value) {
-				context.value.itemsRef.value.push(itemRef.value);
-				root.value.registerItemText(props.value, itemRef.value.textContent ?? '');
+			const element = itemRef.value;
+			if (element) {
+				context.value.itemsRef.value.push(element);
+				root.value.registerItemText(props.value, element.textContent ?? '');
+			}
+		});
+
+		onUpdated(() => {
+			const element = itemRef.value;
+			if (element) {
+				root.value.registerItemText(props.value, element.textContent ?? '');
 			}
 		});
 
@@ -484,7 +512,11 @@ export const SelectItem = defineComponent({
 			context.value.itemsRef.value = context.value.itemsRef.value.filter((item) => item !== itemRef.value);
 		});
 
-		function handleClick() {
+		function handleClick(event: MouseEvent) {
+			callEventHandler(attrs.onClick, event);
+			if (event.defaultPrevented) {
+				return;
+			}
 			if (props.disabled) {
 				return;
 			}

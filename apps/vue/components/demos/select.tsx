@@ -2,8 +2,8 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 
 export default function SelectDemo() {
 	return (
-		<Select defaultValue="apple" style={{ width: '220px' }}>
-			<SelectTrigger>
+		<Select defaultValue="apple">
+			<SelectTrigger style={{ width: '220px' }}>
 				<SelectValue placeholder="Choose a fruit" />
 			</SelectTrigger>
 			<SelectContent>

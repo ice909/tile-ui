@@ -3,6 +3,7 @@ export {
 	carouselStyleKeys,
 	getCarouselScrollPosition,
 	getCarouselScrollSize,
+	getCarouselItemScrollPosition,
 	getCarouselMaxScroll,
 	getCarouselCanScrollPrev,
 	getCarouselCanScrollNext,

@@ -27,6 +27,15 @@ export function getCarouselScrollSize(element: HTMLElement, orientation: Carouse
 }
 
 /**
+ * 获取 item 相对首个 item 的滚动目标位置，保持容器 gutter 一致
+ */
+export function getCarouselItemScrollPosition(firstItem: HTMLElement, item: HTMLElement, orientation: CarouselOrientation): number {
+	const firstItemRect = firstItem.getBoundingClientRect();
+	const itemRect = item.getBoundingClientRect();
+	return orientation === 'horizontal' ? itemRect.left - firstItemRect.left : itemRect.top - firstItemRect.top;
+}
+
+/**
  * 获取滚动容器最大可滚动距离
  */
 export function getCarouselMaxScroll(element: HTMLElement, orientation: CarouselOrientation): number {

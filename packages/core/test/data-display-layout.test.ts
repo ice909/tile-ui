@@ -9,6 +9,7 @@ import {
 	getAspectRatioPadding,
 	getCarouselCanScrollNext,
 	getCarouselCanScrollPrev,
+	getCarouselItemScrollPosition,
 	getCarouselMaxScroll,
 	getCarouselScrollPosition,
 	getCarouselScrollSize,
@@ -72,6 +73,18 @@ describe('Carousel 逻辑', () => {
 		const element = { clientWidth: 300, clientHeight: 400 } as unknown as HTMLElement;
 		expect(getCarouselScrollSize(element, 'horizontal')).toBe(300);
 		expect(getCarouselScrollSize(element, 'vertical')).toBe(400);
+	});
+
+	it('getCarouselItemScrollPosition 以首个 item 为滚动零点', () => {
+		const firstItem = {
+			getBoundingClientRect: () => ({ left: -16, top: -16 }),
+		} as unknown as HTMLElement;
+		const item = {
+			getBoundingClientRect: () => ({ left: 300, top: 400 }),
+		} as unknown as HTMLElement;
+
+		expect(getCarouselItemScrollPosition(firstItem, item, 'horizontal')).toBe(316);
+		expect(getCarouselItemScrollPosition(firstItem, item, 'vertical')).toBe(416);
 	});
 
 	it('getCarouselMaxScroll 计算最大滚动距离', () => {

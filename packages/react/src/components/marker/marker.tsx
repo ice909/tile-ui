@@ -21,10 +21,18 @@ Marker.displayName = 'Marker';
 
 export interface MarkerIconProps extends React.HTMLAttributes<HTMLSpanElement> {}
 
+function CircleIcon() {
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+			<circle cx="12" cy="12" r="6" />
+		</svg>
+	);
+}
+
 const MarkerIcon = React.forwardRef<HTMLSpanElement, MarkerIconProps>(({ className = '', children, ...props }, ref) => {
 	return (
 		<span ref={ref} data-slot="marker-icon" aria-hidden="true" className={`${styles[markerStyleKeys.icon]} ${className}`} {...props}>
-			{children}
+			{children ?? <CircleIcon />}
 		</span>
 	);
 });
