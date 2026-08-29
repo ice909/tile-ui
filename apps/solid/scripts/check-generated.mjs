@@ -15,6 +15,7 @@ const generatedPaths = [
 	'src/generated/docs.ts',
 	'src/generated/preview-code.ts',
 	'src/generated/primitive-preview-code.ts',
+	'src/generated/home-showcase-code.ts',
 	'public/r',
 	'public/robots.txt',
 	'public/sitemap.xml',

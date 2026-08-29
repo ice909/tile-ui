@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -8,6 +9,18 @@ import { defineConfig, type Plugin } from 'vite';
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(dirname, '../..');
 const solidPackageRoot = path.join(workspaceRoot, 'packages/solid');
+const docsRoot = path.join(dirname, 'content/docs');
+
+function collectDocRoutes(directory = docsRoot, base = ''): string[] {
+	return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+		const relative = base ? path.join(base, entry.name) : entry.name;
+		if (entry.isDirectory()) return collectDocRoutes(path.join(directory, entry.name), relative);
+		if (!entry.name.endsWith('.mdx')) return [];
+		const segments = relative.replace(/\.mdx$/, '').split(path.sep);
+		if (segments.at(-1) === 'index') segments.pop();
+		return [`/docs${segments.length ? `/${segments.join('/')}` : ''}`];
+	});
+}
 
 function assertSolidPackageResolution(): Plugin {
 	const resolved = new Set();
@@ -63,5 +76,9 @@ export default defineConfig({
 	},
 	nitro: {
 		preset: 'node-server',
+		prerender: {
+			crawlLinks: false,
+			routes: ['/', ...collectDocRoutes()],
+		},
 	},
 });

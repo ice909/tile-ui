@@ -3,6 +3,7 @@
 // 消息组
 .group {
 	display: flex;
+	width: 100%;
 	min-width: 0;
 	flex-direction: column;
 	gap: $spacing-2;
@@ -25,8 +26,8 @@
 // 消息头像
 .avatar {
 	display: flex;
-	width: fit-content;
-	min-width: 2rem;
+	width: 2rem;
+	height: 2rem;
 	flex-shrink: 0;
 	align-items: center;
 	justify-content: center;
@@ -39,7 +40,7 @@
 // 消息内容
 .content {
 	display: flex;
-	width: 100%;
+	flex: 1;
 	min-width: 0;
 	flex-direction: column;
 	gap: $spacing-2_5;

@@ -18,6 +18,34 @@ const introLinks = [
 	{ title: 'Registry', href: '/docs/registry' },
 	{ title: 'Examples', href: '/docs/examples' },
 ];
+const sidebarScrollStorageKey = 'tile-ui-solid-docs-sidebar-scroll';
+let sidebarScrollTop: number | undefined;
+
+function PagerIcon(props: { direction: 'previous' | 'next' }) {
+	return (
+		<svg class="solid-doc__pager-icon" viewBox="0 0 16 16" aria-hidden="true">
+			<path d={props.direction === 'previous' ? 'm10.5 3-5 5 5 5' : 'm5.5 3 5 5-5 5'} />
+		</svg>
+	);
+}
+
+function readSidebarScrollTop() {
+	if (sidebarScrollTop !== undefined) return sidebarScrollTop;
+	const stored = Number.parseFloat(sessionStorage.getItem(sidebarScrollStorageKey) ?? '0');
+	sidebarScrollTop = Number.isFinite(stored) ? stored : 0;
+	return sidebarScrollTop;
+}
+
+function restoreSidebarScrollPosition(element: HTMLElement) {
+	queueMicrotask(() => {
+		element.scrollTop = readSidebarScrollTop();
+	});
+}
+
+function rememberSidebarScrollPosition(event: Event) {
+	sidebarScrollTop = event.currentTarget instanceof HTMLElement ? event.currentTarget.scrollTop : 0;
+	sessionStorage.setItem(sidebarScrollStorageKey, String(sidebarScrollTop));
+}
 
 export default function DocsPage() {
 	const params = useParams();
@@ -31,7 +59,7 @@ export default function DocsPage() {
 			{(entry) => (
 				<div class="solid-docs-layout">
 					<Seo title={entry.title} description={entry.description} path={entry.url} type="article" jsonLd={breadcrumbJsonLd(entry.url, entry.title)} />
-					<aside class="solid-sidebar">
+					<aside class="solid-sidebar" ref={restoreSidebarScrollPosition} onScroll={rememberSidebarScrollPosition}>
 						<div>
 							<p>Get started</p>
 							<nav aria-label="Documentation sections">
@@ -45,7 +73,7 @@ export default function DocsPage() {
 							</nav>
 						</div>
 						<div>
-							<p>{componentNames.size} components</p>
+							<p>Components</p>
 							<nav aria-label="Solid component documentation">
 								<For each={[...componentNames].sort()}>
 									{(name) => (
@@ -59,7 +87,12 @@ export default function DocsPage() {
 					</aside>
 					<article class="solid-doc">
 						<header class="solid-doc__header">
-							<p>Tile UI · SolidJS</p>
+							<div class="solid-doc__eyebrow">
+								<p>Tile UI · SolidJS</p>
+								<Show when={componentNames.has(componentSlug()) || slug() === 'primitives'}>
+									<span>CSR · SSR · SSG</span>
+								</Show>
+							</div>
 							<h1>{entry.title}</h1>
 							<span>{entry.description}</span>
 						</header>
@@ -71,8 +104,22 @@ export default function DocsPage() {
 						</Show>
 						<div class="prose-page solid-prose" innerHTML={entry.html} />
 						<footer class="solid-doc__pager">
-							<Show when={solidDocs[currentIndex() - 1]}>{(previous) => <a href={previous().url}>← {previous().title}</a>}</Show>
-							<Show when={solidDocs[currentIndex() + 1]}>{(next) => <a href={next().url}>{next().title} →</a>}</Show>
+							<Show when={solidDocs[currentIndex() - 1]}>
+								{(previous) => (
+									<a href={previous().url}>
+										<PagerIcon direction="previous" />
+										{previous().title}
+									</a>
+								)}
+							</Show>
+							<Show when={solidDocs[currentIndex() + 1]}>
+								{(next) => (
+									<a href={next().url}>
+										{next().title}
+										<PagerIcon direction="next" />
+									</a>
+								)}
+							</Show>
 						</footer>
 					</article>
 					<aside class="solid-toc">

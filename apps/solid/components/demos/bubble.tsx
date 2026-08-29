@@ -2,11 +2,11 @@ import { Bubble, BubbleContent, BubbleGroup, BubbleReactions } from '@tile-ui/so
 export default function BubbleDemo() {
 	return (
 		<BubbleGroup>
-			<Bubble>
+			<Bubble align="start">
 				<BubbleContent>Solid primitives are ready.</BubbleContent>
-				<BubbleReactions>10:24</BubbleReactions>
+				<BubbleReactions aria-label="One approval">✓ 1</BubbleReactions>
 			</Bubble>
-			<Bubble align="end" variant="secondary">
+			<Bubble align="end" variant="tinted">
 				<BubbleContent>Ship the registry.</BubbleContent>
 			</Bubble>
 		</BubbleGroup>
