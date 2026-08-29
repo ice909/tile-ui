@@ -151,7 +151,7 @@ const apps = [
 		port: Number(process.env.TILE_UI_SOLID_PORT ?? 41733),
 		identity: /Tile UI|Solid/i,
 		build: ['--filter', '@tile-ui/solid-docs', 'build'],
-		start: ['--filter', '@tile-ui/solid-docs', 'exec', 'node', '.output/server/index.mjs'],
+		staticDirectory: path.join(root, 'apps/solid/dist'),
 		select: { option: 'Vue & React', assert: /Vue|React/ },
 	},
 ];

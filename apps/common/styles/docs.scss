@@ -842,6 +842,9 @@ pre:has([data-line-numbers]) {
 	padding: $spacing-5;
 	min-width: 0;
 	max-width: 100%;
+	background-color: var(--docs-surface-subtle);
+	background-image: radial-gradient(circle, var(--docs-border-strong) 1px, transparent 1.25px);
+	background-size: 18px 18px;
 }
 
 .component-preview__surface > * {

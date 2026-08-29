@@ -28,22 +28,27 @@ function AppShell(props: ParentProps) {
 	return (
 		<div class="solid-docs-shell" data-tile-app="solidstart">
 			<header class="solid-header">
-				<a href="/" class="solid-brand">
-					<SolidMark />
-					<span>Tile UI</span>
-					<strong>Solid</strong>
-				</a>
-				<nav aria-label="Primary navigation">
-					<a href="/docs">Docs</a>
-					<a href="/docs/components">Components</a>
-					<a href="/docs/primitives">Primitives</a>
-					<a href="/docs/registry">Registry</a>
-					<a href="/docs/examples">Examples</a>
-				</nav>
-				<a class="solid-source" href="https://github.com/zmide/tile-ui" rel="noreferrer" target="_blank">
-					<GitHubIcon />
-					Source code
-				</a>
+				<div class="solid-header__inner">
+					<a href="/" class="solid-brand">
+						<SolidMark />
+						<span>Tile UI</span>
+						<strong>Solid</strong>
+					</a>
+					<div class="solid-header__actions">
+						<nav aria-label="Primary navigation">
+							<a href="/docs">Docs</a>
+							<a href="/docs/components">Components</a>
+							<a href="/docs/primitives">Primitives</a>
+							<a href="/docs/registry">Registry</a>
+							<a href="/docs/examples">Examples</a>
+						</nav>
+						<div class="solid-header__divider" aria-hidden="true" />
+						<a class="solid-source" href="https://github.com/zmide/tile-ui" rel="noreferrer" target="_blank">
+							<GitHubIcon />
+							<span>Source code</span>
+						</a>
+					</div>
+				</div>
 			</header>
 			<main id="main-content">
 				<Suspense>{props.children}</Suspense>

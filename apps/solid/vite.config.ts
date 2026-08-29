@@ -10,6 +10,7 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(dirname, '../..');
 const solidPackageRoot = path.join(workspaceRoot, 'packages/solid');
 const docsRoot = path.join(dirname, 'content/docs');
+const staticNitroEntry = '\0tile-ui-static-nitro-entry';
 
 function collectDocRoutes(directory = docsRoot, base = ''): string[] {
 	return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -55,8 +56,26 @@ function assertSolidPackageResolution(): Plugin {
 	};
 }
 
+function staticNitroEntryPlugin(): Plugin {
+	return {
+		name: 'tile-ui-static-nitro-entry',
+		configEnvironment(name, config) {
+			if (name !== 'nitro') return;
+			config.build ??= {};
+			config.build.rolldownOptions ??= {};
+			config.build.rolldownOptions.input = staticNitroEntry;
+		},
+		resolveId(source) {
+			if (source === staticNitroEntry) return source;
+		},
+		load(id) {
+			if (id === staticNitroEntry) return 'export default {}';
+		},
+	};
+}
+
 export default defineConfig({
-	plugins: [assertSolidPackageResolution(), solidStart({ ssr: true }), nitro()],
+	plugins: [assertSolidPackageResolution(), solidStart({ ssr: true }), nitro(), staticNitroEntryPlugin()],
 	resolve: {
 		alias: {
 			'@tile-ui/core': path.join(workspaceRoot, 'packages/core/src/index.ts'),
@@ -75,7 +94,10 @@ export default defineConfig({
 		fs: { allow: [workspaceRoot] },
 	},
 	nitro: {
-		preset: 'node-server',
+		preset: 'static',
+		output: {
+			publicDir: path.join(dirname, 'dist'),
+		},
 		prerender: {
 			crawlLinks: false,
 			routes: ['/', ...collectDocRoutes()],
