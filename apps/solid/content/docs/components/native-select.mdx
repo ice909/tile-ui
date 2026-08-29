@@ -1,0 +1,65 @@
+---
+title: NativeSelect
+description: A styled native SolidJS select with SSR-safe initial values and reset behavior.
+---
+
+> Use NativeSelect when native option behavior and form reset semantics are preferred.
+
+<ComponentDemo slug="native-select" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/native-select
+```
+
+## Package usage
+
+```tsx
+import { NativeSelect, NativeSelectOption } from '@tile-ui/solid';
+
+<NativeSelect defaultValue="a">
+	<NativeSelectOption value="a">Option A</NativeSelectOption>
+	<NativeSelectOption value="b">Option B</NativeSelectOption>
+</NativeSelect>
+```
+
+## Highlights
+
+- Two sizes
+- Option and optgroup
+- Custom chevron
+
+## Registry dependencies
+
+| Item            | Purpose                            |
+| --------------- | ---------------------------------- |
+| `native-select` | Component source and module styles |
+| `core`          | Framework-agnostic logic helpers   |
+| `utils`         | Shared utility helpers             |
+| `styles`        | Shared SCSS tokens and globals     |
+
+## API reference
+
+### NativeSelect
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `size`          | `'sm' \| 'default'`       | —       |
+| `value`         | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onValueChange` | `(value: string) => void` | —       |
+
+### NativeSelectOption
+
+No custom props.
+
+### NativeSelectOptGroup
+
+No custom props.
+
+## Related docs
+
+- [Select](/docs/components/select)
+- [Combobox](/docs/components/combobox)
+- [Input](/docs/components/input)

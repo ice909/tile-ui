@@ -1,0 +1,103 @@
+---
+title: Attachment
+description: Composable SolidJS attachment primitives with file metadata and actions.
+---
+
+> Use Attachment primitives or AttachmentCard to present file state and actions.
+
+<ComponentDemo slug="attachment" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/attachment
+```
+
+## Package usage
+
+```tsx
+import { AttachmentCard } from '@tile-ui/solid';
+
+<AttachmentCard name="solid-registry.pdf" size={2516582} onDownload={() => downloadFile()} />
+```
+
+## Highlights
+
+- States like uploading and error
+- Sizes and orientation
+- Media, content, and actions
+
+## Registry dependencies
+
+| Item         | Purpose                            |
+| ------------ | ---------------------------------- |
+| `attachment` | Component source and module styles |
+| `core`       | Framework-agnostic logic helpers   |
+| `utils`      | Shared utility helpers             |
+| `button`     | Registry component dependency      |
+| `styles`     | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Attachment
+
+| Prop          | Type                                                         | Default |
+| ------------- | ------------------------------------------------------------ | ------- |
+| `state`       | `'idle' \| 'uploading' \| 'processing' \| 'error' \| 'done'` | —       |
+| `size`        | `'default' \| 'sm' \| 'xs'`                                  | —       |
+| `orientation` | `'horizontal' \| 'vertical'`                                 | —       |
+
+### AttachmentCard
+
+| Prop          | Type                                                         | Default |
+| ------------- | ------------------------------------------------------------ | ------- |
+| `name`        | `string`                                                     | —       |
+| `size`        | `number`                                                     | —       |
+| `state`       | `'idle' \| 'uploading' \| 'processing' \| 'error' \| 'done'` | —       |
+| `orientation` | `'horizontal' \| 'vertical'`                                 | —       |
+| `downloading` | `boolean`                                                    | —       |
+| `file`        | `File`                                                       | —       |
+| `action`      | `JSX.Element`                                                | —       |
+| `onRemove`    | `SolidEventHandler<HTMLButtonElement, MouseEvent>`           | —       |
+| `onDownload`  | `SolidEventHandler<HTMLButtonElement, MouseEvent>`           | —       |
+| `onPreview`   | `SolidEventHandler<HTMLDivElement, MouseEvent>`              | —       |
+
+### AttachmentGroup
+
+No custom props.
+
+### AttachmentContent
+
+No custom props.
+
+### AttachmentActions
+
+No custom props.
+
+### AttachmentMedia
+
+| Prop      | Type                     | Default |
+| --------- | ------------------------ | ------- |
+| `variant` | `AttachmentMediaVariant` | —       |
+
+### AttachmentTitle
+
+No custom props.
+
+### AttachmentDescription
+
+No custom props.
+
+### AttachmentAction
+
+No custom props.
+
+### AttachmentTrigger
+
+No custom props.
+
+## Related docs
+
+- [Item](/docs/components/item)
+- [Badge](/docs/components/badge)
+- [Empty](/docs/components/empty)

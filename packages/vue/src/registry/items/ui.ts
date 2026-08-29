@@ -1348,4 +1348,16 @@ const vueUiItemsBase: PackageRegistryItem[] = [
 export const vueUiItems = vueUiItemsBase.map((item) => ({
 	...item,
 	registryDependencies: [...new Set([...(item.registryDependencies ?? []), '@tile-ui/styles'])],
+	files: [
+		...item.files,
+		...(item.type === 'registry:ui'
+			? [
+					{
+						source: `packages/vue/src/components/${item.name}/index.ts`,
+						type: 'registry:ui' as const,
+						transform: 'vue-barrel' as const,
+					},
+				]
+			: []),
+	],
 }));

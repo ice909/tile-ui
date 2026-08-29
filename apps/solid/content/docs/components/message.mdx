@@ -1,0 +1,75 @@
+---
+title: Message
+description: Composable SolidJS message layout primitives for static conversation content.
+---
+
+> Use Message primitives to compose semantic conversation rows without adding state management.
+
+<ComponentDemo slug="message" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/message
+```
+
+## Package usage
+
+```tsx
+import { MessageGroup, Message, MessageContent, MessageFooter } from '@tile-ui/solid';
+
+<MessageGroup>
+	<Message align="end">
+		<MessageContent>Registry complete.</MessageContent>
+		<MessageFooter>Now</MessageFooter>
+	</Message>
+</MessageGroup>
+```
+
+## Highlights
+
+- Start and end alignment
+- Avatar, header, content, and footer primitives
+- Native static message markup
+
+## Registry dependencies
+
+| Item      | Purpose                            |
+| --------- | ---------------------------------- |
+| `message` | Component source and module styles |
+| `core`    | Framework-agnostic logic helpers   |
+| `styles`  | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Message
+
+| Prop    | Type               | Default |
+| ------- | ------------------ | ------- |
+| `align` | `'start' \| 'end'` | —       |
+
+### MessageGroup
+
+No custom props.
+
+### MessageAvatar
+
+No custom props.
+
+### MessageContent
+
+No custom props.
+
+### MessageHeader
+
+No custom props.
+
+### MessageFooter
+
+No custom props.
+
+## Related docs
+
+- [Bubble](/docs/components/bubble)
+- [MessageScroller](/docs/components/message-scroller)
+- [Avatar](/docs/components/avatar)

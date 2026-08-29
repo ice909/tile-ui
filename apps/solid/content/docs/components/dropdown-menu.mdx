@@ -1,0 +1,153 @@
+---
+title: DropdownMenu
+description: A SolidJS dropdown menu with checkbox, radio, and nested submenu items.
+---
+
+> Use DropdownMenu to compose keyboard-ready actions, selectable items, and nested menus from native primitives.
+
+<ComponentDemo slug="dropdown-menu" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/dropdown-menu
+```
+
+## Package usage
+
+```tsx
+import { DropdownMenu } from '@tile-ui/solid';
+
+<DropdownMenu>
+	<DropdownMenuTrigger>Menu</DropdownMenuTrigger>
+	<DropdownMenuContent><DropdownMenuCheckboxItem checked>Grid</DropdownMenuCheckboxItem><DropdownMenuSub><DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger><DropdownMenuSubContent><DropdownMenuItem>Copy link</DropdownMenuItem></DropdownMenuSubContent></DropdownMenuSub></DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Highlights
+
+- Checkbox, radio, group, label, and separator primitives
+- Nested submenu keyboard branches
+- Controlled root and selectable item callbacks
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item            | Purpose                            |
+| --------------- | ---------------------------------- |
+| `dropdown-menu` | Component source and module styles |
+| `core`          | Framework-agnostic logic helpers   |
+| `utils`         | Shared utility helpers             |
+| `styles`        | Shared SCSS tokens and globals     |
+
+## API reference
+
+### DropdownMenu
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### DropdownMenuTrigger
+
+No custom props.
+
+### DropdownMenuContent
+
+| Prop          | Type                                     | Default |
+| ------------- | ---------------------------------------- | ------- |
+| `side`        | `'top' \| 'right' \| 'bottom' \| 'left'` | —       |
+| `align`       | `'start' \| 'center' \| 'end'`           | —       |
+| `sideOffset`  | `number`                                 | —       |
+| `alignOffset` | `number`                                 | —       |
+
+### DropdownMenuItem
+
+| Prop       | Type                         | Default |
+| ---------- | ---------------------------- | ------- |
+| `inset`    | `boolean`                    | —       |
+| `variant`  | `'default' \| 'destructive'` | —       |
+| `disabled` | `boolean`                    | —       |
+| `onSelect` | `(event: Event) => void`     | —       |
+
+### DropdownMenuCheckboxItem
+
+| Prop              | Type                         | Default |
+| ----------------- | ---------------------------- | ------- |
+| `checked`         | `boolean`                    | —       |
+| `defaultChecked`  | `boolean`                    | —       |
+| `onCheckedChange` | `(checked: boolean) => void` | —       |
+| `disabled`        | `boolean`                    | —       |
+| `onSelect`        | `(event: Event) => void`     | —       |
+
+### DropdownMenuRadioGroup
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `value`         | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onValueChange` | `(value: string) => void` | —       |
+
+### DropdownMenuRadioItem
+
+| Prop       | Type                     | Default |
+| ---------- | ------------------------ | ------- |
+| `value`    | `string`                 | —       |
+| `disabled` | `boolean`                | —       |
+| `onSelect` | `(event: Event) => void` | —       |
+
+### DropdownMenuLabel
+
+| Prop    | Type      | Default |
+| ------- | --------- | ------- |
+| `inset` | `boolean` | —       |
+
+### DropdownMenuSub
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### DropdownMenuSubTrigger
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `inset`    | `boolean` | —       |
+| `disabled` | `boolean` | —       |
+
+### DropdownMenuPortal
+
+No custom props.
+
+### DropdownMenuGroup
+
+No custom props.
+
+### DropdownMenuSeparator
+
+No custom props.
+
+### DropdownMenuShortcut
+
+No custom props.
+
+### DropdownMenuSubContent
+
+No custom props.
+
+## Related docs
+
+- [ContextMenu](/docs/components/context-menu)
+- [Menubar](/docs/components/menubar)
+- [Select](/docs/components/select)

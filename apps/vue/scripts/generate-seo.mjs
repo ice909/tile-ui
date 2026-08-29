@@ -22,7 +22,9 @@ if (!fs.existsSync(docsDataFile)) {
 
 const docsData = JSON.parse(fs.readFileSync(docsDataFile, 'utf-8'));
 const routes = Array.isArray(docsData.routes) ? docsData.routes : [];
-const lastmod = new Date().toISOString().slice(0, 10);
+const sourceDateEpoch = Number(process.env.SOURCE_DATE_EPOCH);
+const generatedAt = Number.isFinite(sourceDateEpoch) ? new Date(sourceDateEpoch * 1000) : new Date();
+const lastmod = generatedAt.toISOString().slice(0, 10);
 
 function toAbsoluteUrl(route) {
 	if (route === '/') {

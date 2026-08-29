@@ -2,7 +2,7 @@
 /**
  * Demo 预览的统一数据源。
  *
- * React/Vue 每个 demo 一个文件：apps/{react,vue}/components/demos/<slug>.tsx，
+ * 每个框架的每个 demo 一个文件：apps/<framework>/components/demos/<slug>.tsx，
  * 文件本体即真实渲染的源码（与 shadcn-ui 上游模式一致）。
  * 预览块展示的代码 = 直接读取该文件内容，保证展示与渲染永远来自同一处；
  * 文件自身的 import 即实际使用的 import，天然正确。
@@ -16,6 +16,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const require = createRequire(path.join(root, 'apps/react/package.json'));
 const ts = require('typescript');
+
+const frameworkConfigs = {
+	react: { pkg: '@tile-ui/react', secondaryPkg: '@tile-ui/react/hooks', subDir: 'hooks' },
+	vue: { pkg: '@tile-ui/vue', secondaryPkg: '@tile-ui/vue/composables', subDir: 'composables' },
+	solid: { pkg: '@tile-ui/solid', secondaryPkg: '@tile-ui/solid/primitives', subDir: 'primitives' },
+};
 
 export function getDemoDir(framework) {
 	return path.join(root, `apps/${framework}/components/demos`);
@@ -65,10 +71,10 @@ function collectIdentifiers(code) {
 
 // 包导出（主入口 + hooks/composables 子路径），返回 name → 模块 映射。
 function loadPackageExports(framework) {
-	const config = {
-		react: { pkg: '@tile-ui/react', hookPkg: '@tile-ui/react/hooks', subDir: 'hooks' },
-		vue: { pkg: '@tile-ui/vue', hookPkg: '@tile-ui/vue/composables', subDir: 'composables' },
-	}[framework];
+	const config = frameworkConfigs[framework];
+	if (!config) {
+		throw new Error(`Unknown demo framework: ${framework}`);
+	}
 	const pkgDir = path.join(root, 'packages', framework, 'src');
 	const exportsMap = new Map();
 	const collect = (file, moduleName) => {
@@ -84,9 +90,9 @@ function loadPackageExports(framework) {
 			}
 		}
 	};
-	const subIndex = path.join(pkgDir, config.subDir, 'index.ts');
-	if (fs.existsSync(subIndex)) {
-		collect(subIndex, config.hookPkg);
+	const subIndex = config.subDir ? path.join(pkgDir, config.subDir, 'index.ts') : null;
+	if (subIndex && fs.existsSync(subIndex) && config.secondaryPkg) {
+		collect(subIndex, config.secondaryPkg);
 	}
 	// 主入口后收集，同名导出以主入口为准（vue 主入口已导出 composables）。
 	collect(path.join(pkgDir, 'index.ts'), config.pkg);
@@ -122,7 +128,11 @@ export function deriveUsageImports(framework, usage) {
  * 输出 import 行（主入口在前，hooks/composables 子路径在后）。
  */
 export function renderUsageImports(framework, usage) {
-	const order = framework === 'react' ? ['@tile-ui/react', '@tile-ui/react/hooks'] : ['@tile-ui/vue', '@tile-ui/vue/composables'];
+	const config = frameworkConfigs[framework];
+	if (!config) {
+		throw new Error(`Unknown demo framework: ${framework}`);
+	}
+	const order = [config.pkg, config.secondaryPkg].filter(Boolean);
 	const byModule = new Map();
 	for (const { name, module: moduleName } of deriveUsageImports(framework, usage)) {
 		if (!byModule.has(moduleName)) {

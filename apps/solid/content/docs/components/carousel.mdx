@@ -1,0 +1,77 @@
+---
+title: Carousel
+description: A measured SolidJS carousel with accessible horizontal and vertical keyboard navigation.
+---
+
+> Use Carousel with an accessible label so the measured viewport and orientation-specific keyboard controls have a clear name.
+
+<ComponentDemo slug="carousel" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/carousel
+```
+
+## Package usage
+
+```tsx
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@tile-ui/solid';
+
+<Carousel aria-label="Feature carousel" orientation="vertical"><CarouselContent viewportStyle={{ height: "12rem" }}><CarouselItem>One</CarouselItem><CarouselItem>Two</CarouselItem></CarouselContent><CarouselPrevious /><CarouselNext /></Carousel>
+```
+
+## Highlights
+
+- Measured horizontal and vertical viewports
+- Arrow-key navigation follows orientation
+- Accessible region labels describe each carousel
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `carousel` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `button`   | Registry component dependency      |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Carousel
+
+| Prop          | Type                          | Default      |
+| ------------- | ----------------------------- | ------------ |
+| `orientation` | `'horizontal' \| 'vertical'`  | 'horizontal' |
+| `ref`         | `CarouselRef<HTMLDivElement>` | —            |
+
+### CarouselContent
+
+| Prop            | Type                          | Default |
+| --------------- | ----------------------------- | ------- |
+| `ref`           | `CarouselRef<HTMLDivElement>` | —       |
+| `viewportStyle` | `JSX.CSSProperties \| string` | —       |
+
+### CarouselItem
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CarouselRef<HTMLDivElement>` | —       |
+
+### CarouselPrevious
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CarouselRef<HTMLButtonElement>` | —       |
+
+### CarouselNext
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CarouselRef<HTMLButtonElement>` | —       |
+
+## Related docs
+
+- [AspectRatio](/docs/components/aspect-ratio)
+- [Tabs](/docs/components/tabs)
+- [Sheet](/docs/components/sheet)

@@ -1,0 +1,89 @@
+---
+title: InputOtp
+description: SolidJS one-time password slots with keyboard, paste, composition, and form support.
+---
+
+> Use InputOTP to collect short codes with efficient keyboard, paste, and composition input.
+
+<ComponentDemo slug="input-otp" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/input-otp
+```
+
+## Package usage
+
+```tsx
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@tile-ui/solid';
+
+<InputOTP maxLength={4}>
+	<InputOTPGroup><InputOTPSlot index={0} /><InputOTPSlot index={1} /><InputOTPSlot index={2} /><InputOTPSlot index={3} /></InputOTPGroup>
+</InputOTP>
+```
+
+## Highlights
+
+- Numeric, alphanumeric, and text modes
+- Slots and groups
+- Completion callback
+
+## Registry dependencies
+
+| Item        | Purpose                            |
+| ----------- | ---------------------------------- |
+| `input-otp` | Component source and module styles |
+| `core`      | Framework-agnostic logic helpers   |
+| `utils`     | Shared utility helpers             |
+| `styles`    | Shared SCSS tokens and globals     |
+
+## API reference
+
+### InputOtp
+
+| Prop           | Type                                    | Default |
+| -------------- | --------------------------------------- | ------- |
+| `value`        | `string`                                | —       |
+| `defaultValue` | `string`                                | —       |
+| `maxLength`    | `number`                                | —       |
+| `disabled`     | `boolean`                               | —       |
+| `onChange`     | `(value: string) => void`               | —       |
+| `onComplete`   | `(value: string) => void`               | —       |
+| `mode`         | `'numeric' \| 'alphanumeric' \| 'text'` | —       |
+| `allowPaste`   | `boolean`                               | —       |
+
+### InputOtpSlot
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `index` | `number` | —       |
+
+### InputOTP
+
+| Prop             | Type     | Default |
+| ---------------- | -------- | ------- |
+| `containerClass` | `string` | —       |
+| `name`           | `string` | —       |
+| `form`           | `string` | —       |
+
+### InputOTPGroup
+
+No custom props.
+
+### InputOTPSlot
+
+| Prop         | Type                                                                               | Default |
+| ------------ | ---------------------------------------------------------------------------------- | ------- |
+| `inputClass` | `string`                                                                           | —       |
+| `inputProps` | `Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'value' \| 'disabled' \| 'name'>` | —       |
+
+### InputOTPSeparator
+
+No custom props.
+
+## Related docs
+
+- [Input](/docs/components/input)
+- [InputGroup](/docs/components/input-group)
+- [Form](/docs/components/form)

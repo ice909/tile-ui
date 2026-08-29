@@ -3,6 +3,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const reactRoot = resolve(import.meta.dirname, '../../react/src');
+const solidRoot = resolve(import.meta.dirname, '../../solid/src');
 const vueRoot = resolve(import.meta.dirname, '../../vue/src');
 const reactDemos = resolve(import.meta.dirname, '../../../apps/react/components/demos');
 const vueDemos = resolve(import.meta.dirname, '../../../apps/vue/components/demos');
@@ -98,6 +99,22 @@ describe('非受控状态契约（防回归）', () => {
 			expect(source, `${file} 应在非受控时更新内部状态`).toMatch(uncontrolledCheck);
 		});
 	}
+});
+
+describe('Solid registry 组件契约', () => {
+	it('Toggle 保持受控与非受控双模式', () => {
+		const source = read(solidRoot, 'components/toggle/toggle.tsx');
+		expect(source).toMatch(/defaultPressed/);
+		expect(source).toMatch(/internalPressed/);
+		expect(source).toMatch(/local\.pressed === undefined/);
+	});
+
+	it('Dialog 直接使用 solid-js Portal 并复用 Button', () => {
+		const source = read(solidRoot, 'components/dialog/dialog.tsx');
+		expect(source).toContain("import { Portal } from 'solid-js/web';");
+		expect(source).toContain("import { Button } from '../button';");
+		expect(source).not.toContain("from '../portal'");
+	});
 });
 
 describe('ContextMenu 循环依赖契约（防崩溃回归）', () => {

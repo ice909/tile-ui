@@ -1,0 +1,68 @@
+---
+title: Bubble
+description: SolidJS chat bubble primitives with alignment and reaction regions.
+---
+
+> Use Bubble for aligned conversation content and optional reaction metadata.
+
+<ComponentDemo slug="bubble" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/bubble
+```
+
+## Package usage
+
+```tsx
+import { Bubble, BubbleContent } from '@tile-ui/solid';
+
+<Bubble align="end">
+	<BubbleContent>Registry complete.</BubbleContent>
+</Bubble>
+```
+
+## Highlights
+
+- Seven visual variants
+- Native div content primitive
+- Aligned reaction metadata
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `bubble` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Bubble
+
+| Prop      | Type                                                                                       | Default |
+| --------- | ------------------------------------------------------------------------------------------ | ------- |
+| `variant` | `'default' \| 'secondary' \| 'muted' \| 'tinted' \| 'outline' \| 'ghost' \| 'destructive'` | —       |
+| `align`   | `'start' \| 'end'`                                                                         | —       |
+
+### BubbleContent
+
+No custom props.
+
+### BubbleReactions
+
+| Prop    | Type                | Default |
+| ------- | ------------------- | ------- |
+| `side`  | `'top' \| 'bottom'` | —       |
+| `align` | `'start' \| 'end'`  | —       |
+
+### BubbleGroup
+
+No custom props.
+
+## Related docs
+
+- [Message](/docs/components/message)
+- [MessageScroller](/docs/components/message-scroller)
+- [Avatar](/docs/components/avatar)

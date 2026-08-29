@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle",
+  "type": "registry:ui",
+  "title": "Toggle",
+  "description": "Controlled or uncontrolled SolidJS toggle component for Tile UI.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/utils",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/toggle/toggle.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toggle/toggle.tsx",
+      "content": "import { createSignal, splitProps, type JSX } from 'solid-js';\nimport { getToggleState, getToggleStyleKeys } from '../lib/core';\nimport type { ToggleBaseProps } from '../lib/core';\nimport { invokeEventHandler } from '../lib/utils';\nimport styles from './toggle.module.scss';\n\nexport interface ToggleProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement>, ToggleBaseProps {\n\t/** 受控按压状态 */\n\tpressed?: boolean;\n\t/** 非受控初始按压状态 */\n\tdefaultPressed?: boolean;\n\t/** 按压状态变化回调 */\n\tonPressedChange?: (pressed: boolean) => void;\n}\n\n/**\n * SolidJS Toggle：受控 (pressed) / 非受控 (defaultPressed) 双模式，复用 core 逻辑。\n */\nexport function Toggle(props: ToggleProps) {\n\tconst [local, rest] = splitProps(props, ['variant', 'size', 'pressed', 'defaultPressed', 'onPressedChange', 'class', 'onClick', 'disabled', 'children', 'type']);\n\tconst [internalPressed, setInternalPressed] = createSignal(local.defaultPressed ?? false);\n\tconst isPressed = () => (local.pressed !== undefined ? local.pressed : internalPressed());\n\tconst state = () => getToggleState(isPressed());\n\tconst styleKeys = () => getToggleStyleKeys(local.variant, local.size);\n\tconst variant = () => local.variant ?? 'default';\n\tconst size = () => local.size ?? 'default';\n\n\tfunction handleClick(event: MouseEvent) {\n\t\tinvokeEventHandler(local.onClick as Parameters<typeof invokeEventHandler<MouseEvent>>[0], event);\n\t\tif (event.defaultPrevented) {\n\t\t\treturn;\n\t\t}\n\n\t\tconst next = !isPressed();\n\t\tif (local.pressed === undefined) {\n\t\t\tsetInternalPressed(next);\n\t\t}\n\t\tlocal.onPressedChange?.(next);\n\t}\n\n\treturn (\n\t\t<button\n\t\t\t{...rest}\n\t\t\ttype={local.type ?? 'button'}\n\t\t\taria-pressed={isPressed()}\n\t\t\tdata-state={state()}\n\t\t\tdata-variant={variant()}\n\t\t\tdata-size={size()}\n\t\t\tdisabled={local.disabled}\n\t\t\tclass={`${styles[styleKeys().base]} ${styles[styleKeys().variant]} ${styles[styleKeys().size]} ${local.class ?? ''}`}\n\t\t\tonClick={handleClick}>\n\t\t\t{local.children}\n\t\t</button>\n\t);\n}\n\nexport default Toggle;\n"
+    },
+    {
+      "path": "packages/solid/src/components/toggle/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/toggle/index.ts",
+      "content": "export { Toggle, type ToggleProps } from './toggle';\nexport { default } from './toggle';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/toggle.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/toggle/toggle.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.toggle {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tjustify-content: center;\n\tgap: $spacing-2;\n\twhite-space: nowrap;\n\tborder-radius: $radius;\n\tborder: 1px solid transparent;\n\tfont-size: $text-sm;\n\tfont-weight: $font-medium;\n\ttransition:\n\t\tcolor $transition-fast,\n\t\tbackground-color $transition-fast,\n\t\tborder-color $transition-fast,\n\t\tbox-shadow $transition-fast;\n\toutline: none;\n\tcursor: pointer;\n\n\t&:focus-visible {\n\t\tborder-color: $ring;\n\t\tbox-shadow: 0 0 0 3px color-mix(in srgb, $ring 50%, transparent);\n\t}\n\n\t&:disabled {\n\t\tpointer-events: none;\n\t\topacity: 0.5;\n\t\tcursor: not-allowed;\n\t}\n\n\tsvg {\n\t\tpointer-events: none;\n\t\tflex-shrink: 0;\n\t\twidth: 1rem;\n\t\theight: 1rem;\n\t}\n\n\t// 状态\n\t&[data-state='on'] {\n\t\tbackground-color: $accent;\n\t\tcolor: $accent-foreground;\n\t}\n\n\t&[data-state='off'] {\n\t\tbackground-color: transparent;\n\t\tcolor: $foreground;\n\n\t\t&:hover:not(:disabled) {\n\t\t\tbackground-color: $muted;\n\t\t\tcolor: $muted-foreground;\n\t\t}\n\t}\n\n\t// 样式变体\n\t&.variantDefault {\n\t\tbackground-color: transparent;\n\t}\n\n\t&.variantOutline {\n\t\tborder-color: $border;\n\t\tbox-shadow: $shadow-sm;\n\t}\n\n\t&.variantGhost {\n\t\tbackground-color: transparent;\n\n\t\t&[data-state='on'] {\n\t\t\tbackground-color: $muted;\n\t\t\tcolor: $muted-foreground;\n\t\t}\n\t}\n\n\t// 尺寸变体\n\t&.sizeDefault {\n\t\theight: 2.25rem;\n\t\tmin-width: 2.25rem;\n\t\tpadding: 0 $spacing-2;\n\t}\n\n\t&.sizeSm {\n\t\theight: 2rem;\n\t\tmin-width: 2rem;\n\t\tpadding: 0 $spacing-1_5;\n\t}\n\n\t&.sizeLg {\n\t\theight: 2.5rem;\n\t\tmin-width: 2.5rem;\n\t\tpadding: 0 $spacing-2_5;\n\t}\n}\n"
+    }
+  ]
+}

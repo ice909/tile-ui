@@ -1,0 +1,51 @@
+---
+title: AspectRatio
+description: An SSR-safe SolidJS container that preserves a requested width-to-height ratio.
+---
+
+> Use AspectRatio to reserve stable media and preview geometry during SSR.
+
+<ComponentDemo slug="aspect-ratio" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/aspect-ratio
+```
+
+## Package usage
+
+```tsx
+import { AspectRatio } from '@tile-ui/solid';
+
+<AspectRatio ratio={16 / 9}>
+	<img src="https://example.com/poster.png" alt="Poster" />
+</AspectRatio>
+```
+
+## Highlights
+
+- Ratio prop
+- Fills its container
+
+## Registry dependencies
+
+| Item           | Purpose                            |
+| -------------- | ---------------------------------- |
+| `aspect-ratio` | Component source and module styles |
+| `core`         | Framework-agnostic logic helpers   |
+| `styles`       | Shared SCSS tokens and globals     |
+
+## API reference
+
+### AspectRatio
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `ratio` | `number` | 1       |
+
+## Related docs
+
+- [Card](/docs/components/card)
+- [Carousel](/docs/components/carousel)
+- [Avatar](/docs/components/avatar)

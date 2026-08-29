@@ -135,6 +135,7 @@ const MessageScrollerViewport = React.forwardRef<HTMLDivElement, MessageScroller
 	return (
 		<div
 			ref={setRef}
+			tabIndex={0}
 			data-slot="message-scroller-viewport"
 			className={[styles[messageScrollerStyleKeys.viewport], className].filter(Boolean).join(' ')}
 			onScroll={(event) => {

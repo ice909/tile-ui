@@ -1,0 +1,55 @@
+---
+title: Textarea
+description: An accessible SolidJS textarea with SSR-safe initial values and messaging.
+---
+
+> Use Textarea for multi-line values that remain stable through SSR, hydration, and reset.
+
+<ComponentDemo slug="textarea" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/textarea
+```
+
+## Package usage
+
+```tsx
+import { Textarea } from '@tile-ui/solid';
+
+<Textarea label="Summary" defaultValue="SSR-safe initial value" />
+```
+
+## Highlights
+
+- Label and helper text
+- Error state
+- Resizable by default
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `textarea` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `utils`    | Shared utility helpers             |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Textarea
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `label`         | `string`                  | —       |
+| `error`         | `string`                  | —       |
+| `helperText`    | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onChangeValue` | `(value: string) => void` | —       |
+
+## Related docs
+
+- [Input](/docs/components/input)
+- [Label](/docs/components/label)
+- [Field](/docs/components/field)

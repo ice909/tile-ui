@@ -1,0 +1,88 @@
+---
+title: Tooltip
+description: A delayed SolidJS tooltip for pointer hover and keyboard focus.
+---
+
+> Use TooltipProvider and nested Tooltip primitives for delayed pointer help and immediate keyboard-focus descriptions.
+
+<ComponentDemo slug="tooltip" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/tooltip
+```
+
+## Package usage
+
+```tsx
+import { Tooltip } from '@tile-ui/solid';
+
+<TooltipProvider delayDuration={400}>
+	<Tooltip><TooltipTrigger>Focus or hover</TooltipTrigger><TooltipContent>Keyboard help.</TooltipContent></Tooltip>
+</TooltipProvider>
+```
+
+## Highlights
+
+- Provider-level pointer delay timing
+- Pointer hover and keyboard focus opening
+- Escape dismissal and stable description IDs
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item      | Purpose                            |
+| --------- | ---------------------------------- |
+| `tooltip` | Component source and module styles |
+| `core`    | Framework-agnostic logic helpers   |
+| `utils`   | Shared utility helpers             |
+| `styles`  | Shared SCSS tokens and globals     |
+
+## API reference
+
+### TooltipProvider
+
+| Prop            | Type          | Default |
+| --------------- | ------------- | ------- |
+| `delayDuration` | `number`      | —       |
+| `children`      | `JSX.Element` | —       |
+
+### Tooltip
+
+| Prop           | Type                          | Default |
+| -------------- | ----------------------------- | ------- |
+| `open`         | `boolean`                     | —       |
+| `defaultOpen`  | `boolean`                     | —       |
+| `onOpenChange` | `(open: boolean) => void`     | —       |
+| `triggerId`    | `string`                      | —       |
+| `contentId`    | `string`                      | —       |
+| `ref`          | `CallbackRef<HTMLDivElement>` | —       |
+
+### TooltipTrigger
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### TooltipContent
+
+| Prop         | Type                                     | Default |
+| ------------ | ---------------------------------------- | ------- |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | —       |
+| `sideOffset` | `number`                                 | —       |
+| `container`  | `Node`                                   | —       |
+| `ref`        | `CallbackRef<HTMLDivElement>`            | —       |
+
+## Related docs
+
+- [Popover](/docs/components/popover)
+- [HoverCard](/docs/components/hover-card)
+- [Kbd](/docs/components/kbd)

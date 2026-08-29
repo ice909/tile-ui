@@ -67,18 +67,23 @@ export function getInValue(values: FormValues, path: string): unknown {
  */
 export function setInValue(values: FormValues, path: string, value: unknown): FormValues {
 	const segments = path.split('.');
-	const result = { ...values };
-	let current = result;
-
-	for (let index = 0; index < segments.length - 1; index++) {
+	const isIndex = (segment: string) => /^\d+$/.test(segment);
+	const update = (current: unknown, index: number): unknown => {
+		if (index === segments.length) return value;
 		const segment = segments[index];
-		const next = (current[segment] ?? {}) as Record<string, unknown>;
-		current[segment] = { ...next };
-		current = current[segment] as Record<string, unknown>;
-	}
+		const container = Array.isArray(current)
+			? [...current]
+			: current !== null && typeof current === 'object'
+				? { ...(current as Record<string, unknown>) }
+				: isIndex(segment)
+					? []
+					: {};
+		const child = (container as Record<string, unknown>)[segment];
+		(container as Record<string, unknown>)[segment] = update(child, index + 1);
+		return container;
+	};
 
-	current[segments[segments.length - 1]] = value;
-	return result;
+	return update(values, 0) as FormValues;
 }
 
 /**
@@ -133,16 +138,23 @@ export function swapFieldArrayItems(values: FormValues, path: string, from: numb
 		return values;
 	}
 	const next = [...array];
-	const [item] = next.splice(from, 1);
-	next.splice(to, 0, item);
+	[next[from], next[to]] = [next[to], next[from]];
 	return setInValue(values, path, next);
 }
 
 /**
- * 数组字段移动元素 (纯函数，含义与交换一致，保留上游 API 名)
+ * 数组字段移动元素 (纯函数)
  */
 export function moveInFieldArray(values: FormValues, path: string, from: number, to: number): FormValues {
-	return swapFieldArrayItems(values, path, from, to);
+	const current = getInValue(values, path);
+	const array = Array.isArray(current) ? current : [];
+	if (from === to || from < 0 || to < 0 || from >= array.length || to >= array.length) {
+		return values;
+	}
+	const next = [...array];
+	const [item] = next.splice(from, 1);
+	next.splice(to, 0, item);
+	return setInValue(values, path, next);
 }
 
 /**
@@ -225,11 +237,17 @@ export async function validateFormField(fieldName: string, value: unknown, allVa
 			if (typeof result === 'string' && result) {
 				return { type: 'validate', message: result };
 			}
+			if (result === false) {
+				return { type: 'validate', message: 'Validation failed' };
+			}
 		} else {
 			for (const ruleKey of Object.keys(validate)) {
 				const result = await validate[ruleKey](value, allValues);
 				if (typeof result === 'string' && result) {
 					return { type: ruleKey, message: result };
+				}
+				if (result === false) {
+					return { type: ruleKey, message: 'Validation failed' };
 				}
 			}
 		}
@@ -256,21 +274,49 @@ export function toFieldArrayItems(array: unknown[], ids: string[]): FormFieldArr
  */
 export type FormPathResolver = (name: string) => string;
 
+function cloneFormValue<T>(value: T): T {
+	if (Array.isArray(value)) {
+		return value.map((item) => cloneFormValue(item)) as T;
+	}
+	if (value instanceof Date) {
+		return new Date(value.getTime()) as T;
+	}
+	if (value instanceof RegExp) {
+		return new RegExp(value.source, value.flags) as T;
+	}
+	if (value !== null && typeof value === 'object' && Object.getPrototypeOf(value) === Object.prototype) {
+		return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, cloneFormValue(item)])) as T;
+	}
+	return value;
+}
+
+interface FormRegistrationEntry {
+	id: number;
+	path: string;
+	options: FormRegisterOptions;
+}
+
 /**
  * 最小化表单状态引擎 (纯逻辑 + 订阅模型，供两个框架复用)
  */
 export class FormStore {
+	private readonly defaultValues: FormValues;
 	private values: FormValues;
 	private errors: FormErrors = {};
 	private touched: Record<string, boolean> = {};
 	private dirty: Record<string, boolean> = {};
 	private rules: Record<string, FormRegisterOptions> = {};
-	private registered: Record<string, boolean> = {};
+	private registrations = new Map<string, FormRegistrationEntry[]>();
 	private depsMap: Record<string, string[]> = {};
 	private arrayIds = new Map<string, string[]>();
 	private isSubmitting = false;
 	private isSubmitted = false;
 	private submitCount = 0;
+	private activeSubmissions = 0;
+	private validationEpoch = 0;
+	private wholeValidationGeneration = 0;
+	private fieldValidationGenerations = new Map<string, number>();
+	private registrationId = 0;
 	private version = 0;
 	private snapshotVersion = -1;
 	private snapshotCache: FormSnapshot | null = null;
@@ -280,7 +326,8 @@ export class FormStore {
 	private resolvePath: FormPathResolver;
 
 	constructor(defaultValues: FormValues = {}, resolver?: (values: FormValues) => FormErrors | Promise<FormErrors>, resolvePath: FormPathResolver = (name) => name) {
-		this.values = { ...defaultValues };
+		this.defaultValues = cloneFormValue(defaultValues);
+		this.values = cloneFormValue(this.defaultValues);
 		this.resolver = resolver;
 		this.resolvePath = resolvePath;
 	}
@@ -367,6 +414,7 @@ export class FormStore {
 	/** 设置字段值 */
 	setValue(name: string, value: unknown, options: FormSetValueOptions = {}): void {
 		const path = this.resolvePath(name);
+		this.invalidateValidation();
 		this.values = setInValue(this.values, path, value);
 
 		if (options.shouldDirty) {
@@ -402,28 +450,29 @@ export class FormStore {
 	/** 注册字段 */
 	registerField(name: string, options: FormRegisterOptions = {}): FormRegistration {
 		const path = this.resolvePath(name);
-		this.registered[path] = true;
-		this.rules[path] = options;
-
-		if (options.deps) {
-			for (const dep of options.deps) {
-				const depPath = this.resolvePath(dep);
-				const list = this.depsMap[depPath] ?? [];
-				if (!list.includes(path)) {
-					list.push(path);
-					this.depsMap[depPath] = list;
-				}
-			}
-		}
+		const entry = { id: ++this.registrationId, path, options: cloneFormValue(options) };
+		const entries = this.registrations.get(path) ?? [];
+		entries.push(entry);
+		this.registrations.set(path, entries);
+		this.fieldValidationGenerations.set(path, (this.fieldValidationGenerations.get(path) ?? 0) + 1);
+		this.invalidateValidation();
+		this.rebuildRegistrationState();
+		let active = true;
+		const unregister = () => {
+			if (!active) return;
+			active = false;
+			this.removeRegistration(entry.path, entry.id);
+		};
 
 		return {
 			name,
 			ref: name,
+			unregister,
 			onChange: (value: unknown) => {
-				this.setValue(name, normalizeFormValue(value, options.valueAsNumber));
+				this.setValue(entry.path, normalizeFormValue(value, entry.options.valueAsNumber));
 			},
 			onBlur: () => {
-				this.blurField(name);
+				this.blurField(entry.path);
 			},
 		};
 	}
@@ -431,13 +480,9 @@ export class FormStore {
 	/** 注销字段 */
 	unregisterField(name: string): void {
 		const path = this.resolvePath(name);
-		delete this.registered[path];
-		delete this.rules[path];
-		delete this.touched[path];
-
-		for (const key of Object.keys(this.depsMap)) {
-			this.depsMap[key] = this.depsMap[key].filter((item) => item !== path);
-		}
+		const entries = this.registrations.get(path);
+		const entry = entries?.at(-1);
+		if (entry) this.removeRegistration(path, entry.id);
 	}
 
 	/** 标记字段已触碰 */
@@ -450,37 +495,59 @@ export class FormStore {
 	/** 校验单个字段 */
 	async validateField(name: string): Promise<FormFieldError | undefined> {
 		const path = this.resolvePath(name);
+		const generation = (this.fieldValidationGenerations.get(path) ?? 0) + 1;
+		this.fieldValidationGenerations.set(path, generation);
+		this.wholeValidationGeneration += 1;
+		const epoch = this.validationEpoch;
 		const value = getInValue(this.values, path);
-		const error = await validateFormField(path, value, this.values, this.rules[path]);
+		const values = cloneFormValue(this.values);
+		const error = await validateFormField(path, value, values, this.rules[path]);
 
-		if (error) {
-			this.errors[path] = error;
-		} else {
-			delete this.errors[path];
+		if (epoch === this.validationEpoch && generation === this.fieldValidationGenerations.get(path)) {
+			if (error) {
+				this.errors[path] = error;
+			} else {
+				delete this.errors[path];
+			}
+			this.notify(path);
 		}
-
-		this.notify(path);
 		return error;
 	}
 
 	/** 校验全部已注册字段 */
 	async validateFields(): Promise<FormErrors> {
-		this.errors = {};
-		for (const path of Object.keys(this.registered)) {
-			const value = getInValue(this.values, path);
-			const error = await validateFormField(path, value, this.values, this.rules[path]);
+		return (await this.runWholeValidation()).errors;
+	}
+
+	private async runWholeValidation(): Promise<{ errors: FormErrors; values: FormValues; current: boolean }> {
+		const generation = ++this.wholeValidationGeneration;
+		const epoch = this.validationEpoch;
+		for (const path of this.registrations.keys()) {
+			this.fieldValidationGenerations.set(path, (this.fieldValidationGenerations.get(path) ?? 0) + 1);
+		}
+		const values = cloneFormValue(this.values);
+		const rules = { ...this.rules };
+		const paths = [...this.registrations.keys()];
+		const errors: FormErrors = {};
+		for (const path of paths) {
+			const value = getInValue(values, path);
+			const error = await validateFormField(path, value, values, rules[path]);
 			if (error) {
-				this.errors[path] = error;
+				errors[path] = error;
 			}
 		}
 
 		if (this.resolver) {
-			const resolvedErrors = await this.resolver(this.values);
-			this.errors = { ...this.errors, ...resolvedErrors };
+			const resolvedErrors = await this.resolver(values);
+			Object.assign(errors, resolvedErrors);
 		}
 
-		this.notify();
-		return this.errors;
+		const current = epoch === this.validationEpoch && generation === this.wholeValidationGeneration;
+		if (current) {
+			this.errors = errors;
+			this.notify();
+		}
+		return { errors, values, current };
 	}
 
 	/** 触发校验 (缺省校验全部，返回是否通过) */
@@ -496,12 +563,14 @@ export class FormStore {
 	/** 手动设置错误 */
 	setError(name: string, error: string | FormFieldError, _options?: FormSetErrorOptions): void {
 		const path = this.resolvePath(name);
+		this.invalidateValidation();
 		this.errors[path] = typeof error === 'string' ? { type: 'manual', message: error } : error;
 		this.notify(path);
 	}
 
 	/** 清除错误 (缺省清除全部) */
 	clearErrors(name?: string): void {
+		this.invalidateValidation();
 		if (name) {
 			delete this.errors[this.resolvePath(name)];
 		} else {
@@ -512,10 +581,12 @@ export class FormStore {
 
 	/** 重置表单 */
 	reset(nextValues?: FormValues, options: FormResetOptions = {}): void {
+		this.invalidateValidation();
 		if (!options.keepValues) {
-			this.values = nextValues ? { ...nextValues } : {};
+			this.values = cloneFormValue(nextValues ?? this.defaultValues);
+			this.arrayIds.clear();
 		} else if (nextValues) {
-			this.values = { ...this.values, ...nextValues };
+			this.values = { ...this.values, ...cloneFormValue(nextValues) };
 		}
 		if (!options.keepErrors) {
 			this.errors = {};
@@ -532,7 +603,7 @@ export class FormStore {
 		if (!options.keepSubmitCount) {
 			this.submitCount = 0;
 		}
-		this.isSubmitting = false;
+		this.isSubmitting = this.activeSubmissions > 0;
 		this.notify();
 	}
 
@@ -544,24 +615,72 @@ export class FormStore {
 				preventDefault.call(event);
 			}
 
-			const errors = await this.validateFields();
+			this.submitCount += 1;
 			this.isSubmitted = true;
+			this.activeSubmissions += 1;
+			this.isSubmitting = true;
+			this.notify();
 
-			if (Object.keys(errors).length === 0) {
-				this.isSubmitting = true;
-				this.notify();
-				try {
-					await onValid(this.values, event);
-				} finally {
-					this.isSubmitting = false;
-					this.submitCount += 1;
-					this.notify();
+			try {
+				// 每次提交都消费自己的值与错误快照；仅最新且未失效的校验会发布到全局 errors。
+				const result = await this.runWholeValidation();
+				if (Object.keys(result.errors).length === 0) {
+					await onValid(result.values, event);
+				} else {
+					await onInvalid?.(result.errors, event);
 				}
-			} else {
-				onInvalid?.(errors, event);
+			} finally {
+				this.activeSubmissions -= 1;
+				this.isSubmitting = this.activeSubmissions > 0;
 				this.notify();
 			}
 		};
+	}
+
+	private invalidateValidation(): void {
+		this.validationEpoch += 1;
+		this.wholeValidationGeneration += 1;
+	}
+
+	private rebuildRegistrationState(): void {
+		this.rules = {};
+		this.depsMap = {};
+		for (const [path, entries] of this.registrations) {
+			const merged: FormRegisterOptions = {};
+			const deps = new Set<string>();
+			for (const entry of entries) {
+				for (const [key, value] of Object.entries(entry.options)) {
+					if (key !== 'deps' && value !== undefined) (merged as Record<string, unknown>)[key] = value;
+				}
+				for (const dep of entry.options.deps ?? []) deps.add(dep);
+			}
+			if (deps.size > 0) merged.deps = [...deps];
+			this.rules[path] = merged;
+			for (const dep of deps) {
+				const depPath = this.resolvePath(dep);
+				const dependents = this.depsMap[depPath] ?? [];
+				if (!dependents.includes(path)) dependents.push(path);
+				this.depsMap[depPath] = dependents;
+			}
+		}
+	}
+
+	private removeRegistration(path: string, id: number): void {
+		const entries = this.registrations.get(path);
+		if (!entries) return;
+		const next = entries.filter((entry) => entry.id !== id);
+		if (next.length > 0) {
+			this.registrations.set(path, next);
+		} else {
+			this.registrations.delete(path);
+			delete this.errors[path];
+			delete this.touched[path];
+			delete this.dirty[path];
+		}
+		this.fieldValidationGenerations.set(path, (this.fieldValidationGenerations.get(path) ?? 0) + 1);
+		this.invalidateValidation();
+		this.rebuildRegistrationState();
+		this.notify(path);
 	}
 
 	/** 读取数组字段 (路径 + 原始数组) */
@@ -572,54 +691,118 @@ export class FormStore {
 	}
 
 	/** 写入数组字段并通知 */
-	private setFieldArray(path: string, next: unknown[]): void {
+	private setFieldArray(path: string, next: unknown[], nextIds: string[]): void {
+		this.invalidateValidation();
 		this.values = setInValue(this.values, path, next);
+		this.arrayIds.set(path, nextIds);
 		this.notify(path);
 	}
 
-	/** 获取数组字段条目 (带稳定 id) */
-	getFieldArray(name: string): FormFieldArrayItem[] {
-		const { path, array } = this.readArray(name);
+	private getFieldArrayIds(path: string, length: number): string[] {
 		let ids = this.arrayIds.get(path);
 		if (!ids) {
 			ids = [];
 			this.arrayIds.set(path, ids);
 		}
-		while (ids.length < array.length) {
-			ids.push(generateId('field'));
+		while (ids.length < length) ids.push(generateId('field'));
+		if (ids.length > length) ids.length = length;
+		return ids;
+	}
+
+	private rebaseFieldArrayDescendants(path: string, mapIndex: (index: number) => number | undefined): void {
+		const rebasePath = (candidate: string): string | undefined => {
+			const prefix = `${path}.`;
+			if (!candidate.startsWith(prefix)) return candidate;
+			const remainder = candidate.slice(prefix.length);
+			const separator = remainder.indexOf('.');
+			const indexSegment = separator === -1 ? remainder : remainder.slice(0, separator);
+			if (!/^\d+$/.test(indexSegment)) return candidate;
+			const nextIndex = mapIndex(Number(indexSegment));
+			if (nextIndex === undefined) return undefined;
+			return `${prefix}${nextIndex}${separator === -1 ? '' : remainder.slice(separator)}`;
+		};
+		const rebaseRecord = <T>(record: Record<string, T>): Record<string, T> => {
+			const next: Record<string, T> = {};
+			for (const [key, value] of Object.entries(record)) {
+				const rebased = rebasePath(key);
+				if (rebased !== undefined) next[rebased] = value;
+			}
+			return next;
+		};
+		const rebaseMap = <T>(source: Map<string, T>): Map<string, T> => {
+			const next = new Map<string, T>();
+			for (const [key, value] of source) {
+				const rebased = rebasePath(key);
+				if (rebased !== undefined) next.set(rebased, value);
+			}
+			return next;
+		};
+
+		const registrations = new Map<string, FormRegistrationEntry[]>();
+		for (const [key, entries] of this.registrations) {
+			const rebased = rebasePath(key);
+			if (rebased === undefined) {
+				for (const entry of entries) entry.path = `\0removed:${entry.id}`;
+				continue;
+			}
+			for (const entry of entries) {
+				entry.path = rebased;
+				if (entry.options.deps) entry.options.deps = entry.options.deps.map(rebasePath).filter((dep): dep is string => dep !== undefined);
+			}
+			registrations.set(rebased, entries);
 		}
-		if (ids.length > array.length) {
-			ids.length = array.length;
-		}
+		this.registrations = registrations;
+		this.errors = rebaseRecord(this.errors);
+		this.touched = rebaseRecord(this.touched);
+		this.dirty = rebaseRecord(this.dirty);
+		this.arrayIds = rebaseMap(this.arrayIds);
+		this.fieldValidationGenerations = rebaseMap(this.fieldValidationGenerations);
+		this.fieldListeners = rebaseMap(this.fieldListeners);
+		this.rebuildRegistrationState();
+	}
+
+	/** 获取数组字段条目 (带稳定 id) */
+	getFieldArray(name: string): FormFieldArrayItem[] {
+		const { path, array } = this.readArray(name);
+		const ids = this.getFieldArrayIds(path, array.length);
 		return toFieldArrayItems(array, ids);
 	}
 
 	/** 数组字段追加元素 */
 	append(name: string, item: unknown): void {
 		const { path, array } = this.readArray(name);
-		this.setFieldArray(path, [...array, item]);
+		const ids = [...this.getFieldArrayIds(path, array.length), generateId('field')];
+		this.setFieldArray(path, [...array, item], ids);
 	}
 
 	/** 数组字段头部插入元素 */
 	prepend(name: string, item: unknown): void {
 		const { path, array } = this.readArray(name);
-		this.setFieldArray(path, [item, ...array]);
+		const ids = [generateId('field'), ...this.getFieldArrayIds(path, array.length)];
+		this.rebaseFieldArrayDescendants(path, (index) => index + 1);
+		this.setFieldArray(path, [item, ...array], ids);
 	}
 
 	/** 数组字段插入元素 */
 	insert(name: string, index: number, item: unknown): void {
 		const { path, array } = this.readArray(name);
 		const next = [...array];
+		const ids = [...this.getFieldArrayIds(path, array.length)];
 		next.splice(index, 0, item);
-		this.setFieldArray(path, next);
+		ids.splice(index, 0, generateId('field'));
+		this.rebaseFieldArrayDescendants(path, (current) => (current >= index ? current + 1 : current));
+		this.setFieldArray(path, next, ids);
 	}
 
 	/** 数组字段移除元素 */
 	remove(name: string, index: number): void {
 		const { path, array } = this.readArray(name);
+		const ids = this.getFieldArrayIds(path, array.length).filter((_id, itemIndex) => itemIndex !== index);
+		this.rebaseFieldArrayDescendants(path, (current) => (current === index ? undefined : current > index ? current - 1 : current));
 		this.setFieldArray(
 			path,
 			array.filter((_item, itemIndex) => itemIndex !== index),
+			ids,
 		);
 	}
 
@@ -630,14 +813,30 @@ export class FormStore {
 			return;
 		}
 		const next = [...array];
-		const [item] = next.splice(from, 1);
-		next.splice(to, 0, item);
-		this.setFieldArray(path, next);
+		const ids = [...this.getFieldArrayIds(path, array.length)];
+		[next[from], next[to]] = [next[to], next[from]];
+		[ids[from], ids[to]] = [ids[to], ids[from]];
+		this.rebaseFieldArrayDescendants(path, (index) => (index === from ? to : index === to ? from : index));
+		this.setFieldArray(path, next, ids);
 	}
 
-	/** 数组字段移动元素 (与交换一致，保留上游 API 名) */
+	/** 数组字段移动元素 */
 	move(name: string, from: number, to: number): void {
-		this.swap(name, from, to);
+		const { path, array } = this.readArray(name);
+		if (from === to || from < 0 || to < 0 || from >= array.length || to >= array.length) return;
+		const next = [...array];
+		const ids = [...this.getFieldArrayIds(path, array.length)];
+		const [item] = next.splice(from, 1);
+		const [id] = ids.splice(from, 1);
+		next.splice(to, 0, item);
+		ids.splice(to, 0, id);
+		this.rebaseFieldArrayDescendants(path, (index) => {
+			if (index === from) return to;
+			if (from < to && index > from && index <= to) return index - 1;
+			if (from > to && index >= to && index < from) return index + 1;
+			return index;
+		});
+		this.setFieldArray(path, next, ids);
 	}
 
 	/** 数组字段更新元素 */
@@ -647,14 +846,23 @@ export class FormStore {
 			return;
 		}
 		const next = [...array];
+		const ids = [...this.getFieldArrayIds(path, array.length)];
 		next[index] = item;
-		this.setFieldArray(path, next);
+		ids[index] = generateId('field');
+		this.rebaseFieldArrayDescendants(path, (current) => (current === index ? undefined : current));
+		this.setFieldArray(path, next, ids);
 	}
 
 	/** 数组字段整体替换 */
 	replace(name: string, items: unknown[]): void {
 		const path = this.resolvePath(name);
-		this.setFieldArray(path, Array.isArray(items) ? [...items] : []);
+		const next = Array.isArray(items) ? [...items] : [];
+		this.rebaseFieldArrayDescendants(path, () => undefined);
+		this.setFieldArray(
+			path,
+			next,
+			next.map(() => generateId('field')),
+		);
 	}
 
 	/** 触发通知 */

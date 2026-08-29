@@ -24,6 +24,12 @@
       "type": "registry:file",
       "target": "components/ui/carousel/carousel.module.scss",
       "content": "@use '../../../styles/variables/colors' as *;\n\n// 轮播根容器\n.root {\n\tposition: relative;\n}\n\n// 滚动视口\n.viewport {\n\toverflow: hidden;\n\tscroll-snap-type: x mandatory;\n\n\t// 隐藏滚动条\n\t&::-webkit-scrollbar {\n\t\tdisplay: none;\n\t}\n\n\tscrollbar-width: none;\n}\n\n// 内部 flex 容器\n.container {\n\tdisplay: flex;\n\tmargin-left: -$spacing-4;\n}\n\n// 单个 item\n.item {\n\tflex: 0 0 100%;\n\tmin-width: 0;\n\tpadding-left: $spacing-4;\n\tscroll-snap-align: start;\n}\n\n// 上一张 / 下一张按钮 (仅定位，尺寸沿用 Button)\n.previous,\n.next {\n\tposition: absolute;\n\ttop: 50%;\n\ttransform: translateY(-50%);\n}\n\n.previous {\n\tleft: $spacing-4;\n}\n\n.next {\n\tright: $spacing-4;\n}\n\n// 垂直方向\n.root[data-orientation='vertical'] {\n\t.viewport {\n\t\tscroll-snap-type: y mandatory;\n\t}\n\n\t.container {\n\t\tflex-direction: column;\n\t\tmargin-left: 0;\n\t\tmargin-top: -$spacing-4;\n\t}\n\n\t.item {\n\t\tpadding-left: 0;\n\t\tpadding-top: $spacing-4;\n\t}\n\n\t.previous,\n\t.next {\n\t\ttop: auto;\n\t\tbottom: auto;\n\t\tleft: 50%;\n\t\tright: auto;\n\t\ttransform: translateX(-50%) rotate(90deg);\n\t}\n\n\t.previous {\n\t\ttop: $spacing-4;\n\t}\n\n\t.next {\n\t\tbottom: $spacing-4;\n\t}\n}\n"
+    },
+    {
+      "path": "packages/react/src/components/carousel/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/carousel/index.ts",
+      "content": "export {\n\tCarousel,\n\tCarouselContent,\n\tCarouselItem,\n\tCarouselPrevious,\n\tCarouselNext,\n\ttype CarouselProps,\n\ttype CarouselContentProps,\n\ttype CarouselItemProps,\n\ttype CarouselPreviousProps,\n\ttype CarouselNextProps,\n} from './carousel';\n"
     }
   ]
 }

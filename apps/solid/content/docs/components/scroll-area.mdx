@@ -1,0 +1,58 @@
+---
+title: ScrollArea
+description: A native SolidJS scroll viewport with optional custom scrollbars.
+---
+
+> Use ScrollArea with one or more ScrollBar primitives when custom controls should augment native scrolling.
+
+<ComponentDemo slug="scroll-area" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/scroll-area
+```
+
+## Package usage
+
+```tsx
+import { ScrollArea, ScrollBar } from '@tile-ui/solid';
+
+<ScrollArea>
+	<div style={{ height: "20rem" }}>Long content.</div>
+	<ScrollBar />
+</ScrollArea>
+```
+
+## Highlights
+
+- Native scroll viewport
+- Vertical and horizontal `ScrollBar` primitives
+- Keyboard and pointer scrollbar control
+
+## Registry dependencies
+
+| Item          | Purpose                            |
+| ------------- | ---------------------------------- |
+| `scroll-area` | Component source and module styles |
+| `core`        | Framework-agnostic logic helpers   |
+| `utils`       | Shared utility helpers             |
+| `styles`      | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ScrollArea
+
+No custom props.
+
+### ScrollBar
+
+| Prop          | Type                         | Default |
+| ------------- | ---------------------------- | ------- |
+| `orientation` | `'vertical' \| 'horizontal'` | —       |
+
+## Related docs
+
+- [MessageScroller](/docs/components/message-scroller)
+- [Dialog](/docs/components/dialog)
+- [Table](/docs/components/table)

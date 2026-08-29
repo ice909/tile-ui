@@ -12,8 +12,9 @@ export default defineComponent({
 					onUpdate:modelValue={(next: boolean) => {
 						checked.value = next;
 					}}
+					aria-label="Enable notifications"
 				/>
-				<Switch size="sm" />
+				<Switch size="sm" aria-label="Compact mode" />
 			</div>
 		);
 	},

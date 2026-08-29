@@ -1,0 +1,70 @@
+---
+title: Sonner
+description: External-store backed SolidJS toast notifications with an imperative API.
+---
+
+> Mount Toaster in a client-visible layout and call the imperative toast API from interactions. Server rendering is an empty no-op and does not retain notifications between requests.
+
+<ComponentDemo slug="sonner" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/sonner
+```
+
+## Package usage
+
+```tsx
+import { toast, Toaster } from '@tile-ui/solid';
+
+<><button type="button" onClick={() => toast.success("Saved")}>Notify</button><Toaster richColors /></>
+```
+
+## Highlights
+
+- Imperative toast variants and updates
+- Dismiss lifecycle and external-store subscriptions
+- Empty server output with no cross-request store leakage
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `sonner` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Toaster
+
+| Prop          | Type                                                                                              | Default |
+| ------------- | ------------------------------------------------------------------------------------------------- | ------- |
+| `position`    | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right' \| 'top-center' \| 'bottom-center'` | —       |
+| `duration`    | `number`                                                                                          | —       |
+| `closeButton` | `boolean`                                                                                         | —       |
+| `richColors`  | `boolean`                                                                                         | —       |
+| `theme`       | `'light' \| 'dark' \| 'system'`                                                                   | —       |
+
+### toast
+
+| Prop                                         | Type                                                  | Default |
+| -------------------------------------------- | ----------------------------------------------------- | ------- |
+| `call`                                       | `(title: string, options?: SonnerAddInput) => string` | —       |
+| `success / info / warning / error / loading` | `(title: string, options?: SonnerAddInput) => string` | —       |
+| `update`                                     | `(id: string, update: SonnerToastUpdate) => void`     | —       |
+| `dismiss`                                    | `(id?: string) => void`                               | —       |
+
+### useToast
+
+| Prop     | Type             | Default |
+| -------- | ---------------- | ------- |
+| `return` | `UseToastReturn` | —       |
+
+## Related docs
+
+- [Alert](/docs/components/alert)
+- [Form](/docs/components/form)
+- [Spinner](/docs/components/spinner)

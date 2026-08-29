@@ -1,0 +1,91 @@
+---
+title: Item
+description: SolidJS item layout primitives for media, content, and actions.
+---
+
+> Use Item for compact media, content, and action rows.
+
+<ComponentDemo slug="item" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/item
+```
+
+## Package usage
+
+```tsx
+import { Item, ItemContent, ItemTitle } from '@tile-ui/solid';
+
+<Item variant="outline">
+	<ItemContent><ItemTitle>Solid registry</ItemTitle></ItemContent>
+</Item>
+```
+
+## Highlights
+
+- Media, content, and action regions
+- Native div root
+- Outline and muted variants
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `item`   | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Item
+
+| Prop      | Type                                | Default |
+| --------- | ----------------------------------- | ------- |
+| `variant` | `'default' \| 'outline' \| 'muted'` | —       |
+| `size`    | `'default' \| 'sm'`                 | —       |
+
+### ItemMedia
+
+| Prop      | Type                             | Default |
+| --------- | -------------------------------- | ------- |
+| `variant` | `'default' \| 'icon' \| 'image'` | —       |
+
+### ItemGroup
+
+No custom props.
+
+### ItemSeparator
+
+No custom props.
+
+### ItemContent
+
+No custom props.
+
+### ItemTitle
+
+No custom props.
+
+### ItemActions
+
+No custom props.
+
+### ItemHeader
+
+No custom props.
+
+### ItemFooter
+
+No custom props.
+
+### ItemDescription
+
+No custom props.
+
+## Related docs
+
+- [Avatar](/docs/components/avatar)
+- [Badge](/docs/components/badge)
+- [Message](/docs/components/message)

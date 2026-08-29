@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "field",
+  "type": "registry:ui",
+  "title": "Field",
+  "description": "Accessible SolidJS field label, description, and message primitives.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/utils",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/field/field.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/field/field.tsx",
+      "content": "import { createContext, createUniqueId, splitProps, type Accessor, type JSX, type ParentProps } from 'solid-js';\nimport { fieldStyleKeys, getFieldIds, getFieldMessageStyleKeys } from '../lib/core';\nimport type { FieldBaseProps, FieldDescriptionBaseProps, FieldLabelBaseProps, FieldMessageBaseProps } from '../lib/core';\nimport { useRequiredContext } from '../lib/utils';\nimport styles from './field.module.scss';\n\n/** Field 子组件与原生控件可读取的稳定 ID 和校验状态。 */\nexport interface FieldContextValue {\n\t/** 原生控件应使用的 ID。 */\n\tid: string;\n\t/** FieldLabel 的 ID。 */\n\tlabelId: string;\n\t/** FieldDescription 的 ID。 */\n\tdescriptionId: string;\n\t/** FieldMessage 的 ID。 */\n\tmessageId: string;\n\t/** Field 当前是否无效。 */\n\tinvalid: Accessor<boolean>;\n\t/** Field 当前是否必填。 */\n\trequired: Accessor<boolean>;\n}\n\nconst FieldContext = createContext<FieldContextValue>();\n\n/** 读取 Field 的稳定 ID 与状态，用于显式连接原生控件的 id/ARIA 属性。 */\nexport function useFieldContext(): FieldContextValue {\n\treturn useRequiredContext(FieldContext, 'FieldContext');\n}\n\nexport interface FieldProps extends JSX.HTMLAttributes<HTMLDivElement>, FieldBaseProps {}\n\nexport function Field(props: ParentProps<FieldProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'name', 'invalid', 'required']);\n\tconst generatedId = `tile-solid-field-${createUniqueId()}`;\n\tconst ids = getFieldIds(local.name ?? generatedId);\n\tconst context: FieldContextValue = {\n\t\t...ids,\n\t\tinvalid: () => local.invalid ?? false,\n\t\trequired: () => local.required ?? false,\n\t};\n\n\treturn (\n\t\t<FieldContext.Provider value={context}>\n\t\t\t<div\n\t\t\t\t{...rest}\n\t\t\t\trole=\"group\"\n\t\t\t\tdata-slot=\"field\"\n\t\t\t\tdata-invalid={context.invalid()}\n\t\t\t\tdata-required={context.required()}\n\t\t\t\tclass={`${styles[fieldStyleKeys.root]} ${local.class ?? ''}`}>\n\t\t\t\t{local.children}\n\t\t\t</div>\n\t\t</FieldContext.Provider>\n\t);\n}\n\nexport interface FieldLabelProps extends JSX.LabelHTMLAttributes<HTMLLabelElement>, FieldLabelBaseProps {}\n\nexport function FieldLabel(props: ParentProps<FieldLabelProps>) {\n\tconst context = useFieldContext();\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'htmlFor', 'for']);\n\treturn (\n\t\t<label {...rest} id={context.labelId} for={local.htmlFor ?? local.for ?? context.id} data-slot=\"field-label\" class={`${styles[fieldStyleKeys.label]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</label>\n\t);\n}\n\nexport interface FieldDescriptionProps extends JSX.HTMLAttributes<HTMLParagraphElement>, FieldDescriptionBaseProps {}\n\nexport function FieldDescription(props: ParentProps<FieldDescriptionProps>) {\n\tconst context = useFieldContext();\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<p {...rest} id={context.descriptionId} data-slot=\"field-description\" class={`${styles[fieldStyleKeys.description]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</p>\n\t);\n}\n\nexport interface FieldMessageProps extends JSX.HTMLAttributes<HTMLDivElement>, FieldMessageBaseProps {}\n\nexport function FieldMessage(props: ParentProps<FieldMessageProps>) {\n\tconst context = useFieldContext();\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'variant']);\n\tconst variant = () => local.variant ?? 'default';\n\tconst styleKeys = () => getFieldMessageStyleKeys(variant());\n\treturn (\n\t\t<div\n\t\t\t{...rest}\n\t\t\tid={context.messageId}\n\t\t\trole={variant() === 'error' ? 'alert' : undefined}\n\t\t\tdata-slot=\"field-message\"\n\t\t\tdata-variant={variant()}\n\t\t\tclass={`${styles[styleKeys().base]} ${styles[styleKeys().variant]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\n\nexport default Field;\n"
+    },
+    {
+      "path": "packages/solid/src/components/field/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/field/index.ts",
+      "content": "export {\n\tField,\n\tFieldDescription,\n\tFieldLabel,\n\tFieldMessage,\n\tuseFieldContext,\n\ttype FieldContextValue,\n\ttype FieldDescriptionProps,\n\ttype FieldLabelProps,\n\ttype FieldMessageProps,\n\ttype FieldProps,\n} from './field';\nexport { default } from './field';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/field.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/field/field.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\tdisplay: flex;\n\twidth: 100%;\n\tflex-direction: column;\n\tgap: $spacing-1_5;\n\n\t&[data-invalid='true'] {\n\t\tcolor: $destructive;\n\t}\n}\n\n.label {\n\twidth: fit-content;\n\tfont-size: $text-sm;\n\tfont-weight: $font-medium;\n\tline-height: $leading-tight;\n\tcolor: $foreground;\n\ttransition: color $transition-fast;\n\n\t.root[data-invalid='true'] & {\n\t\tcolor: $destructive;\n\t}\n}\n\n.description {\n\tfont-size: $text-sm;\n\tline-height: $leading-normal;\n\tcolor: $muted-foreground;\n}\n\n.message {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: $spacing-1;\n\tfont-size: $text-xs;\n\tline-height: $leading-normal;\n\tcolor: $muted-foreground;\n\n\t// 样式变体\n\t&.variantDefault {\n\t\tcolor: $muted-foreground;\n\t}\n\n\t&.variantError {\n\t\tcolor: $destructive;\n\t}\n\n\t&.variantWarning {\n\t\tcolor: $warning;\n\t}\n\n\t&.variantSuccess {\n\t\tcolor: $success;\n\t}\n\n\t&.variantInfo {\n\t\tcolor: $info;\n\t}\n}\n"
+    }
+  ]
+}

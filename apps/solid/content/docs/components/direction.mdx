@@ -1,0 +1,59 @@
+---
+title: Direction
+description: A reactive SolidJS reading-direction provider and accessor hook.
+---
+
+> Use DirectionProvider and useDirection when layout behavior must react to LTR or RTL reading direction.
+
+<ComponentDemo slug="direction" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/direction
+```
+
+## Package usage
+
+```tsx
+import { DirectionProvider } from '@tile-ui/solid';
+
+<DirectionProvider dir="rtl">
+	<App />
+</DirectionProvider>
+```
+
+## Highlights
+
+- Reactive provider value
+- `useDirection` accessor hook
+- Normalized LTR and RTL DOM direction
+
+## Registry dependencies
+
+| Item        | Purpose                            |
+| ----------- | ---------------------------------- |
+| `direction` | Component source and module styles |
+| `core`      | Framework-agnostic logic helpers   |
+| `styles`    | Shared SCSS tokens and globals     |
+
+## API reference
+
+### DirectionProvider
+
+| Prop        | Type             | Default |
+| ----------- | ---------------- | ------- |
+| `dir`       | `'ltr' \| 'rtl'` | —       |
+| `direction` | `DirectionValue` | —       |
+
+### useDirection
+
+| Prop     | Type                       | Default |
+| -------- | -------------------------- | ------- |
+| `return` | `Accessor<DirectionValue>` | —       |
+
+## Related docs
+
+- [Sidebar](/docs/components/sidebar)
+- [Form](/docs/components/form)
+- [Message](/docs/components/message)

@@ -222,14 +222,26 @@ export const ContextMenuTrigger = defineComponent({
 			context.value.setOpen(true);
 		}
 
+		function handleKeyDown(event: KeyboardEvent) {
+			if (event.defaultPrevented) {
+				return;
+			}
+			if (event.key === 'ContextMenu' || (event.key === 'F10' && event.shiftKey)) {
+				event.preventDefault();
+				const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+				context.value.setPosition({ top: rect.bottom, left: rect.left });
+				context.value.setOpen(true);
+			}
+		}
+
 		const triggerProps = computed(() => ({
 			ref: context.value.triggerRef,
-			tabindex: -1,
 			'data-state': getContextMenuState(context.value.open),
 			'aria-haspopup': 'menu',
 			'aria-expanded': context.value.open,
 			'aria-controls': context.value.contentId,
 			onContextmenu: handleContextMenu,
+			onKeydown: handleKeyDown,
 		}));
 
 		return () => {
@@ -240,7 +252,7 @@ export const ContextMenuTrigger = defineComponent({
 				return h(child, { ...childProps, ...triggerProps.value });
 			}
 
-			return h('div', { ...attrs, ...triggerProps.value, class: [styles[contextMenuStyleKeys.trigger], attrs.class] }, slots.default?.());
+			return h('button', { ...attrs, ...triggerProps.value, type: 'button', class: [styles[contextMenuStyleKeys.trigger], attrs.class] }, slots.default?.());
 		};
 	},
 });

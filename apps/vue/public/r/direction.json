@@ -26,6 +26,12 @@
       "type": "registry:file",
       "target": "components/ui/direction/direction.module.scss",
       "content": "@use '../../../styles/variables/colors' as *;\n\n// 方向提供器占位 (方向切换通过 dir 属性实现，无需额外样式)\n.root {\n\tdisplay: contents;\n}\n"
+    },
+    {
+      "path": "packages/vue/src/components/direction/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/direction/index.ts",
+      "content": "export { DirectionProvider, useDirection } from './direction';\n"
     }
   ]
 }

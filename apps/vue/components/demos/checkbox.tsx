@@ -12,9 +12,10 @@ export default defineComponent({
 					onUpdate:modelValue={(next) => {
 						checked.value = next === true;
 					}}
+					aria-label="Accept terms"
 				/>
-				<Checkbox defaultChecked="indeterminate" />
-				<Checkbox disabled />
+				<Checkbox defaultChecked="indeterminate" aria-label="Indeterminate checkbox" />
+				<Checkbox disabled aria-label="Disabled checkbox" />
 			</div>
 		);
 	},

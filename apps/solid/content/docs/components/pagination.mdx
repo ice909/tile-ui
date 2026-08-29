@@ -1,0 +1,90 @@
+---
+title: Pagination
+description: Semantic SolidJS pagination primitives built from native links.
+---
+
+> Use Pagination to expose page destinations as native links with current-page semantics.
+
+<ComponentDemo slug="pagination" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/pagination
+```
+
+## Package usage
+
+```tsx
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from '@tile-ui/solid';
+
+<Pagination>
+	<PaginationContent>
+		<PaginationItem><PaginationPrevious href="?page=1" /></PaginationItem>
+		<PaginationItem><PaginationLink href="?page=2" isActive>2</PaginationLink></PaginationItem>
+		<PaginationItem><PaginationNext href="?page=3" /></PaginationItem>
+	</PaginationContent>
+</Pagination>
+```
+
+## Highlights
+
+- Native anchor navigation
+- Current-page semantics
+- Previous, next, and decorative ellipsis primitives
+
+## Registry dependencies
+
+| Item         | Purpose                            |
+| ------------ | ---------------------------------- |
+| `pagination` | Component source and module styles |
+| `core`       | Framework-agnostic logic helpers   |
+| `styles`     | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Pagination
+
+| Prop  | Type                       | Default |
+| ----- | -------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLElement>` | —       |
+
+### PaginationContent
+
+| Prop  | Type                            | Default |
+| ----- | ------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLUListElement>` | —       |
+
+### PaginationItem
+
+| Prop  | Type                         | Default |
+| ----- | ---------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLLIElement>` | —       |
+
+### PaginationLink
+
+| Prop       | Type                                  | Default |
+| ---------- | ------------------------------------- | ------- |
+| `isActive` | `boolean`                             | —       |
+| `size`     | `'default' \| 'sm' \| 'lg' \| 'icon'` | —       |
+| `ref`      | `CallbackRef<HTMLAnchorElement>`      | —       |
+
+### PaginationEllipsis
+
+| Prop  | Type                           | Default |
+| ----- | ------------------------------ | ------- |
+| `ref` | `CallbackRef<HTMLSpanElement>` | —       |
+
+### PaginationPrevious
+
+No custom props.
+
+### PaginationNext
+
+No custom props.
+
+## Related docs
+
+- [Table](/docs/components/table)
+- [Breadcrumb](/docs/components/breadcrumb)
+- [Select](/docs/components/select)

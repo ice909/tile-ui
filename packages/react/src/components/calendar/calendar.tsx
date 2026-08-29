@@ -42,7 +42,6 @@ const CalendarDayButton = React.forwardRef<HTMLButtonElement, CalendarDayButtonP
 			data-disabled={modifiers.disabled}
 			data-today={modifiers.today}
 			disabled={modifiers.disabled}
-			aria-selected={modifiers.selected}
 			aria-disabled={modifiers.disabled}
 			className={classes}
 			{...props}>
@@ -148,7 +147,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
 								}
 								const modifiers = getCalendarDayModifiers(day, month, currentSelected, showOutsideDays, disabled);
 								return (
-									<div key={dayIndex} role="gridcell" className={styles[calendarStyleKeys.day]}>
+									<div key={dayIndex} role="gridcell" aria-selected={modifiers.selected} className={styles[calendarStyleKeys.day]}>
 										<CalendarDayButton date={day} modifiers={modifiers} onClick={() => handleSelect(day)} />
 									</div>
 								);

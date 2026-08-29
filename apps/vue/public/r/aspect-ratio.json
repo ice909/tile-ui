@@ -25,7 +25,13 @@
       "path": "packages/styles/scss/components/aspect-ratio.module.scss",
       "type": "registry:file",
       "target": "components/ui/aspect-ratio/aspect-ratio.module.scss",
-      "content": "@use '../../../styles/variables/colors' as *;\n\n// AspectRatio 根容器：通过 padding-top 撑起高度\n.root {\n\tposition: relative;\n\twidth: 100%;\n}\n\n// 内容容器：绝对定位占满\n.content {\n\tposition: absolute;\n\tinset: 0;\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n}\n"
+      "content": "@use '../../../styles/variables/colors' as *;\n\n// AspectRatio 根容器：通过 padding-top 撑起高度\n.root {\n\tposition: relative;\n\twidth: 100%;\n\n\t// Solid 使用伪元素撑开高度，避免根节点 padding 参与 max-width 盒模型计算。\n\t&[data-layout='solid'] {\n\t\tpadding-top: 0 !important;\n\n\t\t&::before {\n\t\t\tdisplay: block;\n\t\t\twidth: 100%;\n\t\t\tpadding-bottom: var(--tile-aspect-ratio-padding);\n\t\t\tcontent: '';\n\t\t}\n\t}\n}\n\n// 内容容器：绝对定位占满\n.content {\n\tposition: absolute;\n\tinset: 0;\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n}\n"
+    },
+    {
+      "path": "packages/vue/src/components/aspect-ratio/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/aspect-ratio/index.ts",
+      "content": "export { AspectRatio } from './aspect-ratio';\n"
     }
   ]
 }

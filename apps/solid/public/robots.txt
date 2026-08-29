@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://solid.tileui.zmorg.cn/sitemap.xml

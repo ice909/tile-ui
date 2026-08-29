@@ -1,0 +1,11 @@
+{
+	"npm": {
+		"publish": false
+	},
+	"git": {
+		"commitMessage": "chore(solid): release v${version}",
+		"tagName": "solid/v${version}",
+		"tagAnnotation": "solid/v${version}",
+		"requireCleanWorkingDir": false
+	}
+}

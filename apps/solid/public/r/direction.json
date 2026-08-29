@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "direction",
+  "type": "registry:ui",
+  "title": "Direction",
+  "description": "Reactive SolidJS reading-direction provider.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/direction/direction.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/direction/direction.tsx",
+      "content": "import { createContext, splitProps, useContext, type Accessor, type JSX, type ParentProps } from 'solid-js';\nimport { directionStyleKeys, normalizeDirection } from '../lib/core';\nimport type { DirectionBaseProps, DirectionValue } from '../lib/core';\nimport styles from './direction.module.scss';\n\nconst defaultDirection: Accessor<DirectionValue> = () => 'ltr';\nconst DirectionContext = createContext<Accessor<DirectionValue>>(defaultDirection);\n\nexport interface DirectionProviderProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'dir'>, DirectionBaseProps {\n\t/** 阅读方向 (dir 的别名，用于兼容上游 API)。 */\n\tdirection?: DirectionValue;\n}\n\n/** 提供响应式阅读方向，并将规范化后的方向写入真实 DOM 包装节点。 */\nexport function DirectionProvider(props: ParentProps<DirectionProviderProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'dir', 'direction']);\n\tconst direction = () => normalizeDirection(local.direction ?? local.dir);\n\n\treturn (\n\t\t<DirectionContext.Provider value={direction}>\n\t\t\t<div {...rest} dir={direction()} class={`${styles[directionStyleKeys.root]} ${local.class ?? ''}`}>\n\t\t\t\t{local.children}\n\t\t\t</div>\n\t\t</DirectionContext.Provider>\n\t);\n}\n\n/** 读取当前响应式阅读方向；provider 外固定回退为 ltr。 */\nexport function useDirection(): Accessor<DirectionValue> {\n\treturn useContext(DirectionContext);\n}\n\nexport default DirectionProvider;\n"
+    },
+    {
+      "path": "packages/solid/src/components/direction/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/direction/index.ts",
+      "content": "export { DirectionProvider, useDirection, type DirectionProviderProps } from './direction';\nexport { default } from './direction';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/direction.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/direction/direction.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n// 方向提供器占位 (方向切换通过 dir 属性实现，无需额外样式)\n.root {\n\tdisplay: contents;\n}\n"
+    }
+  ]
+}

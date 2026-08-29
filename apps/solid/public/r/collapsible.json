@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapsible",
+  "type": "registry:ui",
+  "title": "Collapsible",
+  "description": "Accessible SolidJS disclosure primitives.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/utils",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/collapsible/collapsible.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/collapsible/collapsible.tsx",
+      "content": "import { createContext, createUniqueId, splitProps, useContext, type Accessor, type JSX, type ParentProps } from 'solid-js';\nimport { collapsibleStyleKeys, getCollapsibleState, getNextCollapsibleOpen } from '../lib/core';\nimport type { CollapsibleBaseProps } from '../lib/core';\nimport { createControllableSignal, invokeEventHandler } from '../lib/utils';\nimport styles from './collapsible.module.scss';\n\ninterface CollapsibleContextValue {\n\topen: Accessor<boolean>;\n\tdisabled: Accessor<boolean>;\n\ttriggerId: Accessor<string>;\n\tcontentId: Accessor<string>;\n\ttoggle: () => void;\n}\n\nconst CollapsibleContext = createContext<CollapsibleContextValue>();\n\nfunction useCollapsible() {\n\tconst context = useContext(CollapsibleContext);\n\tif (!context) throw new Error('CollapsibleTrigger and CollapsibleContent must be used within <Collapsible>.');\n\treturn context;\n}\n\nexport type CollapsibleRef<T> = (element: T) => void;\n\nexport interface CollapsibleProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'ref'>, CollapsibleBaseProps {\n\tonOpenChange?: (open: boolean) => void;\n\t/** 预声明 Trigger ID，使 SSR 输出中的 aria-labelledby 保持精确。 */\n\ttriggerId?: string;\n\t/** 预声明 Content ID，使先渲染的 Trigger 在 SSR 中获得精确 aria-controls。 */\n\tcontentId?: string;\n\tref?: CollapsibleRef<HTMLDivElement>;\n}\n\n/** SolidJS Collapsible：支持受控/非受控状态、原生隐藏语义与稳定 ARIA 关联。 */\nexport function Collapsible(props: ParentProps<CollapsibleProps>) {\n\tconst [local, rest] = splitProps(props, ['open', 'defaultOpen', 'onOpenChange', 'disabled', 'triggerId', 'contentId', 'class', 'children', 'ref']);\n\tconst initialOpen = local.defaultOpen ?? false;\n\tconst [open, setOpen] = createControllableSignal<boolean>({\n\t\tvalue: () => local.open,\n\t\tdefaultValue: () => initialOpen,\n\t\tonChange: (next) => local.onOpenChange?.(next),\n\t});\n\tconst baseId = `tile-solid-collapsible-${createUniqueId()}`;\n\tconst triggerId = () => local.triggerId ?? `${baseId}-trigger`;\n\tconst contentId = () => local.contentId ?? `${baseId}-content`;\n\tconst disabled = () => local.disabled ?? false;\n\tconst context: CollapsibleContextValue = {\n\t\topen,\n\t\tdisabled,\n\t\ttriggerId,\n\t\tcontentId,\n\t\ttoggle: () => {\n\t\t\tif (!disabled()) setOpen(getNextCollapsibleOpen(open()));\n\t\t},\n\t};\n\n\treturn (\n\t\t<CollapsibleContext.Provider value={context}>\n\t\t\t<div\n\t\t\t\t{...rest}\n\t\t\t\tref={local.ref}\n\t\t\t\tdata-slot=\"collapsible\"\n\t\t\t\tdata-state={getCollapsibleState(open())}\n\t\t\t\tdata-disabled={disabled() || undefined}\n\t\t\t\tclass={`${styles[collapsibleStyleKeys.root]} ${local.class ?? ''}`}>\n\t\t\t\t{local.children}\n\t\t\t</div>\n\t\t</CollapsibleContext.Provider>\n\t);\n}\n\nexport interface CollapsibleTriggerProps extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'id' | 'ref'> {\n\tref?: CollapsibleRef<HTMLButtonElement>;\n}\n\nexport function CollapsibleTrigger(props: ParentProps<CollapsibleTriggerProps>) {\n\tconst context = useCollapsible();\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'disabled', 'onClick', 'ref', 'type']);\n\tconst disabled = () => context.disabled() || (local.disabled ?? false);\n\n\treturn (\n\t\t<button\n\t\t\t{...rest}\n\t\t\tref={local.ref}\n\t\t\tid={context.triggerId()}\n\t\t\ttype={local.type ?? 'button'}\n\t\t\taria-expanded={context.open()}\n\t\t\taria-controls={context.contentId()}\n\t\t\tdata-slot=\"collapsible-trigger\"\n\t\t\tdata-state={getCollapsibleState(context.open())}\n\t\t\tdata-disabled={disabled() || undefined}\n\t\t\tdisabled={disabled()}\n\t\t\tclass={`${styles[collapsibleStyleKeys.trigger]} ${local.class ?? ''}`}\n\t\t\tonClick={(event) => {\n\t\t\t\tinvokeEventHandler(local.onClick, event);\n\t\t\t\tif (!event.defaultPrevented && !disabled()) context.toggle();\n\t\t\t}}>\n\t\t\t{local.children}\n\t\t</button>\n\t);\n}\n\nexport interface CollapsibleContentProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'id' | 'ref'> {\n\tref?: CollapsibleRef<HTMLDivElement>;\n}\n\nexport function CollapsibleContent(props: ParentProps<CollapsibleContentProps>) {\n\tconst context = useCollapsible();\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'ref']);\n\treturn (\n\t\t<div\n\t\t\t{...rest}\n\t\t\tref={local.ref}\n\t\t\tid={context.contentId()}\n\t\t\trole=\"region\"\n\t\t\taria-labelledby={context.triggerId()}\n\t\t\tdata-slot=\"collapsible-content\"\n\t\t\tdata-state={getCollapsibleState(context.open())}\n\t\t\thidden={!context.open()}\n\t\t\tclass={`${styles[collapsibleStyleKeys.content]} ${local.class ?? ''}`}>\n\t\t\t<div class={styles[collapsibleStyleKeys.contentInner]}>{local.children}</div>\n\t\t</div>\n\t);\n}\n\nexport default Collapsible;\n"
+    },
+    {
+      "path": "packages/solid/src/components/collapsible/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/collapsible/index.ts",
+      "content": "export {\n\tCollapsible,\n\tCollapsibleTrigger,\n\tCollapsibleContent,\n\ttype CollapsibleRef,\n\ttype CollapsibleProps,\n\ttype CollapsibleTriggerProps,\n\ttype CollapsibleContentProps,\n} from './collapsible';\nexport { default } from './collapsible';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/collapsible.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/collapsible/collapsible.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\twidth: 100%;\n}\n\n.trigger {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tjustify-content: space-between;\n\tgap: $spacing-2;\n\tborder-radius: $radius;\n\ttransition: background-color $transition-fast;\n\toutline: none;\n\n\t&:hover {\n\t\tbackground-color: $muted;\n\t}\n\n\t&:focus-visible {\n\t\tbox-shadow:\n\t\t\t0 0 0 2px $background,\n\t\t\t0 0 0 4px $ring;\n\t}\n\n\t&[disabled] {\n\t\tpointer-events: none;\n\t\topacity: 0.5;\n\t}\n}\n\n.content {\n\tdisplay: grid;\n\tgrid-template-rows: 0fr;\n\ttransition: grid-template-rows $transition-slow;\n\n\t&[data-state='open'] {\n\t\tgrid-template-rows: 1fr;\n\t}\n}\n\n.contentInner {\n\toverflow: hidden;\n\tmin-height: 0;\n}\n"
+    }
+  ]
+}

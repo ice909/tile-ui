@@ -59,7 +59,6 @@ export const CalendarDayButton = defineComponent({
 				'data-outside': String(modifiers.outside),
 				'data-disabled': String(modifiers.disabled),
 				'data-today': String(modifiers.today),
-				'aria-selected': String(modifiers.selected),
 				'aria-disabled': String(modifiers.disabled),
 			};
 
@@ -166,13 +165,17 @@ export const Calendar = defineComponent({
 									return h('div', { key: `${weekIndex}-${dayIndex}`, class: styles[calendarStyleKeys.day] });
 								}
 								const modifiers = getCalendarDayModifiers(day, month.value, currentSelected.value, props.showOutsideDays, props.disabled);
-								return h('div', { key: `${weekIndex}-${dayIndex}`, role: 'gridcell', class: styles[calendarStyleKeys.day] }, [
-									h(CalendarDayButton, {
-										date: day,
-										modifiers,
-										onClick: () => handleSelect(day),
-									}),
-								]);
+								return h(
+									'div',
+									{ key: `${weekIndex}-${dayIndex}`, role: 'gridcell', 'aria-selected': String(modifiers.selected), class: styles[calendarStyleKeys.day] },
+									[
+										h(CalendarDayButton, {
+											date: day,
+											modifiers,
+											onClick: () => handleSelect(day),
+										}),
+									],
+								);
 							}),
 						]),
 					),

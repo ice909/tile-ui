@@ -21,6 +21,11 @@
 	overscroll-behavior: contain;
 	scrollbar-gutter: stable;
 
+	&:focus-visible {
+		outline: none;
+		box-shadow: 0 0 0 3px color-mix(in srgb, $ring 50%, transparent);
+	}
+
 	&[data-autoscrolling='true'] {
 		scrollbar-width: none;
 
@@ -45,6 +50,11 @@
 	flex-shrink: 0;
 	content-visibility: auto;
 	contain-intrinsic-size: auto 10rem;
+	overflow-anchor: none;
+
+	&[data-scroll-anchor='true'] {
+		overflow-anchor: auto;
+	}
 }
 
 // 滚动按钮

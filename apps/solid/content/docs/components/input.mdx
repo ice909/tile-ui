@@ -1,0 +1,59 @@
+---
+title: Input
+description: An accessible SolidJS text input with helper and validation messaging.
+---
+
+> Use Input for SolidJS single-line text entry with aligned messaging.
+
+<ComponentDemo slug="input" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/input
+```
+
+## Package usage
+
+```tsx
+import { Input } from '@tile-ui/solid';
+
+<Input
+	label="Project name"
+	helperText="Used in your dashboard and generated URLs."
+	placeholder="Tile UI Docs"
+/>
+```
+
+## Highlights
+
+- Label and helper text
+- Error state
+- Pairs with Field and Form
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `input`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Input
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `label`         | `string`                  | —       |
+| `error`         | `string`                  | —       |
+| `helperText`    | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onChangeValue` | `(value: string) => void` | —       |
+
+## Related docs
+
+- [Textarea](/docs/components/textarea)
+- [Label](/docs/components/label)
+- [Field](/docs/components/field)

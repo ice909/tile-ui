@@ -177,7 +177,7 @@ export default defineComponent({
 			return (
 				<div class="docs-layout">
 					<VueDocsSidebar tree={tree} pathname={doc.url} />
-					<div class="docs-layout__content">
+					<main class="docs-layout__content">
 						<div class="docs-page">
 							<div class="docs-page__main">
 								<div class="docs-page__content">
@@ -217,7 +217,7 @@ export default defineComponent({
 							</div>
 							<aside class="docs-page__toc">{doc.toc.length ? <VueDocsToc toc={doc.toc} variant="list" /> : null}</aside>
 						</div>
-					</div>
+					</main>
 				</div>
 			);
 		};

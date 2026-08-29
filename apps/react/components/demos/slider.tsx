@@ -9,7 +9,7 @@ export default function SliderDemo() {
 			<Slider value={value} onValueChange={setValue} max={100} step={1}>
 				<SliderTrack>
 					<SliderRange />
-					<SliderThumb />
+					<SliderThumb aria-label="Volume" />
 				</SliderTrack>
 			</Slider>
 			<p className="component-preview__text">

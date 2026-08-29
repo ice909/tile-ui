@@ -3,11 +3,11 @@ title: Introduction
 description: Tile UI Vue is a cross-framework component library with a shared SCSS design system and registry-driven distribution.
 ---
 
-Tile UI ships the same design system to React and Vue. Component logic lives once in `@tile-ui/core`, styles live once in `@tile-ui/styles`, and each framework provides thin, idiomatic wrappers. This site documents the Vue side: the Vue package, the Vue registry, and the examples that combine them.
+Tile UI ships the same design system to React, Vue, and SolidJS. Component logic lives once in `@tile-ui/core`, styles live once in `@tile-ui/styles`, and each framework provides thin, idiomatic wrappers. This site documents the Vue side: the Vue package, the Vue registry, and the examples that combine them.
 
 ## What Tile UI is
 
-- **One design system, two frameworks.** Logic and styles are written once and shared; React and Vue expose the same primitives with native ergonomics.
+- **One design system, three frameworks.** Logic and styles are written once and shared; React, Vue, and Solid expose the same primitives with native ergonomics.
 - **Package or registry.** Install the published package for speed, or copy registry items into your project when you want to own the source.
 - **shadcn-compatible registry.** Tile UI distribution uses the same flat registry schema and CLI workflow as shadcn (`pnpm dlx shadcn@latest add`).
 - **Open code.** Every component source is available to read, extend, or replace.
@@ -54,6 +54,16 @@ Tile UI ships the same design system to React and Vue. Component logic lives onc
         <h3>Vue Docs</h3>
       </div>
       <p>Browse the Vue package, registry items, components, composables, and examples.</p>
+    </a>
+    <a class="card-link multi-framework-support__card" href="https://solid.tileui.zmorg.cn/docs">
+      <div class="multi-framework-support__card-heading">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="multi-framework-support__icon multi-framework-support__icon--solid">
+          <path d="M12 2.2l8.2 4.8v9.8L12 21.8l-8.2-5V7L12 2.2Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+          <circle cx="12" cy="12" r="2.2" fill="currentColor" />
+        </svg>
+        <h3>Solid Docs</h3>
+      </div>
+      <p>Browse the Solid package, registry items, components, primitives, and examples.</p>
     </a>
   </div>
 </section>

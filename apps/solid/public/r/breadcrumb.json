@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb",
+  "type": "registry:ui",
+  "title": "Breadcrumb",
+  "description": "Accessible SolidJS breadcrumb navigation primitives.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/breadcrumb/breadcrumb.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/breadcrumb/breadcrumb.tsx",
+      "content": "import { splitProps, type JSX, type ParentProps } from 'solid-js';\nimport { breadcrumbStyleKeys } from '../lib/core';\nimport styles from './breadcrumb.module.scss';\n\nexport interface BreadcrumbProps extends JSX.HTMLAttributes<HTMLElement> {}\nexport function Breadcrumb(props: ParentProps<BreadcrumbProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<nav {...rest} aria-label={rest['aria-label'] ?? 'breadcrumb'} class={`${styles[breadcrumbStyleKeys.root]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</nav>\n\t);\n}\nexport interface BreadcrumbListProps extends JSX.OlHTMLAttributes<HTMLOListElement> {}\nexport function BreadcrumbList(props: ParentProps<BreadcrumbListProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<ol {...rest} class={`${styles[breadcrumbStyleKeys.list]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</ol>\n\t);\n}\nexport interface BreadcrumbItemProps extends JSX.LiHTMLAttributes<HTMLLIElement> {}\nexport function BreadcrumbItem(props: ParentProps<BreadcrumbItemProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<li {...rest} class={`${styles[breadcrumbStyleKeys.item]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</li>\n\t);\n}\nexport interface BreadcrumbLinkProps extends JSX.AnchorHTMLAttributes<HTMLAnchorElement> {}\nexport function BreadcrumbLink(props: ParentProps<BreadcrumbLinkProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<a {...rest} class={`${styles[breadcrumbStyleKeys.link]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</a>\n\t);\n}\nexport interface BreadcrumbPageProps extends JSX.HTMLAttributes<HTMLSpanElement> {}\nexport function BreadcrumbPage(props: ParentProps<BreadcrumbPageProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<span {...rest} role=\"link\" aria-disabled=\"true\" aria-current=\"page\" class={`${styles[breadcrumbStyleKeys.page]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</span>\n\t);\n}\nexport interface BreadcrumbSeparatorProps extends JSX.LiHTMLAttributes<HTMLLIElement> {}\nexport function BreadcrumbSeparator(props: ParentProps<BreadcrumbSeparatorProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<li {...rest} role=\"presentation\" aria-hidden=\"true\" class={`${styles[breadcrumbStyleKeys.separator]} ${local.class ?? ''}`}>\n\t\t\t{local.children ?? (\n\t\t\t\t<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\">\n\t\t\t\t\t<path d=\"m9 18 6-6-6-6\" />\n\t\t\t\t</svg>\n\t\t\t)}\n\t\t</li>\n\t);\n}\nexport interface BreadcrumbEllipsisProps extends JSX.HTMLAttributes<HTMLSpanElement> {}\nexport function BreadcrumbEllipsis(props: BreadcrumbEllipsisProps) {\n\tconst [local, rest] = splitProps(props, ['class']);\n\treturn (\n\t\t<span {...rest} role=\"presentation\" aria-hidden=\"true\" class={`${styles[breadcrumbStyleKeys.ellipsis]} ${local.class ?? ''}`}>\n\t\t\t<svg class={styles[breadcrumbStyleKeys.ellipsisIcon]} viewBox=\"0 0 24 24\" fill=\"currentColor\">\n\t\t\t\t<circle cx=\"5\" cy=\"12\" r=\"1\" />\n\t\t\t\t<circle cx=\"12\" cy=\"12\" r=\"1\" />\n\t\t\t\t<circle cx=\"19\" cy=\"12\" r=\"1\" />\n\t\t\t</svg>\n\t\t\t<span class={styles[breadcrumbStyleKeys.srOnly]}>More</span>\n\t\t</span>\n\t);\n}\nexport default Breadcrumb;\n"
+    },
+    {
+      "path": "packages/solid/src/components/breadcrumb/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/breadcrumb/index.ts",
+      "content": "export {\n\tBreadcrumb,\n\tBreadcrumbEllipsis,\n\tBreadcrumbItem,\n\tBreadcrumbLink,\n\tBreadcrumbList,\n\tBreadcrumbPage,\n\tBreadcrumbSeparator,\n\ttype BreadcrumbEllipsisProps,\n\ttype BreadcrumbItemProps,\n\ttype BreadcrumbLinkProps,\n\ttype BreadcrumbListProps,\n\ttype BreadcrumbPageProps,\n\ttype BreadcrumbProps,\n\ttype BreadcrumbSeparatorProps,\n} from './breadcrumb';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/breadcrumb.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/breadcrumb/breadcrumb.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\t// 导航容器无额外样式\n}\n\n.list {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: center;\n\tgap: $spacing-1_5;\n\tfont-size: $text-sm;\n\tcolor: $muted-foreground;\n\tword-break: break-word;\n\n\t@media (min-width: 640px) {\n\t\tgap: $spacing-2_5;\n\t}\n}\n\n.item {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tgap: $spacing-1_5;\n}\n\n.link {\n\ttransition: color $transition-fast;\n\n\t&:hover {\n\t\tcolor: $foreground;\n\t}\n}\n\n.page {\n\tfont-weight: $font-normal;\n\tcolor: $foreground;\n}\n\n.separator {\n\tdisplay: inline-flex;\n\talign-items: center;\n\n\t> svg {\n\t\twidth: 0.875rem;\n\t\theight: 0.875rem;\n\t}\n}\n\n.ellipsis {\n\tdisplay: flex;\n\twidth: 2.25rem;\n\theight: 2.25rem;\n\talign-items: center;\n\tjustify-content: center;\n}\n\n.ellipsisIcon {\n\twidth: 1rem;\n\theight: 1rem;\n}\n\n.srOnly {\n\tposition: absolute;\n\twidth: 1px;\n\theight: 1px;\n\tpadding: 0;\n\tmargin: -1px;\n\toverflow: hidden;\n\tclip: rect(0, 0, 0, 0);\n\twhite-space: nowrap;\n\tborder: 0;\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+---
+title: Chart
+description: Responsive SolidJS SVG chart primitives with mixed series, scoped styles, and keyboard inspection.
+---
+
+> Use ChartContainer with a stable title or accessible name; series keys become scoped SVG and CSS identifiers, so keep them deterministic.
+
+<ComponentDemo slug="chart" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/chart
+```
+
+## Package usage
+
+```tsx
+import { ChartContainer } from '@tile-ui/solid';
+
+<ChartContainer title="Monthly activity" config={{ visits: { label: "Visits" }, target: { label: "Target" } }} data={[{ month: "Jan", visits: 42, target: 50 }]} xKey="month" series={[{ key: "visits", type: "bar" }, { key: "target", type: "line" }]} initialDimension={{ width: 640, height: 320 }} tabIndex={0} />
+```
+
+## Highlights
+
+- Mixed line, bar, and area series
+- Stable named SVG IDs and scoped theme styles
+- Keyboard inspection announces the active datum
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `chart`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ChartContainer
+
+| Prop               | Type                                        | Default |
+| ------------------ | ------------------------------------------- | ------- |
+| `config`           | `Record<string, ChartConfigItem>`           | —       |
+| `data`             | `ChartDatum[]`                              | —       |
+| `xKey`             | `string`                                    | —       |
+| `series`           | `ChartSeriesItem[]`                         | —       |
+| `type`             | `'line' \| 'bar' \| 'area'`                 | —       |
+| `initialDimension` | `{ width: number; height: number }`         | —       |
+| `showLegend`       | `boolean`                                   | —       |
+| `showTooltip`      | `boolean`                                   | —       |
+| `showGrid`         | `boolean`                                   | —       |
+| `showAxis`         | `boolean`                                   | —       |
+| `title`            | `string`                                    | —       |
+| `children`         | `(state: ChartContextValue) => JSX.Element` | —       |
+| `ref`              | `CallbackRef<HTMLDivElement>`               | —       |
+
+### ChartStyle
+
+| Prop     | Type                            | Default |
+| -------- | ------------------------------- | ------- |
+| `id`     | `string`                        | —       |
+| `config` | `ChartConfig`                   | —       |
+| `ref`    | `CallbackRef<HTMLStyleElement>` | —       |
+
+### ChartTooltipContent
+
+| Prop             | Type                                                                                   | Default |
+| ---------------- | -------------------------------------------------------------------------------------- | ------- |
+| `active`         | `boolean`                                                                              | —       |
+| `payload`        | `ChartTooltipEntry[]`                                                                  | —       |
+| `label`          | `JSX.Element`                                                                          | —       |
+| `indicator`      | `'line' \| 'dot' \| 'dashed'`                                                          | —       |
+| `hideLabel`      | `boolean`                                                                              | —       |
+| `hideIndicator`  | `boolean`                                                                              | —       |
+| `labelFormatter` | `(value: JSX.Element, payload: ChartTooltipEntry[]) => JSX.Element`                    | —       |
+| `formatter`      | `(value: number, name: string, item: ChartTooltipEntry, index: number) => JSX.Element` | —       |
+| `color`          | `string`                                                                               | —       |
+| `nameKey`        | `string`                                                                               | —       |
+| `labelKey`       | `string`                                                                               | —       |
+| `labelClass`     | `string`                                                                               | —       |
+| `ref`            | `CallbackRef<HTMLDivElement>`                                                          | —       |
+
+### ChartLegendContent
+
+| Prop            | Type                                                                   | Default |
+| --------------- | ---------------------------------------------------------------------- | ------- |
+| `payload`       | `ChartLegendItem[]`                                                    | —       |
+| `hideIcon`      | `boolean`                                                              | —       |
+| `verticalAlign` | `'top' \| 'bottom'`                                                    | —       |
+| `formatter`     | `(value: string, item: ChartLegendItem, index: number) => JSX.Element` | —       |
+| `ref`           | `CallbackRef<HTMLDivElement>`                                          | —       |
+
+### ChartTooltip
+
+| Prop       | Type                                                                                            | Default |
+| ---------- | ----------------------------------------------------------------------------------------------- | ------- |
+| `children` | `(state: { active: boolean; payload: ChartTooltipEntry[]; label: JSX.Element }) => JSX.Element` | —       |
+
+### ChartLegend
+
+No custom props.
+
+## Related docs
+
+- [Calendar](/docs/components/calendar)
+- [Table](/docs/components/table)
+- [Card](/docs/components/card)

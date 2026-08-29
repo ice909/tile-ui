@@ -1,0 +1,188 @@
+---
+title: Sidebar
+description: A responsive SolidJS application sidebar with desktop rail and mobile sheet behavior.
+---
+
+> Use SidebarProvider around the full layout. Server output starts in the desktop mode, then the client media query selects the mobile sheet when required.
+
+<ComponentDemo slug="sidebar" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/sidebar
+```
+
+## Package usage
+
+```tsx
+import { SidebarProvider, Sidebar, SidebarHeader, SidebarInput, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@tile-ui/solid';
+
+<SidebarProvider><Sidebar collapsible="icon"><SidebarHeader><SidebarInput aria-label="Search" /></SidebarHeader><SidebarContent><SidebarGroup><SidebarGroupLabel>Workspace</SidebarGroupLabel><SidebarGroupContent><SidebarMenu><SidebarMenuItem><SidebarMenuButton tooltip="Overview">Overview</SidebarMenuButton></SidebarMenuItem></SidebarMenu></SidebarGroupContent></SidebarGroup></SidebarContent></Sidebar><SidebarInset><SidebarTrigger /></SidebarInset></SidebarProvider>
+```
+
+## Highlights
+
+- Collapsible desktop rail
+- Mobile sheet selected from the client media query
+- Provider state, trigger, menu, skeleton, and tooltip families
+
+## Registry dependencies
+
+| Item        | Purpose                            |
+| ----------- | ---------------------------------- |
+| `sidebar`   | Component source and module styles |
+| `core`      | Framework-agnostic logic helpers   |
+| `button`    | Registry component dependency      |
+| `input`     | Registry component dependency      |
+| `separator` | Registry component dependency      |
+| `sheet`     | Registry component dependency      |
+| `skeleton`  | Registry component dependency      |
+| `tooltip`   | Registry component dependency      |
+| `utils`     | Shared utility helpers             |
+| `styles`    | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Sidebar
+
+| Prop          | Type                                 | Default |
+| ------------- | ------------------------------------ | ------- |
+| `side`        | `'left' \| 'right'`                  | —       |
+| `variant`     | `'sidebar' \| 'floating' \| 'inset'` | —       |
+| `collapsible` | `'offcanvas' \| 'icon' \| 'none'`    | —       |
+| `ref`         | `CallbackRef<HTMLDivElement>`        | —       |
+
+### SidebarProvider
+
+| Prop           | Type                          | Default |
+| -------------- | ----------------------------- | ------- |
+| `defaultOpen`  | `boolean`                     | —       |
+| `open`         | `boolean`                     | —       |
+| `onOpenChange` | `(open: boolean) => void`     | —       |
+| `ref`          | `CallbackRef<HTMLDivElement>` | —       |
+| `sidebarId`    | `string`                      | —       |
+
+### SidebarTrigger
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### SidebarRail
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### SidebarInset
+
+| Prop  | Type                       | Default |
+| ----- | -------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLElement>` | —       |
+
+### SidebarInput
+
+| Prop  | Type                            | Default |
+| ----- | ------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLInputElement>` | —       |
+
+### SidebarHeader
+
+No custom props.
+
+### SidebarFooter
+
+No custom props.
+
+### SidebarSeparator
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### SidebarContent
+
+No custom props.
+
+### SidebarGroup
+
+No custom props.
+
+### SidebarGroupLabel
+
+No custom props.
+
+### SidebarGroupContent
+
+No custom props.
+
+### SidebarGroupAction
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### SidebarMenu
+
+No custom props.
+
+### SidebarMenuItem
+
+No custom props.
+
+### SidebarMenuButton
+
+| Prop       | Type                             | Default |
+| ---------- | -------------------------------- | ------- |
+| `ref`      | `CallbackRef<HTMLButtonElement>` | —       |
+| `isActive` | `boolean`                        | —       |
+| `tooltip`  | `SidebarMenuButtonTooltip`       | —       |
+| `variant`  | `SidebarMenuButtonVariant`       | —       |
+| `size`     | `SidebarMenuButtonSize`          | —       |
+
+### SidebarMenuAction
+
+| Prop          | Type                             | Default |
+| ------------- | -------------------------------- | ------- |
+| `ref`         | `CallbackRef<HTMLButtonElement>` | —       |
+| `showOnHover` | `boolean`                        | —       |
+
+### SidebarMenuBadge
+
+No custom props.
+
+### SidebarMenuSkeleton
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `showIcon` | `boolean` | —       |
+| `width`    | `string`  | —       |
+
+### SidebarMenuSub
+
+No custom props.
+
+### SidebarMenuSubItem
+
+No custom props.
+
+### SidebarMenuSubButton
+
+| Prop       | Type                             | Default |
+| ---------- | -------------------------------- | ------- |
+| `ref`      | `CallbackRef<HTMLAnchorElement>` | —       |
+| `size`     | `'sm' \| 'md'`                   | —       |
+| `isActive` | `boolean`                        | —       |
+
+### useSidebar
+
+| Prop     | Type                  | Default |
+| -------- | --------------------- | ------- |
+| `return` | `SidebarContextValue` | —       |
+
+## Related docs
+
+- [NavigationMenu](/docs/components/navigation-menu)
+- [Sheet](/docs/components/sheet)
+- [Breadcrumb](/docs/components/breadcrumb)

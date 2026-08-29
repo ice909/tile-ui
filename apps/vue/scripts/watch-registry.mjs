@@ -1,16 +1,16 @@
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 
-import { watchRegistry } from '@tile-ui/buildx/registry';
+import { buildRegistry, loadRegistryManifest, watchRegistry } from '@tile-ui/buildx/registry';
 import { createVueRegistryConfig } from '@tile-ui/buildx/registry/presets/vue';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(__dirname, '../../..');
 const outDir = path.resolve(__dirname, '../public/r');
 
-await watchRegistry({
-	run: async () => {
-		await runBuild();
+const dispose = await watchRegistry({
+	run: async (signal) => {
+		await runBuild(signal);
 	},
 	watchPaths: [
 		path.resolve(workspaceRoot, 'packages/vue/src/registry'),
@@ -21,16 +21,20 @@ await watchRegistry({
 	],
 });
 
-async function runBuild() {
-	const { vueRegistryManifest } = await import(`${pathToFileURL(path.resolve(workspaceRoot, 'packages/vue/src/registry/manifest.ts')).href}?t=${Date.now()}`);
+await new Promise((resolve) => {
+	process.once('beforeExit', resolve);
+});
+await dispose();
 
-	await import('@tile-ui/buildx/registry').then(({ buildRegistry }) =>
-		buildRegistry({
-			manifest: vueRegistryManifest,
-			...createVueRegistryConfig({
-				workspaceRoot,
-				outDir,
-			}),
+async function runBuild(signal) {
+	const vueRegistryManifest = await loadRegistryManifest(path.resolve(workspaceRoot, 'packages/vue/src/registry/manifest.ts'), 'vueRegistryManifest');
+
+	await buildRegistry({
+		manifest: vueRegistryManifest,
+		signal,
+		...createVueRegistryConfig({
+			workspaceRoot,
+			outDir,
 		}),
-	);
+	});
 }

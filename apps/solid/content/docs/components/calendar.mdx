@@ -1,0 +1,67 @@
+---
+title: Calendar
+description: A deterministic SolidJS calendar with date selection and grid keyboard behavior.
+---
+
+> Use Calendar for single, multiple, or range date selection; pass explicit `today` and `defaultMonth` when SSR output must be deterministic.
+
+<ComponentDemo slug="calendar" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/calendar
+```
+
+## Package usage
+
+```tsx
+import { Calendar } from '@tile-ui/solid';
+
+<Calendar mode="range" defaultMonth={new Date(2026, 7, 1)} today={new Date(2026, 7, 28)} onSelect={(range) => console.log(range)} />
+```
+
+## Highlights
+
+- Single, multiple, and range selection
+- Visible range start and end state
+- Explicit `today` and `defaultMonth` for deterministic SSR
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `calendar` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `utils`    | Shared utility helpers             |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Calendar
+
+| Prop              | Type                                           | Default  |
+| ----------------- | ---------------------------------------------- | -------- |
+| `mode`            | `'single' \| 'multiple' \| 'range'`            | 'single' |
+| `selected`        | `Date \| Date[] \| CalendarRange \| undefined` | —        |
+| `defaultSelected` | `Date \| Date[] \| CalendarRange \| undefined` | —        |
+| `defaultMonth`    | `Date`                                         | —        |
+| `showOutsideDays` | `boolean`                                      | true     |
+| `disabled`        | `(date: Date) => boolean`                      | —        |
+| `onSelect`        | `(selection: CalendarSelection) => void`       | —        |
+| `locale`          | `string`                                       | —        |
+| `today`           | `Date`                                         | —        |
+
+### CalendarDayButton
+
+| Prop        | Type                   | Default |
+| ----------- | ---------------------- | ------- |
+| `date`      | `Date`                 | —       |
+| `modifiers` | `CalendarDayModifiers` | —       |
+| `locale`    | `string`               | —       |
+
+## Related docs
+
+- [Chart](/docs/components/chart)
+- [Form](/docs/components/form)
+- [Popover](/docs/components/popover)

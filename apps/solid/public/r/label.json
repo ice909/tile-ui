@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "type": "registry:ui",
+  "title": "Label",
+  "description": "Native accessible SolidJS label.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/label/label.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/label/label.tsx",
+      "content": "import { splitProps, type JSX, type ParentProps } from 'solid-js';\nimport { getLabelClassKeys } from '../lib/core';\nimport type { LabelBaseProps } from '../lib/core';\nimport styles from './label.module.scss';\nexport interface LabelProps extends JSX.LabelHTMLAttributes<HTMLLabelElement>, LabelBaseProps {}\nexport function Label(props: ParentProps<LabelProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'required']);\n\tconst keys = () => getLabelClassKeys(local.required);\n\treturn (\n\t\t<label {...rest} class={`${styles[keys().base]} ${keys().required ? styles[keys().required!] : ''} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</label>\n\t);\n}\nexport default Label;\n"
+    },
+    {
+      "path": "packages/solid/src/components/label/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/label/index.ts",
+      "content": "export { Label, type LabelProps } from './label';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/label.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/label/label.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.label {\n\tdisplay: block;\n\tfont-size: $text-sm;\n\tfont-weight: $font-medium;\n\tcolor: $foreground;\n\tline-height: $leading-normal;\n\tcursor: pointer;\n\n\t&.required::after {\n\t\tcontent: ' *';\n\t\tcolor: $destructive;\n\t}\n}\n"
+    }
+  ]
+}

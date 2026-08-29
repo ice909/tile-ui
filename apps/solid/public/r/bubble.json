@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bubble",
+  "type": "registry:ui",
+  "title": "Bubble",
+  "description": "SolidJS chat bubble and reaction primitives.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/bubble/bubble.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/bubble/bubble.tsx",
+      "content": "import { splitProps, type JSX, type ParentProps } from 'solid-js';\nimport { bubbleStyleKeys, getBubbleStyleKeys } from '../lib/core';\nimport type { BubbleBaseProps, BubbleReactionsBaseProps } from '../lib/core';\nimport styles from './bubble.module.scss';\n\nexport interface BubbleGroupProps extends JSX.HTMLAttributes<HTMLDivElement> {}\nexport function BubbleGroup(props: ParentProps<BubbleGroupProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<div {...rest} data-slot=\"bubble-group\" class={`${styles[bubbleStyleKeys.group]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\nexport interface BubbleProps extends JSX.HTMLAttributes<HTMLDivElement>, BubbleBaseProps {}\nexport function Bubble(props: ParentProps<BubbleProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'variant', 'align']);\n\tconst keys = () => getBubbleStyleKeys(local.variant ?? 'default');\n\treturn (\n\t\t<div\n\t\t\t{...rest}\n\t\t\tdata-slot=\"bubble\"\n\t\t\tdata-variant={local.variant ?? 'default'}\n\t\t\tdata-align={local.align ?? 'start'}\n\t\t\tclass={`${styles[keys().base]} ${styles[keys().variant]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\nexport interface BubbleContentProps extends JSX.HTMLAttributes<HTMLDivElement> {}\nexport function BubbleContent(props: ParentProps<BubbleContentProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<div {...rest} data-slot=\"bubble-content\" class={`${styles[bubbleStyleKeys.content]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\nexport interface BubbleReactionsProps extends JSX.HTMLAttributes<HTMLDivElement>, BubbleReactionsBaseProps {}\nexport function BubbleReactions(props: ParentProps<BubbleReactionsProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'side', 'align']);\n\treturn (\n\t\t<div\n\t\t\t{...rest}\n\t\t\tdata-slot=\"bubble-reactions\"\n\t\t\tdata-side={local.side ?? 'bottom'}\n\t\t\tdata-align={local.align ?? 'end'}\n\t\t\tclass={`${styles[bubbleStyleKeys.reactions]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\nexport default Bubble;\n"
+    },
+    {
+      "path": "packages/solid/src/components/bubble/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/bubble/index.ts",
+      "content": "export { Bubble, BubbleContent, BubbleGroup, BubbleReactions, type BubbleContentProps, type BubbleGroupProps, type BubbleProps, type BubbleReactionsProps } from './bubble';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/bubble.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/bubble/bubble.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n// 气泡组\n.group {\n\tdisplay: flex;\n\tmin-width: 0;\n\tflex-direction: column;\n\tgap: $spacing-2;\n}\n\n// 气泡根容器\n.bubble {\n\tposition: relative;\n\tdisplay: flex;\n\twidth: fit-content;\n\tmax-width: 80%;\n\tmin-width: 0;\n\tflex-direction: column;\n\tgap: $spacing-1;\n\n\t&[data-align='end'] {\n\t\talign-self: flex-end;\n\n\t\t.content {\n\t\t\talign-self: flex-end;\n\t\t}\n\t}\n\n\t&[data-variant='ghost'] {\n\t\tmax-width: 100%;\n\t}\n\n\t// 变体\n\t&.variantDefault .content {\n\t\tbackground-color: $primary;\n\t\tcolor: $primary-foreground;\n\t}\n\n\t&.variantSecondary .content {\n\t\tbackground-color: $secondary;\n\t\tcolor: $secondary-foreground;\n\t}\n\n\t&.variantMuted .content {\n\t\tbackground-color: $muted;\n\t\tcolor: $foreground;\n\t}\n\n\t&.variantTinted .content {\n\t\tbackground-color: color-mix(in srgb, $primary 15%, $background);\n\t\tcolor: $foreground;\n\t}\n\n\t&.variantOutline .content {\n\t\tborder-color: $border;\n\t\tbackground-color: $background;\n\t\tcolor: $foreground;\n\t}\n\n\t&.variantGhost .content {\n\t\tborder: none;\n\t\tborder-radius: 0;\n\t\tbackground-color: transparent;\n\t\tpadding: 0;\n\t}\n\n\t&.variantDestructive .content {\n\t\tbackground-color: color-mix(in srgb, $destructive 10%, transparent);\n\t\tcolor: $destructive;\n\t}\n\n\t// 按钮/链接形态的内容悬停效果\n\t&.variantDefault .content:is(button, a):hover {\n\t\tbackground-color: color-mix(in srgb, $primary 80%, transparent);\n\t}\n\n\t&.variantSecondary .content:is(button, a):hover,\n\t&.variantMuted .content:is(button, a):hover,\n\t&.variantGhost .content:is(button, a):hover,\n\t&.variantOutline .content:is(button, a):hover {\n\t\tbackground-color: $muted;\n\t\tcolor: $foreground;\n\t}\n\n\t&.variantDestructive .content:is(button, a):hover {\n\t\tbackground-color: color-mix(in srgb, $destructive 20%, transparent);\n\t}\n}\n\n// 气泡内容\n.content {\n\tdisplay: block;\n\twidth: fit-content;\n\tmax-width: 100%;\n\tmin-width: 0;\n\toverflow: hidden;\n\tborder: 1px solid transparent;\n\tborder-radius: $radius;\n\tpadding: $spacing-2 $spacing-3;\n\tfont-size: $text-sm;\n\tline-height: $leading-relaxed;\n\toverflow-wrap: anywhere;\n\tword-break: break-word;\n\n\t&:is(button, a) {\n\t\ttext-align: left;\n\t\ttransition:\n\t\t\tbackground-color $transition-fast,\n\t\t\tborder-color $transition-fast,\n\t\t\tbox-shadow $transition-fast;\n\t\toutline: none;\n\t}\n\n\t&:is(button, a):focus-visible {\n\t\tborder-color: $ring;\n\t\tbox-shadow: 0 0 0 3px color-mix(in srgb, $ring 50%, transparent);\n\t}\n}\n\n// 气泡反应区 (绝对定位于气泡边缘)\n.reactions {\n\tposition: absolute;\n\tz-index: 10;\n\tdisplay: flex;\n\twidth: fit-content;\n\tflex-shrink: 0;\n\talign-items: center;\n\tjustify-content: center;\n\tgap: $spacing-1;\n\tborder-radius: $radius-full;\n\tbackground-color: $muted;\n\tpadding: 0.125rem $spacing-1_5;\n\tfont-size: $text-sm;\n\tbox-shadow: 0 0 0 3px $card;\n\n\t&[data-side='top'] {\n\t\ttop: 0;\n\t\ttransform: translateY(-75%);\n\t}\n\n\t&[data-side='bottom'] {\n\t\tbottom: 0;\n\t\ttransform: translateY(75%);\n\t}\n\n\t&[data-align='start'] {\n\t\tleft: $spacing-3;\n\t}\n\n\t&[data-align='end'] {\n\t\tright: $spacing-3;\n\t}\n}\n"
+    }
+  ]
+}

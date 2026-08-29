@@ -1,0 +1,83 @@
+---
+title: Accordion
+description: Accessible SolidJS accordion primitives with deterministic IDs and keyboard navigation.
+---
+
+> Use Accordion to organize related disclosure sections with predictable keyboard movement.
+
+<ComponentDemo slug="accordion" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/accordion
+```
+
+## Package usage
+
+```tsx
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@tile-ui/solid';
+
+<Accordion type="single" defaultValue="one" collapsible>
+	<AccordionItem value="one">
+		<AccordionTrigger>Section one</AccordionTrigger>
+		<AccordionContent>Content one.</AccordionContent>
+	</AccordionItem>
+</Accordion>
+```
+
+## Highlights
+
+- Single and multiple disclosure modes
+- Disabled-aware roving focus
+- Stable custom or generated trigger/content IDs
+
+## Registry dependencies
+
+| Item        | Purpose                            |
+| ----------- | ---------------------------------- |
+| `accordion` | Component source and module styles |
+| `core`      | Framework-agnostic logic helpers   |
+| `utils`     | Shared utility helpers             |
+| `styles`    | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Accordion
+
+| Prop            | Type                                  | Default |
+| --------------- | ------------------------------------- | ------- |
+| `type`          | `'single' \| 'multiple'`              | —       |
+| `value`         | `string \| string[]`                  | —       |
+| `defaultValue`  | `string \| string[]`                  | —       |
+| `onValueChange` | `(value: string \| string[]) => void` | —       |
+| `collapsible`   | `boolean`                             | —       |
+| `ref`           | `AccordionRef<HTMLDivElement>`        | —       |
+
+### AccordionItem
+
+| Prop        | Type                           | Default |
+| ----------- | ------------------------------ | ------- |
+| `value`     | `string`                       | —       |
+| `disabled`  | `boolean`                      | —       |
+| `triggerId` | `string`                       | —       |
+| `contentId` | `string`                       | —       |
+| `ref`       | `AccordionRef<HTMLDivElement>` | —       |
+
+### AccordionTrigger
+
+| Prop  | Type                              | Default |
+| ----- | --------------------------------- | ------- |
+| `ref` | `AccordionRef<HTMLButtonElement>` | —       |
+
+### AccordionContent
+
+| Prop  | Type                           | Default |
+| ----- | ------------------------------ | ------- |
+| `ref` | `AccordionRef<HTMLDivElement>` | —       |
+
+## Related docs
+
+- [Collapsible](/docs/components/collapsible)
+- [Tabs](/docs/components/tabs)
+- [Dialog](/docs/components/dialog)

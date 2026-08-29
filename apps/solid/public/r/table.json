@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table",
+  "type": "registry:ui",
+  "title": "Table",
+  "description": "Composable SolidJS table primitives.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/table/table.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/table/table.tsx",
+      "content": "import { splitProps, type JSX, type ParentProps } from 'solid-js';\nimport { tableStyleKeys } from '../lib/core';\nimport styles from './table.module.scss';\nexport interface TableProps extends JSX.HTMLAttributes<HTMLTableElement> {\n\tcontainerClass?: string;\n\tcontainerProps?: JSX.HTMLAttributes<HTMLDivElement>;\n}\nexport function Table(props: ParentProps<TableProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'containerClass', 'containerProps']);\n\tconst [containerLocal, containerRest] = splitProps(local.containerProps ?? {}, ['class']);\n\treturn (\n\t\t<div {...containerRest} class={`${styles[tableStyleKeys.container]} ${containerLocal.class ?? ''} ${local.containerClass ?? ''}`}>\n\t\t\t<table {...rest} class={`${styles[tableStyleKeys.table]} ${local.class ?? ''}`}>\n\t\t\t\t{local.children}\n\t\t\t</table>\n\t\t</div>\n\t);\n}\nexport interface TableHeaderProps extends JSX.HTMLAttributes<HTMLTableSectionElement> {}\nexport function TableHeader(props: ParentProps<TableHeaderProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<thead {...rest} class={`${styles[tableStyleKeys.header]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</thead>\n\t);\n}\nexport interface TableBodyProps extends JSX.HTMLAttributes<HTMLTableSectionElement> {}\nexport function TableBody(props: ParentProps<TableBodyProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<tbody {...rest} class={`${styles[tableStyleKeys.body]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</tbody>\n\t);\n}\nexport interface TableFooterProps extends JSX.HTMLAttributes<HTMLTableSectionElement> {}\nexport function TableFooter(props: ParentProps<TableFooterProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<tfoot {...rest} class={`${styles[tableStyleKeys.footer]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</tfoot>\n\t);\n}\nexport interface TableRowProps extends JSX.HTMLAttributes<HTMLTableRowElement> {}\nexport function TableRow(props: ParentProps<TableRowProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<tr {...rest} class={`${styles[tableStyleKeys.row]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</tr>\n\t);\n}\nexport interface TableHeadProps extends JSX.ThHTMLAttributes<HTMLTableCellElement> {}\nexport function TableHead(props: ParentProps<TableHeadProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<th {...rest} class={`${styles[tableStyleKeys.head]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</th>\n\t);\n}\nexport interface TableCellProps extends JSX.TdHTMLAttributes<HTMLTableCellElement> {}\nexport function TableCell(props: ParentProps<TableCellProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<td {...rest} class={`${styles[tableStyleKeys.cell]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</td>\n\t);\n}\nexport interface TableCaptionProps extends JSX.HTMLAttributes<HTMLTableCaptionElement> {}\nexport function TableCaption(props: ParentProps<TableCaptionProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<caption {...rest} class={`${styles[tableStyleKeys.caption]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</caption>\n\t);\n}\nexport default Table;\n"
+    },
+    {
+      "path": "packages/solid/src/components/table/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/table/index.ts",
+      "content": "export {\n\tTable,\n\tTableBody,\n\tTableCaption,\n\tTableCell,\n\tTableFooter,\n\tTableHead,\n\tTableHeader,\n\tTableRow,\n\ttype TableBodyProps,\n\ttype TableCaptionProps,\n\ttype TableCellProps,\n\ttype TableFooterProps,\n\ttype TableHeadProps,\n\ttype TableHeaderProps,\n\ttype TableProps,\n\ttype TableRowProps,\n} from './table';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/table.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/table/table.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.container {\n\tposition: relative;\n\twidth: 100%;\n\toverflow-x: auto;\n}\n\n.table {\n\twidth: 100%;\n\tborder-collapse: collapse;\n\tfont-size: $text-sm;\n\ttext-align: left;\n\tcaption-side: bottom;\n}\n\n.header {\n\ttr {\n\t\tborder-bottom: 1px solid $border;\n\t}\n}\n\n.body {\n\ttr:last-child {\n\t\tborder-bottom: 0;\n\t}\n}\n\n.footer {\n\tborder-top: 1px solid $border;\n\tbackground-color: color-mix(in srgb, $muted 50%, transparent);\n\tfont-weight: $font-medium;\n\n\t> tr {\n\t\tborder-bottom-width: 0;\n\t}\n}\n\n.row {\n\tborder-bottom: 1px solid $border;\n\ttransition: background-color $transition-fast;\n\n\t&:hover {\n\t\tbackground-color: color-mix(in srgb, $muted 50%, transparent);\n\t}\n\n\t&:has([aria-expanded='true']) {\n\t\tbackground-color: color-mix(in srgb, $muted 50%, transparent);\n\t}\n\n\t&[data-state='selected'] {\n\t\tbackground-color: $muted;\n\t}\n}\n\n.head {\n\theight: 2.5rem;\n\tpadding: 0 $spacing-2;\n\ttext-align: left;\n\tvertical-align: middle;\n\tfont-weight: $font-medium;\n\tcolor: $foreground;\n\twhite-space: nowrap;\n\n\t&:has([role='checkbox']) {\n\t\tpadding-right: 0;\n\t}\n\n\t> [role='checkbox'] {\n\t\ttransform: translateY(2px);\n\t}\n}\n\n.cell {\n\tpadding: $spacing-2;\n\tvertical-align: middle;\n\twhite-space: nowrap;\n\n\t&:has([role='checkbox']) {\n\t\tpadding-right: 0;\n\t}\n\n\t> [role='checkbox'] {\n\t\ttransform: translateY(2px);\n\t}\n}\n\n.caption {\n\tmargin-top: $spacing-4;\n\tfont-size: $text-sm;\n\tcolor: $muted-foreground;\n}\n"
+    }
+  ]
+}

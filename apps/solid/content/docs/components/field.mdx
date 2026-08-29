@@ -1,0 +1,73 @@
+---
+title: Field
+description: SolidJS field primitives with stable label, description, message, and control IDs.
+---
+
+> Use Field to connect a native control to stable labels, descriptions, and messages.
+
+<ComponentDemo slug="field" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/field
+```
+
+## Package usage
+
+```tsx
+import { Field, FieldLabel, FieldDescription, FieldMessage } from '@tile-ui/solid';
+
+<Field name="email" required>
+	<FieldLabel>Email</FieldLabel>
+	<FieldDescription>We never share your email.</FieldDescription>
+	<FieldMessage>Ready.</FieldMessage>
+</Field>
+```
+
+## Highlights
+
+- Label, description, and message
+- Invalid and required states
+- Message variants
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `field`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Field
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `name`     | `string`  | —       |
+| `invalid`  | `boolean` | —       |
+| `required` | `boolean` | —       |
+
+### FieldLabel
+
+| Prop      | Type     | Default |
+| --------- | -------- | ------- |
+| `htmlFor` | `string` | —       |
+
+### FieldDescription
+
+No custom props.
+
+### FieldMessage
+
+| Prop      | Type                                                       | Default |
+| --------- | ---------------------------------------------------------- | ------- |
+| `variant` | `'default' \| 'error' \| 'warning' \| 'success' \| 'info'` | —       |
+
+## Related docs
+
+- [Input](/docs/components/input)
+- [Label](/docs/components/label)
+- [Form](/docs/components/form)

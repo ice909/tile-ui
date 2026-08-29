@@ -2,10 +2,20 @@
 	"name": "@tile-ui/styles",
 	"version": "1.1.1",
 	"private": false,
+	"description": "Shared SCSS design system and generated CSS for the Tile UI components",
+	"keywords": [
+		"components",
+		"css",
+		"design-system",
+		"scss",
+		"styles",
+		"ui"
+	],
 	"homepage": "https://github.com/zmide/tile-ui/tree/main/packages/styles",
 	"bugs": {
 		"url": "https://github.com/zmide/tile-ui/issues"
 	},
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/zmide/tile-ui.git",
@@ -35,6 +45,7 @@
 	},
 	"scripts": {
 		"build": "node build.js",
+		"generated:check": "node check-generated.mjs",
 		"lint": "oxlint -c .oxlintrc.json .",
 		"type:check": "node -e \"process.exit(0)\"",
 		"clean": "rm -rf css",

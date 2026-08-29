@@ -176,6 +176,15 @@ export function mapChartValue(value: number, min: number, max: number, innerHeig
 }
 
 /**
+ * 获取零值基线，并将超出数据范围的零线限制在绘图区边缘
+ */
+export function getChartBaselineY(layout: ChartLayout): number {
+	const plotTop = layout.padding.top;
+	const plotBottom = plotTop + layout.innerHeight;
+	return Math.min(plotBottom, Math.max(plotTop, mapChartValue(0, layout.yMin, layout.yMax, layout.innerHeight, plotTop)));
+}
+
+/**
  * 计算完整图表布局 (纯数学，供两个框架复用)
  */
 export function computeChartLayout(options: ChartLayoutOptions): ChartLayout {
@@ -192,8 +201,8 @@ export function computeChartLayout(options: ChartLayoutOptions): ChartLayout {
 	const { yTickY, yMin, yMax } = getChartYAxisLayout(ticks, min, max, innerHeight, padding.top);
 
 	const xLabels = data.map((row) => row[xKey]);
-	const xStep = data.length > 1 ? innerWidth / (data.length - 1) : 0;
-	const xTickX = data.map((_row, index) => padding.left + (data.length > 1 ? index * xStep : innerWidth / 2));
+	const categoryWidth = innerWidth / Math.max(1, data.length);
+	const xTickX = data.map((_row, index) => padding.left + (index + 0.5) * categoryWidth);
 
 	const seriesLayout = resolvedSeries.map((item, index) => {
 		const points: ChartPoint[] = data.map((row, dataIndex) => {
@@ -314,11 +323,13 @@ export function getChartBarRects(layout: ChartLayout, seriesIndex: number, serie
 		return [];
 	}
 
-	const xStep = layout.xTickX.length > 1 ? layout.xTickX[1] - layout.xTickX[0] : layout.innerWidth;
-	const groupWidth = xStep * (1 - barGapRatio);
+	const categoryCount = Math.max(1, layout.xLabels.length);
+	const categoryWidth = layout.innerWidth / categoryCount;
+	const groupWidth = categoryWidth * (1 - barGapRatio);
 	const barWidth = groupWidth / Math.max(1, seriesCount);
-	const groupOffset = seriesIndex * barWidth - groupWidth / 2;
-	const baseline = layout.padding.top + layout.innerHeight;
+	const barSeriesIndex = layout.series.slice(0, seriesIndex).filter((item) => item.type === 'bar').length;
+	const groupOffset = barSeriesIndex * barWidth - groupWidth / 2;
+	const baseline = getChartBaselineY(layout);
 
 	return series.points.map((point) => {
 		const yTop = Math.min(point.y, baseline);

@@ -1,0 +1,68 @@
+---
+title: RadioGroup
+description: A SolidJS native radio group with roving focus, validation, and reset behavior.
+---
+
+> Use RadioGroup for one-of-many choices with native validation and arrow-key selection.
+
+<ComponentDemo slug="radio-group" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/radio-group
+```
+
+## Package usage
+
+```tsx
+import { RadioGroup, RadioGroupItem } from '@tile-ui/solid';
+
+<RadioGroup defaultValue="a">
+	<RadioGroupItem value="a" />
+	<RadioGroupItem value="b" />
+</RadioGroup>
+```
+
+## Highlights
+
+- Controlled and uncontrolled
+- Horizontal and vertical
+- Item disabled
+
+## Registry dependencies
+
+| Item          | Purpose                            |
+| ------------- | ---------------------------------- |
+| `radio-group` | Component source and module styles |
+| `core`        | Framework-agnostic logic helpers   |
+| `utils`       | Shared utility helpers             |
+| `styles`      | Shared SCSS tokens and globals     |
+
+## API reference
+
+### RadioGroup
+
+| Prop            | Type                         | Default |
+| --------------- | ---------------------------- | ------- |
+| `value`         | `string`                     | —       |
+| `defaultValue`  | `string`                     | —       |
+| `onValueChange` | `(value: string) => void`    | —       |
+| `orientation`   | `'horizontal' \| 'vertical'` | —       |
+| `name`          | `string`                     | —       |
+| `disabled`      | `boolean`                    | —       |
+| `required`      | `boolean`                    | —       |
+| `form`          | `string`                     | —       |
+
+### RadioGroupItem
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `value`    | `string`  | —       |
+| `disabled` | `boolean` | —       |
+
+## Related docs
+
+- [Checkbox](/docs/components/checkbox)
+- [Select](/docs/components/select)
+- [Form](/docs/components/form)

@@ -1,0 +1,132 @@
+---
+title: AlertDialog
+description: Accessible SolidJS alert-dialog primitives with modal focus and outside-interaction policy.
+---
+
+> Use AlertDialog for decisions that require modal focus, explicit Action and Cancel primitives, and observable outside interaction.
+
+<ComponentDemo slug="alert-dialog" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/alert-dialog
+```
+
+## Package usage
+
+```tsx
+import { AlertDialog } from '@tile-ui/solid';
+
+<AlertDialog onOpenChange={(open) => console.log(open)}>
+	<AlertDialogTrigger>Delete</AlertDialogTrigger>
+	<AlertDialogContent>
+		<AlertDialogTitle>Delete workspace?</AlertDialogTitle>
+		<AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
+		<AlertDialogCancel>Cancel</AlertDialogCancel>
+		<AlertDialogAction>Delete</AlertDialogAction>
+	</AlertDialogContent>
+</AlertDialog>
+```
+
+## Highlights
+
+- Modal focus containment and trigger restoration
+- Outside interaction can be observed or prevented
+- Action and Cancel are nested native button primitives
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item           | Purpose                            |
+| -------------- | ---------------------------------- |
+| `alert-dialog` | Component source and module styles |
+| `core`         | Framework-agnostic logic helpers   |
+| `utils`        | Shared utility helpers             |
+| `button`       | Registry component dependency      |
+| `styles`       | Shared SCSS tokens and globals     |
+
+## API reference
+
+### AlertDialog
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+| `children`     | `JSX.Element`             | —       |
+
+### AlertDialogTrigger
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### AlertDialogOverlay
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### AlertDialogContent
+
+| Prop                   | Type                                                                   | Default |
+| ---------------------- | ---------------------------------------------------------------------- | ------- |
+| `ref`                  | `CallbackRef<HTMLDivElement>`                                          | —       |
+| `size`                 | `AlertDialogSize`                                                      | —       |
+| `container`            | `Node`                                                                 | —       |
+| `overlayClass`         | `string`                                                               | —       |
+| `onEscapeKeyDown`      | `(event: DismissableLayerEvent<KeyboardEvent>) => void`                | —       |
+| `onPointerDownOutside` | `(event: DismissableLayerEvent<PointerEvent>) => void`                 | —       |
+| `onFocusOutside`       | `(event: DismissableLayerEvent<FocusEvent>) => void`                   | —       |
+| `onInteractOutside`    | `(event: DismissableLayerEvent<DismissableLayerOutsideEvent>) => void` | —       |
+
+### AlertDialogHeader
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### AlertDialogFooter
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### AlertDialogTitle
+
+| Prop  | Type                              | Default |
+| ----- | --------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLHeadingElement>` | —       |
+
+### AlertDialogDescription
+
+| Prop  | Type                                | Default |
+| ----- | ----------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLParagraphElement>` | —       |
+
+### AlertDialogAction
+
+| Prop      | Type                             | Default |
+| --------- | -------------------------------- | ------- |
+| `ref`     | `CallbackRef<HTMLButtonElement>` | —       |
+| `variant` | `ButtonVariant`                  | —       |
+| `size`    | `ButtonSize`                     | —       |
+
+### AlertDialogCancel
+
+No custom props.
+
+## Related docs
+
+- [Dialog](/docs/components/dialog)
+- [Sheet](/docs/components/sheet)
+- [Drawer](/docs/components/drawer)

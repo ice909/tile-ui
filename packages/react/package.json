@@ -2,10 +2,17 @@
 	"name": "@tile-ui/react",
 	"version": "1.1.1",
 	"private": false,
+	"description": "React components for the Tile UI design system",
+	"keywords": [
+		"components",
+		"react",
+		"ui"
+	],
 	"homepage": "https://github.com/zmide/tile-ui/tree/main/packages/react",
 	"bugs": {
 		"url": "https://github.com/zmide/tile-ui/issues"
 	},
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/zmide/tile-ui.git",
@@ -49,6 +56,7 @@
 		"build": "tsup",
 		"dev": "tsup --watch",
 		"lint": "oxlint -c .oxlintrc.json .",
+		"test": "tsc --noEmit -p test/tsconfig.json && vitest run",
 		"prepack": "pnpm --dir ../.. --filter @tile-ui/core build && pnpm run build",
 		"type:check": "tsc --noEmit",
 		"clean": "rm -rf dist",

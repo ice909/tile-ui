@@ -4,6 +4,18 @@
 .root {
 	position: relative;
 	width: 100%;
+
+	// Solid 使用伪元素撑开高度，避免根节点 padding 参与 max-width 盒模型计算。
+	&[data-layout='solid'] {
+		padding-top: 0 !important;
+
+		&::before {
+			display: block;
+			width: 100%;
+			padding-bottom: var(--tile-aspect-ratio-padding);
+			content: '';
+		}
+	}
 }
 
 // 内容容器：绝对定位占满

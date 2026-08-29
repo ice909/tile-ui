@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card",
+  "type": "registry:ui",
+  "title": "Card",
+  "description": "Composable SolidJS card primitives for Tile UI.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/card/card.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/card/card.tsx",
+      "content": "import { splitProps, type JSX, type ParentProps } from 'solid-js';\nimport { Dynamic } from 'solid-js/web';\nimport { cardStyleKeys } from '../lib/core';\nimport type { CardBaseProps } from '../lib/core';\nimport styles from './card.module.scss';\n\nexport interface CardProps extends JSX.HTMLAttributes<HTMLDivElement>, CardBaseProps {}\n\n/**\n * SolidJS Card：复用 core 的样式 key，样式来自共享 SCSS。\n */\nexport function Card(props: ParentProps<CardProps>) {\n\tconst [local, rest] = splitProps(props, ['as', 'class', 'children']);\n\n\treturn (\n\t\t<Dynamic component={local.as ?? 'div'} {...rest} class={`${styles[cardStyleKeys.card]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</Dynamic>\n\t);\n}\n\nexport interface CardHeaderProps extends JSX.HTMLAttributes<HTMLDivElement> {}\n\nexport function CardHeader(props: ParentProps<CardHeaderProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<div {...rest} class={`${styles[cardStyleKeys.header]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\n\nexport interface CardTitleProps extends JSX.HTMLAttributes<HTMLHeadingElement> {}\n\nexport function CardTitle(props: ParentProps<CardTitleProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<h3 {...rest} class={`${styles[cardStyleKeys.title]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</h3>\n\t);\n}\n\nexport interface CardDescriptionProps extends JSX.HTMLAttributes<HTMLParagraphElement> {}\n\nexport function CardDescription(props: ParentProps<CardDescriptionProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<p {...rest} class={`${styles[cardStyleKeys.description]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</p>\n\t);\n}\n\nexport interface CardActionProps extends JSX.HTMLAttributes<HTMLDivElement> {}\n\nexport function CardAction(props: ParentProps<CardActionProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<div {...rest} class={`${styles[cardStyleKeys.action]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\n\nexport interface CardContentProps extends JSX.HTMLAttributes<HTMLDivElement> {}\n\nexport function CardContent(props: ParentProps<CardContentProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<div {...rest} class={`${styles[cardStyleKeys.content]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\n\nexport interface CardFooterProps extends JSX.HTMLAttributes<HTMLDivElement> {}\n\nexport function CardFooter(props: ParentProps<CardFooterProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<div {...rest} class={`${styles[cardStyleKeys.footer]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\n\nexport default Card;\n"
+    },
+    {
+      "path": "packages/solid/src/components/card/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/card/index.ts",
+      "content": "export {\n\tCard,\n\tCardHeader,\n\tCardTitle,\n\tCardDescription,\n\tCardAction,\n\tCardContent,\n\tCardFooter,\n\ttype CardProps,\n\ttype CardHeaderProps,\n\ttype CardTitleProps,\n\ttype CardDescriptionProps,\n\ttype CardActionProps,\n\ttype CardContentProps,\n\ttype CardFooterProps,\n} from './card';\nexport { default } from './card';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/card.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/card/card.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.card {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: $spacing-4;\n\tborder-radius: $radius-lg;\n\tborder: 1px solid $border;\n\tbackground-color: $background;\n\tcolor: $foreground;\n\tbox-shadow: $shadow;\n\toverflow: hidden;\n\ttransition: box-shadow $transition-normal;\n\n\t&:hover {\n\t\tbox-shadow: $shadow-md;\n\t}\n}\n\n.cardHeader {\n\tdisplay: grid;\n\tgrid-template-columns: 1fr;\n\tgrid-auto-rows: min-content;\n\talign-items: start;\n\tgap: $spacing-1;\n\tpadding: $spacing-6 $spacing-6 0;\n\n\t// 存在操作区时启用右侧列\n\t&:has(.cardAction) {\n\t\tgrid-template-columns: 1fr auto;\n\t}\n}\n\n.cardTitle {\n\tfont-size: $text-xl;\n\tfont-weight: $font-semibold;\n\tline-height: $leading-tight;\n\tcolor: $foreground;\n\tmargin: 0;\n}\n\n.cardDescription {\n\tfont-size: $text-sm;\n\tcolor: $muted-foreground;\n\tline-height: $leading-normal;\n\tmargin: 0;\n}\n\n.cardAction {\n\tgrid-column-start: 2;\n\tgrid-row-start: 1;\n\tgrid-row-end: span 2;\n\talign-self: start;\n\tjustify-self: end;\n}\n\n.cardContent {\n\tpadding: 0 $spacing-6;\n}\n\n.cardFooter {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: $spacing-4;\n\tpadding: 0 $spacing-6 $spacing-6;\n}\n"
+    }
+  ]
+}

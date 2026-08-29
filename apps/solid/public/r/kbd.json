@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "type": "registry:ui",
+  "title": "Kbd",
+  "description": "SolidJS keyboard shortcut primitives.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/kbd/kbd.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/kbd/kbd.tsx",
+      "content": "import { splitProps, type JSX, type ParentProps } from 'solid-js';\nimport { kbdStyleKeys } from '../lib/core';\nimport styles from './kbd.module.scss';\nexport interface KbdProps extends JSX.HTMLAttributes<HTMLElement> {}\nexport function Kbd(props: ParentProps<KbdProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<kbd {...rest} class={`${styles[kbdStyleKeys.base]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</kbd>\n\t);\n}\nexport interface KbdGroupProps extends JSX.HTMLAttributes<HTMLElement> {}\nexport function KbdGroup(props: ParentProps<KbdGroupProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<kbd {...rest} class={`${styles[kbdStyleKeys.group]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</kbd>\n\t);\n}\nexport default Kbd;\n"
+    },
+    {
+      "path": "packages/solid/src/components/kbd/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/kbd/index.ts",
+      "content": "export { Kbd, KbdGroup, type KbdGroupProps, type KbdProps } from './kbd';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/kbd.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/kbd/kbd.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.kbd {\n\tpointer-events: none;\n\tdisplay: inline-flex;\n\theight: 1.25rem;\n\twidth: fit-content;\n\tmin-width: 1.25rem;\n\talign-items: center;\n\tjustify-content: center;\n\tgap: $spacing-1;\n\tborder-radius: $radius-sm;\n\tbackground-color: $muted;\n\tpadding: 0 $spacing-1;\n\tfont-family: $font-sans;\n\tfont-size: $text-xs;\n\tfont-weight: $font-medium;\n\tcolor: $muted-foreground;\n\tuser-select: none;\n\n\tsvg {\n\t\twidth: 0.75rem;\n\t\theight: 0.75rem;\n\t}\n}\n\n.kbdGroup {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tgap: $spacing-1;\n}\n"
+    }
+  ]
+}

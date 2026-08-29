@@ -285,7 +285,7 @@ export const vueDemoRegistry: Record<string, VueDemo> = {
 	},
 	chart: {
 		title: 'Chart',
-		description: 'ChartContainer renders line, bar, and area charts.',
+		description: 'ChartContainer renders line, bar, and area charts with keyboard inspection.',
 		Component: ChartDemo,
 	},
 	calendar: {

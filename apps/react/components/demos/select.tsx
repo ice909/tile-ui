@@ -3,7 +3,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 export default function SelectDemo() {
 	return (
 		<Select defaultValue="apple">
-			<SelectTrigger style={{ width: 220 }}>
+			<SelectTrigger aria-label="Fruit" style={{ width: 220 }}>
 				<SelectValue placeholder="Choose a fruit" />
 			</SelectTrigger>
 			<SelectContent>

@@ -1,0 +1,73 @@
+---
+title: Empty
+description: Composable SolidJS empty-state primitives.
+---
+
+> Use Empty to explain missing content and offer a next action.
+
+<ComponentDemo slug="empty" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/empty
+```
+
+## Package usage
+
+```tsx
+import { Empty, EmptyMedia, EmptyTitle, EmptyDescription } from '@tile-ui/solid';
+
+<Empty>
+	<EmptyMedia variant="icon">+</EmptyMedia>
+	<EmptyTitle>No results</EmptyTitle>
+	<EmptyDescription>Try adjusting your search.</EmptyDescription>
+</Empty>
+```
+
+## Highlights
+
+- Header, media, title, and description
+- Default and icon media variants
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `empty`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### EmptyMedia
+
+| Prop      | Type                  | Default |
+| --------- | --------------------- | ------- |
+| `variant` | `'default' \| 'icon'` | —       |
+
+### Empty
+
+No custom props.
+
+### EmptyHeader
+
+No custom props.
+
+### EmptyTitle
+
+No custom props.
+
+### EmptyDescription
+
+No custom props.
+
+### EmptyContent
+
+No custom props.
+
+## Related docs
+
+- [Alert](/docs/components/alert)
+- [Item](/docs/components/item)
+- [Card](/docs/components/card)

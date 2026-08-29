@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "create-media-query",
+  "type": "registry:hook",
+  "title": "createMediaQuery",
+  "description": "Solid primitives for window, media, mobile, online, and scroll state.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/primitives/media.ts",
+      "type": "registry:hook",
+      "target": "primitives/create-media-query.ts",
+      "content": "import { createEffect, createSignal, onCleanup, onMount, type Accessor } from 'solid-js';\n\n\n\nexport interface WindowSize {\n\twidth: number;\n\theight: number;\n}\n\nexport interface Point {\n\tx: number;\n\ty: number;\n}\n\nexport type ReactiveValue<T> = T | Accessor<T>;\n\nfunction access<T>(value: ReactiveValue<T>): T {\n\treturn typeof value === 'function' ? (value as Accessor<T>)() : value;\n}\n\n/** 创建窗口尺寸 accessor；SSR 初值固定为 0 × 0。 */\nexport function createWindowSize(): Accessor<WindowSize> {\n\tconst [size, setSize] = createSignal<WindowSize>({ width: 0, height: 0 });\n\n\tonMount(() => {\n\t\tconst update = () => setSize({ width: window.innerWidth, height: window.innerHeight });\n\t\twindow.addEventListener('resize', update);\n\t\tupdate();\n\t\tonCleanup(() => window.removeEventListener('resize', update));\n\t});\n\n\treturn size;\n}\n\n/** 创建支持响应式查询字符串的媒体查询 accessor。 */\nexport function createMediaQuery(query: ReactiveValue<string>): Accessor<boolean> {\n\tconst [matches, setMatches] = createSignal(false);\n\n\tonMount(() => {\n\t\tcreateEffect(() => {\n\t\t\tconst media = window.matchMedia(access(query));\n\t\t\tconst update = (event: MediaQueryListEvent) => setMatches(event.matches);\n\t\t\tsetMatches(media.matches);\n\t\t\tmedia.addEventListener('change', update);\n\t\t\tonCleanup(() => media.removeEventListener('change', update));\n\t\t});\n\t});\n\n\treturn matches;\n}\n\n/** 创建最大宽度 768px 的移动端媒体查询 accessor。 */\nexport function createIsMobile(): Accessor<boolean> {\n\treturn createMediaQuery('(max-width: 768px)');\n}\n\n/** 创建在线状态 accessor；SSR 初值固定为 true。 */\nexport function createOnlineStatus(): Accessor<boolean> {\n\tconst [online, setOnline] = createSignal(true);\n\n\tonMount(() => {\n\t\tconst handleOnline = () => setOnline(true);\n\t\tconst handleOffline = () => setOnline(false);\n\t\tsetOnline(navigator.onLine);\n\t\twindow.addEventListener('online', handleOnline);\n\t\twindow.addEventListener('offline', handleOffline);\n\t\tonCleanup(() => {\n\t\t\twindow.removeEventListener('online', handleOnline);\n\t\t\twindow.removeEventListener('offline', handleOffline);\n\t\t});\n\t});\n\n\treturn online;\n}\n\n/** 创建窗口滚动位置 accessor；SSR 初值固定为原点。 */\nexport function createScrollPosition(): Accessor<Point> {\n\tconst [position, setPosition] = createSignal<Point>({ x: 0, y: 0 });\n\n\tonMount(() => {\n\t\tconst update = () => setPosition({ x: window.scrollX, y: window.scrollY });\n\t\twindow.addEventListener('scroll', update, { passive: true });\n\t\tupdate();\n\t\tonCleanup(() => window.removeEventListener('scroll', update));\n\t});\n\n\treturn position;\n}\n"
+    }
+  ]
+}

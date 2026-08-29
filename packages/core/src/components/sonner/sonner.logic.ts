@@ -1,6 +1,6 @@
 import { generateId } from '../../utils/helpers';
 import { capitalize } from '../../utils/helpers';
-import type { SonnerAddInput, SonnerPosition, SonnerTheme, SonnerToast, SonnerType } from './sonner.types';
+import type { SonnerAddInput, SonnerPosition, SonnerTheme, SonnerToast, SonnerToastUpdate, SonnerType } from './sonner.types';
 
 /**
  * Sonner 组件样式类名键
@@ -53,7 +53,7 @@ export interface SonnerStore {
 	getToasts(): SonnerToast[];
 	subscribe(listener: () => void): () => void;
 	add(input: SonnerAddInput): string;
-	update(id: string, patch: Partial<SonnerToast>): void;
+	update(id: string, patch: SonnerToastUpdate): void;
 	dismiss(id: string): void;
 	remove(id: string): void;
 	dismissAll(): void;
@@ -68,6 +68,7 @@ export function createSonnerStore(): SonnerStore {
 	let defaultDuration = SONNER_DEFAULT_DURATION;
 	const listeners = new Set<() => void>();
 	const timers = new Map<string, ReturnType<typeof setTimeout>>();
+	const dismissTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
 	function notify() {
 		for (const listener of listeners) {
@@ -76,25 +77,45 @@ export function createSonnerStore(): SonnerStore {
 	}
 
 	function remove(id: string) {
+		if (!toasts.some((toast) => toast.id === id)) return;
 		toasts = toasts.filter((toast) => toast.id !== id);
 		const timer = timers.get(id);
 		if (timer) {
 			clearTimeout(timer);
 			timers.delete(id);
 		}
+		const dismissTimer = dismissTimers.get(id);
+		if (dismissTimer) {
+			clearTimeout(dismissTimer);
+			dismissTimers.delete(id);
+		}
 		notify();
 	}
 
 	function dismiss(id: string) {
+		const current = toasts.find((toast) => toast.id === id);
+		if (!current || current.dismissing) return;
+		const timer = timers.get(id);
+		if (timer) {
+			clearTimeout(timer);
+			timers.delete(id);
+		}
 		toasts = toasts.map((toast) => (toast.id === id ? { ...toast, dismissing: true } : toast));
 		notify();
-		setTimeout(() => remove(id), SONNER_DISMISS_DURATION);
+		dismissTimers.set(
+			id,
+			setTimeout(() => {
+				dismissTimers.delete(id);
+				remove(id);
+			}, SONNER_DISMISS_DURATION),
+		);
 	}
 
 	function schedule(id: string, duration: number) {
 		const existing = timers.get(id);
 		if (existing) {
 			clearTimeout(existing);
+			timers.delete(id);
 		}
 		if (duration <= 0) {
 			return;
@@ -110,6 +131,11 @@ export function createSonnerStore(): SonnerStore {
 		const duration = input.duration ?? defaultDuration;
 		const existing = toasts.find((toast) => toast.id === id);
 		if (existing) {
+			const dismissTimer = dismissTimers.get(id);
+			if (dismissTimer) {
+				clearTimeout(dismissTimer);
+				dismissTimers.delete(id);
+			}
 			toasts = toasts.map((toast) => (toast.id === id ? { ...toast, ...input, duration, dismissing: false } : toast));
 		} else {
 			const toast: SonnerToast = {
@@ -126,14 +152,34 @@ export function createSonnerStore(): SonnerStore {
 		return id;
 	}
 
-	function update(id: string, patch: Partial<SonnerToast>) {
-		toasts = toasts.map((toast) => (toast.id === id ? { ...toast, ...patch } : toast));
+	function update(id: string, patch: SonnerToastUpdate) {
+		const current = toasts.find((toast) => toast.id === id);
+		if (!current) return;
+		const { id: _ignoredId, dismissing: _ignoredDismissing, ...safePatch } = patch as SonnerToastUpdate & { id?: string; dismissing?: boolean };
+		toasts = toasts.map((toast) => (toast.id === id ? { ...toast, ...safePatch } : toast));
 		notify();
+		if (safePatch.duration !== undefined && !current.dismissing) schedule(id, safePatch.duration);
 	}
 
 	function dismissAll() {
-		for (const toast of toasts) {
-			dismiss(toast.id);
+		const ids = toasts.filter((toast) => !toast.dismissing).map((toast) => toast.id);
+		if (ids.length === 0) return;
+		const idSet = new Set(ids);
+		for (const id of ids) {
+			const timer = timers.get(id);
+			if (timer) clearTimeout(timer);
+			timers.delete(id);
+		}
+		toasts = toasts.map((toast) => (idSet.has(toast.id) ? { ...toast, dismissing: true } : toast));
+		notify();
+		for (const id of ids) {
+			dismissTimers.set(
+				id,
+				setTimeout(() => {
+					dismissTimers.delete(id);
+					remove(id);
+				}, SONNER_DISMISS_DURATION),
+			);
 		}
 	}
 

@@ -88,13 +88,7 @@ const ResizablePanelGroup = React.forwardRef<HTMLDivElement, ResizablePanelGroup
 
 	return (
 		<ResizableContext.Provider value={{ direction, containerRef, getSize, registerPanel, registerHandle, resize }}>
-			<div
-				ref={setContainerRef}
-				data-slot="resizable-panel-group"
-				data-direction={direction}
-				aria-orientation={direction === 'horizontal' ? 'horizontal' : 'vertical'}
-				className={`${styles[resizableStyleKeys.group]} ${className}`}
-				{...props}>
+			<div ref={setContainerRef} data-slot="resizable-panel-group" data-direction={direction} className={`${styles[resizableStyleKeys.group]} ${className}`} {...props}>
 				{children}
 			</div>
 		</ResizableContext.Provider>

@@ -1,0 +1,75 @@
+---
+title: Combobox
+description: A searchable SolidJS combobox with controlled selection and logical keyboard exit.
+---
+
+> Use Combobox for one searchable selection with controlled callbacks and logical Tab movement after the popup.
+
+<ComponentDemo slug="combobox" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/combobox
+```
+
+## Package usage
+
+```tsx
+import { Combobox } from '@tile-ui/solid';
+
+<Combobox items={[{ value: "solid", label: "Solid", keywords: ["ssr"] }]} onValueChange={(value) => console.log(value)} />
+```
+
+## Highlights
+
+- Data-driven filtering with keywords and custom filters
+- Arrow, Home, End, Enter, Escape, and logical Tab behavior
+- `value` and `onValueChange` support controlled selection
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `combobox` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `utils`    | Shared utility helpers             |
+| `select`   | Registry component dependency      |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Combobox
+
+| Prop                | Type                                             | Default |
+| ------------------- | ------------------------------------------------ | ------- |
+| `items`             | `ComboboxItem[]`                                 | —       |
+| `value`             | `string`                                         | —       |
+| `onValueChange`     | `(value: string) => void`                        | —       |
+| `placeholder`       | `string`                                         | —       |
+| `searchPlaceholder` | `string`                                         | —       |
+| `emptyText`         | `string`                                         | —       |
+| `notFoundText`      | `string`                                         | —       |
+| `maxItems`          | `number`                                         | —       |
+| `disabled`          | `boolean`                                        | —       |
+| `filter`            | `(item: ComboboxItem, query: string) => boolean` | —       |
+| `defaultValue`      | `string`                                         | —       |
+| `container`         | `Node`                                           | —       |
+| `triggerId`         | `string`                                         | —       |
+| `contentId`         | `string`                                         | —       |
+| `inputId`           | `string`                                         | —       |
+| `ref`               | `CallbackRef<HTMLDivElement>`                    | —       |
+
+## Related docs
+
+- [Select](/docs/components/select)
+- [Command](/docs/components/command)
+- [Input](/docs/components/input)

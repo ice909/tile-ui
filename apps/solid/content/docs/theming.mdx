@@ -1,0 +1,59 @@
+---
+title: Theming
+description: Configure Tile UI semantic variables, SolidStart global styles, dark mode, and scoped themes.
+---
+
+Tile UI Solid reads the same semantic CSS variables as the React and Vue packages. Import the global style entry once, then override variables at the application or subtree level.
+
+## Style entries
+
+| Entry          | Purpose                                                |
+| -------------- | ------------------------------------------------------ |
+| `tokens.scss`  | Tile-specific extension tokens only                    |
+| `theme.scss`   | Extension tokens plus optional light and dark defaults |
+| `reset.scss`   | Optional document reset and base styles                |
+| `globals.scss` | Theme and reset together                               |
+
+## SolidStart setup
+
+```tsx
+import '@tile-ui/styles/scss/globals.scss';
+```
+
+Import this from `src/app.tsx` so server rendering and hydration receive the same styles.
+
+## Existing shadcn themes
+
+When the application already defines shadcn semantic variables, import only Tile extension tokens:
+
+```tsx
+import '@tile-ui/styles/scss/tokens.scss';
+import './app.scss';
+```
+
+## Scoped themes
+
+Custom properties inherit, so themes can be limited to a Solid subtree:
+
+```css
+.solid-workspace {
+	--primary: oklch(0.56 0.15 70);
+	--primary-foreground: white;
+	--radius: 0.8rem;
+}
+```
+
+## Dark mode
+
+Apply `.dark` or `[data-theme='dark']` to `html`. Dialog portals mount under the document body and inherit variables from the root element.
+
+## Contrast and AA small-text
+
+Tile ships the canonical shadcn palette unchanged. A few native token combinations fall slightly below the WCAG AA small-text threshold (4.5:1): `--destructive` text on white or `#fafafa` (3.60–3.76:1), `--destructive-foreground` on `--destructive` (3.60:1), and `--muted-foreground` on `--muted` (4.39:1). These are upstream shadcn tradeoffs kept for palette parity.
+
+The accessibility browser check acknowledges exactly those verified `(app, route, pair)` combinations through an explicit allowlist and never blanket-skips contrast. For strict AA compliance, override the affected tokens, for example `--muted-foreground: oklch(0.5 0 0)` or `--destructive-foreground: #ffffff`.
+
+## Related docs
+
+- [Installation](/docs/installation)
+- [Registry getting started](/docs/registry/getting-started)

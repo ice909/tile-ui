@@ -1,0 +1,90 @@
+---
+title: Table
+description: Native SolidJS table primitives in a responsive overflow container.
+---
+
+> Use Table primitives for semantic tabular data with horizontal overflow support.
+
+<ComponentDemo slug="table" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/table
+```
+
+## Package usage
+
+```tsx
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@tile-ui/solid';
+
+<Table>
+	<TableHeader>
+		<TableRow>
+			<TableHead>Name</TableHead>
+		</TableRow>
+	</TableHeader>
+	<TableBody>
+		<TableRow>
+			<TableCell>Tile UI</TableCell>
+		</TableRow>
+	</TableBody>
+</Table>
+```
+
+## Highlights
+
+- Header, body, footer, and caption
+- Row, head, and cell primitives
+- Pairs with Pagination
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `table`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Table
+
+| Prop             | Type                                 | Default |
+| ---------------- | ------------------------------------ | ------- |
+| `containerClass` | `string`                             | —       |
+| `containerProps` | `JSX.HTMLAttributes<HTMLDivElement>` | —       |
+
+### TableHeader
+
+No custom props.
+
+### TableBody
+
+No custom props.
+
+### TableFooter
+
+No custom props.
+
+### TableRow
+
+No custom props.
+
+### TableHead
+
+No custom props.
+
+### TableCell
+
+No custom props.
+
+### TableCaption
+
+No custom props.
+
+## Related docs
+
+- [Pagination](/docs/components/pagination)
+- [Card](/docs/components/card)
+- [Badge](/docs/components/badge)

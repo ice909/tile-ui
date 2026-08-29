@@ -21,6 +21,7 @@ import {
 	computeChartLayout,
 	findChartNearestIndex,
 	getChartAreaPathD,
+	getChartBaselineY,
 	getChartBarRects,
 	getChartLegendItems,
 	getChartPathD,
@@ -72,8 +73,11 @@ export const ChartStyle = defineComponent({
 
 export const ChartContainer = defineComponent({
 	name: 'ChartContainer',
+	inheritAttrs: false,
 	props: {
 		config: { type: Object as PropType<ChartConfig>, required: true },
+		title: { type: String, default: undefined },
+		tabIndex: { type: Number, default: undefined },
 		data: { type: Array as PropType<ChartDatum[]>, default: () => [] },
 		xKey: { type: String, default: 'x' },
 		series: { type: Array as PropType<ChartSeriesItem[]>, default: undefined },
@@ -88,6 +92,7 @@ export const ChartContainer = defineComponent({
 		const containerRef = ref<HTMLElement | null>(null);
 		const size = reactive({ width: props.initialDimension?.width ?? CHART_INITIAL_DIMENSION.width, height: props.initialDimension?.height ?? CHART_INITIAL_DIMENSION.height });
 		const activeIndex = ref<number | null>(null);
+		const keyboardActive = ref(false);
 		const mousePosition = reactive({ x: 0, y: 0 });
 		const chartId = `chart-${useId()}`;
 
@@ -147,6 +152,7 @@ export const ChartContainer = defineComponent({
 			const rect = svg.getBoundingClientRect();
 			const x = ((event.clientX - rect.left) / rect.width) * layout.value.width;
 			const y = ((event.clientY - rect.top) / rect.height) * layout.value.height;
+			keyboardActive.value = false;
 			mousePosition.x = x;
 			mousePosition.y = y;
 			activeIndex.value = findChartNearestIndex(layout.value, x);
@@ -156,15 +162,49 @@ export const ChartContainer = defineComponent({
 			activeIndex.value = null;
 		}
 
+		function callEventHandler(handler: unknown, event: Event) {
+			for (const current of Array.isArray(handler) ? handler : [handler]) {
+				if (typeof current === 'function') current(event);
+			}
+		}
+
+		function handleKeyDown(event: KeyboardEvent) {
+			callEventHandler(attrs.onKeydown, event);
+			const tabIndex = props.tabIndex ?? attrs.tabindex;
+			if (event.defaultPrevented || tabIndex === undefined || Number(tabIndex) < 0 || event.target !== event.currentTarget) return;
+			if (event.key === 'Escape') {
+				keyboardActive.value = false;
+				activeIndex.value = null;
+				return;
+			}
+			if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+			const count = layout.value.xLabels.length;
+			if (count === 0) return;
+			event.preventDefault();
+			keyboardActive.value = true;
+			if (activeIndex.value === null) activeIndex.value = event.key === 'ArrowLeft' ? count - 1 : 0;
+			else activeIndex.value = Math.min(count - 1, Math.max(0, activeIndex.value + (event.key === 'ArrowLeft' ? -1 : 1)));
+		}
+
 		return () => {
 			const l = layout.value;
 			const userClass = attrs.class;
 			const restAttrs = { ...attrs };
-			delete restAttrs.class;
+			for (const key of ['class', 'title', 'aria-label', 'aria-labelledby', 'aria-describedby', 'tabindex', 'tabIndex', 'onKeydown']) delete restAttrs[key];
+			const title = props.title;
+			const ariaLabel = typeof attrs['aria-label'] === 'string' ? attrs['aria-label'] : undefined;
+			const ariaLabelledBy = typeof attrs['aria-labelledby'] === 'string' ? attrs['aria-labelledby'] : undefined;
+			const ariaDescribedBy = typeof attrs['aria-describedby'] === 'string' ? attrs['aria-describedby'] : undefined;
+			const tabIndex = props.tabIndex ?? attrs.tabindex;
+			const svgLabel = ariaLabel ?? (ariaLabelledBy ? undefined : (title ?? 'Chart'));
+			const statusText =
+				keyboardActive.value && activeIndex.value !== null
+					? [tooltipLabel.value, ...entries.value.map((entry) => `${entry.name} ${entry.value.toLocaleString()}`)].join(', ')
+					: '';
 
 			const children: any[] = [h(ChartStyle, { id: chartId, config: props.config })];
 
-			const svgChildren: any[] = [];
+			const svgChildren: any[] = title ? [h('title', title)] : [];
 
 			if (props.showGrid) {
 				for (const y of l.yTickY) {
@@ -198,23 +238,25 @@ export const ChartContainer = defineComponent({
 				if (item.type === 'bar') {
 					const barSeriesCount = l.series.filter((s) => s.type === 'bar').length;
 					const rects = getChartBarRects(l, seriesIndex, barSeriesCount);
-					const bars = rects.map((rect) => h('rect', { key: rect.index, x: rect.x, y: rect.y, width: rect.width, height: rect.height, fill: item.color, rx: '2' }));
-					svgChildren.push(h('g', { key: item.key }, bars));
+					const bars = rects.map((rect) =>
+						h('rect', { key: rect.index, 'data-index': rect.index, x: rect.x, y: rect.y, width: rect.width, height: rect.height, fill: item.color, rx: '2' }),
+					);
+					svgChildren.push(h('g', { key: item.key, 'data-series': item.key, 'data-type': item.type }, bars));
 					return;
 				}
 
-				const path = item.type === 'area' ? getChartAreaPathD(item.points, l.padding.top + l.innerHeight) : getChartPathD(item.points);
+				const path = item.type === 'area' ? getChartAreaPathD(item.points, getChartBaselineY(l)) : getChartPathD(item.points);
 				const group: any[] = [];
 				if (item.type === 'area') {
-					group.push(h('path', { d: path, fill: item.color, 'fill-opacity': '0.2' }));
+					group.push(h('path', { 'data-area': '', d: path, fill: item.color, 'fill-opacity': '0.2' }));
 				}
 				group.push(
 					h('path', { d: getChartPathD(item.points), fill: 'none', stroke: item.color, 'stroke-width': '2', 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }),
 				);
 				for (const point of item.points) {
-					group.push(h('circle', { key: point.index, cx: point.x, cy: point.y, r: '2.5', fill: item.color }));
+					group.push(h('circle', { key: point.index, 'data-index': point.index, cx: point.x, cy: point.y, r: '2.5', fill: item.color }));
 				}
-				svgChildren.push(h('g', { key: item.key }, group));
+				svgChildren.push(h('g', { key: item.key, 'data-series': item.key, 'data-type': item.type }, group));
 			});
 
 			if (props.showTooltip && activeIndex.value !== null) {
@@ -240,6 +282,9 @@ export const ChartContainer = defineComponent({
 						height: l.height,
 						viewBox: `0 0 ${l.width} ${l.height}`,
 						role: 'img',
+						'aria-label': svgLabel,
+						'aria-labelledby': ariaLabelledBy,
+						'aria-describedby': ariaDescribedBy,
 						onMousemove: handleMouseMove,
 						onMouseleave: handleMouseLeave,
 					},
@@ -266,11 +311,52 @@ export const ChartContainer = defineComponent({
 				children.push(h(ChartLegendContent, { payload: legendItems.value }));
 			}
 
+			children.push(
+				h(
+					'div',
+					{
+						'data-slot': 'chart-status',
+						role: 'status',
+						'aria-live': 'polite',
+						'aria-atomic': 'true',
+						style: {
+							position: 'absolute',
+							width: '1px',
+							height: '1px',
+							padding: '0',
+							margin: '-1px',
+							overflow: 'hidden',
+							clipPath: 'inset(50%)',
+							whiteSpace: 'nowrap',
+							border: '0',
+						},
+					},
+					statusText,
+				),
+			);
+
 			if (slots.default) {
 				children.push(slots.default(context.value));
 			}
 
-			return h('div', { ...restAttrs, ref: containerRef, 'data-slot': 'chart', 'data-chart': chartId, class: [styles[chartStyleKeys.root], userClass] }, children);
+			return h(
+				'div',
+				{
+					...restAttrs,
+					ref: containerRef,
+					'data-slot': 'chart',
+					'data-chart': chartId,
+					'data-active-index': activeIndex.value ?? undefined,
+					class: [styles[chartStyleKeys.root], userClass],
+					title,
+					'aria-label': ariaLabel,
+					'aria-labelledby': ariaLabelledBy,
+					'aria-describedby': ariaDescribedBy,
+					tabindex: tabIndex,
+					onKeydown: handleKeyDown,
+				},
+				children,
+			);
 		};
 	},
 });

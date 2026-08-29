@@ -1,0 +1,84 @@
+---
+title: Tabs
+description: Accessible SolidJS tabs with deterministic relationships and keyboard activation.
+---
+
+> Use Tabs to switch related panels with automatic arrow-key activation and stable ARIA relationships.
+
+<ComponentDemo slug="tabs" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/tabs
+```
+
+## Package usage
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@tile-ui/solid';
+
+<Tabs defaultValue="account">
+	<TabsList>
+		<TabsTrigger value="account">Account</TabsTrigger>
+		<TabsTrigger value="settings">Settings</TabsTrigger>
+	</TabsList>
+	<TabsContent value="account">Account content.</TabsContent>
+	<TabsContent value="settings">Settings content.</TabsContent>
+</Tabs>
+```
+
+## Highlights
+
+- Automatic keyboard activation
+- Nested tab lists keep overlapping values independent
+- Stable custom or generated tab/panel IDs
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `tabs`   | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Tabs
+
+| Prop            | Type                          | Default |
+| --------------- | ----------------------------- | ------- |
+| `value`         | `string`                      | —       |
+| `defaultValue`  | `string`                      | —       |
+| `onValueChange` | `(value: string) => void`     | —       |
+| `orientation`   | `'horizontal' \| 'vertical'`  | —       |
+| `ref`           | `CallbackRef<HTMLDivElement>` | —       |
+
+### TabsList
+
+| Prop      | Type                          | Default |
+| --------- | ----------------------------- | ------- |
+| `variant` | `'default' \| 'line'`         | —       |
+| `ref`     | `CallbackRef<HTMLDivElement>` | —       |
+
+### TabsTrigger
+
+| Prop       | Type                             | Default |
+| ---------- | -------------------------------- | ------- |
+| `value`    | `string`                         | —       |
+| `disabled` | `boolean`                        | —       |
+| `ref`      | `CallbackRef<HTMLButtonElement>` | —       |
+
+### TabsContent
+
+| Prop    | Type                          | Default |
+| ------- | ----------------------------- | ------- |
+| `value` | `string`                      | —       |
+| `ref`   | `CallbackRef<HTMLDivElement>` | —       |
+
+## Related docs
+
+- [Accordion](/docs/components/accordion)
+- [ToggleGroup](/docs/components/toggle-group)
+- [Command](/docs/components/command)

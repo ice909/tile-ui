@@ -1,0 +1,58 @@
+---
+title: Switch
+description: An accessible SolidJS switch with controlled and native form state.
+---
+
+> Use Switch for controlled or uncontrolled boolean settings that submit with a form.
+
+<ComponentDemo slug="switch" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/switch
+```
+
+## Package usage
+
+```tsx
+import { Switch } from '@tile-ui/solid';
+
+<Switch />
+```
+
+## Highlights
+
+- Two sizes
+- Accessible switch role
+- Pairs with Field and Form
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `switch` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Switch
+
+| Prop              | Type                         | Default |
+| ----------------- | ---------------------------- | ------- |
+| `size`            | `'default' \| 'sm'`          | —       |
+| `checked`         | `boolean`                    | —       |
+| `defaultChecked`  | `boolean`                    | —       |
+| `onCheckedChange` | `(checked: boolean) => void` | —       |
+| `name`            | `string`                     | —       |
+| `value`           | `string`                     | —       |
+| `form`            | `string`                     | —       |
+| `required`        | `boolean`                    | —       |
+
+## Related docs
+
+- [Checkbox](/docs/components/checkbox)
+- [Toggle](/docs/components/toggle)
+- [Form](/docs/components/form)

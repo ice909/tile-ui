@@ -1,0 +1,121 @@
+---
+title: Sheet
+description: A SolidJS modal sheet that mounts from any viewport edge.
+---
+
+> Use Sheet for modal edge panels with focus containment, outside blocking, and trigger restoration.
+
+<ComponentDemo slug="sheet" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/sheet
+```
+
+## Package usage
+
+```tsx
+import { Sheet } from '@tile-ui/solid';
+
+<Sheet onOpenChange={(open) => console.log(open)}>
+	<SheetTrigger>Open</SheetTrigger>
+	<SheetContent side="right"><SheetTitle>Settings</SheetTitle><SheetDescription>Workspace settings.</SheetDescription></SheetContent>
+</Sheet>
+```
+
+## Highlights
+
+- Four edge positions with modal focus containment
+- Outside interaction blocking and trigger restoration
+- Controlled `open` and `onOpenChange` callbacks
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `sheet`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Sheet
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+| `children`     | `JSX.Element`             | —       |
+
+### SheetTrigger
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### SheetClose
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### SheetOverlay
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### SheetContent
+
+| Prop                   | Type                                                                   | Default |
+| ---------------------- | ---------------------------------------------------------------------- | ------- |
+| `ref`                  | `CallbackRef<HTMLDivElement>`                                          | —       |
+| `side`                 | `SheetSide`                                                            | —       |
+| `showCloseButton`      | `boolean`                                                              | —       |
+| `container`            | `Node`                                                                 | —       |
+| `overlayClass`         | `string`                                                               | —       |
+| `onEscapeKeyDown`      | `(event: DismissableLayerEvent<KeyboardEvent>) => void`                | —       |
+| `onPointerDownOutside` | `(event: DismissableLayerEvent<PointerEvent>) => void`                 | —       |
+| `onFocusOutside`       | `(event: DismissableLayerEvent<FocusEvent>) => void`                   | —       |
+| `onInteractOutside`    | `(event: DismissableLayerEvent<DismissableLayerOutsideEvent>) => void` | —       |
+
+### SheetHeader
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### SheetFooter
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### SheetTitle
+
+| Prop  | Type                              | Default |
+| ----- | --------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLHeadingElement>` | —       |
+
+### SheetDescription
+
+| Prop  | Type                                | Default |
+| ----- | ----------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLParagraphElement>` | —       |
+
+## Related docs
+
+- [Dialog](/docs/components/dialog)
+- [Drawer](/docs/components/drawer)
+- [Sidebar](/docs/components/sidebar)

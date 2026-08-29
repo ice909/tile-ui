@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SCSS_DIR = path.resolve(__dirname, 'scss');
-const CSS_DIR = path.resolve(__dirname, 'css');
+const CSS_DIR = process.env.TILE_STYLES_OUT_DIR ? path.resolve(process.env.TILE_STYLES_OUT_DIR) : path.resolve(__dirname, 'css');
 const COMPONENTS_DIR = path.resolve(CSS_DIR, 'components');
 
 // 确保输出目录存在

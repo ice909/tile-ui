@@ -13,7 +13,7 @@ export const ScrollArea = defineComponent({
 
 		return () =>
 			h('div', { ...attrs, class: [styles[scrollAreaStyleKeys.root], attrs.class] }, [
-				h('div', { ref: viewportRef, class: styles[scrollAreaStyleKeys.viewport] }, slots.default?.()),
+				h('div', { ref: viewportRef, tabindex: '0', class: styles[scrollAreaStyleKeys.viewport] }, slots.default?.()),
 			]);
 	},
 });

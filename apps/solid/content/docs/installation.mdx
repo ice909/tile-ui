@@ -1,0 +1,36 @@
+---
+title: Installation
+description: Install Tile UI Solid as a package or copy the current registry slice into a Solid application.
+---
+
+Choose the package when you want managed updates, or the registry when you want the component source in your application.
+
+## Package install
+
+```bash
+corepack pnpm add @tile-ui/solid @tile-ui/styles solid-js
+```
+
+Import the shared global theme once near the application root:
+
+```tsx
+import '@tile-ui/styles/scss/globals.scss';
+import { Button } from '@tile-ui/solid';
+```
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add https://solid.tileui.zmorg.cn/r/button.json
+```
+
+Registry items include the Solid source, module SCSS, and rewritten framework-independent helpers they depend on.
+
+## SolidStart notes
+
+Tile UI Solid components support server rendering. Keep browser APIs inside event handlers, `onMount`, or guarded effects, and import the global theme from the application root so SSR and hydration receive the same CSS.
+
+## Continue
+
+- Review the [component inventory](/docs/components).
+- Inspect the [registry contract](/docs/registry).

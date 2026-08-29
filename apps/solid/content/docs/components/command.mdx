@@ -1,0 +1,134 @@
+---
+title: Command
+description: Composable SolidJS command primitives with filtering and keyboard navigation.
+---
+
+> Use Command primitives to compose filtered action collections, groups, empty states, shortcuts, and optional modal palettes.
+
+<ComponentDemo slug="command" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/command
+```
+
+## Package usage
+
+```tsx
+import { Command } from '@tile-ui/solid';
+
+<Command loop>
+	<CommandInput placeholder="Filter actions" />
+	<CommandList>
+		<CommandEmpty>No match.</CommandEmpty>
+		<CommandGroup heading="Actions"><CommandItem value="open">Open docs</CommandItem></CommandGroup>
+	</CommandList>
+</Command>
+```
+
+## Highlights
+
+- Composable Input, List, Group, Item, Empty, and Dialog primitives
+- Filtered keyboard navigation with optional looping
+- Controlled search through `search` and `onSearchChange`
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item      | Purpose                            |
+| --------- | ---------------------------------- |
+| `command` | Component source and module styles |
+| `core`    | Framework-agnostic logic helpers   |
+| `utils`   | Shared utility helpers             |
+| `styles`  | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Command
+
+| Prop             | Type                                                              | Default |
+| ---------------- | ----------------------------------------------------------------- | ------- |
+| `items`          | `CommandItemDef[]`                                                | —       |
+| `groups`         | `CommandGroupDef[]`                                               | —       |
+| `filter`         | `(value: string, search: string, keywords?: string[]) => boolean` | —       |
+| `loop`           | `boolean`                                                         | —       |
+| `listId`         | `string`                                                          | —       |
+| `search`         | `string`                                                          | —       |
+| `defaultSearch`  | `string`                                                          | —       |
+| `onSearchChange` | `(search: string) => void`                                        | —       |
+| `ref`            | `CallbackRef<HTMLDivElement>`                                     | —       |
+
+### CommandInput
+
+| Prop  | Type                            | Default |
+| ----- | ------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLInputElement>` | —       |
+
+### CommandList
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### CommandEmpty
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### CommandGroup
+
+| Prop        | Type                          | Default |
+| ----------- | ----------------------------- | ------- |
+| `heading`   | `string`                      | —       |
+| `headingId` | `string`                      | —       |
+| `ref`       | `CallbackRef<HTMLDivElement>` | —       |
+
+### CommandItem
+
+| Prop        | Type                          | Default |
+| ----------- | ----------------------------- | ------- |
+| `value`     | `string`                      | —       |
+| `textValue` | `string`                      | —       |
+| `keywords`  | `string[]`                    | —       |
+| `disabled`  | `boolean`                     | —       |
+| `onSelect`  | `(value: string) => void`     | —       |
+| `ref`       | `CallbackRef<HTMLDivElement>` | —       |
+
+### CommandSeparator
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### CommandShortcut
+
+| Prop  | Type                           | Default |
+| ----- | ------------------------------ | ------- |
+| `ref` | `CallbackRef<HTMLSpanElement>` | —       |
+
+### CommandDialog
+
+| Prop              | Type                          | Default |
+| ----------------- | ----------------------------- | ------- |
+| `open`            | `boolean`                     | —       |
+| `onOpenChange`    | `(open: boolean) => void`     | —       |
+| `title`           | `string`                      | —       |
+| `description`     | `string`                      | —       |
+| `showCloseButton` | `boolean`                     | —       |
+| `container`       | `Node`                        | —       |
+| `ref`             | `CallbackRef<HTMLDivElement>` | —       |
+
+## Related docs
+
+- [Combobox](/docs/components/combobox)
+- [Dialog](/docs/components/dialog)
+- [Kbd](/docs/components/kbd)

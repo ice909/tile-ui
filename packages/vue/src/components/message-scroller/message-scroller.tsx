@@ -137,6 +137,7 @@ export const MessageScrollerViewport = defineComponent({
 			return h(
 				'div',
 				{
+					tabindex: '0',
 					...restAttrs,
 					ref: (el: unknown) => context.registerViewport(el as HTMLElement | null),
 					'data-slot': 'message-scroller-viewport',

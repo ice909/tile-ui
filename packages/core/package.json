@@ -2,10 +2,19 @@
 	"name": "@tile-ui/core",
 	"version": "1.1.1",
 	"private": false,
+	"description": "Framework-agnostic logic and types for the Tile UI design system",
+	"keywords": [
+		"components",
+		"design-system",
+		"logic",
+		"types",
+		"ui"
+	],
 	"homepage": "https://github.com/zmide/tile-ui/tree/main/packages/core",
 	"bugs": {
 		"url": "https://github.com/zmide/tile-ui/issues"
 	},
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/zmide/tile-ui.git",

@@ -25,7 +25,7 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(({ classNam
 	return (
 		<ScrollAreaContext.Provider value={{ viewportRef }}>
 			<div ref={ref} className={`${styles[scrollAreaStyleKeys.root]} ${className}`} {...props}>
-				<div ref={viewportRef} className={styles[scrollAreaStyleKeys.viewport]}>
+				<div ref={viewportRef} tabIndex={0} className={styles[scrollAreaStyleKeys.viewport]}>
 					{children}
 				</div>
 			</div>

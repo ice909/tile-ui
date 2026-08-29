@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
 	addDays,
@@ -11,6 +11,7 @@ import {
 	getMonthGrid,
 	getWeekdayLabels,
 	getMonthCaption,
+	getCalendarDayLabel,
 	getCalendarFirstSelectedDate,
 	getCalendarDayModifiers,
 	selectCalendarDay,
@@ -75,12 +76,28 @@ describe('日历日期数学', () => {
 		expect(grid.flat().filter((day) => day !== null && isSameMonth(day as Date, new Date(2024, 0, 1))).length).toBe(31);
 	});
 
-	it('getWeekdayLabels 返回 7 项', () => {
-		expect(getWeekdayLabels()).toHaveLength(7);
+	it('getWeekdayLabels 按每次传入的 locale 格式化', () => {
+		expect(getWeekdayLabels('en-US')).toEqual(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
+		expect(getWeekdayLabels('de-DE')).toEqual(['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']);
+		expect(getWeekdayLabels('en-US')).toEqual(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
 	});
 
-	it('getMonthCaption', () => {
+	it('Calendar 格式化器按 locale 与 options 缓存', () => {
+		const formatter = vi.spyOn(Intl, 'DateTimeFormat');
+		getWeekdayLabels('en-CA');
+		getWeekdayLabels('en-CA');
+		getWeekdayLabels('fr-CA');
+		getMonthCaption(new Date(2024, 0, 1), 'en-CA');
+		getMonthCaption(new Date(2024, 1, 1), 'en-CA');
+		expect(formatter).toHaveBeenCalledTimes(3);
+		formatter.mockRestore();
+	});
+
+	it('Calendar 格式化辅助函数保留本地民用日期且转发 locale', () => {
 		expect(getMonthCaption(new Date(2024, 7, 1), 'en-US')).toBe('August 2024');
+		expect(getMonthCaption(new Date(2024, 7, 1), 'de-DE')).toBe('August 2024');
+		expect(getCalendarDayLabel(new Date(2024, 1, 29), 'en-US')).toBe('Thursday, February 29, 2024');
+		expect(getCalendarDayLabel(new Date(2024, 1, 29), 'de-DE')).toBe('Donnerstag, 29. Februar 2024');
 	});
 
 	it('getCalendarFirstSelectedDate', () => {
@@ -109,6 +126,11 @@ describe('日历日期数学', () => {
 	it('getCalendarDayModifiers 禁用', () => {
 		const disabled = (d: Date) => d.getDate() === 13;
 		expect(getCalendarDayModifiers(new Date(2024, 0, 13), new Date(2024, 0, 1), undefined, true, disabled).disabled).toBe(true);
+	});
+
+	it('getCalendarDayModifiers 使用传入的本地民用 today', () => {
+		expect(getCalendarDayModifiers(new Date(2024, 0, 1), new Date(2024, 0, 1), undefined, true, undefined, new Date(2024, 0, 1, 23, 59)).today).toBe(true);
+		expect(getCalendarDayModifiers(new Date(2024, 0, 2), new Date(2024, 0, 1), undefined, true, undefined, new Date(2024, 0, 1, 23, 59)).today).toBe(false);
 	});
 
 	it('selectCalendarDay 单选', () => {

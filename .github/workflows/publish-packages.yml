@@ -7,6 +7,7 @@ on:
       - 'styles/v*.*.*'
       - 'react/v*.*.*'
       - 'vue/v*.*.*'
+      - 'solid/v*.*.*'
 
 permissions:
   contents: read
@@ -43,7 +44,7 @@ jobs:
           TAG_VERSION="${TAG_VERSION#v}"
 
           case "$PACKAGE_NAME" in
-            core|styles|react|vue)
+            core|styles|react|vue|solid)
               ;;
             *)
               echo "Unsupported package tag: $PACKAGE_TAG" >&2
@@ -73,7 +74,7 @@ jobs:
       - name: Build target package
         run: |
           case "$PACKAGE_NAME" in
-            react|vue)
+            react|vue|solid)
               pnpm --filter @tile-ui/core build
               ;;
           esac

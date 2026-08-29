@@ -1,0 +1,21 @@
+---
+title: Introduction
+description: Tile UI Solid is the SSR-ready SolidJS expression of Tile UI's shared component system and registry.
+---
+
+Tile UI Solid brings the shared Tile UI logic and SCSS design system to SolidJS without disguising Solid's fine-grained runtime. The site documents 61 production-built components in SolidStart.
+
+## Start with the slice
+
+- [Installation](/docs/installation) covers package and registry setup.
+- [Components](/docs/components) lists the exact 61-item Solid registry.
+- [Registry](/docs/registry) explains source ownership and generated output.
+- [Examples](/docs/examples) demonstrates SSR and hydrated interactions.
+
+## Why SolidStart
+
+The documentation is rendered on the server and hydrated in the browser. Demo markup is part of the initial response, while interactive controls use the same Solid components shipped by `@tile-ui/solid`.
+
+## Shared, not flattened
+
+Component behavior comes from `@tile-ui/core`, visual tokens come from `@tile-ui/styles`, and the Solid wrappers keep native Solid props and event semantics. The docs use the established Tile UI layout with a warm amber Solid accent.

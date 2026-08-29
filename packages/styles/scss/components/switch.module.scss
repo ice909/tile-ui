@@ -34,10 +34,12 @@
 
 	&[data-state='checked'] {
 		background-color: $primary;
+		color: $primary-foreground;
 	}
 
 	&[data-state='unchecked'] {
 		background-color: $input;
+		color: $foreground;
 	}
 }
 

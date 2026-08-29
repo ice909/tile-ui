@@ -7,7 +7,9 @@ export async function cleanupOutput(outDir: string, expectedFileNames: string[])
 		const expected = new Set(expectedFileNames);
 
 		await Promise.all(entries.filter((entry) => entry.endsWith('.json') && !expected.has(entry)).map((entry) => fs.rm(path.join(outDir, entry), { force: true })));
-	} catch {
-		// Ignore missing directories during the first build.
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
+			throw error;
+		}
 	}
 }

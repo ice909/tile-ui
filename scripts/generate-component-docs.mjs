@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 生成组件文档（React + Vue）
+ * 生成组件文档（React + Vue + Solid）
  *
  * 从 packages/core 的类型定义 + registry 依赖自动生成 API reference 与依赖表，
  * 结合手工维护的标题/描述/亮点/用法，输出到 apps/{react,vue}/content/docs/components。
@@ -51,6 +51,370 @@ const depPurpose = {
 	core: 'Framework-agnostic logic helpers',
 	utils: 'Shared utility helpers',
 	styles: 'Shared SCSS tokens and globals',
+};
+
+const frameworkDocOverrides = {
+	solid: {
+		omitProps: {
+			accordion: ['asChild'],
+			badge: ['asChild'],
+			breadcrumb: ['asChild'],
+			bubble: ['asChild'],
+			button: ['asChild'],
+			item: ['asChild'],
+			marker: ['asChild'],
+			'button-group': ['asChild'],
+			checkbox: ['asChild'],
+			field: ['asChild'],
+			form: ['asChild'],
+			'input-group': ['asChild'],
+			'input-otp': ['asChild'],
+			'native-select': ['asChild'],
+			progress: ['asChild'],
+			'radio-group': ['asChild'],
+			slider: ['asChild'],
+			switch: ['asChild'],
+			textarea: ['asChild'],
+			'toggle-group': ['asChild'],
+			calendar: ['asChild'],
+			collapsible: ['asChild'],
+			direction: ['asChild'],
+			message: ['asChild'],
+			'message-scroller': ['asChild'],
+			pagination: ['asChild'],
+			'scroll-area': ['asChild'],
+			tabs: ['asChild'],
+			'alert-dialog': ['asChild'],
+			combobox: ['asChild'],
+			command: ['asChild'],
+			'context-menu': ['asChild'],
+			drawer: ['asChild'],
+			'dropdown-menu': ['asChild'],
+			'hover-card': ['asChild'],
+			menubar: ['asChild'],
+			'navigation-menu': ['asChild'],
+			popover: ['asChild'],
+			select: ['asChild'],
+			sheet: ['asChild'],
+			tooltip: ['asChild'],
+			carousel: ['asChild'],
+			chart: ['asChild'],
+			resizable: ['asChild'],
+			sidebar: ['asChild'],
+			sonner: ['asChild'],
+		},
+		highlights: {
+			accordion: ['Single and multiple disclosure modes', 'Disabled-aware roving focus', 'Stable custom or generated trigger/content IDs'],
+			calendar: ['Single, multiple, and range selection', 'Visible range start and end state', 'Explicit `today` and `defaultMonth` for deterministic SSR'],
+			collapsible: ['Controlled and uncontrolled state', 'Stable trigger and region IDs', 'Native hidden and disabled semantics'],
+			direction: ['Reactive provider value', '`useDirection` accessor hook', 'Normalized LTR and RTL DOM direction'],
+			message: ['Start and end alignment', 'Avatar, header, content, and footer primitives', 'Native static message markup'],
+			'message-scroller': ['Provider-owned viewport observation', 'Start and end controls', 'Scrollable and visibility hooks'],
+			pagination: ['Native anchor navigation', 'Current-page semantics', 'Previous, next, and decorative ellipsis primitives'],
+			'scroll-area': ['Native scroll viewport', 'Vertical and horizontal `ScrollBar` primitives', 'Keyboard and pointer scrollbar control'],
+			tabs: ['Automatic keyboard activation', 'Nested tab lists keep overlapping values independent', 'Stable custom or generated tab/panel IDs'],
+			'alert-dialog': [
+				'Modal focus containment and trigger restoration',
+				'Outside interaction can be observed or prevented',
+				'Action and Cancel are nested native button primitives',
+			],
+			combobox: [
+				'Data-driven filtering with keywords and custom filters',
+				'Arrow, Home, End, Enter, Escape, and logical Tab behavior',
+				'`value` and `onValueChange` support controlled selection',
+			],
+			command: [
+				'Composable Input, List, Group, Item, Empty, and Dialog primitives',
+				'Filtered keyboard navigation with optional looping',
+				'Controlled search through `search` and `onSearchChange`',
+			],
+			'context-menu': [
+				'Pointer contextmenu and Shift+F10 keyboard opening',
+				'Checkbox, radio, and nested submenu branches',
+				'Focus returns through the shared menu Foundation',
+			],
+			drawer: [
+				'Four directions with modal or non-modal policy',
+				'Focus containment and outside blocking in modal mode',
+				'`open` and `onOpenChange` support controlled state',
+			],
+			'dropdown-menu': ['Checkbox, radio, group, label, and separator primitives', 'Nested submenu keyboard branches', 'Controlled root and selectable item callbacks'],
+			'hover-card': ['Open and close delays', 'Crossing-safe pointer intent between trigger and content', 'Controlled `open` and `onOpenChange` callbacks'],
+			menubar: ['Arrow-key switching between menus', 'Checkbox, radio, and nested submenu branches', 'Roving trigger tabstops from the menu Foundation'],
+			'navigation-menu': [
+				'Shared viewport and `viewport={false}` local modes',
+				'Roving trigger tabstops and native links',
+				'Controlled `value` and `onValueChange` callbacks',
+			],
+			popover: ['Anchored positioning and outside dismissal', 'Natural Tab order inside interactive content', 'Controlled `open` and `onOpenChange` callbacks'],
+			select: [
+				'Grouped options and escaped selected labels',
+				'Arrow navigation, typeahead, selection, and logical Tab exit',
+				'Controlled `value` and `onValueChange` callbacks',
+			],
+			sheet: ['Four edge positions with modal focus containment', 'Outside interaction blocking and trigger restoration', 'Controlled `open` and `onOpenChange` callbacks'],
+			tooltip: ['Provider-level pointer delay timing', 'Pointer hover and keyboard focus opening', 'Escape dismissal and stable description IDs'],
+			badge: ['Six visual variants', 'Native Solid span attributes', 'Pairs with Card and status surfaces'],
+			button: ['Six visual variants', 'Loading state support', 'Eight sizes from `xs` through `icon-lg`'],
+			card: ['Solid-native primitive composition', 'Header, content, and footer', 'Pairs with Button and Input'],
+			breadcrumb: ['Native anchor composition', 'Current-page semantics', 'Custom separator content'],
+			bubble: ['Seven visual variants', 'Native div content primitive', 'Aligned reaction metadata'],
+			item: ['Media, content, and action regions', 'Native div root', 'Outline and muted variants'],
+			marker: ['Default, separator, and border variants', 'Native div root', 'Optional icon primitive'],
+			carousel: ['Measured horizontal and vertical viewports', 'Arrow-key navigation follows orientation', 'Accessible region labels describe each carousel'],
+			chart: ['Mixed line, bar, and area series', 'Stable named SVG IDs and scoped theme styles', 'Keyboard inspection announces the active datum'],
+			resizable: ['Pointer and keyboard separators', 'Equal deterministic server layout', 'Optional localStorage persistence after hydration'],
+			sidebar: ['Collapsible desktop rail', 'Mobile sheet selected from the client media query', 'Provider state, trigger, menu, skeleton, and tooltip families'],
+			sonner: ['Imperative toast variants and updates', 'Dismiss lifecycle and external-store subscriptions', 'Empty server output with no cross-request store leakage'],
+		},
+		descriptions: {
+			accordion: 'Accessible SolidJS accordion primitives with deterministic IDs and keyboard navigation.',
+			calendar: 'A deterministic SolidJS calendar with date selection and grid keyboard behavior.',
+			collapsible: 'Accessible SolidJS collapsible trigger and region primitives.',
+			direction: 'A reactive SolidJS reading-direction provider and accessor hook.',
+			message: 'Composable SolidJS message layout primitives for static conversation content.',
+			'message-scroller': 'A provider-backed SolidJS message viewport with observed scroll controls.',
+			pagination: 'Semantic SolidJS pagination primitives built from native links.',
+			'scroll-area': 'A native SolidJS scroll viewport with optional custom scrollbars.',
+			tabs: 'Accessible SolidJS tabs with deterministic relationships and keyboard activation.',
+			'alert-dialog': 'Accessible SolidJS alert-dialog primitives with modal focus and outside-interaction policy.',
+			combobox: 'A searchable SolidJS combobox with controlled selection and logical keyboard exit.',
+			command: 'Composable SolidJS command primitives with filtering and keyboard navigation.',
+			'context-menu': 'A SolidJS context menu with keyboard opening, selectable items, and nested branches.',
+			drawer: 'A directional SolidJS drawer with modal and non-modal behavior.',
+			'dropdown-menu': 'A SolidJS dropdown menu with checkbox, radio, and nested submenu items.',
+			'hover-card': 'A delayed SolidJS hover preview with crossing-safe pointer intent.',
+			menubar: 'A desktop-style SolidJS menubar with roving focus and menu switching.',
+			'navigation-menu': 'A SolidJS navigation menu with shared and local viewport modes.',
+			popover: 'An anchored SolidJS popover with focus-aware dismissal and controlled state.',
+			select: 'An accessible SolidJS custom select with grouped options and logical Tab behavior.',
+			sheet: 'A SolidJS modal sheet that mounts from any viewport edge.',
+			tooltip: 'A delayed SolidJS tooltip for pointer hover and keyboard focus.',
+			alert: 'Accessible SolidJS alert primitives for important status messages.',
+			'aspect-ratio': 'An SSR-safe SolidJS container that preserves a requested width-to-height ratio.',
+			attachment: 'Composable SolidJS attachment primitives with file metadata and actions.',
+			avatar: 'SolidJS avatar primitives with reactive image fallback and grouping.',
+			breadcrumb: 'Accessible SolidJS breadcrumb navigation using native links.',
+			bubble: 'SolidJS chat bubble primitives with alignment and reaction regions.',
+			empty: 'Composable SolidJS empty-state primitives.',
+			item: 'SolidJS item layout primitives for media, content, and actions.',
+			kbd: 'SolidJS keyboard key and shortcut-group primitives.',
+			label: 'A native SolidJS label with required-state styling.',
+			marker: 'SolidJS content marker primitives with divider variants.',
+			skeleton: 'A SolidJS loading placeholder hidden from assistive technology by default.',
+			spinner: 'An accessible SolidJS loading status icon.',
+			table: 'Native SolidJS table primitives in a responsive overflow container.',
+			badge: 'A SolidJS status or label indicator with multiple visual variants.',
+			button: 'A SolidJS action component with loading state and size variants.',
+			card: 'Composable SolidJS card primitives for framed content.',
+			dialog: 'Accessible SolidJS dialog primitives with controlled and uncontrolled state.',
+			input: 'An accessible SolidJS text input with helper and validation messaging.',
+			separator: 'A horizontal or vertical divider for SolidJS layouts.',
+			toggle: 'A controlled or uncontrolled SolidJS toggle button.',
+			'button-group': 'SolidJS primitives for grouping related native button actions.',
+			checkbox: 'An accessible tri-state SolidJS checkbox with controlled and native form state.',
+			field: 'SolidJS field primitives with stable label, description, message, and control IDs.',
+			form: 'Reactive SolidJS form state and accessible field primitives.',
+			'input-group': 'Composable SolidJS input addons, controls, and embedded buttons.',
+			'input-otp': 'SolidJS one-time password slots with keyboard, paste, composition, and form support.',
+			'native-select': 'A styled native SolidJS select with SSR-safe initial values and reset behavior.',
+			progress: 'An accessible reactive SolidJS progress bar.',
+			'radio-group': 'A SolidJS native radio group with roving focus, validation, and reset behavior.',
+			slider: 'SolidJS slider primitives with horizontal and vertical pointer and keyboard input.',
+			switch: 'An accessible SolidJS switch with controlled and native form state.',
+			textarea: 'An accessible SolidJS textarea with SSR-safe initial values and messaging.',
+			'toggle-group': 'A controlled or uncontrolled SolidJS single or multiple toggle group.',
+			carousel: 'A measured SolidJS carousel with accessible horizontal and vertical keyboard navigation.',
+			chart: 'Responsive SolidJS SVG chart primitives with mixed series, scoped styles, and keyboard inspection.',
+			resizable: 'SolidJS resizable panel groups with pointer, keyboard, and persistent layouts.',
+			sidebar: 'A responsive SolidJS application sidebar with desktop rail and mobile sheet behavior.',
+			sonner: 'External-store backed SolidJS toast notifications with an imperative API.',
+		},
+		intros: {
+			accordion: 'Use Accordion to organize related disclosure sections with predictable keyboard movement.',
+			calendar: 'Use Calendar for single, multiple, or range date selection; pass explicit `today` and `defaultMonth` when SSR output must be deterministic.',
+			collapsible: 'Use Collapsible for one disclosure trigger and its associated content region.',
+			direction: 'Use DirectionProvider and useDirection when layout behavior must react to LTR or RTL reading direction.',
+			message: 'Use Message primitives to compose semantic conversation rows without adding state management.',
+			'message-scroller': 'Use MessageScrollerProvider around the viewport, content, items, controls, and hooks that share scroll state.',
+			pagination: 'Use Pagination to expose page destinations as native links with current-page semantics.',
+			'scroll-area': 'Use ScrollArea with one or more ScrollBar primitives when custom controls should augment native scrolling.',
+			tabs: 'Use Tabs to switch related panels with automatic arrow-key activation and stable ARIA relationships.',
+			'alert-dialog': 'Use AlertDialog for decisions that require modal focus, explicit Action and Cancel primitives, and observable outside interaction.',
+			combobox: 'Use Combobox for one searchable selection with controlled callbacks and logical Tab movement after the popup.',
+			command: 'Use Command primitives to compose filtered action collections, groups, empty states, shortcuts, and optional modal palettes.',
+			'context-menu': 'Use ContextMenu for pointer or keyboard-invoked actions with checkbox, radio, and submenu branches.',
+			drawer: 'Use Drawer for directional modal or non-modal panels while preserving native Solid state callbacks.',
+			'dropdown-menu': 'Use DropdownMenu to compose keyboard-ready actions, selectable items, and nested menus from native primitives.',
+			'hover-card': 'Use HoverCard for delayed previews that remain open while the pointer crosses from trigger to content.',
+			menubar: 'Use Menubar for desktop-style menus whose roving triggers and open panels switch with arrow keys.',
+			'navigation-menu': 'Use NavigationMenu for primary links with either a shared viewport or local content panels.',
+			popover: 'Use Popover for interactive anchored content that participates in natural Tab order and outside dismissal.',
+			select: 'Use Select for a styled single-value picker with escaped labels, grouped items, typeahead, and logical Tab exit.',
+			sheet: 'Use Sheet for modal edge panels with focus containment, outside blocking, and trigger restoration.',
+			tooltip: 'Use TooltipProvider and nested Tooltip primitives for delayed pointer help and immediate keyboard-focus descriptions.',
+			alert: 'Use Alert for important information that should be announced immediately.',
+			'aspect-ratio': 'Use AspectRatio to reserve stable media and preview geometry during SSR.',
+			attachment: 'Use Attachment primitives or AttachmentCard to present file state and actions.',
+			avatar: 'Use Avatar for image identities with a text fallback that reacts to load errors.',
+			breadcrumb: 'Use Breadcrumb to expose the current page within a native navigation trail.',
+			bubble: 'Use Bubble for aligned conversation content and optional reaction metadata.',
+			empty: 'Use Empty to explain missing content and offer a next action.',
+			item: 'Use Item for compact media, content, and action rows.',
+			kbd: 'Use Kbd and KbdGroup to display keyboard shortcuts.',
+			label: 'Use Label with native for/id association for form controls.',
+			marker: 'Use Marker to annotate or divide supporting content.',
+			skeleton: 'Use Skeleton to reserve layout while content loads.',
+			spinner: 'Use Spinner for short indeterminate loading states.',
+			table: 'Use Table primitives for semantic tabular data with horizontal overflow support.',
+			badge: 'Use Badge in SolidJS status surfaces, counts, or short labels.',
+			button: 'Use Button for SolidJS actions, confirmations, and toolbar interactions.',
+			card: 'Use Card to compose SolidJS summaries, settings surfaces, and action rows.',
+			dialog: 'Use Dialog for accessible SolidJS modal interactions with focus management.',
+			input: 'Use Input for SolidJS single-line text entry with aligned messaging.',
+			separator: 'Use Separator to divide SolidJS sections without extra structural markup.',
+			toggle: 'Use Toggle for controlled or uncontrolled binary state in SolidJS.',
+			'button-group': 'Use ButtonGroup to keep related native actions visually and semantically adjacent.',
+			checkbox: 'Use Checkbox for tri-state choices that participate in native forms.',
+			field: 'Use Field to connect a native control to stable labels, descriptions, and messages.',
+			form: 'Use Form primitives to connect reactive field state, validation, and ARIA metadata.',
+			'input-group': 'Use InputGroup to combine a control with contextual text and embedded actions.',
+			'input-otp': 'Use InputOTP to collect short codes with efficient keyboard, paste, and composition input.',
+			'native-select': 'Use NativeSelect when native option behavior and form reset semantics are preferred.',
+			progress: 'Use Progress to expose task completion with accessible range semantics.',
+			'radio-group': 'Use RadioGroup for one-of-many choices with native validation and arrow-key selection.',
+			slider: 'Use Slider for pointer and keyboard selection along horizontal or vertical ranges.',
+			switch: 'Use Switch for controlled or uncontrolled boolean settings that submit with a form.',
+			textarea: 'Use Textarea for multi-line values that remain stable through SSR, hydration, and reset.',
+			'toggle-group': 'Use ToggleGroup for single or multiple toolbar choices with roving focus.',
+			carousel: 'Use Carousel with an accessible label so the measured viewport and orientation-specific keyboard controls have a clear name.',
+			chart: 'Use ChartContainer with a stable title or accessible name; series keys become scoped SVG and CSS identifiers, so keep them deterministic.',
+			resizable: 'Use ResizablePanelGroup for pointer and keyboard split layouts; add an `id` only when the hydrated client should persist panel sizes.',
+			sidebar: 'Use SidebarProvider around the full layout. Server output starts in the desktop mode, then the client media query selects the mobile sheet when required.',
+			sonner: 'Mount Toaster in a client-visible layout and call the imperative toast API from interactions. Server rendering is an empty no-op and does not retain notifications between requests.',
+		},
+		usage: {
+			'alert-dialog':
+				'<AlertDialog onOpenChange={(open) => console.log(open)}>\n\t<AlertDialogTrigger>Delete</AlertDialogTrigger>\n\t<AlertDialogContent>\n\t\t<AlertDialogTitle>Delete workspace?</AlertDialogTitle>\n\t\t<AlertDialogDescription>This cannot be undone.</AlertDialogDescription>\n\t\t<AlertDialogCancel>Cancel</AlertDialogCancel>\n\t\t<AlertDialogAction>Delete</AlertDialogAction>\n\t</AlertDialogContent>\n</AlertDialog>',
+			combobox: '<Combobox items={[{ value: "solid", label: "Solid", keywords: ["ssr"] }]} onValueChange={(value) => console.log(value)} />',
+			command:
+				'<Command loop>\n\t<CommandInput placeholder="Filter actions" />\n\t<CommandList>\n\t\t<CommandEmpty>No match.</CommandEmpty>\n\t\t<CommandGroup heading="Actions"><CommandItem value="open">Open docs</CommandItem></CommandGroup>\n\t</CommandList>\n</Command>',
+			'context-menu':
+				'<ContextMenu>\n\t<ContextMenuTrigger tabindex="0">Right-click or press Shift+F10</ContextMenuTrigger>\n\t<ContextMenuContent><ContextMenuItem>Open</ContextMenuItem></ContextMenuContent>\n</ContextMenu>',
+			drawer: '<Drawer direction="bottom" modal={false} onOpenChange={(open) => console.log(open)}>\n\t<DrawerTrigger>Open</DrawerTrigger>\n\t<DrawerContent><DrawerTitle>Activity</DrawerTitle><DrawerDescription>Recent builds.</DrawerDescription></DrawerContent>\n</Drawer>',
+			'dropdown-menu':
+				'<DropdownMenu>\n\t<DropdownMenuTrigger>Menu</DropdownMenuTrigger>\n\t<DropdownMenuContent><DropdownMenuCheckboxItem checked>Grid</DropdownMenuCheckboxItem><DropdownMenuSub><DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger><DropdownMenuSubContent><DropdownMenuItem>Copy link</DropdownMenuItem></DropdownMenuSubContent></DropdownMenuSub></DropdownMenuContent>\n</DropdownMenu>',
+			'hover-card':
+				'<HoverCard openDelay={250} closeDelay={350}>\n\t<HoverCardTrigger>@tile-ui/solid</HoverCardTrigger>\n\t<HoverCardContent>Solid registry preview.</HoverCardContent>\n</HoverCard>',
+			menubar:
+				'<Menubar>\n\t<MenubarMenu value="file"><MenubarTrigger>File</MenubarTrigger><MenubarContent><MenubarItem>New</MenubarItem></MenubarContent></MenubarMenu>\n\t<MenubarMenu value="view"><MenubarTrigger>View</MenubarTrigger><MenubarContent><MenubarCheckboxItem checked>Sidebar</MenubarCheckboxItem></MenubarContent></MenubarMenu>\n</Menubar>',
+			'navigation-menu':
+				'<NavigationMenu viewport={false}>\n\t<NavigationMenuList><NavigationMenuItem value="docs"><NavigationMenuTrigger>Docs</NavigationMenuTrigger><NavigationMenuContent><NavigationMenuLink href="/docs">Overview</NavigationMenuLink></NavigationMenuContent></NavigationMenuItem></NavigationMenuList>\n</NavigationMenu>',
+			popover:
+				'<Popover onOpenChange={(open) => console.log(open)}>\n\t<PopoverTrigger>Edit</PopoverTrigger>\n\t<PopoverContent><input aria-label="Title" /><button type="button">Apply</button></PopoverContent>\n</Popover>',
+			select: '<Select defaultValue="solid" selectedText="Solid <SSR>">\n\t<SelectTrigger><SelectValue placeholder="Choose" /></SelectTrigger>\n\t<SelectContent><SelectItem value="solid">Solid &lt;SSR&gt;</SelectItem></SelectContent>\n</Select>',
+			sheet: '<Sheet onOpenChange={(open) => console.log(open)}>\n\t<SheetTrigger>Open</SheetTrigger>\n\t<SheetContent side="right"><SheetTitle>Settings</SheetTitle><SheetDescription>Workspace settings.</SheetDescription></SheetContent>\n</Sheet>',
+			tooltip:
+				'<TooltipProvider delayDuration={400}>\n\t<Tooltip><TooltipTrigger>Focus or hover</TooltipTrigger><TooltipContent>Keyboard help.</TooltipContent></Tooltip>\n</TooltipProvider>',
+			accordion:
+				'<Accordion type="single" defaultValue="one" collapsible>\n\t<AccordionItem value="one">\n\t\t<AccordionTrigger>Section one</AccordionTrigger>\n\t\t<AccordionContent>Content one.</AccordionContent>\n\t</AccordionItem>\n</Accordion>',
+			calendar: '<Calendar mode="range" defaultMonth={new Date(2026, 7, 1)} today={new Date(2026, 7, 28)} onSelect={(range) => console.log(range)} />',
+			collapsible: '<Collapsible>\n\t<CollapsibleTrigger>Details</CollapsibleTrigger>\n\t<CollapsibleContent>Extra content here.</CollapsibleContent>\n</Collapsible>',
+			direction: '<DirectionProvider dir="rtl">\n\t<App />\n</DirectionProvider>',
+			message:
+				'<MessageGroup>\n\t<Message align="end">\n\t\t<MessageContent>Registry complete.</MessageContent>\n\t\t<MessageFooter>Now</MessageFooter>\n\t</Message>\n</MessageGroup>',
+			'message-scroller':
+				'<MessageScrollerProvider>\n\t<MessageScroller>\n\t\t<MessageScrollerViewport>\n\t\t\t<MessageScrollerContent>\n\t\t\t\t<MessageScrollerItem scrollAnchor>Message one</MessageScrollerItem>\n\t\t\t</MessageScrollerContent>\n\t\t</MessageScrollerViewport>\n\t\t<MessageScrollerButton />\n\t</MessageScroller>\n</MessageScrollerProvider>',
+			pagination:
+				'<Pagination>\n\t<PaginationContent>\n\t\t<PaginationItem><PaginationPrevious href="?page=1" /></PaginationItem>\n\t\t<PaginationItem><PaginationLink href="?page=2" isActive>2</PaginationLink></PaginationItem>\n\t\t<PaginationItem><PaginationNext href="?page=3" /></PaginationItem>\n\t</PaginationContent>\n</Pagination>',
+			'scroll-area': '<ScrollArea>\n\t<div style={{ height: "20rem" }}>Long content.</div>\n\t<ScrollBar />\n</ScrollArea>',
+			tabs: '<Tabs defaultValue="account">\n\t<TabsList>\n\t\t<TabsTrigger value="account">Account</TabsTrigger>\n\t\t<TabsTrigger value="settings">Settings</TabsTrigger>\n\t</TabsList>\n\t<TabsContent value="account">Account content.</TabsContent>\n\t<TabsContent value="settings">Settings content.</TabsContent>\n</Tabs>',
+			attachment: '<AttachmentCard name="solid-registry.pdf" size={2516582} onDownload={() => downloadFile()} />',
+			avatar: '<Avatar>\n\t<AvatarImage src="/avatar.png" alt="Tile UI" />\n\t<AvatarFallback>TU</AvatarFallback>\n</Avatar>',
+			breadcrumb:
+				'<Breadcrumb>\n\t<BreadcrumbList>\n\t\t<BreadcrumbItem><BreadcrumbLink href="/docs">Docs</BreadcrumbLink></BreadcrumbItem>\n\t\t<BreadcrumbSeparator />\n\t\t<BreadcrumbItem><BreadcrumbPage>Solid</BreadcrumbPage></BreadcrumbItem>\n\t</BreadcrumbList>\n</Breadcrumb>',
+			bubble: '<Bubble align="end">\n\t<BubbleContent>Registry complete.</BubbleContent>\n</Bubble>',
+			item: '<Item variant="outline">\n\t<ItemContent><ItemTitle>Solid registry</ItemTitle></ItemContent>\n</Item>',
+			label: '<Label for="email" required>Email</Label>\n<Input id="email" type="email" />',
+			card: '<Card>\n\t<CardHeader>\n\t\t<CardTitle>SolidStart workspace</CardTitle>\n\t\t<CardDescription>SSR-ready Tile UI components for SolidJS.</CardDescription>\n\t</CardHeader>\n\t<CardContent>\n\t\t<p>The component source and styles remain shared across Tile UI.</p>\n\t</CardContent>\n\t<CardFooter>\n\t\t<Button variant="outline">Preview</Button>\n\t\t<Button>Install</Button>\n\t</CardFooter>\n</Card>',
+			field: '<Field name="email" required>\n\t<FieldLabel>Email</FieldLabel>\n\t<FieldDescription>We never share your email.</FieldDescription>\n\t<FieldMessage>Ready.</FieldMessage>\n</Field>',
+			form: '<Form defaultValues={{ email: "" }}>\n\t<FormField name="email">{({ field }) => <FormItem descriptionId="email-help" messageId="email-error"><FormLabel>Email</FormLabel><FormControl>{(control) => <Input {...control} value={String(field.value ?? "")} onChangeValue={field.onChange} />}</FormControl><FormDescription id="email-help">Enter a reachable address.</FormDescription><FormMessage id="email-error" /></FormItem>}</FormField>\n</Form>',
+			'input-otp':
+				'<InputOTP maxLength={4}>\n\t<InputOTPGroup><InputOTPSlot index={0} /><InputOTPSlot index={1} /><InputOTPSlot index={2} /><InputOTPSlot index={3} /></InputOTPGroup>\n</InputOTP>',
+			slider: '<Slider defaultValue={40}><SliderTrack><SliderRange /></SliderTrack><SliderThumb aria-label="Volume" /></Slider>',
+			textarea: '<Textarea label="Summary" defaultValue="SSR-safe initial value" />',
+			carousel:
+				'<Carousel aria-label="Feature carousel" orientation="vertical"><CarouselContent viewportStyle={{ height: "12rem" }}><CarouselItem>One</CarouselItem><CarouselItem>Two</CarouselItem></CarouselContent><CarouselPrevious /><CarouselNext /></Carousel>',
+			chart: '<ChartContainer title="Monthly activity" config={{ visits: { label: "Visits" }, target: { label: "Target" } }} data={[{ month: "Jan", visits: 42, target: 50 }]} xKey="month" series={[{ key: "visits", type: "bar" }, { key: "target", type: "line" }]} initialDimension={{ width: 640, height: 320 }} tabIndex={0} />',
+			resizable:
+				'<ResizablePanelGroup id="workspace-layout" panelIds={["navigation", "canvas"]}><ResizablePanel id="navigation">Navigation</ResizablePanel><ResizableHandle withHandle /><ResizablePanel id="canvas">Canvas</ResizablePanel></ResizablePanelGroup>',
+			sidebar:
+				'<SidebarProvider><Sidebar collapsible="icon"><SidebarHeader><SidebarInput aria-label="Search" /></SidebarHeader><SidebarContent><SidebarGroup><SidebarGroupLabel>Workspace</SidebarGroupLabel><SidebarGroupContent><SidebarMenu><SidebarMenuItem><SidebarMenuButton tooltip="Overview">Overview</SidebarMenuButton></SidebarMenuItem></SidebarMenu></SidebarGroupContent></SidebarGroup></SidebarContent></Sidebar><SidebarInset><SidebarTrigger /></SidebarInset></SidebarProvider>',
+			sonner: '<><button type="button" onClick={() => toast.success("Saved")}>Notify</button><Toaster richColors /></>',
+		},
+	},
+};
+
+const solidApiExtras = {
+	table: [
+		{ name: 'containerClass', optional: true, type: 'string', doc: '响应式外层容器 class' },
+		{ name: 'containerProps', optional: true, type: 'JSX.HTMLAttributes<HTMLDivElement>', doc: '响应式外层容器原生属性' },
+	],
+	input: [
+		{ name: 'defaultValue', optional: true, type: 'string', doc: '非受控初始值' },
+		{ name: 'onChangeValue', optional: true, type: '(value: string) => void', doc: '值变化回调' },
+	],
+	toggle: [
+		{ name: 'pressed', optional: true, type: 'boolean', doc: '受控按压状态' },
+		{ name: 'defaultPressed', optional: true, type: 'boolean', doc: '非受控初始按压状态' },
+		{ name: 'onPressedChange', optional: true, type: '(pressed: boolean) => void', doc: '按压状态变化回调' },
+	],
+	dialog: [
+		{ name: 'open', optional: true, type: 'boolean', doc: '受控打开状态' },
+		{ name: 'defaultOpen', optional: true, type: 'boolean', doc: '非受控初始打开状态' },
+		{ name: 'onOpenChange', optional: true, type: '(open: boolean) => void', doc: '打开状态变化回调' },
+	],
+	textarea: [
+		{ name: 'defaultValue', optional: true, type: 'string', doc: '非受控初始值' },
+		{ name: 'onChangeValue', optional: true, type: '(value: string) => void', doc: '值变化回调' },
+	],
+};
+
+const solidNestedApiExtras = {
+	direction: {
+		useDirection: [{ name: 'return', optional: false, type: 'Accessor<DirectionValue>', doc: '当前响应式阅读方向' }],
+	},
+	'message-scroller': {
+		useMessageScroller: [{ name: 'return', optional: false, type: 'MessageScrollerContextValue', doc: '完整滚动状态与控制方法' }],
+		useMessageScrollerScrollable: [{ name: 'return', optional: false, type: '{ scrollable: Accessor<boolean>; isScrollable: Accessor<boolean> }', doc: '可滚动状态访问器' }],
+		useMessageScrollerVisibility: [
+			{ name: 'direction', optional: true, type: "'start' | 'end'", doc: '要观察的滚动方向' },
+			{ name: 'return', optional: false, type: 'MessageScrollerVisibilityAccessors', doc: '方向按钮可见性访问器' },
+		],
+	},
+	attachment: {
+		AttachmentCard: [
+			{ name: 'action', optional: true, type: 'JSX.Element', doc: '自定义操作区域' },
+			{ name: 'onPreview', optional: true, type: 'JSX.EventHandler<HTMLDivElement, MouseEvent>', doc: '卡片预览事件' },
+			{ name: 'onDownload', optional: true, type: 'JSX.EventHandler<HTMLButtonElement, MouseEvent>', doc: '下载事件' },
+			{ name: 'onRemove', optional: true, type: 'JSX.EventHandler<HTMLButtonElement, MouseEvent>', doc: '删除事件' },
+		],
+	},
+	dialog: {
+		DialogContent: [{ name: 'id', optional: true, type: 'string', doc: '内容元素 ID；默认由 Dialog 自动生成' }],
+	},
+	sonner: {
+		toast: [
+			{ name: 'call', optional: false, type: '(title: string, options?: SonnerAddInput) => string', doc: '创建默认提示并返回 ID' },
+			{ name: 'success / info / warning / error / loading', optional: false, type: '(title: string, options?: SonnerAddInput) => string', doc: '创建指定类型提示' },
+			{ name: 'update', optional: false, type: '(id: string, update: SonnerToastUpdate) => void', doc: '更新现有提示' },
+			{ name: 'dismiss', optional: false, type: '(id?: string) => void', doc: '关闭一个或全部提示' },
+		],
+		useToast: [{ name: 'return', optional: false, type: 'UseToastReturn', doc: '响应式提示列表与 imperative toast API' }],
+	},
+	sidebar: {
+		useSidebar: [{ name: 'return', optional: false, type: 'SidebarContextValue', doc: '响应式桌面、移动端与切换状态' }],
+	},
 };
 
 function pascalCase(slug) {
@@ -187,7 +551,7 @@ const META = [
 		description: 'Empty state primitives.',
 		intro: 'Use Empty to guide users when there is nothing to display.',
 		highlights: ['Header, media, title, and description', 'Default and icon media variants'],
-		usage: '<Empty>\n\t<EmptyMedia variant="muted">+</EmptyMedia>\n\t<EmptyTitle>No results</EmptyTitle>\n\t<EmptyDescription>Try adjusting your search.</EmptyDescription>\n</Empty>',
+		usage: '<Empty>\n\t<EmptyMedia variant="icon">+</EmptyMedia>\n\t<EmptyTitle>No results</EmptyTitle>\n\t<EmptyDescription>Try adjusting your search.</EmptyDescription>\n</Empty>',
 		related: ['alert', 'item', 'card'],
 	},
 	{
@@ -591,8 +955,18 @@ const META = [
 	},
 ];
 
-function loadRegistryItems() {
-	const raw = JSON.parse(fs.readFileSync(path.join(root, 'apps/react/public/r/registry.json'), 'utf-8'));
+const frameworkConfigs = {
+	react: { packageName: '@tile-ui/react', demo: true },
+	vue: { packageName: '@tile-ui/vue', demo: false },
+	solid: { packageName: '@tile-ui/solid', demo: true },
+};
+
+function loadRegistryItems(framework) {
+	const registryFile = path.join(root, `apps/${framework}/public/r/registry.json`);
+	if (!fs.existsSync(registryFile)) {
+		throw new Error(`Missing registry output: ${path.relative(root, registryFile)}`);
+	}
+	const raw = JSON.parse(fs.readFileSync(registryFile, 'utf-8'));
 	const map = new Map();
 	for (const item of raw.items) {
 		map.set(item.name, item);
@@ -653,6 +1027,38 @@ function extractApi(name) {
 	return result;
 }
 
+function extractSolidApi(name) {
+	const sourceFile = path.join(root, 'packages/solid/src/components', name, `${name}.tsx`);
+	if (!fs.existsSync(sourceFile)) return [];
+	const source = fs.readFileSync(sourceFile, 'utf8');
+	const sf = ts.createSourceFile(sourceFile, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+	const result = [];
+	for (const statement of sf.statements) {
+		if (
+			!ts.isInterfaceDeclaration(statement) ||
+			!statement.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword) ||
+			!statement.name.text.endsWith('Props')
+		)
+			continue;
+		const props = [];
+		for (const member of statement.members) {
+			if (!ts.isPropertySignature(member) || !member.name) continue;
+			props.push({
+				name: member.name.getText(sf),
+				optional: Boolean(member.questionToken),
+				type: member.type?.getText(sf).replace(/\s+/g, ' ').trim() ?? 'unknown',
+				doc: (member.jsDoc ?? [])
+					.map((doc) => doc.comment)
+					.join(' ')
+					.replace(/\s+/g, ' ')
+					.trim(),
+			});
+		}
+		result.push({ name: statement.name.text.replace(/Props$/, ''), props });
+	}
+	return result;
+}
+
 function extractDefault(doc) {
 	const match = doc.match(/默认\s*(['"][^'"]+['"]|true|false|-?\d+(?:\.\d+)?)/);
 	return match ? match[1] : null;
@@ -681,38 +1087,87 @@ function renderApiSection(apis) {
 }
 
 function renderDepsTable(name, item) {
-	const deps = (item?.registryDependencies ?? []).map((d) => d.replace('@tile-ui/', '')).filter((d) => depPurpose[d]);
+	const deps = [...new Set((item?.registryDependencies ?? []).map((dependency) => dependency.replace('@tile-ui/', '')))];
 	const rows = [[`\`${name}\``, 'Component source and module styles']];
 	for (const dep of deps) {
-		rows.push([`\`${dep}\``, depPurpose[dep]]);
+		rows.push([`\`${dep}\``, depPurpose[dep] ?? 'Registry component dependency']);
 	}
-	rows.push(['`styles`', depPurpose.styles]);
 	const body = rows.map(([item, purpose]) => `| ${item} | ${purpose} |`).join('\n');
 	return `| Item | Purpose |\n| ---- | ------- |\n${body}`;
 }
 
-function buildDoc({ name, meta, item, apis, framework }) {
-	const isReact = framework === 'react';
+function buildDoc({ name, meta, item, apis, framework, availableNames }) {
+	const config = frameworkConfigs[framework];
+	if (!config) {
+		throw new Error(`Unknown docs framework: ${framework}`);
+	}
 	const mainName = mainOverrides[name] ?? pascalCase(name);
 	const importName = mainName;
-	const pkg = isReact ? '@tile-ui/react' : '@tile-ui/vue';
+	const pkg = config.packageName;
 	const title = pascalCase(name);
+	const overrides = frameworkDocOverrides[framework];
+	const description = overrides?.descriptions?.[name] ?? meta.description;
+	const intro = overrides?.intros?.[name] ?? meta.intro;
+	const highlights = overrides?.highlights?.[name] ?? meta.highlights;
 
-	const usage = meta.usage;
+	const usage = overrides?.usage?.[name] ?? meta.usage;
+	if (framework === 'solid') {
+		const result = ts.transpileModule(`function Usage() { return (<>${usage}</>); }`, {
+			fileName: `${name}.tsx`,
+			reportDiagnostics: true,
+			compilerOptions: { jsx: ts.JsxEmit.Preserve, target: ts.ScriptTarget.ES2017 },
+		});
+		const diagnostics = (result.diagnostics ?? []).filter((diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error);
+		if (diagnostics.length)
+			throw new Error(`Invalid Solid usage for ${name}: ${diagnostics.map((diagnostic) => ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')).join('; ')}`);
+	}
 
 	// Package usage 段的 import 从 usage 代码实际用到的包导出推导（含 hooks/composables 子路径）。
 	const usageImports = renderUsageImports(framework, usage).join('\n') || `import { ${importName} } from '${pkg}';`;
 
-	const relatedLinks = (meta.related ?? []).map((r) => `- [${pascalCase(r)}](/docs/components/${r})`).join('\n');
+	const relatedLinks = (meta.related ?? [])
+		.filter((related) => availableNames.has(related))
+		.map((related) => `- [${pascalCase(related)}](/docs/components/${related})`)
+		.join('\n');
+	const relatedSection = relatedLinks || '- [Components](/docs/components)\n- [Registry](/docs/registry)';
+	const omittedProps = new Set(overrides?.omitProps?.[name] ?? []);
+	let frameworkApis = apis.map((api, index) => ({
+		...api,
+		props: [...api.props.filter((prop) => !omittedProps.has(prop.name)), ...(framework === 'solid' && index === 0 ? (solidApiExtras[name] ?? []) : [])],
+	}));
+	if (framework === 'solid') {
+		const byName = new Map(frameworkApis.map((api) => [api.name, api]));
+		for (const api of extractSolidApi(name)) {
+			const existing = byName.get(api.name);
+			if (existing) {
+				const propNames = new Set(existing.props.map((prop) => prop.name));
+				existing.props.push(...api.props.filter((prop) => !propNames.has(prop.name)));
+			} else {
+				frameworkApis.push(api);
+				byName.set(api.name, api);
+			}
+		}
+		for (const [apiName, props] of Object.entries(solidNestedApiExtras[name] ?? {})) {
+			let api = byName.get(apiName);
+			if (!api) {
+				api = { name: apiName, props: [] };
+				frameworkApis.push(api);
+				byName.set(apiName, api);
+			}
+			const propNames = new Set(api.props.map((prop) => prop.name));
+			api.props.push(...props.filter((prop) => !propNames.has(prop.name)));
+		}
+		frameworkApis = frameworkApis.filter((api) => api.name !== `${pascalCase(name)}Base`);
+	}
 
 	const blocks = [
 		'---',
 		`title: ${title}`,
-		`description: ${meta.description}`,
+		`description: ${description}`,
 		'---',
 		'',
-		`> ${meta.intro}`,
-		...(isReact ? ['', `<ComponentDemo slug="${name}" />`] : []),
+		`> ${intro}`,
+		...(config.demo ? ['', `<ComponentDemo slug="${name}" />`] : []),
 		'',
 		'## Registry install',
 		'',
@@ -730,7 +1185,34 @@ function buildDoc({ name, meta, item, apis, framework }) {
 		'',
 		'## Highlights',
 		'',
-		...meta.highlights.map((h) => `- ${h}`),
+		...highlights.map((highlight) => `- ${highlight}`),
+		...(framework === 'solid' &&
+		[
+			'alert-dialog',
+			'combobox',
+			'command',
+			'context-menu',
+			'drawer',
+			'dropdown-menu',
+			'hover-card',
+			'menubar',
+			'navigation-menu',
+			'popover',
+			'select',
+			'sheet',
+			'tooltip',
+		].includes(name)
+			? [
+					'',
+					'## Foundation behavior',
+					'',
+					'This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.',
+					'',
+					'Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.',
+					'',
+					'Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.',
+				]
+			: []),
 		'',
 		'## Registry dependencies',
 		'',
@@ -738,49 +1220,67 @@ function buildDoc({ name, meta, item, apis, framework }) {
 		'',
 		'## API reference',
 		'',
-		renderApiSection(apis),
+		renderApiSection(frameworkApis),
+		'',
+		'## Related docs',
+		'',
+		relatedSection,
 	];
-
-	if (relatedLinks) {
-		blocks.push('', '## Related docs', '', relatedLinks);
-	}
 
 	return `${blocks.join('\n')}\n`;
 }
 
 function main() {
-	const items = loadRegistryItems();
-
-	const reactDir = path.join(root, 'apps/react/content/docs/components');
-	const vueDir = path.join(root, 'apps/vue/content/docs/components');
-
-	let written = 0;
-	for (const meta of META) {
-		const { name } = meta;
-		if (SKIP.has(name)) {
-			continue;
+	const frameworkFlag = process.argv.indexOf('--framework');
+	const requestedFramework = frameworkFlag === -1 ? null : process.argv[frameworkFlag + 1];
+	const frameworks = requestedFramework ? [requestedFramework] : ['react', 'vue'];
+	for (const framework of frameworks) {
+		if (!frameworkConfigs[framework]) {
+			throw new Error(`Unknown docs framework: ${framework}`);
 		}
-		const item = items.get(name);
-		const apis = extractApi(name);
-
-		const reactDoc = buildDoc({ name, meta, item, apis, framework: 'react' });
-		const vueDoc = buildDoc({ name, meta, item, apis, framework: 'vue' });
-
-		fs.writeFileSync(path.join(reactDir, `${name}.mdx`), reactDoc);
-		fs.writeFileSync(path.join(vueDir, `${name}.mdx`), vueDoc);
-		written += 2;
 	}
 
-	console.log(`Generated ${written} component docs (${META.length} components).`);
+	let written = 0;
+	const outputDirs = [];
+	for (const framework of frameworks) {
+		const items = loadRegistryItems(framework);
+		const outputDir = path.join(root, `apps/${framework}/content/docs/components`);
+		fs.mkdirSync(outputDir, { recursive: true });
+		outputDirs.push(outputDir);
+		const availableNames = new Set([...items.values()].filter((item) => item.type === 'registry:ui').map((item) => item.name));
+		if (framework === 'solid') {
+			for (const file of fs.readdirSync(outputDir)) {
+				const name = file.replace(/\.mdx$/, '');
+				if (file.endsWith('.mdx') && name !== 'index' && !availableNames.has(name)) {
+					fs.unlinkSync(path.join(outputDir, file));
+				}
+			}
+		}
+
+		for (const meta of META) {
+			const { name } = meta;
+			const item = items.get(name);
+			if (!item || (framework !== 'solid' && SKIP.has(name))) {
+				continue;
+			}
+			const apis = extractApi(name);
+			fs.writeFileSync(path.join(outputDir, `${name}.mdx`), buildDoc({ name, meta, item, apis, framework, availableNames }));
+			written += 1;
+		}
+	}
+
+	console.log(`Generated ${written} component docs for ${frameworks.join(', ')}.`);
 
 	// 生成的 MDX 与预览代码都通过 oxfmt 格式化，保证 fmt:check 通过。
 	const oxfmtBin = path.join(root, 'node_modules', '.bin', 'oxfmt');
 	if (fs.existsSync(oxfmtBin)) {
-		spawnSync(oxfmtBin, [reactDir, vueDir], { stdio: 'inherit' });
+		spawnSync(oxfmtBin, outputDirs, { stdio: 'inherit' });
 	}
 
 	// 同步重建 React 预览块可展开代码（预览代码同样派生自 META）。
-	spawnSync(process.execPath, ['apps/react/scripts/generate-preview-code.mjs'], { cwd: root, stdio: 'inherit' });
+	if (!requestedFramework || requestedFramework === 'react') {
+		spawnSync(process.execPath, ['apps/react/scripts/generate-preview-code.mjs'], { cwd: root, stdio: 'inherit' });
+	}
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

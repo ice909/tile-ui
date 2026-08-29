@@ -27,7 +27,8 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 
-const PUBLISHABLE = ['core', 'styles', 'react', 'vue'];
+// 顺序即发布顺序：core 必须先于各 adapter（adapter 的 prepack 依赖 core 构建产物）
+const PUBLISHABLE = ['core', 'styles', 'react', 'vue', 'solid'];
 const BUMP_DEFAULT = 'patch';
 
 function fail(message) {

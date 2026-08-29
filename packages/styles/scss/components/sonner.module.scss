@@ -123,7 +123,7 @@
 
 // 富色模式：按类型着色整条提示
 .root[data-rich-colors='true'] {
-	.toast {
+	.toast:not([data-rich-colors='false']) {
 		border-color: transparent;
 
 		&[data-type='success'] {
@@ -161,6 +161,55 @@
 				color: $destructive-foreground;
 			}
 		}
+	}
+}
+
+.toast[data-rich-colors='true'] {
+	border-color: transparent;
+
+	&[data-type='success'] {
+		background-color: $success;
+		color: $success-foreground;
+
+		.icon {
+			color: $success-foreground;
+		}
+	}
+
+	&[data-type='info'] {
+		background-color: $info;
+		color: $info-foreground;
+
+		.icon {
+			color: $info-foreground;
+		}
+	}
+
+	&[data-type='warning'] {
+		background-color: $warning;
+		color: $warning-foreground;
+
+		.icon {
+			color: $warning-foreground;
+		}
+	}
+
+	&[data-type='error'] {
+		background-color: $destructive;
+		color: $destructive-foreground;
+
+		.icon {
+			color: $destructive-foreground;
+		}
+	}
+}
+
+.root[data-rich-colors='true'] .toast:not([data-rich-colors='false']),
+.toast[data-rich-colors='true'] {
+	.description,
+	.close,
+	.close:hover {
+		color: inherit;
 	}
 }
 

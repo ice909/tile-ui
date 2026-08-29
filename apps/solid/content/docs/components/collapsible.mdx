@@ -1,0 +1,72 @@
+---
+title: Collapsible
+description: Accessible SolidJS collapsible trigger and region primitives.
+---
+
+> Use Collapsible for one disclosure trigger and its associated content region.
+
+<ComponentDemo slug="collapsible" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/collapsible
+```
+
+## Package usage
+
+```tsx
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@tile-ui/solid';
+
+<Collapsible>
+	<CollapsibleTrigger>Details</CollapsibleTrigger>
+	<CollapsibleContent>Extra content here.</CollapsibleContent>
+</Collapsible>
+```
+
+## Highlights
+
+- Controlled and uncontrolled state
+- Stable trigger and region IDs
+- Native hidden and disabled semantics
+
+## Registry dependencies
+
+| Item          | Purpose                            |
+| ------------- | ---------------------------------- |
+| `collapsible` | Component source and module styles |
+| `core`        | Framework-agnostic logic helpers   |
+| `utils`       | Shared utility helpers             |
+| `styles`      | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Collapsible
+
+| Prop           | Type                             | Default |
+| -------------- | -------------------------------- | ------- |
+| `open`         | `boolean`                        | —       |
+| `defaultOpen`  | `boolean`                        | —       |
+| `disabled`     | `boolean`                        | —       |
+| `onOpenChange` | `(open: boolean) => void`        | —       |
+| `triggerId`    | `string`                         | —       |
+| `contentId`    | `string`                         | —       |
+| `ref`          | `CollapsibleRef<HTMLDivElement>` | —       |
+
+### CollapsibleTrigger
+
+| Prop  | Type                                | Default |
+| ----- | ----------------------------------- | ------- |
+| `ref` | `CollapsibleRef<HTMLButtonElement>` | —       |
+
+### CollapsibleContent
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CollapsibleRef<HTMLDivElement>` | —       |
+
+## Related docs
+
+- [Accordion](/docs/components/accordion)
+- [Dialog](/docs/components/dialog)
+- [Sheet](/docs/components/sheet)

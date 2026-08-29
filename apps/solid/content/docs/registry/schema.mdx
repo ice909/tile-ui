@@ -1,0 +1,33 @@
+---
+title: Schema
+description: Review Solid registry item types, dependencies, transforms, and destination paths.
+---
+
+Tile UI Solid uses the shadcn registry schema with Solid-specific source transforms.
+
+## Item types
+
+- `registry:ui` for Solid component source.
+- `registry:lib` for shared runtime helpers.
+- `registry:style` and `registry:file` for theme and Sass files.
+
+## Dependencies
+
+`dependencies` contains npm runtime packages such as `solid-js`. `registryDependencies` references Tile items such as `@tile-ui/core`, `@tile-ui/utils`, and `@tile-ui/styles`.
+
+## Source transforms
+
+Solid component and barrel transforms rewrite package imports to consumer-owned relative paths. Generated component JSON must not retain `@tile-ui/core` or `@tile-ui/styles` imports.
+
+## Target paths
+
+```text
+components/ui/<name>/*
+components/ui/lib/*
+styles/*
+```
+
+## Related docs
+
+- [Getting started](/docs/registry/getting-started)
+- [Registry FAQ](/docs/registry/faq)

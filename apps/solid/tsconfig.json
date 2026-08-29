@@ -1,0 +1,11 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"target": "ES2022",
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+		"types": ["node", "vite/client", "@solidjs/start/env"],
+		"allowSyntheticDefaultImports": true
+	},
+	"include": ["src/**/*.ts", "src/**/*.tsx", "components/**/*.tsx", "vite.config.ts"]
+}

@@ -3,7 +3,7 @@ import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, Command
 export default function CommandDemo() {
 	return (
 		<Command>
-			<CommandInput placeholder="Type a command..." />
+			<CommandInput placeholder="Type a command..." aria-label="Search commands" />
 			<CommandList>
 				<CommandEmpty>No results found.</CommandEmpty>
 				<CommandGroup heading="Suggestions">

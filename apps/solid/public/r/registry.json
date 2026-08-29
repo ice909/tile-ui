@@ -1,0 +1,2207 @@
+{
+  "name": "tile-ui-solid",
+  "homepage": "https://github.com/zmide/tile-ui/tree/main/packages/solid",
+  "items": [
+    {
+      "name": "core",
+      "type": "registry:lib",
+      "title": "Core",
+      "description": "Registry runtime types and component logic for SolidJS Tile UI items.",
+      "registryDependencies": [
+        "@tile-ui/utils"
+      ],
+      "files": [
+        {
+          "path": "__virtual__/shared/core.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/core.ts"
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "Shared class, core, and SolidJS event utility helpers for Tile UI registries.",
+      "files": [
+        {
+          "path": "__virtual__/shared/utils.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/utils.ts"
+        }
+      ]
+    },
+    {
+      "name": "styles",
+      "type": "registry:style",
+      "title": "Styles",
+      "description": "Tile UI runtime extensions and shared Sass dependencies.",
+      "devDependencies": [
+        "sass"
+      ],
+      "cssVars": {
+        "light": {
+          "tile-success": "#22c55e",
+          "tile-success-foreground": "#fafafa",
+          "tile-warning": "#f59e0b",
+          "tile-warning-foreground": "#fafafa",
+          "tile-info": "#3b82f6",
+          "tile-info-foreground": "#fafafa",
+          "tile-overlay": "rgb(0 0 0 / 0.5)",
+          "tile-shadow-color": "0 0 0",
+          "tile-radius-full": "9999px",
+          "tile-text-xs": "0.75rem",
+          "tile-text-sm": "0.875rem",
+          "tile-text-base": "1rem",
+          "tile-text-lg": "1.125rem",
+          "tile-text-xl": "1.25rem",
+          "tile-text-2xl": "1.5rem",
+          "tile-text-3xl": "1.875rem",
+          "tile-font-light": "300",
+          "tile-font-normal": "400",
+          "tile-font-medium": "500",
+          "tile-font-semibold": "600",
+          "tile-font-bold": "700",
+          "tile-leading-none": "1",
+          "tile-leading-tight": "1.25",
+          "tile-leading-normal": "1.5",
+          "tile-leading-relaxed": "1.625"
+        }
+      },
+      "files": [
+        {
+          "path": "packages/styles/scss/tokens.scss",
+          "type": "registry:file",
+          "target": "styles/tokens.scss"
+        },
+        {
+          "path": "packages/styles/scss/globals.scss",
+          "type": "registry:file",
+          "target": "styles/globals.scss"
+        },
+        {
+          "path": "packages/styles/scss/theme.scss",
+          "type": "registry:file",
+          "target": "styles/theme.scss"
+        },
+        {
+          "path": "packages/styles/scss/reset.scss",
+          "type": "registry:file",
+          "target": "styles/reset.scss"
+        },
+        {
+          "path": "packages/styles/scss/variables/_colors.scss",
+          "type": "registry:file",
+          "target": "styles/variables/_colors.scss"
+        },
+        {
+          "path": "packages/styles/scss/mixins/_utils.scss",
+          "type": "registry:file",
+          "target": "styles/mixins/_utils.scss"
+        }
+      ]
+    },
+    {
+      "name": "theme-default",
+      "type": "registry:theme",
+      "title": "Default Theme",
+      "description": "Optional Tile UI default palette and runtime token theme.",
+      "registryDependencies": [
+        "@tile-ui/styles"
+      ],
+      "cssVars": {
+        "light": {
+          "background": "#ffffff",
+          "foreground": "#18181b",
+          "card": "#ffffff",
+          "card-foreground": "#18181b",
+          "popover": "#ffffff",
+          "popover-foreground": "#18181b",
+          "primary": "#18181b",
+          "primary-foreground": "#fafafa",
+          "secondary": "#f4f4f5",
+          "secondary-foreground": "#18181b",
+          "muted": "#f4f4f5",
+          "muted-foreground": "#71717a",
+          "accent": "#f4f4f5",
+          "accent-foreground": "#18181b",
+          "destructive": "#ef4444",
+          "destructive-foreground": "#fafafa",
+          "border": "#e4e4e7",
+          "input": "#e4e4e7",
+          "ring": "#18181b",
+          "chart-1": "#e76e50",
+          "chart-2": "#2a9d90",
+          "chart-3": "#274754",
+          "chart-4": "#e8c468",
+          "chart-5": "#f4a462",
+          "sidebar": "var(--card)",
+          "sidebar-foreground": "var(--card-foreground)",
+          "sidebar-primary": "var(--primary)",
+          "sidebar-primary-foreground": "var(--primary-foreground)",
+          "sidebar-accent": "var(--accent)",
+          "sidebar-accent-foreground": "var(--accent-foreground)",
+          "sidebar-border": "var(--border)",
+          "sidebar-ring": "var(--ring)",
+          "radius": "0.5rem",
+          "tile-success": "#22c55e",
+          "tile-success-foreground": "#fafafa",
+          "tile-warning": "#f59e0b",
+          "tile-warning-foreground": "#fafafa",
+          "tile-info": "#3b82f6",
+          "tile-info-foreground": "#fafafa",
+          "tile-overlay": "rgb(0 0 0 / 0.5)",
+          "tile-shadow-color": "0 0 0",
+          "tile-radius-full": "9999px",
+          "tile-text-xs": "0.75rem",
+          "tile-text-sm": "0.875rem",
+          "tile-text-base": "1rem",
+          "tile-text-lg": "1.125rem",
+          "tile-text-xl": "1.25rem",
+          "tile-text-2xl": "1.5rem",
+          "tile-text-3xl": "1.875rem",
+          "tile-font-light": "300",
+          "tile-font-normal": "400",
+          "tile-font-medium": "500",
+          "tile-font-semibold": "600",
+          "tile-font-bold": "700",
+          "tile-leading-none": "1",
+          "tile-leading-tight": "1.25",
+          "tile-leading-normal": "1.5",
+          "tile-leading-relaxed": "1.625"
+        },
+        "dark": {
+          "background": "#09090b",
+          "foreground": "#fafafa",
+          "card": "#09090b",
+          "card-foreground": "#fafafa",
+          "popover": "#09090b",
+          "popover-foreground": "#fafafa",
+          "primary": "#fafafa",
+          "primary-foreground": "#18181b",
+          "secondary": "#27272a",
+          "secondary-foreground": "#fafafa",
+          "muted": "#27272a",
+          "muted-foreground": "#a1a1aa",
+          "accent": "#27272a",
+          "accent-foreground": "#fafafa",
+          "destructive": "#7f1d1d",
+          "destructive-foreground": "#fafafa",
+          "border": "#27272a",
+          "input": "#27272a",
+          "ring": "#d4d4d8",
+          "chart-1": "#2662d9",
+          "chart-2": "#2eb88a",
+          "chart-3": "#e88c30",
+          "chart-4": "#af57db",
+          "chart-5": "#e23670"
+        }
+      },
+      "files": [
+        {
+          "path": "packages/styles/scss/theme.scss",
+          "type": "registry:file",
+          "target": "styles/theme.scss"
+        }
+      ]
+    },
+    {
+      "name": "create-local-storage",
+      "type": "registry:hook",
+      "title": "createLocalStorage",
+      "description": "Solid primitives for local and session storage signals.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/primitives/storage.ts",
+          "type": "registry:hook",
+          "target": "primitives/create-local-storage.ts"
+        }
+      ]
+    },
+    {
+      "name": "create-media-query",
+      "type": "registry:hook",
+      "title": "createMediaQuery",
+      "description": "Solid primitives for window, media, mobile, online, and scroll state.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/primitives/media.ts",
+          "type": "registry:hook",
+          "target": "primitives/create-media-query.ts"
+        }
+      ]
+    },
+    {
+      "name": "create-copy-to-clipboard",
+      "type": "registry:hook",
+      "title": "createCopyToClipboard",
+      "description": "Solid primitive for Clipboard API interactions and copy state.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/primitives/events.ts",
+          "type": "registry:hook",
+          "target": "primitives/create-copy-to-clipboard.ts"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Multi-variant SolidJS button component for Tile UI.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/button/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/button/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/button.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/button/button.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Accessible SolidJS input component for Tile UI.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/input/input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/input/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/input.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/input/input.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Multi-variant SolidJS badge component for Tile UI.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/badge/badge.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/badge/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/badge.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/badge/badge.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Horizontal or vertical SolidJS divider component for Tile UI.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/separator/separator.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/separator/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/separator.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/separator/separator.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Controlled or uncontrolled SolidJS toggle component for Tile UI.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/toggle/toggle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/toggle/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/toggle.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/toggle/toggle.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Composable SolidJS card primitives for Tile UI.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/card/card.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/card/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/card.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/card/card.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Accessible SolidJS dialog primitives with focus management for Tile UI.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/button",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/dialog/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/dialog/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/dialog.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/dialog/dialog.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Accessible SolidJS alert primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/alert/alert.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/alert/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/alert.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/alert/alert.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "SSR-safe SolidJS aspect-ratio container.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/aspect-ratio/aspect-ratio.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/aspect-ratio/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/aspect-ratio.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/aspect-ratio/aspect-ratio.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Composable SolidJS attachment primitives and file card.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/button",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/attachment/attachment.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/attachment/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/attachment.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/attachment/attachment.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "SolidJS avatar image, fallback, badge, and group primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/avatar/avatar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/avatar/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/avatar.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/avatar/avatar.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Accessible SolidJS breadcrumb navigation primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/breadcrumb/breadcrumb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/breadcrumb/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/breadcrumb.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/breadcrumb/breadcrumb.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "SolidJS chat bubble and reaction primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/bubble/bubble.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/bubble/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/bubble.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/bubble/bubble.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "SolidJS empty-state composition primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/empty/empty.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/empty/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/empty.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/empty/empty.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "SolidJS item layout primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/item/item.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/item/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/item.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/item/item.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "SolidJS keyboard shortcut primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/kbd/kbd.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/kbd/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/kbd.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/kbd/kbd.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Native accessible SolidJS label.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/label/label.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/label/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/label.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/label/label.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "SolidJS marker and divider primitive.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/marker/marker.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/marker/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/marker.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/marker/marker.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "SolidJS loading placeholder.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/skeleton/skeleton.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/skeleton/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/skeleton.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/skeleton/skeleton.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Accessible SolidJS loading spinner.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/spinner/spinner.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/spinner/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/spinner.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/spinner/spinner.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Composable SolidJS table primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/table/table.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/table/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/table.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/table/table.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Grouped SolidJS button controls and separators.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/button-group/button-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/button-group/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/button-group.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/button-group/button-group.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Accessible tri-state SolidJS checkbox with native form behavior.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/checkbox/checkbox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/checkbox/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/checkbox.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/checkbox/checkbox.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Accessible SolidJS field label, description, and message primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/field/field.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/field/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/field.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/field/field.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Reactive SolidJS form state and accessible field primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/label",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/form/form.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/form/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/form.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/form/form.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Composable SolidJS input addons, buttons, and controls.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/button",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/input-group/input-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/input-group/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/input-group.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/input-group/input-group.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "SolidJS one-time password slots with paste and form support.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/input-otp/input-otp.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/input-otp/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/input-otp.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/input-otp/input-otp.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "Styled native SolidJS select, option, and optgroup primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/native-select/native-select.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/native-select/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/native-select.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/native-select/native-select.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Accessible SolidJS determinate and indeterminate progress bar.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/progress/progress.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/progress/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/progress.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/progress/progress.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Accessible SolidJS radio group with native form and roving focus behavior.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/radio-group/radio-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/radio-group/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/radio-group.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/radio-group/radio-group.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "SolidJS slider primitives with pointer, keyboard, and native form behavior.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/slider/slider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/slider/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/slider.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/slider/slider.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Accessible SolidJS switch with controlled and native form behavior.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/switch/switch.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/switch/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/switch.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/switch/switch.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Accessible SolidJS textarea with helper and validation messaging.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/textarea/textarea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/textarea/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/textarea.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/textarea/textarea.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Single or multiple SolidJS toggle group with roving focus.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/toggle-group/toggle-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/toggle-group/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/toggle-group.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/toggle-group/toggle-group.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Keyboard-navigable SolidJS accordion primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/accordion/accordion.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/accordion/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/accordion.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/accordion/accordion.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Deterministic SolidJS date selection grid.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/calendar/calendar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/calendar/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/calendar.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/calendar/calendar.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Accessible SolidJS disclosure primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/collapsible/collapsible.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/collapsible/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/collapsible.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/collapsible/collapsible.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "Reactive SolidJS reading-direction provider.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/direction/direction.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/direction/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/direction.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/direction/direction.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Composable SolidJS message layout primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/message/message.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/message/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/message.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/message/message.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "Observed SolidJS message viewport with scroll controls.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/message-scroller/message-scroller.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/message-scroller/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/message-scroller.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/message-scroller/message-scroller.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Semantic SolidJS pagination link primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/pagination/pagination.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/pagination/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/pagination.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/pagination/pagination.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Native SolidJS scroll viewport with custom scrollbars.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/scroll-area/scroll-area.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/scroll-area/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/scroll-area.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/scroll-area/scroll-area.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Keyboard-navigable SolidJS tab primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/tabs/tabs.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/tabs/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/tabs.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/tabs/tabs.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Modal SolidJS confirmation primitives with focus containment.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/button",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/alert-dialog/alert-dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/alert-dialog/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/alert-dialog.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/alert-dialog/alert-dialog.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Searchable SolidJS single-select combobox with keyboard navigation.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/select",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/combobox/combobox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/combobox/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/combobox.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/combobox/combobox.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Composable SolidJS command palette with filtering and keyboard navigation.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/command/command.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/command/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/command.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/command/command.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Keyboard-ready SolidJS context menu with nested and selectable items.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/dropdown-menu",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/context-menu/context-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/context-menu/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/context-menu.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/context-menu/context-menu.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Directional SolidJS drawer with modal and non-modal behavior.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/drawer/drawer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/drawer/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/drawer.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/drawer/drawer.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "SolidJS dropdown menu with checkbox, radio, and nested items.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/dropdown-menu/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/dropdown-menu/menu-internals.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/dropdown-menu/menu-internals.tsx"
+        },
+        {
+          "path": "packages/solid/src/components/dropdown-menu/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/dropdown-menu.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/dropdown-menu/dropdown-menu.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "Pointer-intent SolidJS hover preview with crossing-safe delays.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/hover-card/hover-card.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/hover-card/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/hover-card.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/hover-card/hover-card.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "Desktop-style SolidJS menubar with keyboard menu switching.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/dropdown-menu",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/menubar/menubar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/menubar/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/menubar.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/menubar/menubar.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "SolidJS navigation menu with local and shared viewport modes.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/navigation-menu/navigation-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/navigation-menu/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/navigation-menu.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/navigation-menu/navigation-menu.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Anchored SolidJS popover with dismissable focus-aware content.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/popover/popover.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/popover/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/popover.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/popover/popover.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Accessible SolidJS custom select with logical Tab handling.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/select/select.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/select/logical-tab.ts",
+          "type": "registry:ui",
+          "target": "components/ui/select/logical-tab.ts"
+        },
+        {
+          "path": "packages/solid/src/components/select/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/select.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/select/select.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Edge-mounted SolidJS modal sheet with focus containment.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/sheet/sheet.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/sheet/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/sheet.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/sheet/sheet.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Delayed SolidJS tooltip for pointer and keyboard focus.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/tooltip/tooltip.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/tooltip/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/tooltip.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/tooltip/tooltip.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Measured horizontal or vertical SolidJS carousel.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/button",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/carousel/carousel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/carousel/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/carousel.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/carousel/carousel.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Responsive SVG SolidJS chart primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/chart/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/chart/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/chart.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/chart/chart.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Persistent pointer and keyboard resizable SolidJS panel groups.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/resizable/resizable.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/resizable/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/resizable.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/resizable/resizable.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Responsive SolidJS application sidebar primitives.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/button",
+        "@tile-ui/input",
+        "@tile-ui/separator",
+        "@tile-ui/sheet",
+        "@tile-ui/skeleton",
+        "@tile-ui/tooltip",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/sidebar/sidebar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/sidebar/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/sidebar.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/sidebar/sidebar.module.scss"
+        }
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "External-store backed SolidJS toast notifications.",
+      "dependencies": [
+        "solid-js"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/core",
+        "@tile-ui/utils",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/solid/src/components/sonner/sonner.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/solid/src/components/sonner/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/styles/scss/components/sonner.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/sonner/sonner.module.scss"
+        }
+      ]
+    }
+  ]
+}

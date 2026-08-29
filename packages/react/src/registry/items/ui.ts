@@ -1312,4 +1312,16 @@ const reactUiItemsBase: PackageRegistryItem[] = [
 export const reactUiItems = reactUiItemsBase.map((item) => ({
 	...item,
 	registryDependencies: [...new Set([...(item.registryDependencies ?? []), '@tile-ui/styles'])],
+	files: [
+		...item.files,
+		...(item.type === 'registry:ui'
+			? [
+					{
+						source: `packages/react/src/components/${item.name}/index.ts`,
+						type: 'registry:ui' as const,
+						transform: 'react-barrel' as const,
+					},
+				]
+			: []),
+	],
 }));

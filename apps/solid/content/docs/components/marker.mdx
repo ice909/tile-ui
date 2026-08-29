@@ -1,0 +1,61 @@
+---
+title: Marker
+description: SolidJS content marker primitives with divider variants.
+---
+
+> Use Marker to annotate or divide supporting content.
+
+<ComponentDemo slug="marker" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/marker
+```
+
+## Package usage
+
+```tsx
+import { Marker, MarkerIcon, MarkerContent } from '@tile-ui/solid';
+
+<Marker variant="separator">
+	<MarkerIcon />
+	<MarkerContent>Status</MarkerContent>
+</Marker>
+```
+
+## Highlights
+
+- Default, separator, and border variants
+- Native div root
+- Optional icon primitive
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `marker` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Marker
+
+| Prop      | Type                                   | Default |
+| --------- | -------------------------------------- | ------- |
+| `variant` | `'default' \| 'separator' \| 'border'` | —       |
+
+### MarkerIcon
+
+No custom props.
+
+### MarkerContent
+
+No custom props.
+
+## Related docs
+
+- [Badge](/docs/components/badge)
+- [Item](/docs/components/item)
+- [Empty](/docs/components/empty)

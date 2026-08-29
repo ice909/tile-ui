@@ -23,6 +23,9 @@ export interface SonnerToast {
 	dismissing?: boolean;
 }
 
+/** 提示条可更新字段；实例 ID 与消失状态由存储生命周期管理。 */
+export type SonnerToastUpdate = Partial<Omit<SonnerToast, 'id' | 'dismissing'>>;
+
 /**
  * 创建提示条的输入参数
  */

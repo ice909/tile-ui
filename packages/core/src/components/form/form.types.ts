@@ -29,7 +29,7 @@ export interface FormValidationRule<T = unknown> {
 }
 
 /**
- * 自定义校验函数 (返回 string 表示错误消息，boolean 表示通过；支持异步)
+ * 自定义校验函数 (返回 string 表示错误消息，false 表示失败，true 表示通过；支持异步)
  */
 export type FormValidateFunction = (value: unknown, values: FormValues) => string | boolean | Promise<string | boolean>;
 
@@ -68,6 +68,8 @@ export interface FormRegistration {
 	onBlur: () => void;
 	/** 字段名称 (框架可据此生成 DOM ref) */
 	ref: string;
+	/** 注销本次注册；同名字段并存时仅移除当前注册 */
+	unregister: () => void;
 }
 
 /**
@@ -155,7 +157,7 @@ export interface FormSubmitHandler {
 	/** 校验通过时的回调 */
 	onValid: (values: FormValues, event?: unknown) => void | Promise<void>;
 	/** 校验失败时的回调 */
-	onInvalid?: (errors: FormErrors, event?: unknown) => void;
+	onInvalid?: (errors: FormErrors, event?: unknown) => void | Promise<void>;
 }
 
 /**

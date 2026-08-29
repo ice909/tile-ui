@@ -1,0 +1,110 @@
+---
+title: NavigationMenu
+description: A SolidJS navigation menu with shared and local viewport modes.
+---
+
+> Use NavigationMenu for primary links with either a shared viewport or local content panels.
+
+<ComponentDemo slug="navigation-menu" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/navigation-menu
+```
+
+## Package usage
+
+```tsx
+import { NavigationMenu } from '@tile-ui/solid';
+
+<NavigationMenu viewport={false}>
+	<NavigationMenuList><NavigationMenuItem value="docs"><NavigationMenuTrigger>Docs</NavigationMenuTrigger><NavigationMenuContent><NavigationMenuLink href="/docs">Overview</NavigationMenuLink></NavigationMenuContent></NavigationMenuItem></NavigationMenuList>
+</NavigationMenu>
+```
+
+## Highlights
+
+- Shared viewport and `viewport={false}` local modes
+- Roving trigger tabstops and native links
+- Controlled `value` and `onValueChange` callbacks
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item              | Purpose                            |
+| ----------------- | ---------------------------------- |
+| `navigation-menu` | Component source and module styles |
+| `core`            | Framework-agnostic logic helpers   |
+| `utils`           | Shared utility helpers             |
+| `styles`          | Shared SCSS tokens and globals     |
+
+## API reference
+
+### NavigationMenu
+
+| Prop            | Type                                   | Default |
+| --------------- | -------------------------------------- | ------- |
+| `viewport`      | `boolean`                              | true    |
+| `value`         | `string`                               | —       |
+| `defaultValue`  | `string`                               | —       |
+| `onValueChange` | `(value: string \| undefined) => void` | —       |
+| `ref`           | `CallbackRef<HTMLElement>`             | —       |
+
+### NavigationMenuItem
+
+| Prop       | Type                         | Default |
+| ---------- | ---------------------------- | ------- |
+| `value`    | `string`                     | —       |
+| `disabled` | `boolean`                    | —       |
+| `ref`      | `CallbackRef<HTMLLIElement>` | —       |
+
+### NavigationMenuLink
+
+| Prop     | Type                             | Default |
+| -------- | -------------------------------- | ------- |
+| `active` | `boolean`                        | —       |
+| `ref`    | `CallbackRef<HTMLAnchorElement>` | —       |
+
+### NavigationMenuList
+
+| Prop  | Type                            | Default |
+| ----- | ------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLUListElement>` | —       |
+
+### NavigationMenuTrigger
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### NavigationMenuContent
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### NavigationMenuViewport
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### NavigationMenuIndicator
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+## Related docs
+
+- [Menubar](/docs/components/menubar)
+- [Breadcrumb](/docs/components/breadcrumb)
+- [Sidebar](/docs/components/sidebar)

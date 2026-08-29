@@ -1,0 +1,85 @@
+---
+title: Card
+description: Composable SolidJS card primitives for framed content.
+---
+
+> Use Card to compose SolidJS summaries, settings surfaces, and action rows.
+
+<ComponentDemo slug="card" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/card
+```
+
+## Package usage
+
+```tsx
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Button } from '@tile-ui/solid';
+
+<Card>
+	<CardHeader>
+		<CardTitle>SolidStart workspace</CardTitle>
+		<CardDescription>SSR-ready Tile UI components for SolidJS.</CardDescription>
+	</CardHeader>
+	<CardContent>
+		<p>The component source and styles remain shared across Tile UI.</p>
+	</CardContent>
+	<CardFooter>
+		<Button variant="outline">Preview</Button>
+		<Button>Install</Button>
+	</CardFooter>
+</Card>
+```
+
+## Highlights
+
+- Solid-native primitive composition
+- Header, content, and footer
+- Pairs with Button and Input
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `card`   | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Card
+
+| Prop | Type                              | Default |
+| ---- | --------------------------------- | ------- |
+| `as` | `'div' \| 'article' \| 'section'` | —       |
+
+### CardHeader
+
+No custom props.
+
+### CardTitle
+
+No custom props.
+
+### CardDescription
+
+No custom props.
+
+### CardAction
+
+No custom props.
+
+### CardContent
+
+No custom props.
+
+### CardFooter
+
+No custom props.
+
+## Related docs
+
+- [Button](/docs/components/button)
+- [Input](/docs/components/input)

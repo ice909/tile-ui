@@ -1,0 +1,101 @@
+---
+title: MessageScroller
+description: A provider-backed SolidJS message viewport with observed scroll controls.
+---
+
+> Use MessageScrollerProvider around the viewport, content, items, controls, and hooks that share scroll state.
+
+<ComponentDemo slug="message-scroller" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/message-scroller
+```
+
+## Package usage
+
+```tsx
+import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton } from '@tile-ui/solid';
+
+<MessageScrollerProvider>
+	<MessageScroller>
+		<MessageScrollerViewport>
+			<MessageScrollerContent>
+				<MessageScrollerItem scrollAnchor>Message one</MessageScrollerItem>
+			</MessageScrollerContent>
+		</MessageScrollerViewport>
+		<MessageScrollerButton />
+	</MessageScroller>
+</MessageScrollerProvider>
+```
+
+## Highlights
+
+- Provider-owned viewport observation
+- Start and end controls
+- Scrollable and visibility hooks
+
+## Registry dependencies
+
+| Item               | Purpose                            |
+| ------------------ | ---------------------------------- |
+| `message-scroller` | Component source and module styles |
+| `core`             | Framework-agnostic logic helpers   |
+| `utils`            | Shared utility helpers             |
+| `styles`           | Shared SCSS tokens and globals     |
+
+## API reference
+
+### MessageScrollerItem
+
+| Prop           | Type      | Default |
+| -------------- | --------- | ------- |
+| `scrollAnchor` | `boolean` | —       |
+
+### MessageScrollerButton
+
+| Prop        | Type               | Default |
+| ----------- | ------------------ | ------- |
+| `direction` | `'start' \| 'end'` | —       |
+
+### MessageScrollerProvider
+
+No custom props.
+
+### MessageScroller
+
+No custom props.
+
+### MessageScrollerViewport
+
+No custom props.
+
+### MessageScrollerContent
+
+No custom props.
+
+### useMessageScroller
+
+| Prop     | Type                          | Default |
+| -------- | ----------------------------- | ------- |
+| `return` | `MessageScrollerContextValue` | —       |
+
+### useMessageScrollerScrollable
+
+| Prop     | Type                                                                 | Default |
+| -------- | -------------------------------------------------------------------- | ------- |
+| `return` | `{ scrollable: Accessor<boolean>; isScrollable: Accessor<boolean> }` | —       |
+
+### useMessageScrollerVisibility
+
+| Prop        | Type                                 | Default |
+| ----------- | ------------------------------------ | ------- |
+| `direction` | `'start' \| 'end'`                   | —       |
+| `return`    | `MessageScrollerVisibilityAccessors` | —       |
+
+## Related docs
+
+- [Message](/docs/components/message)
+- [Bubble](/docs/components/bubble)
+- [ScrollArea](/docs/components/scroll-area)

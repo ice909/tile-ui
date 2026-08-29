@@ -1,10 +1,10 @@
 # Tile UI
 
-Tile UI is a cross-framework component library built around a shared SCSS design system, framework-specific React and Vue packages, and a shadcn-style registry distribution model.
+Tile UI is a cross-framework component library built around a shared SCSS design system, framework-specific React, Vue, and SolidJS packages, and a shadcn-style registry distribution model.
 
 ## Vision
 
-Tile UI aims to become a lightweight, practical UI toolkit with a shared design foundation and a consistent experience across React and Vue.
+Tile UI aims to become a lightweight, practical UI toolkit with a shared design foundation and a consistent experience across React, Vue, and SolidJS.
 
 The goal is not to build an oversized component library that tries to cover every possible case. The goal is to steadily build a solid base: a clear design language, stable shared styles, reusable core logic, and framework-specific packages that feel aligned rather than fragmented. A big part of that direction is offering a cleaner styling workflow than long, noisy utility class strings, while still keeping the registry-based distribution model flexible and practical.
 
@@ -21,15 +21,17 @@ Contributions are welcome in all forms, including:
 
 Whether you want to write code, improve docs, suggest an idea, report a problem, or help sharpen a rough edge, your contribution can move the project forward. For contribution guidelines and development workflow details, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-This repository exposes two framework-specific applications and two package-local registries.
+This repository exposes three framework-specific applications and three package-local registries.
 
 - `apps/react` for the React documentation site and React registry.
 - `apps/vue` for the Vue documentation site and Vue registry.
-- In the future, I hope that more contributors will participate and provide more framework adaptation.
+- `apps/solid` for the SolidJS documentation site and Solid registry.
+
+More framework adaptations remain welcome as contributors step in.
 
 Shared docs styles and layout primitives live in `apps/common`.
 
-The current docs implementation provides aligned page groups for both frameworks:
+The current docs implementation provides aligned page groups for all three frameworks:
 
 - installation
 - registry
@@ -39,13 +41,14 @@ The current docs implementation provides aligned page groups for both frameworks
 - registry/faq
 - components
 - component detail pages
-- hooks or composables
+- hooks, composables, or primitives
 - examples
 
 Docs architecture:
 
 - React: Next.js App Router + `fumadocs-mdx` + `content/docs/*.mdx`
 - Vue: Nuxt + `content/docs/*.mdx` + server-side content loader
+- Solid: SolidStart + Vite + `content/docs/*.mdx` + server-side content loader (`apps/solid/scripts/build-docs.mjs`)
 - Shared presentation layer: `apps/common/styles/*` and selected shared docs components
 
 Documentation pages now follow a richer structure with installation, usage, highlights, dependency notes, and API-style sections.
@@ -63,24 +66,27 @@ tile-ui/
 ├── apps/
 │   ├── common/                     # Shared docs styles and helpers
 │   ├── react/                      # React site + React registry output
-│   └── vue/                        # Vue site + Vue registry output
+│   ├── vue/                        # Vue site + Vue registry output
+│   └── solid/                      # SolidStart site + Solid registry output
 ├── packages/
 │   ├── core/                       # Shared framework-agnostic logic
 │   ├── styles/                     # Shared SCSS design system
 │   ├── buildx/                     # Shared registry build core and tests
 │   ├── react/                      # React package and registry source
-│   └── vue/                        # Vue package and registry source
+│   ├── vue/                        # Vue package and registry source
+│   └── solid/                      # Solid package and registry source
 ```
 
 ## Packages
 
-| Package           | Purpose                                  |
-| ----------------- | ---------------------------------------- |
-| `@tile-ui/core`   | Shared design logic and utility helpers  |
-| `@tile-ui/styles` | Global SCSS, variables, and mixins       |
-| `@tile-ui/buildx` | Shared registry build pipeline and tests |
-| `@tile-ui/react`  | React components and hooks               |
-| `@tile-ui/vue`    | Vue components and composables           |
+| Package           | Purpose                                    |
+| ----------------- | ------------------------------------------ |
+| `@tile-ui/core`   | Shared design logic and utility helpers    |
+| `@tile-ui/styles` | Global SCSS, variables, and mixins         |
+| `@tile-ui/buildx` | Shared registry build pipeline and tests   |
+| `@tile-ui/react`  | React components and hooks                 |
+| `@tile-ui/vue`    | Vue components and composables             |
+| `@tile-ui/solid`  | SolidJS components and SSR-safe primitives |
 
 ## Applications
 
@@ -99,6 +105,14 @@ tile-ui/
 - Docs site: <https://vue.tileui.zmorg.cn>
 - Registry output: `apps/vue/public/r/*`
 - Public registry URL shape: `https://vue.tileui.zmorg.cn/r/{name}.json`
+
+### Solid
+
+- App path: `apps/solid`
+- Local dev port: `3003`
+- Docs site: <https://solid.tileui.zmorg.cn>
+- Registry output: `apps/solid/public/r/*`
+- Public registry URL shape: `https://solid.tileui.zmorg.cn/r/{name}.json`
 
 ## Registries
 
@@ -144,6 +158,26 @@ Example items:
 - `use-media-query`
 - `use-local-storage`
 
+### Solid Registry
+
+- Source manifest: `packages/solid/src/registry/manifest.ts`
+- Source items: `packages/solid/src/registry/items/*`
+- Published output: `apps/solid/public/r/*`
+- Docs metadata source: `apps/solid/public/r/registry.json`
+
+Example items:
+
+- `core`
+- `styles`
+- `utils`
+- `theme-default`
+- `button`
+- `input`
+- `dialog`
+- `create-copy-to-clipboard`
+- `create-media-query`
+- `create-local-storage`
+
 ## Package install
 
 ### React package
@@ -170,6 +204,24 @@ In Nuxt, a common setup is:
 export default defineNuxtConfig({
 	css: ['@tile-ui/styles/scss/globals.scss'],
 });
+```
+
+### Solid package
+
+```bash
+pnpm add @tile-ui/solid @tile-ui/styles @tile-ui/core
+```
+
+In SolidStart, import the shared styles once near the application root (`src/app.tsx`) so server rendering and hydration receive the same styles:
+
+```tsx
+import '@tile-ui/styles/scss/globals.scss';
+```
+
+SSR-safe browser state helpers import from the canonical `@tile-ui/solid/primitives` subpath:
+
+```tsx
+import { createIsMobile, createLocalStorage } from '@tile-ui/solid/primitives';
 ```
 
 ## Registry install
@@ -206,6 +258,22 @@ First, register the Tile UI namespace in `components.json`:
 pnpm dlx shadcn@latest add @tile-ui/styles @tile-ui/button
 ```
 
+### Solid registry item
+
+First, register the Tile UI namespace in `components.json`:
+
+```json
+{
+	"registries": {
+		"@tile-ui": "https://solid.tileui.zmorg.cn/r/{name}.json"
+	}
+}
+```
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/styles @tile-ui/button
+```
+
 ## Release
 
 Package publishing is handled by GitHub Actions with npm Trusted Publishing and OIDC.
@@ -232,6 +300,7 @@ Supported package prefixes:
 - `styles`
 - `react`
 - `vue`
+- `solid`
 
 Before tagging a release:
 
@@ -253,25 +322,31 @@ Useful commands:
 ```bash
 corepack pnpm registry:build:react
 corepack pnpm registry:build:vue
+corepack pnpm registry:build:solid
 corepack pnpm registry:build
 corepack pnpm test:buildx
 corepack pnpm docs:check
+corepack pnpm parity:check
 corepack pnpm --filter @tile-ui/react build
 corepack pnpm --filter @tile-ui/vue build
+corepack pnpm --filter @tile-ui/solid build
 corepack pnpm --filter @tile-ui/react-docs build
 corepack pnpm --filter @tile-ui/vue-docs build
+corepack pnpm --filter @tile-ui/solid-docs build
 ```
 
-`docs:check` validates both expected docs entry routes and internal `/docs/...` links inside MDX content.
+`docs:check` validates expected docs entry routes, internal `/docs/...` links inside MDX content, and the exact component-doc/demo set for each framework. `parity:check` compares source manifests, public registry output, docs, and generated previews across React, Vue, and Solid.
 
 ## Current Scope
 
 The current implementation provides:
 
-- Separate React and Vue registries
-- Separate React and Vue applications for docs and previews
+- Separate React, Vue, and Solid registries
+- Separate React, Vue, and Solid applications for docs and previews
+- 61 shared components in each framework, plus Solid primitives (`@tile-ui/solid/primitives`)
+- SolidStart documentation with SSR rendering and hydration
 - Shared docs styling in `apps/common`
-- Unified homepage and component showcase patterns for both frameworks
+- Unified homepage and component showcase patterns across all three frameworks
 - Expanded page groups for registry guides, components, utilities, and examples
 
 The next iteration should continue the migration toward a more content-driven documentation system and richer live previews.

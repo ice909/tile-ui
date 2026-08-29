@@ -1,0 +1,84 @@
+---
+title: HoverCard
+description: A delayed SolidJS hover preview with crossing-safe pointer intent.
+---
+
+> Use HoverCard for delayed previews that remain open while the pointer crosses from trigger to content.
+
+<ComponentDemo slug="hover-card" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/hover-card
+```
+
+## Package usage
+
+```tsx
+import { HoverCard } from '@tile-ui/solid';
+
+<HoverCard openDelay={250} closeDelay={350}>
+	<HoverCardTrigger>@tile-ui/solid</HoverCardTrigger>
+	<HoverCardContent>Solid registry preview.</HoverCardContent>
+</HoverCard>
+```
+
+## Highlights
+
+- Open and close delays
+- Crossing-safe pointer intent between trigger and content
+- Controlled `open` and `onOpenChange` callbacks
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item         | Purpose                            |
+| ------------ | ---------------------------------- |
+| `hover-card` | Component source and module styles |
+| `core`       | Framework-agnostic logic helpers   |
+| `utils`      | Shared utility helpers             |
+| `styles`     | Shared SCSS tokens and globals     |
+
+## API reference
+
+### HoverCard
+
+| Prop           | Type                          | Default |
+| -------------- | ----------------------------- | ------- |
+| `open`         | `boolean`                     | —       |
+| `defaultOpen`  | `boolean`                     | —       |
+| `openDelay`    | `number`                      | —       |
+| `closeDelay`   | `number`                      | —       |
+| `onOpenChange` | `(open: boolean) => void`     | —       |
+| `contentId`    | `string`                      | —       |
+| `ref`          | `CallbackRef<HTMLDivElement>` | —       |
+
+### HoverCardTrigger
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### HoverCardContent
+
+| Prop         | Type                                     | Default |
+| ------------ | ---------------------------------------- | ------- |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | —       |
+| `align`      | `'start' \| 'center' \| 'end'`           | —       |
+| `sideOffset` | `number`                                 | —       |
+| `container`  | `Node`                                   | —       |
+| `ref`        | `CallbackRef<HTMLDivElement>`            | —       |
+
+## Related docs
+
+- [Popover](/docs/components/popover)
+- [Tooltip](/docs/components/tooltip)
+- [Avatar](/docs/components/avatar)

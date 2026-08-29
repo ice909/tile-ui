@@ -1,0 +1,57 @@
+---
+title: Checkbox
+description: An accessible tri-state SolidJS checkbox with controlled and native form state.
+---
+
+> Use Checkbox for tri-state choices that participate in native forms.
+
+<ComponentDemo slug="checkbox" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/checkbox
+```
+
+## Package usage
+
+```tsx
+import { Checkbox } from '@tile-ui/solid';
+
+<Checkbox />
+```
+
+## Highlights
+
+- Indeterminate state support
+- Accessible checkbox role
+- Pairs with Field and Form
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `checkbox` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `utils`    | Shared utility helpers             |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Checkbox
+
+| Prop              | Type                                      | Default |
+| ----------------- | ----------------------------------------- | ------- |
+| `checked`         | `CheckboxCheckedState`                    | —       |
+| `defaultChecked`  | `CheckboxCheckedState`                    | —       |
+| `onCheckedChange` | `(checked: CheckboxCheckedState) => void` | —       |
+| `name`            | `string`                                  | —       |
+| `value`           | `string`                                  | —       |
+| `form`            | `string`                                  | —       |
+| `required`        | `boolean`                                 | —       |
+
+## Related docs
+
+- [Switch](/docs/components/switch)
+- [RadioGroup](/docs/components/radio-group)
+- [Form](/docs/components/form)

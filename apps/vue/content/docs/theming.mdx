@@ -90,6 +90,21 @@ Tile consumes the current shadcn semantic color contract directly:
 
 Values are inserted into normal CSS properties rather than decomposed into channel tuples. You can therefore use any valid CSS color value, including OKLCH, `color()`, `color-mix()`, hex, RGB, HSL, and references to other custom properties.
 
+## Contrast and AA small-text
+
+Tile ships the canonical shadcn palette unchanged. A few native token combinations fall slightly below the WCAG AA small-text threshold (4.5:1) while remaining clearly legible in practice: `--destructive` text (`#ef4444`) on white or `#fafafa` surfaces (3.60–3.76:1), `--destructive-foreground` on `--destructive` (3.60:1), and `--muted-foreground` on `--muted` (4.39:1). These are upstream shadcn tradeoffs kept for palette parity; the docs site's `--docs-text-muted` on hover surfaces follows the same policy.
+
+The accessibility browser check treats exactly those verified `(app, route, pair)` combinations as acknowledged through an explicit allowlist — it never blanket-skips contrast, and any other failing pair is still reported as an error. If your product requires strict AA compliance, override the affected tokens in your theme:
+
+```css
+:root {
+	--destructive-foreground: oklch(0.985 0 0); /* keep the hue; swap only the label color */
+	--muted-foreground: oklch(0.5 0 0); /* raise muted text contrast on #f4f4f5 */
+}
+```
+
+For form error states, pair the semantic `--destructive` value with `--tile-destructive-muted-foreground` (derived via `color-mix`, adjustable through `--tile-*` overrides) instead of text in `--destructive` directly.
+
 ## Tile extension tokens
 
 `tokens.scss` defines Tile-specific defaults under the `--tile-*` namespace. These cover status colors, hover and active states, fields, overlays, shadows, typography, and derived radius steps. Examples include:

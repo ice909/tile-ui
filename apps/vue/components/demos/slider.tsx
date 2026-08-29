@@ -16,7 +16,7 @@ export default defineComponent({
 					step={1}>
 					<SliderTrack>
 						<SliderRange />
-						<SliderThumb />
+						<SliderThumb aria-label="Volume" />
 					</SliderTrack>
 				</Slider>
 				<p class="component-preview__text">

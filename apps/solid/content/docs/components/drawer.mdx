@@ -1,0 +1,122 @@
+---
+title: Drawer
+description: A directional SolidJS drawer with modal and non-modal behavior.
+---
+
+> Use Drawer for directional modal or non-modal panels while preserving native Solid state callbacks.
+
+<ComponentDemo slug="drawer" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/drawer
+```
+
+## Package usage
+
+```tsx
+import { Drawer } from '@tile-ui/solid';
+
+<Drawer direction="bottom" modal={false} onOpenChange={(open) => console.log(open)}>
+	<DrawerTrigger>Open</DrawerTrigger>
+	<DrawerContent><DrawerTitle>Activity</DrawerTitle><DrawerDescription>Recent builds.</DrawerDescription></DrawerContent>
+</Drawer>
+```
+
+## Highlights
+
+- Four directions with modal or non-modal policy
+- Focus containment and outside blocking in modal mode
+- `open` and `onOpenChange` support controlled state
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `drawer` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Drawer
+
+| Prop           | Type                                     | Default |
+| -------------- | ---------------------------------------- | ------- |
+| `direction`    | `'top' \| 'bottom' \| 'left' \| 'right'` | —       |
+| `modal`        | `boolean`                                | —       |
+| `open`         | `boolean`                                | —       |
+| `defaultOpen`  | `boolean`                                | —       |
+| `onOpenChange` | `(open: boolean) => void`                | —       |
+| `children`     | `JSX.Element`                            | —       |
+
+### DrawerTrigger
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### DrawerClose
+
+| Prop  | Type                             | Default |
+| ----- | -------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLButtonElement>` | —       |
+
+### DrawerOverlay
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### DrawerContent
+
+| Prop                   | Type                                                                   | Default |
+| ---------------------- | ---------------------------------------------------------------------- | ------- |
+| `ref`                  | `CallbackRef<HTMLDivElement>`                                          | —       |
+| `showCloseButton`      | `boolean`                                                              | —       |
+| `container`            | `Node`                                                                 | —       |
+| `overlayClass`         | `string`                                                               | —       |
+| `onEscapeKeyDown`      | `(event: DismissableLayerEvent<KeyboardEvent>) => void`                | —       |
+| `onPointerDownOutside` | `(event: DismissableLayerEvent<PointerEvent>) => void`                 | —       |
+| `onFocusOutside`       | `(event: DismissableLayerEvent<FocusEvent>) => void`                   | —       |
+| `onInteractOutside`    | `(event: DismissableLayerEvent<DismissableLayerOutsideEvent>) => void` | —       |
+
+### DrawerHeader
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### DrawerFooter
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### DrawerTitle
+
+| Prop  | Type                              | Default |
+| ----- | --------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLHeadingElement>` | —       |
+
+### DrawerDescription
+
+| Prop  | Type                                | Default |
+| ----- | ----------------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLParagraphElement>` | —       |
+
+## Related docs
+
+- [Sheet](/docs/components/sheet)
+- [Dialog](/docs/components/dialog)
+- [Sidebar](/docs/components/sidebar)

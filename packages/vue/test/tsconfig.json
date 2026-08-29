@@ -1,0 +1,21 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"rootDir": "../.."
+	},
+	"include": [
+		"../src/components/sonner/**/*.ts",
+		"../src/components/sonner/**/*.tsx",
+		"../src/components/calendar/**/*.tsx",
+		"../src/components/context-menu/**/*.tsx",
+		"../src/components/message-scroller/**/*.tsx",
+		"../src/components/portal/**/*.tsx",
+		"../src/components/scroll-area/**/*.tsx",
+		"../src/components/switch/**/*.tsx",
+		"../src/scss.d.ts",
+		"./a11y.test.ts",
+		"./chart-consumer.tsx",
+		"./sonner.test.ts",
+		"./sonner-ssr.test.ts"
+	]
+}

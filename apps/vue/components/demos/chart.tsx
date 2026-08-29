@@ -3,6 +3,8 @@ import { ChartContainer } from '@tile-ui/vue';
 export default function ChartDemo() {
 	return (
 		<ChartContainer
+			title="Monthly device traffic"
+			aria-label="Monthly desktop and mobile traffic chart"
 			config={{ desktop: { label: 'Desktop', color: '#3b82f6' }, mobile: { label: 'Mobile', color: '#22c55e' } }}
 			data={[
 				{ x: 'Jan', desktop: 100, mobile: 80 },
@@ -13,6 +15,7 @@ export default function ChartDemo() {
 			xKey="x"
 			type="line"
 			showLegend
+			tabIndex={0}
 		/>
 	);
 }

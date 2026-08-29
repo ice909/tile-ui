@@ -1,0 +1,66 @@
+---
+title: ToggleGroup
+description: A controlled or uncontrolled SolidJS single or multiple toggle group.
+---
+
+> Use ToggleGroup for single or multiple toolbar choices with roving focus.
+
+<ComponentDemo slug="toggle-group" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/toggle-group
+```
+
+## Package usage
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from '@tile-ui/solid';
+
+<ToggleGroup type="single" defaultValue="a">
+	<ToggleGroupItem value="a">A</ToggleGroupItem>
+	<ToggleGroupItem value="b">B</ToggleGroupItem>
+</ToggleGroup>
+```
+
+## Highlights
+
+- Single and multiple modes
+- Item variants and sizes
+
+## Registry dependencies
+
+| Item           | Purpose                            |
+| -------------- | ---------------------------------- |
+| `toggle-group` | Component source and module styles |
+| `core`         | Framework-agnostic logic helpers   |
+| `utils`        | Shared utility helpers             |
+| `styles`       | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ToggleGroup
+
+| Prop            | Type                                | Default |
+| --------------- | ----------------------------------- | ------- |
+| `type`          | `'single' \| 'multiple'`            | —       |
+| `value`         | `ToggleGroupValue`                  | —       |
+| `defaultValue`  | `ToggleGroupValue`                  | —       |
+| `onValueChange` | `(value: ToggleGroupValue) => void` | —       |
+| `disabled`      | `boolean`                           | —       |
+| `orientation`   | `RadioGroupOrientation`             | —       |
+
+### ToggleGroupItem
+
+| Prop      | Type            | Default |
+| --------- | --------------- | ------- |
+| `value`   | `string`        | —       |
+| `variant` | `ToggleVariant` | —       |
+| `size`    | `ToggleSize`    | —       |
+
+## Related docs
+
+- [Toggle](/docs/components/toggle)
+- [ButtonGroup](/docs/components/button-group)
+- [Tabs](/docs/components/tabs)

@@ -118,24 +118,51 @@ export function getMonthGrid(month: Date, showOutsideDays: boolean = true): Arra
 	);
 }
 
-let weekdayFormatter: Intl.DateTimeFormat | null = null;
+function toCalendarFormatDate(date: Date): Date {
+	return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+}
+
+const calendarFormatterCache = new Map<string, Intl.DateTimeFormat>();
+
+function getCalendarFormatter(locale: string | undefined, options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+	const resolvedOptions = { ...options, timeZone: 'UTC' };
+	const optionsKey = Object.entries(resolvedOptions)
+		.sort(([left], [right]) => left.localeCompare(right))
+		.map(([key, value]) => `${key}:${String(value)}`)
+		.join(',');
+	const cacheKey = `${locale ?? ''}|${optionsKey}`;
+	let formatter = calendarFormatterCache.get(cacheKey);
+	if (!formatter) {
+		formatter = new Intl.DateTimeFormat(locale, resolvedOptions);
+		calendarFormatterCache.set(cacheKey, formatter);
+	}
+	return formatter;
+}
+
+function formatCalendarDate(date: Date, locale: string | undefined, options: Intl.DateTimeFormatOptions): string {
+	return getCalendarFormatter(locale, options).format(toCalendarFormatDate(date));
+}
 
 /**
  * 生成星期表头标签（从周日开始，如 ['Sun', 'Mon', ...]）
  */
 export function getWeekdayLabels(locale?: string): string[] {
-	if (!weekdayFormatter) {
-		weekdayFormatter = new Intl.DateTimeFormat(locale ?? 'default', { weekday: 'short' });
-	}
 	const sunday = new Date(2024, 0, 7);
-	return Array.from({ length: 7 }, (_, i) => weekdayFormatter!.format(addDays(sunday, i)));
+	return Array.from({ length: 7 }, (_, i) => formatCalendarDate(addDays(sunday, i), locale, { weekday: 'short' }));
 }
 
 /**
  * 生成月份标题（如 "August 2026"）
  */
 export function getMonthCaption(month: Date, locale?: string): string {
-	return new Intl.DateTimeFormat(locale ?? 'default', { month: 'long', year: 'numeric' }).format(month);
+	return formatCalendarDate(month, locale, { month: 'long', year: 'numeric' });
+}
+
+/**
+ * 生成日期的完整可访问名称（如 "Thursday, February 29, 2024"）
+ */
+export function getCalendarDayLabel(date: Date, locale?: string): string {
+	return formatCalendarDate(date, locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 }
 
 /**
@@ -163,6 +190,7 @@ export function getCalendarDayModifiers(
 	selection: CalendarSelection,
 	showOutsideDays: boolean = true,
 	disabled?: CalendarDisabledMatcher,
+	today: Date = new Date(),
 ): CalendarDayModifiers {
 	const outside = !isSameMonth(day, month);
 	let selected = false;
@@ -192,7 +220,7 @@ export function getCalendarDayModifiers(
 		rangeMiddle,
 		outside,
 		disabled: disabled ? disabled(day) : false,
-		today: isToday(day),
+		today: isSameDay(day, today),
 	};
 }
 

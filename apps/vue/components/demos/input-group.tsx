@@ -4,7 +4,7 @@ export default function InputGroupDemo() {
 	return (
 		<InputGroup>
 			<InputGroupAddon>https://</InputGroupAddon>
-			<InputGroupInput placeholder="example.com" />
+			<InputGroupInput placeholder="example.com" aria-label="Website address" />
 		</InputGroup>
 	);
 }

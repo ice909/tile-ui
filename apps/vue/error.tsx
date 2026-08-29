@@ -44,6 +44,9 @@ export default defineComponent({
 
 		useHead({
 			title: title,
+			htmlAttrs: {
+				lang: 'en',
+			},
 			meta: [
 				{ name: 'description', content: description },
 				{ name: 'robots', content: 'noindex, nofollow' },
@@ -66,7 +69,7 @@ export default defineComponent({
 								<NuxtLink to="/docs/examples">Examples</NuxtLink>
 							</nav>
 							<div class="docs-app-header__divider" aria-hidden="true" />
-							<a href="https://github.com/ice909/tile-ui" target="_blank" rel="noreferrer" class="docs-app-github" aria-label="Tile UI GitHub repository">
+							<a href="https://github.com/ice909/tile-ui" target="_blank" rel="noreferrer" class="docs-app-github">
 								<GitHubIcon />
 								<span>Source code</span>
 							</a>

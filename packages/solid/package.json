@@ -1,0 +1,82 @@
+{
+	"name": "@tile-ui/solid",
+	"version": "1.1.1",
+	"private": false,
+	"description": "SolidJS components for the Tile UI design system",
+	"keywords": [
+		"components",
+		"solid",
+		"solidjs",
+		"ui"
+	],
+	"homepage": "https://github.com/zmide/tile-ui/tree/main/packages/solid",
+	"bugs": {
+		"url": "https://github.com/zmide/tile-ui/issues"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/zmide/tile-ui.git",
+		"directory": "packages/solid"
+	},
+	"files": [
+		"README.md",
+		"dist"
+	],
+	"type": "module",
+	"sideEffects": [
+		"*.scss"
+	],
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"browser": "./dist/browser.js",
+			"node": "./dist/server.js",
+			"import": "./dist/browser.js"
+		},
+		"./primitives": {
+			"types": "./dist/primitives/index.d.ts",
+			"browser": "./dist/primitives/browser.js",
+			"node": "./dist/primitives/server.js",
+			"import": "./dist/primitives/browser.js"
+		}
+	},
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"scripts": {
+		"build": "tsup",
+		"dev": "tsup --watch",
+		"lint": "oxlint -c .oxlintrc.json .",
+		"prepack": "pnpm --dir ../.. --filter @tile-ui/core build && pnpm run build",
+		"type:check": "tsc --noEmit",
+		"test": "vitest run && pnpm run build && node test/artifacts.mjs",
+		"test:watch": "vitest",
+		"clean": "rm -rf dist",
+		"release": "release-it"
+	},
+	"dependencies": {
+		"@tile-ui/core": "workspace:*"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.26.0",
+		"@babel/preset-typescript": "^7.26.0",
+		"@tile-ui/buildx": "workspace:*",
+		"babel-preset-solid": "^1.9.15",
+		"jsdom": "^30.0.1",
+		"oxlint": "^1.18.0",
+		"sass": "^1.86.3",
+		"solid-js": "^1.9.15",
+		"tsup": "^8.4.0",
+		"typescript": "npm:@typescript/typescript6@^6.0.2",
+		"vite": "^6.1.0",
+		"vite-plugin-solid": "^2.11.0",
+		"vitest": "^3.2.4"
+	},
+	"peerDependencies": {
+		"@tile-ui/styles": "workspace:*",
+		"solid-js": ">=1.8.0"
+	}
+}

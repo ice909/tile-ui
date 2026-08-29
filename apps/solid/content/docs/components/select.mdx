@@ -1,0 +1,129 @@
+---
+title: Select
+description: An accessible SolidJS custom select with grouped options and logical Tab behavior.
+---
+
+> Use Select for a styled single-value picker with escaped labels, grouped items, typeahead, and logical Tab exit.
+
+<ComponentDemo slug="select" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/select
+```
+
+## Package usage
+
+```tsx
+import { Select } from '@tile-ui/solid';
+
+<Select defaultValue="solid" selectedText="Solid <SSR>">
+	<SelectTrigger><SelectValue placeholder="Choose" /></SelectTrigger>
+	<SelectContent><SelectItem value="solid">Solid &lt;SSR&gt;</SelectItem></SelectContent>
+</Select>
+```
+
+## Highlights
+
+- Grouped options and escaped selected labels
+- Arrow navigation, typeahead, selection, and logical Tab exit
+- Controlled `value` and `onValueChange` callbacks
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `select` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Select
+
+| Prop            | Type                          | Default |
+| --------------- | ----------------------------- | ------- |
+| `open`          | `boolean`                     | —       |
+| `defaultOpen`   | `boolean`                     | —       |
+| `onOpenChange`  | `(open: boolean) => void`     | —       |
+| `value`         | `string`                      | —       |
+| `defaultValue`  | `string`                      | —       |
+| `onValueChange` | `(value: string) => void`     | —       |
+| `triggerId`     | `string`                      | —       |
+| `contentId`     | `string`                      | —       |
+| `selectedText`  | `string`                      | —       |
+| `ref`           | `CallbackRef<HTMLDivElement>` | —       |
+
+### SelectTrigger
+
+| Prop   | Type                             | Default |
+| ------ | -------------------------------- | ------- |
+| `size` | `'sm' \| 'default'`              | —       |
+| `ref`  | `CallbackRef<HTMLButtonElement>` | —       |
+
+### SelectContent
+
+| Prop         | Type                           | Default |
+| ------------ | ------------------------------ | ------- |
+| `position`   | `'item-aligned' \| 'popper'`   | —       |
+| `align`      | `'start' \| 'center' \| 'end'` | —       |
+| `sideOffset` | `number`                       | —       |
+| `container`  | `Node`                         | —       |
+| `ref`        | `CallbackRef<HTMLDivElement>`  | —       |
+
+### SelectItem
+
+| Prop        | Type                          | Default |
+| ----------- | ----------------------------- | ------- |
+| `value`     | `string`                      | —       |
+| `disabled`  | `boolean`                     | —       |
+| `textValue` | `string`                      | —       |
+| `ref`       | `CallbackRef<HTMLDivElement>` | —       |
+
+### SelectValue
+
+| Prop          | Type                           | Default |
+| ------------- | ------------------------------ | ------- |
+| `placeholder` | `string`                       | —       |
+| `ref`         | `CallbackRef<HTMLSpanElement>` | —       |
+
+### SelectGroup
+
+| Prop      | Type                          | Default |
+| --------- | ----------------------------- | ------- |
+| `labelId` | `string`                      | —       |
+| `ref`     | `CallbackRef<HTMLDivElement>` | —       |
+
+### SelectLabel
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### SelectSeparator
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+### SelectScrollButton
+
+| Prop  | Type                          | Default |
+| ----- | ----------------------------- | ------- |
+| `ref` | `CallbackRef<HTMLDivElement>` | —       |
+
+## Related docs
+
+- [Combobox](/docs/components/combobox)
+- [NativeSelect](/docs/components/native-select)
+- [DropdownMenu](/docs/components/dropdown-menu)

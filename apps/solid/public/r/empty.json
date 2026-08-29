@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty",
+  "type": "registry:ui",
+  "title": "Empty",
+  "description": "SolidJS empty-state composition primitives.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/empty/empty.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/empty/empty.tsx",
+      "content": "import { splitProps, type JSX, type ParentProps } from 'solid-js';\nimport { emptyStyleKeys, getEmptyMediaVariantKey } from '../lib/core';\nimport type { EmptyMediaBaseProps } from '../lib/core';\nimport styles from './empty.module.scss';\n\nfunction primitive(key: keyof typeof emptyStyleKeys, slot: string) {\n\treturn (props: ParentProps<JSX.HTMLAttributes<HTMLDivElement>>) => {\n\t\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\t\treturn (\n\t\t\t<div {...rest} data-slot={slot} class={`${styles[emptyStyleKeys[key]]} ${local.class ?? ''}`}>\n\t\t\t\t{local.children}\n\t\t\t</div>\n\t\t);\n\t};\n}\nexport interface EmptyProps extends JSX.HTMLAttributes<HTMLDivElement> {}\nexport const Empty = primitive('root', 'empty');\nexport interface EmptyHeaderProps extends JSX.HTMLAttributes<HTMLDivElement> {}\nexport const EmptyHeader = primitive('header', 'empty-header');\nexport interface EmptyTitleProps extends JSX.HTMLAttributes<HTMLDivElement> {}\nexport const EmptyTitle = primitive('title', 'empty-title');\nexport interface EmptyDescriptionProps extends JSX.HTMLAttributes<HTMLDivElement> {}\nexport const EmptyDescription = primitive('description', 'empty-description');\nexport interface EmptyContentProps extends JSX.HTMLAttributes<HTMLDivElement> {}\nexport const EmptyContent = primitive('content', 'empty-content');\nexport interface EmptyMediaProps extends JSX.HTMLAttributes<HTMLDivElement>, EmptyMediaBaseProps {}\nexport function EmptyMedia(props: ParentProps<EmptyMediaProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'variant']);\n\tconst variant = () => local.variant ?? 'default';\n\treturn (\n\t\t<div {...rest} data-slot=\"empty-icon\" data-variant={variant()} class={`${styles[emptyStyleKeys.media]} ${styles[getEmptyMediaVariantKey(variant())]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\nexport default Empty;\n"
+    },
+    {
+      "path": "packages/solid/src/components/empty/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/empty/index.ts",
+      "content": "export {\n\tEmpty,\n\tEmptyContent,\n\tEmptyDescription,\n\tEmptyHeader,\n\tEmptyMedia,\n\tEmptyTitle,\n\ttype EmptyContentProps,\n\ttype EmptyDescriptionProps,\n\ttype EmptyHeaderProps,\n\ttype EmptyMediaProps,\n\ttype EmptyProps,\n\ttype EmptyTitleProps,\n} from './empty';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/empty.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/empty/empty.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n// Empty 根容器\n.root {\n\tdisplay: flex;\n\tmin-width: 0;\n\tflex: 1;\n\tflex-direction: column;\n\talign-items: center;\n\tjustify-content: center;\n\tgap: $spacing-6;\n\tborder-radius: $radius;\n\tborder: 1px dashed $border;\n\tpadding: $spacing-6;\n\ttext-align: center;\n\ttext-wrap: balance;\n\n\t// 大屏加深内边距\n\t@media (min-width: 768px) {\n\t\tpadding: $spacing-12;\n\t}\n}\n\n// 头部：媒体 + 标题 + 描述\n.header {\n\tdisplay: flex;\n\tmax-width: 24rem;\n\tflex-direction: column;\n\talign-items: center;\n\tgap: $spacing-2;\n\ttext-align: center;\n}\n\n// 媒体区（图标容器）\n.media {\n\tdisplay: flex;\n\tflex-shrink: 0;\n\talign-items: center;\n\tjustify-content: center;\n\tmargin-bottom: $spacing-2;\n\n\tsvg {\n\t\tpointer-events: none;\n\t\tflex-shrink: 0;\n\t}\n\n\t// 变体\n\t&.variantDefault {\n\t\tbackground-color: transparent;\n\t}\n\n\t&.variantIcon {\n\t\twidth: $spacing-10;\n\t\theight: $spacing-10;\n\t\tborder-radius: $radius;\n\t\tbackground-color: $muted;\n\t\tcolor: $foreground;\n\n\t\tsvg {\n\t\t\twidth: $spacing-6;\n\t\t\theight: $spacing-6;\n\t\t}\n\t}\n}\n\n// 标题\n.title {\n\tfont-size: $text-lg;\n\tfont-weight: $font-medium;\n\tletter-spacing: -0.01em;\n}\n\n// 描述\n.description {\n\tfont-size: $text-sm;\n\tline-height: $leading-relaxed;\n\tcolor: $muted-foreground;\n\n\ta {\n\t\ttext-decoration: underline;\n\t\ttext-underline-offset: 4px;\n\t}\n\n\ta:hover {\n\t\tcolor: $primary;\n\t}\n}\n\n// 内容区（操作按钮等）\n.content {\n\tdisplay: flex;\n\twidth: 100%;\n\tmax-width: 24rem;\n\tmin-width: 0;\n\tflex-direction: column;\n\talign-items: center;\n\tgap: $spacing-4;\n\tfont-size: $text-sm;\n\ttext-wrap: balance;\n}\n"
+    }
+  ]
+}

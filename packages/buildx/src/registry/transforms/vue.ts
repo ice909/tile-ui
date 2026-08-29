@@ -23,6 +23,13 @@ export async function transformVueFile(input: TransformFileInput): Promise<Trans
 		};
 	}
 
+	if (input.file.transform === 'vue-barrel') {
+		return {
+			content: input.content.replace(/from\s+(['"])@tile-ui\/core(?:\/[^'"]*)?\1/g, "from '../lib/core'"),
+			target: input.file.target ?? `components/ui/${input.item.name}/index.ts`,
+		};
+	}
+
 	if (input.file.transform === 'style') {
 		const target = input.file.target ?? `components/ui/${input.item.name}/${input.item.name}.module.scss`;
 

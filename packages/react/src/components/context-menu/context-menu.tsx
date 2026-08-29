@@ -179,48 +179,64 @@ const ContextMenuPortal = ({ container, children }: ContextMenuPortalProps) => {
 };
 ContextMenuPortal.displayName = 'ContextMenuPortal';
 
-export interface ContextMenuTriggerProps extends React.HTMLAttributes<HTMLElement>, ContextMenuTriggerBaseProps {}
+export interface ContextMenuTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, ContextMenuTriggerBaseProps {}
 
-const ContextMenuTrigger = React.forwardRef<HTMLElement, ContextMenuTriggerProps>(({ className = '', asChild = false, children, onContextMenu, ...props }, ref) => {
-	const context = useContextMenuContext();
+const ContextMenuTrigger = React.forwardRef<HTMLButtonElement, ContextMenuTriggerProps>(
+	({ className = '', asChild = false, children, onContextMenu, onKeyDown, ...props }, ref) => {
+		const context = useContextMenuContext();
 
-	function setRef(element: HTMLElement | null) {
-		context.triggerRef.current = element;
-		if (typeof ref === 'function') {
-			ref(element);
-		} else if (ref) {
-			ref.current = element;
+		function setRef(element: HTMLElement | null) {
+			context.triggerRef.current = element;
+			if (typeof ref === 'function') {
+				ref(element as HTMLButtonElement | null);
+			} else if (ref) {
+				ref.current = element as HTMLButtonElement | null;
+			}
 		}
-	}
 
-	function handleContextMenu(event: React.MouseEvent<HTMLElement>) {
-		onContextMenu?.(event);
-		if (event.defaultPrevented) {
-			return;
+		function handleContextMenu(event: React.MouseEvent<HTMLButtonElement>) {
+			onContextMenu?.(event);
+			if (event.defaultPrevented) {
+				return;
+			}
+			event.preventDefault();
+			context.setPosition({ top: event.clientY, left: event.clientX });
+			context.setOpen(true);
 		}
-		event.preventDefault();
-		context.setPosition({ top: event.clientY, left: event.clientX });
-		context.setOpen(true);
-	}
 
-	const Comp = asChild ? Slot : 'div';
-	const state = getContextMenuState(context.open);
+		function handleKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
+			onKeyDown?.(event);
+			if (event.defaultPrevented) {
+				return;
+			}
+			if (event.key === 'ContextMenu' || (event.key === 'F10' && event.shiftKey)) {
+				event.preventDefault();
+				const rect = event.currentTarget.getBoundingClientRect();
+				context.setPosition({ top: rect.bottom, left: rect.left });
+				context.setOpen(true);
+			}
+		}
 
-	return (
-		<Comp
-			ref={setRef}
-			data-state={state}
-			tabIndex={-1}
-			aria-haspopup="menu"
-			aria-expanded={context.open}
-			aria-controls={context.contentId}
-			className={asChild ? undefined : `${styles[contextMenuStyleKeys.trigger]} ${className}`}
-			onContextMenu={handleContextMenu}
-			{...props}>
-			{children}
-		</Comp>
-	);
-});
+		const Comp = asChild ? Slot : 'button';
+		const state = getContextMenuState(context.open);
+
+		return (
+			<Comp
+				ref={setRef}
+				type={asChild ? undefined : 'button'}
+				data-state={state}
+				aria-haspopup="menu"
+				aria-expanded={context.open}
+				aria-controls={context.contentId}
+				className={asChild ? undefined : `${styles[contextMenuStyleKeys.trigger]} ${className}`}
+				onContextMenu={handleContextMenu}
+				onKeyDown={handleKeyDown}
+				{...props}>
+				{children}
+			</Comp>
+		);
+	},
+);
 ContextMenuTrigger.displayName = 'ContextMenuTrigger';
 
 export interface ContextMenuContentProps extends React.HTMLAttributes<HTMLDivElement> {

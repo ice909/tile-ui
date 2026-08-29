@@ -1,0 +1,39 @@
+---
+title: Getting Started
+description: Configure the Tile UI Solid registry namespace and install the current component slice.
+---
+
+The Solid registry is assembled from `packages/solid/src/registry` and published under `apps/solid/public/r`.
+
+## Consumer setup
+
+```json
+{
+	"registries": {
+		"@tile-ui": "https://solid.tileui.zmorg.cn/r/{name}.json"
+	}
+}
+```
+
+## Install an item
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/button
+```
+
+Registry dependencies bring in shared core logic, styles, and Solid event helpers automatically.
+
+## Build flow
+
+```bash
+corepack pnpm registry:build:solid
+```
+
+## Current scope
+
+The registry contains 68 items: 61 UI components spanning actions, forms, data display, feedback, navigation, overlays, layout, and internationalization; 3 primitive hooks; and 4 shared items. The [component index](/docs/components) remains component-focused and is validated against the 61 UI items in the source manifest.
+
+## Related docs
+
+- [Registry](/docs/registry)
+- [Theming](/docs/theming)

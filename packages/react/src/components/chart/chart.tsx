@@ -6,6 +6,7 @@ import {
 	computeChartLayout,
 	findChartNearestIndex,
 	getChartAreaPathD,
+	getChartBaselineY,
 	getChartBarRects,
 	getChartLegendItems,
 	getChartPathD,
@@ -55,6 +56,14 @@ const ChartStyle = React.forwardRef<HTMLStyleElement, ChartStyleProps>(({ id, co
 ChartStyle.displayName = 'ChartStyle';
 
 export interface ChartContainerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+	/** 图表可访问名称，同时保留在容器并转发至 SVG。 */
+	'aria-label'?: string;
+	/** 引用外部可访问名称，同时转发至 SVG。 */
+	'aria-labelledby'?: string;
+	/** 引用外部可访问描述，同时转发至 SVG。 */
+	'aria-describedby'?: string;
+	/** SVG 标题，同时保留为容器 title 属性。 */
+	title?: string;
 	config: ChartConfig;
 	data?: ChartDatum[];
 	xKey?: string;
@@ -72,6 +81,12 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 	(
 		{
 			className = '',
+			title,
+			'aria-label': ariaLabel,
+			'aria-labelledby': ariaLabelledBy,
+			'aria-describedby': ariaDescribedBy,
+			tabIndex,
+			onKeyDown,
 			config,
 			data = [],
 			xKey = 'x',
@@ -92,6 +107,7 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 		const containerRef = useRef<HTMLDivElement | null>(null);
 		const [size, setSize] = useState(initialDimension ?? CHART_INITIAL_DIMENSION);
 		const [activeIndex, setActiveIndex] = useState<number | null>(null);
+		const [keyboardActive, setKeyboardActive] = useState(false);
 		const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
 		useEffect(() => {
@@ -135,6 +151,7 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 			const rect = svg.getBoundingClientRect();
 			const x = ((event.clientX - rect.left) / rect.width) * layout.width;
 			const y = ((event.clientY - rect.top) / rect.height) * layout.height;
+			setKeyboardActive(false);
 			setMousePosition({ x, y });
 			setActiveIndex(findChartNearestIndex(layout, x));
 		}
@@ -143,14 +160,47 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 			setActiveIndex(null);
 		}
 
+		function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+			onKeyDown?.(event);
+			if (event.defaultPrevented || tabIndex === undefined || tabIndex < 0 || event.target !== event.currentTarget) return;
+			if (event.key === 'Escape') {
+				setKeyboardActive(false);
+				setActiveIndex(null);
+				return;
+			}
+			if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+			const count = layout.xLabels.length;
+			if (count === 0) return;
+			event.preventDefault();
+			setKeyboardActive(true);
+			setActiveIndex((current) => {
+				if (current === null) return event.key === 'ArrowLeft' ? count - 1 : 0;
+				return Math.min(count - 1, Math.max(0, current + (event.key === 'ArrowLeft' ? -1 : 1)));
+			});
+		}
+
 		const entries = useMemo(() => getChartTooltipEntries(layout, config, data, activeIndex), [layout, config, data, activeIndex]);
 		const legendItems = useMemo(() => getChartLegendItems(layout), [layout]);
 		const tooltipX = activeIndex !== null ? (layout.xTickX[activeIndex] ?? 0) : 0;
 		const tooltipLabel = activeIndex !== null ? layout.xLabels[activeIndex] : null;
+		const svgLabel = ariaLabel ?? (ariaLabelledBy ? undefined : (title ?? 'Chart'));
+		const statusText = keyboardActive && activeIndex !== null ? [tooltipLabel, ...entries.map((entry) => `${entry.name} ${entry.value.toLocaleString()}`)].join(', ') : '';
 
 		return (
 			<ChartContext.Provider value={contextValue}>
-				<div ref={setRef} data-slot="chart" data-chart={chartId} className={`${styles[chartStyleKeys.root]} ${className}`} {...props}>
+				<div
+					ref={setRef}
+					data-slot="chart"
+					data-chart={chartId}
+					data-active-index={activeIndex ?? undefined}
+					className={`${styles[chartStyleKeys.root]} ${className}`}
+					title={title}
+					aria-label={ariaLabel}
+					aria-labelledby={ariaLabelledBy}
+					aria-describedby={ariaDescribedBy}
+					tabIndex={tabIndex}
+					onKeyDown={handleKeyDown}
+					{...props}>
 					<ChartStyle id={chartId} config={config} />
 					<svg
 						className={styles[chartStyleKeys.surface]}
@@ -158,8 +208,12 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 						height={layout.height}
 						viewBox={`0 0 ${layout.width} ${layout.height}`}
 						role="img"
+						aria-label={svgLabel}
+						aria-labelledby={ariaLabelledBy}
+						aria-describedby={ariaDescribedBy}
 						onMouseMove={handleMouseMove}
 						onMouseLeave={handleMouseLeave}>
+						{title && <title>{title}</title>}
 						{showGrid &&
 							layout.yTickY.map((y, index) => (
 								<line
@@ -198,22 +252,22 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 							if (item.type === 'bar') {
 								const rects = getChartBarRects(layout, seriesIndex, layout.series.filter((s) => s.type === 'bar').length);
 								return (
-									<g key={item.key}>
+									<g key={item.key} data-series={item.key} data-type={item.type}>
 										{rects.map((rect) => (
-											<rect key={rect.index} x={rect.x} y={rect.y} width={rect.width} height={rect.height} fill={item.color} rx={2} />
+											<rect key={rect.index} data-index={rect.index} x={rect.x} y={rect.y} width={rect.width} height={rect.height} fill={item.color} rx={2} />
 										))}
 									</g>
 								);
 							}
 
-							const path = item.type === 'area' ? getChartAreaPathD(item.points, layout.padding.top + layout.innerHeight) : getChartPathD(item.points);
+							const path = item.type === 'area' ? getChartAreaPathD(item.points, getChartBaselineY(layout)) : getChartPathD(item.points);
 
 							return (
-								<g key={item.key}>
-									{item.type === 'area' && <path d={path} fill={item.color} fillOpacity={0.2} />}
+								<g key={item.key} data-series={item.key} data-type={item.type}>
+									{item.type === 'area' && <path data-area d={path} fill={item.color} fillOpacity={0.2} />}
 									<path d={getChartPathD(item.points)} fill="none" stroke={item.color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
 									{item.points.map((point) => (
-										<circle key={point.index} cx={point.x} cy={point.y} r={2.5} fill={item.color} />
+										<circle key={point.index} data-index={point.index} cx={point.x} cy={point.y} r={2.5} fill={item.color} />
 									))}
 								</g>
 							);
@@ -243,6 +297,14 @@ const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
 						/>
 					)}
 					{showLegend && <ChartLegendContent payload={legendItems} />}
+					<div
+						data-slot="chart-status"
+						role="status"
+						aria-live="polite"
+						aria-atomic="true"
+						style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clipPath: 'inset(50%)', whiteSpace: 'nowrap', border: 0 }}>
+						{statusText}
+					</div>
 					{children?.(contextValue)}
 				</div>
 			</ChartContext.Provider>

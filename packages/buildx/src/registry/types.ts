@@ -8,13 +8,28 @@ export interface RegistryCssVars {
 
 export type RegistryCssValue = string | { [key: string]: RegistryCssValue };
 
-export type RegistryTransformKind = 'copy' | 'style' | 'react-component' | 'vue-component' | 'react-hook' | 'vue-composable' | 'build-utils' | 'build-vue-core' | 'build-react-lib';
+export type RegistryTransformKind =
+	| 'copy'
+	| 'style'
+	| 'react-component'
+	| 'react-barrel'
+	| 'vue-component'
+	| 'vue-barrel'
+	| 'solid-component'
+	| 'solid-barrel'
+	| 'solid-primitive'
+	| 'react-hook'
+	| 'vue-composable'
+	| 'build-utils'
+	| 'build-vue-core'
+	| 'build-react-lib';
 
 export interface PackageRegistryFileSource {
 	source: string;
 	type: RegistryItemType;
 	target?: string;
 	transform: RegistryTransformKind;
+	exports?: string[];
 }
 
 export interface PackageRegistryItem {
@@ -55,7 +70,7 @@ export interface VirtualRegistryFile {
 }
 
 export interface TransformFileInput {
-	framework: 'react' | 'vue';
+	framework: 'react' | 'vue' | 'solid';
 	item: PackageRegistryItem;
 	file: PackageRegistryFileSource;
 	content: string;
@@ -73,10 +88,11 @@ export interface BuildVirtualFilesContext {
 }
 
 export interface RegistryBuildOptions {
-	framework: 'react' | 'vue';
+	framework: 'react' | 'vue' | 'solid';
 	workspaceRoot: string;
 	outDir: string;
 	manifest: PackageRegistryManifest;
+	signal?: AbortSignal;
 	transforms: {
 		file: (input: TransformFileInput) => Promise<TransformFileOutput>;
 		buildVirtualFiles?: (context: BuildVirtualFilesContext) => Promise<VirtualRegistryFile[]>;
@@ -84,10 +100,22 @@ export interface RegistryBuildOptions {
 	validate?: {
 		forbidWorkspaceImports?: string[];
 	};
+	hooks?: {
+		onStagedFile?: (filePath: string) => Promise<void> | void;
+	};
 }
 
 export interface RegistryWatchOptions {
-	run: () => Promise<void> | void;
+	run: (signal: AbortSignal) => Promise<void> | void;
 	watchPaths: string[];
 	debounceMs?: number;
+	watchRetryMs?: number;
+	watchRetryLimit?: number;
+	onError?: (error: unknown) => void;
+	watch?: (targetPath: string, onChange: () => void) => RegistryWatcherHandle;
+}
+
+export interface RegistryWatcherHandle {
+	close: () => void;
+	on: (event: 'error', listener: (error: Error) => void) => unknown;
 }

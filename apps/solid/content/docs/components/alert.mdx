@@ -1,0 +1,61 @@
+---
+title: Alert
+description: Accessible SolidJS alert primitives for important status messages.
+---
+
+> Use Alert for important information that should be announced immediately.
+
+<ComponentDemo slug="alert" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/alert
+```
+
+## Package usage
+
+```tsx
+import { Alert, AlertTitle, AlertDescription } from '@tile-ui/solid';
+
+<Alert variant="destructive">
+	<AlertTitle>Heads up</AlertTitle>
+	<AlertDescription>Your session expires in 5 minutes.</AlertDescription>
+</Alert>
+```
+
+## Highlights
+
+- Default and destructive variants
+- Title and description
+- Pairs with Card and Form
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `alert`  | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Alert
+
+| Prop      | Type                         | Default |
+| --------- | ---------------------------- | ------- |
+| `variant` | `'default' \| 'destructive'` | —       |
+
+### AlertTitle
+
+No custom props.
+
+### AlertDescription
+
+No custom props.
+
+## Related docs
+
+- [Badge](/docs/components/badge)
+- [Card](/docs/components/card)
+- [Form](/docs/components/form)

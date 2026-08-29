@@ -1,0 +1,52 @@
+---
+title: Progress
+description: An accessible reactive SolidJS progress bar.
+---
+
+> Use Progress to expose task completion with accessible range semantics.
+
+<ComponentDemo slug="progress" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/progress
+```
+
+## Package usage
+
+```tsx
+import { Progress } from '@tile-ui/solid';
+
+<Progress value={40} />
+```
+
+## Highlights
+
+- Value, min, and max props
+- Accessible progress role
+- Composes in forms and cards
+
+## Registry dependencies
+
+| Item       | Purpose                            |
+| ---------- | ---------------------------------- |
+| `progress` | Component source and module styles |
+| `core`     | Framework-agnostic logic helpers   |
+| `styles`   | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Progress
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `value` | `number` | —       |
+| `min`   | `number` | —       |
+| `max`   | `number` | —       |
+
+## Related docs
+
+- [Spinner](/docs/components/spinner)
+- [Skeleton](/docs/components/skeleton)
+- [Form](/docs/components/form)

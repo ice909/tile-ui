@@ -39,6 +39,10 @@
 	color: $muted-foreground;
 	font-size: $text-sm;
 
+	&[hidden] {
+		display: none;
+	}
+
 	[data-size='sm'] & {
 		font-size: $text-xs;
 	}

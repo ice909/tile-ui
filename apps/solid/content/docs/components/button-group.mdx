@@ -1,0 +1,63 @@
+---
+title: ButtonGroup
+description: SolidJS primitives for grouping related native button actions.
+---
+
+> Use ButtonGroup to keep related native actions visually and semantically adjacent.
+
+<ComponentDemo slug="button-group" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/button-group
+```
+
+## Package usage
+
+```tsx
+import { ButtonGroup, Button } from '@tile-ui/solid';
+
+<ButtonGroup>
+	<Button>One</Button>
+	<Button>Two</Button>
+	<Button>Three</Button>
+</ButtonGroup>
+```
+
+## Highlights
+
+- Horizontal and vertical orientation
+- Text and separator
+
+## Registry dependencies
+
+| Item           | Purpose                            |
+| -------------- | ---------------------------------- |
+| `button-group` | Component source and module styles |
+| `core`         | Framework-agnostic logic helpers   |
+| `styles`       | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ButtonGroup
+
+| Prop          | Type                         | Default |
+| ------------- | ---------------------------- | ------- |
+| `orientation` | `'horizontal' \| 'vertical'` | —       |
+
+### ButtonGroupText
+
+No custom props.
+
+### ButtonGroupSeparator
+
+| Prop          | Type                         | Default |
+| ------------- | ---------------------------- | ------- |
+| `orientation` | `'horizontal' \| 'vertical'` | —       |
+
+## Related docs
+
+- [Button](/docs/components/button)
+- [ToggleGroup](/docs/components/toggle-group)
+- [InputGroup](/docs/components/input-group)

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "textarea",
+  "type": "registry:ui",
+  "title": "Textarea",
+  "description": "Accessible SolidJS textarea with helper and validation messaging.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/utils",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/textarea/textarea.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/textarea/textarea.tsx",
+      "content": "import { Show, createRenderEffect, createUniqueId, onCleanup, onMount, splitProps, type JSX } from 'solid-js';\nimport { getTextareaAriaProps, getTextareaIds } from '../lib/core';\nimport type { TextareaBaseProps } from '../lib/core';\nimport { invokeEventHandler } from '../lib/utils';\nimport { createFormResetBinding, setInitialNativeValue } from '../lib/utils';\nimport styles from './textarea.module.scss';\n\nexport interface TextareaProps extends JSX.TextareaHTMLAttributes<HTMLTextAreaElement>, TextareaBaseProps {\n\t/** 非受控初始值；Solid JSX 未声明原生 defaultValue 属性。 */\n\tdefaultValue?: string;\n\t/** 值变化回调；受控状态由原生 value 属性决定。 */\n\tonChangeValue?: (value: string) => void;\n}\n\n/** SolidJS Textarea：复用 core 的 ID/ARIA 推导，并与 Input 保持相同值契约。 */\nexport function Textarea(props: TextareaProps) {\n\tconst [local, rest] = splitProps(props, [\n\t\t'label',\n\t\t'error',\n\t\t'helperText',\n\t\t'required',\n\t\t'id',\n\t\t'value',\n\t\t'defaultValue',\n\t\t'onChangeValue',\n\t\t'onInput',\n\t\t'class',\n\t\t'ref',\n\t\t'children',\n\t\t'aria-describedby',\n\t\t'aria-invalid',\n\t]);\n\tconst fallbackId = `tile-solid-textarea-${createUniqueId()}`;\n\tconst textareaId = () => local.id ?? fallbackId;\n\tconst ids = () => getTextareaIds(textareaId());\n\tconst aria = () => getTextareaAriaProps(ids(), local.error, local.helperText);\n\tconst initialValue = String(local.value ?? local.defaultValue ?? local.children ?? '');\n\tlet textarea: HTMLTextAreaElement | undefined;\n\tconst resetBinding = createFormResetBinding(() => {\n\t\tqueueMicrotask(() => {\n\t\t\tif (textarea && local.value !== undefined) textarea.value = String(local.value);\n\t\t});\n\t});\n\tconst assignTextarea = (element: HTMLTextAreaElement) => {\n\t\ttextarea = element;\n\t\tif (typeof local.ref === 'function') local.ref(element);\n\t};\n\tconst describedBy = () => [...new Set([local['aria-describedby'], aria()['aria-describedby']].filter((value): value is string => Boolean(value)))].join(' ') || undefined;\n\tconst invalid = () => (local.error ? true : local['aria-invalid']);\n\n\tcreateRenderEffect(() => {\n\t\tconst controlledValue = local.value;\n\t\tif (textarea && controlledValue !== undefined) textarea.value = String(controlledValue);\n\t});\n\n\tonMount(() => {\n\t\tif (!textarea) return;\n\t\tsetInitialNativeValue(textarea, initialValue);\n\t\ttextarea.value = local.value === undefined ? initialValue : String(local.value);\n\t\tresetBinding.bind(textarea);\n\t});\n\tonCleanup(() => resetBinding.cleanup());\n\n\treturn (\n\t\t<div class={styles.textareaWrapper}>\n\t\t\t<Show when={local.label}>\n\t\t\t\t<label for={textareaId()} class={`${styles.label} ${local.required ? styles.required : ''}`}>\n\t\t\t\t\t{local.label}\n\t\t\t\t</label>\n\t\t\t</Show>\n\t\t\t<textarea\n\t\t\t\t{...rest}\n\t\t\t\tref={assignTextarea}\n\t\t\t\tid={textareaId()}\n\t\t\t\tclass={`${styles.textarea} ${local.error ? styles.error : ''} ${local.class ?? ''}`}\n\t\t\t\trequired={local.required}\n\t\t\t\taria-invalid={invalid()}\n\t\t\t\taria-describedby={describedBy()}\n\t\t\t\tonInput={(event) => {\n\t\t\t\t\tconst next = event.currentTarget.value;\n\t\t\t\t\tinvokeEventHandler(local.onInput, event);\n\t\t\t\t\tif (local.value !== undefined) event.currentTarget.value = String(local.value);\n\t\t\t\t\tif (!event.defaultPrevented) local.onChangeValue?.(next);\n\t\t\t\t}}>\n\t\t\t\t{initialValue}\n\t\t\t</textarea>\n\t\t\t<Show when={local.error}>\n\t\t\t\t<span id={ids().error} class={styles.errorText}>\n\t\t\t\t\t{local.error}\n\t\t\t\t</span>\n\t\t\t</Show>\n\t\t\t<Show when={!local.error && local.helperText}>\n\t\t\t\t<span id={ids().helper} class={styles.helperText}>\n\t\t\t\t\t{local.helperText}\n\t\t\t\t</span>\n\t\t\t</Show>\n\t\t</div>\n\t);\n}\n\nexport default Textarea;\n"
+    },
+    {
+      "path": "packages/solid/src/components/textarea/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/textarea/index.ts",
+      "content": "export { Textarea, type TextareaProps } from './textarea';\nexport { default } from './textarea';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/textarea.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/textarea/textarea.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.textareaWrapper {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: $spacing-1;\n\twidth: 100%;\n}\n\n.textarea {\n\tdisplay: flex;\n\tmin-height: 5rem;\n\twidth: 100%;\n\tborder-radius: $radius;\n\tborder: 1px solid $border;\n\tbackground-color: $background;\n\tpadding: $spacing-3 $spacing-3;\n\tfont-size: $text-sm;\n\tcolor: $foreground;\n\ttransition: all $transition-fast;\n\toutline: none;\n\tresize: vertical;\n\tfont-family: inherit;\n\tline-height: $leading-normal;\n\n\t&::placeholder {\n\t\tcolor: $muted-foreground;\n\t}\n\n\t&:focus {\n\t\toutline: none;\n\t\tborder-color: $ring;\n\t\tbox-shadow: 0 0 0 3px color-mix(in srgb, $ring 50%, transparent);\n\t}\n\n\t&:disabled,\n\t&.disabled {\n\t\tpointer-events: none;\n\t\topacity: 0.5;\n\t\tcursor: not-allowed;\n\t\tbackground-color: $field-disabled;\n\t}\n\n\t&.error {\n\t\tborder-color: $destructive;\n\n\t\t&:focus {\n\t\t\tborder-color: $destructive;\n\t\t\tbox-shadow: 0 0 0 1px $destructive;\n\t\t}\n\t}\n}\n\n.label {\n\tdisplay: block;\n\tfont-size: $text-sm;\n\tfont-weight: $font-medium;\n\tcolor: $foreground;\n\tline-height: $leading-normal;\n\n\t&.required::after {\n\t\tcontent: ' *';\n\t\tcolor: $destructive;\n\t}\n}\n\n.helperText {\n\tfont-size: $text-xs;\n\tcolor: $muted-foreground;\n\tline-height: $leading-normal;\n}\n\n.errorText {\n\tfont-size: $text-xs;\n\tcolor: $destructive;\n\tline-height: $leading-normal;\n}\n"
+    }
+  ]
+}

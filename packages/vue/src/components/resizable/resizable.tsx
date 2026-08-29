@@ -117,7 +117,6 @@ export const ResizablePanelGroup = defineComponent({
 					ref: containerRef,
 					'data-slot': 'resizable-panel-group',
 					'data-direction': props.direction,
-					'aria-orientation': props.direction === 'horizontal' ? 'horizontal' : 'vertical',
 					class: [styles[resizableStyleKeys.group], attrs.class],
 				},
 				slots.default?.(),

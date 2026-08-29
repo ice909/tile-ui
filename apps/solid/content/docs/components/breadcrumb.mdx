@@ -1,0 +1,78 @@
+---
+title: Breadcrumb
+description: Accessible SolidJS breadcrumb navigation using native links.
+---
+
+> Use Breadcrumb to expose the current page within a native navigation trail.
+
+<ComponentDemo slug="breadcrumb" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/breadcrumb
+```
+
+## Package usage
+
+```tsx
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from '@tile-ui/solid';
+
+<Breadcrumb>
+	<BreadcrumbList>
+		<BreadcrumbItem><BreadcrumbLink href="/docs">Docs</BreadcrumbLink></BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem><BreadcrumbPage>Solid</BreadcrumbPage></BreadcrumbItem>
+	</BreadcrumbList>
+</Breadcrumb>
+```
+
+## Highlights
+
+- Native anchor composition
+- Current-page semantics
+- Custom separator content
+
+## Registry dependencies
+
+| Item         | Purpose                            |
+| ------------ | ---------------------------------- |
+| `breadcrumb` | Component source and module styles |
+| `core`       | Framework-agnostic logic helpers   |
+| `styles`     | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Breadcrumb
+
+No custom props.
+
+### BreadcrumbList
+
+No custom props.
+
+### BreadcrumbItem
+
+No custom props.
+
+### BreadcrumbLink
+
+No custom props.
+
+### BreadcrumbPage
+
+No custom props.
+
+### BreadcrumbSeparator
+
+No custom props.
+
+### BreadcrumbEllipsis
+
+No custom props.
+
+## Related docs
+
+- [Pagination](/docs/components/pagination)
+- [NavigationMenu](/docs/components/navigation-menu)
+- [Sidebar](/docs/components/sidebar)

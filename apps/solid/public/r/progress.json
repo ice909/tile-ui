@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progress",
+  "type": "registry:ui",
+  "title": "Progress",
+  "description": "Accessible SolidJS determinate and indeterminate progress bar.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/progress/progress.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/progress/progress.tsx",
+      "content": "import { splitProps, type JSX } from 'solid-js';\nimport { clampProgressValue, getProgressOffset, progressStyleKeys } from '../lib/core';\nimport type { ProgressBaseProps } from '../lib/core';\nimport styles from './progress.module.scss';\n\nexport interface ProgressProps extends JSX.HTMLAttributes<HTMLDivElement>, ProgressBaseProps {}\n\nexport function Progress(props: ProgressProps) {\n\tconst [local, rest] = splitProps(props, ['class', 'value', 'min', 'max']);\n\tconst range = () => {\n\t\tconst providedMin = Number.isFinite(local.min) ? local.min! : 0;\n\t\tconst providedMax = Number.isFinite(local.max) ? local.max! : 100;\n\t\treturn providedMin <= providedMax ? { min: providedMin, max: providedMax } : { min: providedMax, max: providedMin };\n\t};\n\tconst rawValue = () => (Number.isFinite(local.value) ? local.value : range().min);\n\tconst value = () => clampProgressValue(rawValue(), range().min, range().max);\n\tconst offset = () => getProgressOffset(rawValue(), range().min, range().max);\n\n\treturn (\n\t\t<div\n\t\t\t{...rest}\n\t\t\trole=\"progressbar\"\n\t\t\taria-valuemin={range().min}\n\t\t\taria-valuemax={range().max}\n\t\t\taria-valuenow={value()}\n\t\t\tclass={`${styles[progressStyleKeys.root]} ${local.class ?? ''}`}>\n\t\t\t<div class={styles[progressStyleKeys.indicator]} style={{ transform: `translateX(-${100 - offset()}%)` }} />\n\t\t</div>\n\t);\n}\n\nexport default Progress;\n"
+    },
+    {
+      "path": "packages/solid/src/components/progress/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/progress/index.ts",
+      "content": "export { Progress, type ProgressProps } from './progress';\nexport { default } from './progress';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/progress.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/progress/progress.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\tposition: relative;\n\theight: 0.5rem;\n\twidth: 100%;\n\toverflow: hidden;\n\tborder-radius: $radius-full;\n\tbackground-color: color-mix(in srgb, $primary 20%, transparent);\n}\n\n.indicator {\n\theight: 100%;\n\twidth: 100%;\n\tflex: 1;\n\tbackground-color: $primary;\n\ttransition: transform $transition-normal;\n}\n"
+    }
+  ]
+}

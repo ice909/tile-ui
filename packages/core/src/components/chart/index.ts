@@ -30,6 +30,7 @@ export {
 	getNiceChartTicks,
 	getChartYAxisLayout,
 	mapChartValue,
+	getChartBaselineY,
 	computeChartLayout,
 	getChartTooltipEntries,
 	getChartPathD,

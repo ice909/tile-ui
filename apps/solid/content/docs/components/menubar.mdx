@@ -1,0 +1,159 @@
+---
+title: Menubar
+description: A desktop-style SolidJS menubar with roving focus and menu switching.
+---
+
+> Use Menubar for desktop-style menus whose roving triggers and open panels switch with arrow keys.
+
+<ComponentDemo slug="menubar" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/menubar
+```
+
+## Package usage
+
+```tsx
+import { Menubar } from '@tile-ui/solid';
+
+<Menubar>
+	<MenubarMenu value="file"><MenubarTrigger>File</MenubarTrigger><MenubarContent><MenubarItem>New</MenubarItem></MenubarContent></MenubarMenu>
+	<MenubarMenu value="view"><MenubarTrigger>View</MenubarTrigger><MenubarContent><MenubarCheckboxItem checked>Sidebar</MenubarCheckboxItem></MenubarContent></MenubarMenu>
+</Menubar>
+```
+
+## Highlights
+
+- Arrow-key switching between menus
+- Checkbox, radio, and nested submenu branches
+- Roving trigger tabstops from the menu Foundation
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item            | Purpose                            |
+| --------------- | ---------------------------------- |
+| `menubar`       | Component source and module styles |
+| `core`          | Framework-agnostic logic helpers   |
+| `dropdown-menu` | Registry component dependency      |
+| `styles`        | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Menubar
+
+| Prop            | Type                                   | Default |
+| --------------- | -------------------------------------- | ------- |
+| `value`         | `string`                               | —       |
+| `defaultValue`  | `string`                               | —       |
+| `onValueChange` | `(value: string \| undefined) => void` | —       |
+
+### MenubarMenu
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `value` | `string` | —       |
+
+### MenubarTrigger
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `disabled` | `boolean` | —       |
+
+### MenubarContent
+
+| Prop          | Type                                     | Default |
+| ------------- | ---------------------------------------- | ------- |
+| `side`        | `'top' \| 'right' \| 'bottom' \| 'left'` | —       |
+| `align`       | `'start' \| 'center' \| 'end'`           | —       |
+| `sideOffset`  | `number`                                 | —       |
+| `alignOffset` | `number`                                 | —       |
+
+### MenubarItem
+
+| Prop       | Type                         | Default |
+| ---------- | ---------------------------- | ------- |
+| `inset`    | `boolean`                    | —       |
+| `variant`  | `'default' \| 'destructive'` | —       |
+| `disabled` | `boolean`                    | —       |
+| `onSelect` | `(event: Event) => void`     | —       |
+
+### MenubarCheckboxItem
+
+| Prop              | Type                         | Default |
+| ----------------- | ---------------------------- | ------- |
+| `checked`         | `boolean`                    | —       |
+| `defaultChecked`  | `boolean`                    | —       |
+| `onCheckedChange` | `(checked: boolean) => void` | —       |
+| `disabled`        | `boolean`                    | —       |
+
+### MenubarRadioGroup
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `value`         | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onValueChange` | `(value: string) => void` | —       |
+
+### MenubarRadioItem
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `value`    | `string`  | —       |
+| `disabled` | `boolean` | —       |
+
+### MenubarLabel
+
+| Prop    | Type      | Default |
+| ------- | --------- | ------- |
+| `inset` | `boolean` | —       |
+
+### MenubarSub
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### MenubarSubTrigger
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `inset`    | `boolean` | —       |
+| `disabled` | `boolean` | —       |
+
+### MenubarPortal
+
+No custom props.
+
+### MenubarGroup
+
+No custom props.
+
+### MenubarSeparator
+
+No custom props.
+
+### MenubarShortcut
+
+No custom props.
+
+### MenubarSubContent
+
+No custom props.
+
+## Related docs
+
+- [DropdownMenu](/docs/components/dropdown-menu)
+- [NavigationMenu](/docs/components/navigation-menu)
+- [ContextMenu](/docs/components/context-menu)

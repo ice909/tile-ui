@@ -1,0 +1,31 @@
+---
+title: Registry
+description: Installable SolidJS source artifacts generated from the Tile UI Solid manifest.
+---
+
+The Solid registry is built from `packages/solid/src/registry/manifest.ts` and published by this application under `/r`.
+
+## Current inventory
+
+The manifest contains exactly 68 independently installable items: 61 UI components, 3 primitive hooks, and 4 shared items for core logic, utility helpers, styles, and the default theme.
+
+## Build output
+
+```bash
+corepack pnpm registry:build:solid
+```
+
+The command writes `registry.json` and item JSON files to `apps/solid/public/r`. Development runs the registry watcher beside SolidStart on port 3003.
+
+## Install an item
+
+```bash
+pnpm dlx shadcn@latest add https://solid.tileui.zmorg.cn/r/dialog.json
+```
+
+Generated component source contains no residual `@tile-ui/core` or `@tile-ui/styles` imports. Build transforms rewrite shared dependencies into owned local files.
+
+## Related docs
+
+- [Installation](/docs/installation)
+- [Components](/docs/components)

@@ -1,0 +1,102 @@
+---
+title: Form
+description: Reactive SolidJS form state and accessible field primitives.
+---
+
+> Use Form primitives to connect reactive field state, validation, and ARIA metadata.
+
+<ComponentDemo slug="form" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/form
+```
+
+## Package usage
+
+```tsx
+import { Form, FormField, FormItem, FormLabel, FormControl, Input, FormDescription, FormMessage } from '@tile-ui/solid';
+
+<Form defaultValues={{ email: "" }}>
+	<FormField name="email">{({ field }) => <FormItem descriptionId="email-help" messageId="email-error"><FormLabel>Email</FormLabel><FormControl>{(control) => <Input {...control} value={String(field.value ?? "")} onChangeValue={field.onChange} />}</FormControl><FormDescription id="email-help">Enter a reachable address.</FormDescription><FormMessage id="email-error" /></FormItem>}</FormField>
+</Form>
+```
+
+## Highlights
+
+- `useForm` hook
+- Field, label, control, and message
+- Resolver validation
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `form`   | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `label`  | Registry component dependency      |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Form
+
+| Prop            | Type                                                        | Default |
+| --------------- | ----------------------------------------------------------- | ------- |
+| `defaultValues` | `Record<string, unknown>`                                   | —       |
+| `resolver`      | `(values: FormValues) => FormErrors \| Promise<FormErrors>` | —       |
+| `form`          | `unknown`                                                   | —       |
+| `children`      | `JSX.Element`                                               | —       |
+
+### FormField
+
+| Prop       | Type                                                     | Default |
+| ---------- | -------------------------------------------------------- | ------- |
+| `name`     | `string`                                                 | —       |
+| `children` | `(props: { field: FormControllerField }) => JSX.Element` | —       |
+| `render`   | `(props: { field: FormControllerField }) => JSX.Element` | —       |
+
+### FormItem
+
+| Prop            | Type     | Default |
+| --------------- | -------- | ------- |
+| `descriptionId` | `string` | —       |
+| `messageId`     | `string` | —       |
+
+### FormLabel
+
+No custom props.
+
+### FormControlRender
+
+| Prop                 | Type                   | Default |
+| -------------------- | ---------------------- | ------- |
+| `id`                 | `string`               | —       |
+| `name`               | `string`               | —       |
+| `'aria-describedby'` | `string \| undefined`  | —       |
+| `'aria-invalid'`     | `boolean`              | —       |
+| `'aria-required'`    | `boolean \| undefined` | —       |
+| `required`           | `boolean \| undefined` | —       |
+| `'data-slot'`        | `'form-control'`       | —       |
+
+### FormControl
+
+| Prop       | Type                                             | Default |
+| ---------- | ------------------------------------------------ | ------- |
+| `children` | `(props: FormControlRenderProps) => JSX.Element` | —       |
+
+### FormDescription
+
+No custom props.
+
+### FormMessage
+
+No custom props.
+
+## Related docs
+
+- [Field](/docs/components/field)
+- [Input](/docs/components/input)
+- [Checkbox](/docs/components/checkbox)

@@ -1,0 +1,111 @@
+---
+title: Primitives
+description: Owner-scoped SolidJS signals for storage, media, clipboard, pointer, keyboard, and window state.
+---
+
+## Introduction
+
+Tile UI primitives are small Solid-native `create*` APIs for browser state that must remain safe during server rendering. Import all 11 APIs from the canonical `@tile-ui/solid/primitives` subpath, not the component package root.
+
+The package exposes all 11 primitives. The current registry lane publishes three smaller helper payloads covering eight of them; `createClickOutside`, `createKeyPress`, and `createMousePosition` remain package-only in this registry lane.
+
+## Package install
+
+```bash
+corepack pnpm add @tile-ui/solid solid-js
+```
+
+## Package usage
+
+```tsx
+import { createIsMobile, createLocalStorage, createWindowSize } from '@tile-ui/solid/primitives';
+
+const [theme, setTheme] = createLocalStorage('theme', 'light');
+const isMobile = createIsMobile();
+const windowSize = createWindowSize();
+```
+
+Call primitives while a Solid owner is active, such as inside a component or `createRoot`. Accessors update after hydration without changing the deterministic server markup.
+
+## SSR contract
+
+Primitives do not read browser globals while rendering on the server. `createWindowSize`, `createScrollPosition`, and `createMousePosition` start at `{ x: 0, y: 0 }` or `{ width: 0, height: 0 }`; `createMediaQuery` and `createIsMobile` start at `false`; `createOnlineStatus` starts at `true`; storage primitives use their supplied eager or lazy default. Clipboard, key, and outside-click work begins only in the browser.
+
+## Cleanup contract
+
+Every listener, media-query subscription, and clipboard reset timer belongs to the current Solid owner. Disposing that owner removes its subscriptions; remounting creates a fresh set. The demo's **Dispose owner** control makes that lifecycle visible without keeping a hidden component alive.
+
+## Primitive groups
+
+### Storage
+
+- `createLocalStorage(key, defaultValue)` returns an accessor and setter synchronized with `localStorage` after mount.
+- `createSessionStorage(key, defaultValue)` provides the same contract for the current tab's `sessionStorage`.
+
+### Media and window
+
+- `createWindowSize()` tracks `window.innerWidth` and `window.innerHeight`.
+- `createMediaQuery(query)` accepts a string or accessor and follows `matchMedia` changes.
+- `createIsMobile()` is the shared `(max-width: 768px)` media query.
+- `createOnlineStatus()` tracks `navigator.onLine` plus online and offline events.
+- `createScrollPosition()` tracks the window's horizontal and vertical scroll offsets.
+- `createMousePosition()` tracks client-space mouse coordinates.
+
+### Events
+
+- `createCopyToClipboard(options)` returns `copy`, `copied`, and `error` using the secure Clipboard API.
+- `createKeyPress(key, callback)` listens for an exact, optionally reactive `event.key` value.
+- `createClickOutside(element, callback)` accepts an `Accessor<Element | null | undefined>` and observes mouse and touch starts in that element's owning document.
+
+```tsx
+import { type Accessor, createSignal } from 'solid-js';
+import { createClickOutside } from '@tile-ui/solid/primitives';
+
+const [open, setOpen] = createSignal(true);
+let panel: HTMLDivElement | undefined;
+const panelElement: Accessor<Element | null | undefined> = () => panel;
+
+createClickOutside(panelElement, () => setOpen(false));
+```
+
+## Registry install
+
+The registry exposes three focused helper payloads. These do not install every package primitive:
+
+```bash
+pnpm dlx shadcn@latest add https://solid.tileui.zmorg.cn/r/create-local-storage.json
+pnpm dlx shadcn@latest add https://solid.tileui.zmorg.cn/r/create-media-query.json
+pnpm dlx shadcn@latest add https://solid.tileui.zmorg.cn/r/create-copy-to-clipboard.json
+```
+
+| Registry item              | Included helpers                                                                                       |
+| -------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `create-local-storage`     | `createLocalStorage`, `createSessionStorage`                                                           |
+| `create-media-query`       | `createWindowSize`, `createMediaQuery`, `createIsMobile`, `createOnlineStatus`, `createScrollPosition` |
+| `create-copy-to-clipboard` | `createCopyToClipboard`                                                                                |
+
+The exact registry install names are `create-local-storage`, `create-media-query`, and `create-copy-to-clipboard`. Use the package subpath for `createClickOutside`, `createKeyPress`, and `createMousePosition`; those three APIs are package-only in this registry lane.
+
+## API reference
+
+| API | Return | Browser work |
+| --- | --- | --- |
+| `createLocalStorage<T>(key, defaultValue?)` | `[Accessor<T>, Setter<T>]` | Reads and writes `localStorage` |
+| `createSessionStorage<T>(key, defaultValue?)` | `[Accessor<T>, Setter<T>]` | Reads and writes `sessionStorage` |
+| `createWindowSize()` | `Accessor<WindowSize>` | Subscribes to `resize` |
+| `createMediaQuery(query)` | `Accessor<boolean>` | Subscribes to `MediaQueryList.change` |
+| `createIsMobile()` | `Accessor<boolean>` | Uses the shared mobile media query |
+| `createOnlineStatus()` | `Accessor<boolean>` | Subscribes to `online` and `offline` |
+| `createScrollPosition()` | `Accessor<Point>` | Subscribes to passive `scroll` |
+| `createMousePosition()` | `Accessor<Point>` | Subscribes to `mousemove` |
+| `createCopyToClipboard(options?)` | `{ copy, copied, error }` | Calls `navigator.clipboard.writeText` |
+| `createKeyPress(key, callback)` | `void` | Subscribes to `window.keydown` |
+| `createClickOutside(element, callback)` | `void` | Accepts `Accessor<Element \| null \| undefined>` and subscribes to owner-document mouse and touch starts |
+
+Supporting types exported by the same subpath are `StorageDefaultValue`, `StorageSignal`, `WindowSize`, `Point`, `ReactiveValue`, `CopyToClipboardOptions`, `CopyToClipboardResult`, `ElementAccessor`, and `KeyValue`.
+
+## Related docs
+
+- [Installation](/docs/installation)
+- [Components](/docs/components)
+- [Registry](/docs/registry)

@@ -26,6 +26,12 @@
       "type": "registry:file",
       "target": "components/ui/collapsible/collapsible.module.scss",
       "content": "@use '../../../styles/variables/colors' as *;\n\n.root {\n\twidth: 100%;\n}\n\n.trigger {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tjustify-content: space-between;\n\tgap: $spacing-2;\n\tborder-radius: $radius;\n\ttransition: background-color $transition-fast;\n\toutline: none;\n\n\t&:hover {\n\t\tbackground-color: $muted;\n\t}\n\n\t&:focus-visible {\n\t\tbox-shadow:\n\t\t\t0 0 0 2px $background,\n\t\t\t0 0 0 4px $ring;\n\t}\n\n\t&[disabled] {\n\t\tpointer-events: none;\n\t\topacity: 0.5;\n\t}\n}\n\n.content {\n\tdisplay: grid;\n\tgrid-template-rows: 0fr;\n\ttransition: grid-template-rows $transition-slow;\n\n\t&[data-state='open'] {\n\t\tgrid-template-rows: 1fr;\n\t}\n}\n\n.contentInner {\n\toverflow: hidden;\n\tmin-height: 0;\n}\n"
+    },
+    {
+      "path": "packages/vue/src/components/collapsible/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/collapsible/index.ts",
+      "content": "export { Collapsible, CollapsibleTrigger, CollapsibleContent } from './collapsible';\n"
     }
   ]
 }

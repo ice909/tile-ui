@@ -1,18 +1,54 @@
-import { defineComponent, h, onBeforeUnmount, shallowRef, watch, type PropType, type VNode } from 'vue';
-import { buildSonnerToastApi, createSonnerStore, getSonnerPositionStyleKeys, resolveSonnerTheme, sonnerStyleKeys } from '@tile-ui/core';
-import type { SonnerPosition, SonnerTheme, SonnerToast, SonnerType } from '@tile-ui/core';
+import { defineComponent, h, onBeforeUnmount, onMounted, shallowRef, watch, type PropType, type ShallowRef, type VNode } from 'vue';
+import { SONNER_DEFAULT_DURATION, buildSonnerToastApi, createSonnerStore, getSonnerPositionStyleKeys, resolveSonnerTheme, sonnerStyleKeys } from '@tile-ui/core';
+import type { SonnerPosition, SonnerStore, SonnerTheme, SonnerToast, SonnerToastApi, SonnerType } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/sonner.module.scss';
 
-const sonnerStore = createSonnerStore();
+const emptyToasts: SonnerToast[] = Object.freeze([]) as unknown as SonnerToast[];
+const toasts = shallowRef<SonnerToast[]>(emptyToasts);
+const activeOwner = shallowRef<symbol>();
+const toasterOwners = new Map<symbol, number | undefined>();
+let browserStore: SonnerStore | undefined;
 
-const toasts = shallowRef<SonnerToast[]>(sonnerStore.getToasts());
-sonnerStore.subscribe(() => {
-	toasts.value = sonnerStore.getToasts();
-});
+function getBrowserStore(): SonnerStore | undefined {
+	if (typeof window === 'undefined') return undefined;
+	if (!browserStore) {
+		browserStore = createSonnerStore();
+		toasts.value = browserStore.getToasts();
+		browserStore.subscribe(() => {
+			toasts.value = browserStore!.getToasts();
+		});
+	}
+	return browserStore;
+}
 
-export const toast = buildSonnerToastApi(sonnerStore);
+const storeFacade: SonnerStore = {
+	getToasts: () => getBrowserStore()?.getToasts() ?? emptyToasts,
+	subscribe: (listener) => getBrowserStore()?.subscribe(listener) ?? (() => undefined),
+	add: (input) => getBrowserStore()?.add(input) ?? '',
+	update: (id, patch) => getBrowserStore()?.update(id, patch),
+	dismiss: (id) => getBrowserStore()?.dismiss(id),
+	remove: (id) => getBrowserStore()?.remove(id),
+	dismissAll: () => getBrowserStore()?.dismissAll(),
+	setDefaultDuration: (duration) => getBrowserStore()?.setDefaultDuration(duration),
+};
 
-export function useToast() {
+function applyToasterPolicy() {
+	const owner = Array.from(toasterOwners.entries()).at(-1);
+	activeOwner.value = owner?.[0];
+	getBrowserStore()?.setDefaultDuration(owner?.[1] ?? SONNER_DEFAULT_DURATION);
+}
+
+export const toast: SonnerToastApi = buildSonnerToastApi(storeFacade);
+
+export interface UseToastReturn {
+	toasts: ShallowRef<SonnerToast[]>;
+	toast: SonnerToastApi;
+	dismiss: (id?: string) => void;
+	dismissAll: () => void;
+}
+
+export function useToast(): UseToastReturn {
+	getBrowserStore();
 	return {
 		toasts,
 		toast,
@@ -57,6 +93,10 @@ function renderToastIcon(type: SonnerType) {
 	}
 }
 
+function toastRole(type: SonnerType): 'alert' | 'status' {
+	return type === 'error' || type === 'warning' ? 'alert' : 'status';
+}
+
 const closeIcon = h('svg', svgAttrs(), [h('path', { d: 'M18 6 6 18' }), h('path', { d: 'm6 6 12 12' })]);
 
 export const Toaster = defineComponent({
@@ -71,6 +111,7 @@ export const Toaster = defineComponent({
 	},
 	setup(props, { attrs }) {
 		const systemTheme = shallowRef<'light' | 'dark'>('light');
+		const owner = Symbol('sonner-toaster-owner');
 		let media: MediaQueryList | undefined;
 		const updateSystemTheme = () => {
 			systemTheme.value = media?.matches ? 'dark' : 'light';
@@ -90,16 +131,25 @@ export const Toaster = defineComponent({
 			{ immediate: true },
 		);
 
-		onBeforeUnmount(() => media?.removeEventListener('change', updateSystemTheme));
+		onMounted(() => {
+			getBrowserStore();
+			toasterOwners.set(owner, props.duration);
+			applyToasterPolicy();
+		});
+
+		onBeforeUnmount(() => {
+			media?.removeEventListener('change', updateSystemTheme);
+			toasterOwners.delete(owner);
+			applyToasterPolicy();
+		});
 
 		watch(
 			() => props.duration,
 			(duration) => {
-				if (duration !== undefined) {
-					sonnerStore.setDefaultDuration(duration);
-				}
+				if (!toasterOwners.has(owner)) return;
+				toasterOwners.set(owner, duration);
+				applyToasterPolicy();
 			},
-			{ immediate: true },
 		);
 
 		return () => {
@@ -108,7 +158,7 @@ export const Toaster = defineComponent({
 			const restAttrs = { ...attrs };
 			delete restAttrs.class;
 			const groups = new Map<string, SonnerToast[]>();
-			for (const item of toasts.value) {
+			for (const item of activeOwner.value === owner ? toasts.value : emptyToasts) {
 				const key = item.position ?? props.position;
 				const list = groups.get(key);
 				if (list) {
@@ -141,7 +191,7 @@ export const Toaster = defineComponent({
 									type: 'button',
 									'aria-label': '关闭',
 									class: styles[sonnerStyleKeys.close],
-									onClick: () => sonnerStore.dismiss(item.id),
+									onClick: () => toast.dismiss(item.id),
 								},
 								[closeIcon],
 							),
@@ -151,9 +201,13 @@ export const Toaster = defineComponent({
 						'div',
 						{
 							key: item.id,
+							role: toastRole(item.type),
+							'aria-live': toastRole(item.type) === 'alert' ? 'assertive' : 'polite',
+							'aria-atomic': 'true',
 							'data-slot': 'toast',
 							'data-type': item.type,
 							'data-dismissing': item.dismissing ? 'true' : 'false',
+							'data-rich-colors': item.richColors === undefined ? undefined : item.richColors ? 'true' : 'false',
 							class: styles[sonnerStyleKeys.toast],
 						},
 						children,

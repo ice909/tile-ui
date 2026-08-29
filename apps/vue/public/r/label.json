@@ -26,6 +26,12 @@
       "type": "registry:file",
       "target": "components/ui/label/label.module.scss",
       "content": "@use '../../../styles/variables/colors' as *;\n\n.label {\n\tdisplay: block;\n\tfont-size: $text-sm;\n\tfont-weight: $font-medium;\n\tcolor: $foreground;\n\tline-height: $leading-normal;\n\tcursor: pointer;\n\n\t&.required::after {\n\t\tcontent: ' *';\n\t\tcolor: $destructive;\n\t}\n}\n"
+    },
+    {
+      "path": "packages/vue/src/components/label/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/label/index.ts",
+      "content": "export { Label } from './label';\n"
     }
   ]
 }

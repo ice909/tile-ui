@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-group",
+  "type": "registry:ui",
+  "title": "Button Group",
+  "description": "Grouped SolidJS button controls and separators.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "devDependencies": [
+    "sass"
+  ],
+  "registryDependencies": [
+    "@tile-ui/core",
+    "@tile-ui/styles"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/components/button-group/button-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/button-group/button-group.tsx",
+      "content": "import { splitProps, type JSX, type ParentProps } from 'solid-js';\nimport { buttonGroupStyleKeys, getButtonGroupStyleKeys } from '../lib/core';\nimport type { ButtonGroupBaseProps, ButtonGroupSeparatorBaseProps } from '../lib/core';\nimport styles from './button-group.module.scss';\n\nexport interface ButtonGroupProps extends JSX.HTMLAttributes<HTMLDivElement>, ButtonGroupBaseProps {}\n\nexport function ButtonGroup(props: ParentProps<ButtonGroupProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children', 'orientation']);\n\tconst orientation = () => local.orientation ?? 'horizontal';\n\tconst styleKeys = () => getButtonGroupStyleKeys(orientation());\n\n\treturn (\n\t\t<div\n\t\t\t{...rest}\n\t\t\trole=\"group\"\n\t\t\tdata-slot=\"button-group\"\n\t\t\tdata-orientation={orientation()}\n\t\t\tclass={`${styles[styleKeys().base]} ${styles[styleKeys().orientation]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\n\nexport interface ButtonGroupTextProps extends JSX.HTMLAttributes<HTMLDivElement> {}\n\nexport function ButtonGroupText(props: ParentProps<ButtonGroupTextProps>) {\n\tconst [local, rest] = splitProps(props, ['class', 'children']);\n\treturn (\n\t\t<div {...rest} class={`${styles[buttonGroupStyleKeys.text]} ${local.class ?? ''}`}>\n\t\t\t{local.children}\n\t\t</div>\n\t);\n}\n\nexport interface ButtonGroupSeparatorProps extends JSX.HTMLAttributes<HTMLDivElement>, ButtonGroupSeparatorBaseProps {}\n\nexport function ButtonGroupSeparator(props: ButtonGroupSeparatorProps) {\n\tconst [local, rest] = splitProps(props, ['class', 'orientation']);\n\treturn (\n\t\t<div\n\t\t\t{...rest}\n\t\t\trole=\"none\"\n\t\t\taria-hidden=\"true\"\n\t\t\tdata-slot=\"button-group-separator\"\n\t\t\tdata-orientation={local.orientation ?? 'vertical'}\n\t\t\tclass={`${styles[buttonGroupStyleKeys.separator]} ${local.class ?? ''}`}\n\t\t/>\n\t);\n}\n\nexport default ButtonGroup;\n"
+    },
+    {
+      "path": "packages/solid/src/components/button-group/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/button-group/index.ts",
+      "content": "export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, type ButtonGroupProps, type ButtonGroupSeparatorProps, type ButtonGroupTextProps } from './button-group';\nexport { default } from './button-group';\n"
+    },
+    {
+      "path": "packages/styles/scss/components/button-group.module.scss",
+      "type": "registry:file",
+      "target": "components/ui/button-group/button-group.module.scss",
+      "content": "@use '../../../styles/variables/colors' as *;\n\n.buttonGroup {\n\tdisplay: flex;\n\twidth: fit-content;\n\talign-items: stretch;\n\n\t> * {\n\t\t&:focus-visible {\n\t\t\tposition: relative;\n\t\t\tz-index: 1;\n\t\t}\n\t}\n\n\t// 嵌套按钮组\n\t[data-slot='button-group'] {\n\t\tgap: $spacing-2;\n\t}\n\n\t// 排列方向\n\t&.orientationHorizontal {\n\t\tflex-direction: row;\n\n\t\t// 直接子元素之间的连接样式\n\t\t> *:not(:first-child) {\n\t\t\tborder-left: none;\n\t\t\tborder-top-left-radius: 0;\n\t\t\tborder-bottom-left-radius: 0;\n\t\t}\n\n\t\t> *:not(:last-child) {\n\t\t\tborder-top-right-radius: 0;\n\t\t\tborder-bottom-right-radius: 0;\n\t\t}\n\t}\n\n\t&.orientationVertical {\n\t\tflex-direction: column;\n\n\t\t> *:not(:first-child) {\n\t\t\tborder-top: none;\n\t\t\tborder-top-left-radius: 0;\n\t\t\tborder-top-right-radius: 0;\n\t\t}\n\n\t\t> *:not(:last-child) {\n\t\t\tborder-bottom-right-radius: 0;\n\t\t\tborder-bottom-left-radius: 0;\n\t\t}\n\t}\n}\n\n.text {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: $spacing-2;\n\tborder-radius: $radius;\n\tborder: 1px solid $border;\n\tbackground-color: $muted;\n\tpadding: 0 $spacing-4;\n\tfont-size: $text-sm;\n\tfont-weight: $font-medium;\n\tbox-shadow: $shadow-sm;\n\n\tsvg {\n\t\tpointer-events: none;\n\t\twidth: 1rem;\n\t\theight: 1rem;\n\t}\n}\n\n.separator {\n\tposition: relative;\n\talign-self: stretch;\n\tmargin: 0;\n\tbackground-color: $input;\n\n\t&[data-orientation='vertical'] {\n\t\theight: auto;\n\t\twidth: 1px;\n\t}\n\n\t&[data-orientation='horizontal'] {\n\t\theight: 1px;\n\t\twidth: auto;\n\t}\n}\n"
+    }
+  ]
+}

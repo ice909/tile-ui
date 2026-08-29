@@ -1,0 +1,72 @@
+---
+title: Slider
+description: SolidJS slider primitives with horizontal and vertical pointer and keyboard input.
+---
+
+> Use Slider for pointer and keyboard selection along horizontal or vertical ranges.
+
+<ComponentDemo slug="slider" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/slider
+```
+
+## Package usage
+
+```tsx
+import { Slider, SliderTrack, SliderRange, SliderThumb } from '@tile-ui/solid';
+
+<Slider defaultValue={40}><SliderTrack><SliderRange /></SliderTrack><SliderThumb aria-label="Volume" /></Slider>
+```
+
+## Highlights
+
+- Min, max, and step
+- Horizontal and vertical
+- Track, range, and thumb
+
+## Registry dependencies
+
+| Item     | Purpose                            |
+| -------- | ---------------------------------- |
+| `slider` | Component source and module styles |
+| `core`   | Framework-agnostic logic helpers   |
+| `utils`  | Shared utility helpers             |
+| `styles` | Shared SCSS tokens and globals     |
+
+## API reference
+
+### Slider
+
+| Prop            | Type                         | Default |
+| --------------- | ---------------------------- | ------- |
+| `orientation`   | `'horizontal' \| 'vertical'` | —       |
+| `min`           | `number`                     | —       |
+| `max`           | `number`                     | —       |
+| `step`          | `number`                     | —       |
+| `value`         | `number`                     | —       |
+| `defaultValue`  | `number`                     | —       |
+| `onValueChange` | `(value: number) => void`    | —       |
+| `disabled`      | `boolean`                    | —       |
+| `name`          | `string`                     | —       |
+| `form`          | `string`                     | —       |
+
+### SliderTrack
+
+No custom props.
+
+### SliderRange
+
+No custom props.
+
+### SliderThumb
+
+No custom props.
+
+## Related docs
+
+- [Progress](/docs/components/progress)
+- [Switch](/docs/components/switch)
+- [Form](/docs/components/form)

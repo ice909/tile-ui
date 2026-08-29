@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "create-local-storage",
+  "type": "registry:hook",
+  "title": "createLocalStorage",
+  "description": "Solid primitives for local and session storage signals.",
+  "dependencies": [
+    "solid-js"
+  ],
+  "files": [
+    {
+      "path": "packages/solid/src/primitives/storage.ts",
+      "type": "registry:hook",
+      "target": "primitives/create-local-storage.ts",
+      "content": "import { createSignal, onMount, type Accessor, type Setter } from 'solid-js';\n\n\n\nexport type StorageDefaultValue<T> = T | (() => T);\n\nexport type StorageSignal<T> = [Accessor<T>, Setter<T>];\n\nfunction resolveDefaultValue<T>(defaultValue: StorageDefaultValue<T>): T {\n\treturn typeof defaultValue === 'function' ? (defaultValue as () => T)() : defaultValue;\n}\n\nfunction createStorage<T>(kind: 'localStorage' | 'sessionStorage', key: string, defaultValue: StorageDefaultValue<T>): StorageSignal<T> {\n\tconst [value, setValue] = createSignal<T>(resolveDefaultValue(defaultValue));\n\n\tonMount(() => {\n\t\ttry {\n\t\t\tconst item = window[kind].getItem(key);\n\t\t\tif (item !== null) setValue(() => JSON.parse(item) as T);\n\t\t} catch (error) {\n\t\t\tconsole.warn(`Error reading ${kind} key \"${key}\":`, error);\n\t\t}\n\t});\n\n\tconst setStoredValue = ((next: T | ((previous: T) => T)) => {\n\t\tlet resolved!: T;\n\t\tsetValue((previous) => {\n\t\t\tresolved = typeof next === 'function' ? (next as (previous: T) => T)(previous) : next;\n\t\t\treturn resolved;\n\t\t});\n\n\t\ttry {\n\t\t\tif (typeof window !== 'undefined') window[kind].setItem(key, JSON.stringify(resolved));\n\t\t} catch (error) {\n\t\t\tconsole.warn(`Error setting ${kind} key \"${key}\":`, error);\n\t\t}\n\n\t\treturn resolved;\n\t}) as Setter<T>;\n\n\treturn [value, setStoredValue];\n}\n\n/** 创建与 localStorage 同步的 owner 作用域信号。 */\nexport function createLocalStorage<T = string>(key: string, defaultValue: StorageDefaultValue<T> = '' as T): StorageSignal<T> {\n\treturn createStorage('localStorage', key, defaultValue);\n}\n\n/** 创建与 sessionStorage 同步的 owner 作用域信号。 */\nexport function createSessionStorage<T = string>(key: string, defaultValue: StorageDefaultValue<T> = '' as T): StorageSignal<T> {\n\treturn createStorage('sessionStorage', key, defaultValue);\n}\n"
+    }
+  ]
+}

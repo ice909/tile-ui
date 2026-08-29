@@ -26,6 +26,12 @@
       "type": "registry:file",
       "target": "components/ui/button-group/button-group.module.scss",
       "content": "@use '../../../styles/variables/colors' as *;\n\n.buttonGroup {\n\tdisplay: flex;\n\twidth: fit-content;\n\talign-items: stretch;\n\n\t> * {\n\t\t&:focus-visible {\n\t\t\tposition: relative;\n\t\t\tz-index: 1;\n\t\t}\n\t}\n\n\t// 嵌套按钮组\n\t[data-slot='button-group'] {\n\t\tgap: $spacing-2;\n\t}\n\n\t// 排列方向\n\t&.orientationHorizontal {\n\t\tflex-direction: row;\n\n\t\t// 直接子元素之间的连接样式\n\t\t> *:not(:first-child) {\n\t\t\tborder-left: none;\n\t\t\tborder-top-left-radius: 0;\n\t\t\tborder-bottom-left-radius: 0;\n\t\t}\n\n\t\t> *:not(:last-child) {\n\t\t\tborder-top-right-radius: 0;\n\t\t\tborder-bottom-right-radius: 0;\n\t\t}\n\t}\n\n\t&.orientationVertical {\n\t\tflex-direction: column;\n\n\t\t> *:not(:first-child) {\n\t\t\tborder-top: none;\n\t\t\tborder-top-left-radius: 0;\n\t\t\tborder-top-right-radius: 0;\n\t\t}\n\n\t\t> *:not(:last-child) {\n\t\t\tborder-bottom-right-radius: 0;\n\t\t\tborder-bottom-left-radius: 0;\n\t\t}\n\t}\n}\n\n.text {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: $spacing-2;\n\tborder-radius: $radius;\n\tborder: 1px solid $border;\n\tbackground-color: $muted;\n\tpadding: 0 $spacing-4;\n\tfont-size: $text-sm;\n\tfont-weight: $font-medium;\n\tbox-shadow: $shadow-sm;\n\n\tsvg {\n\t\tpointer-events: none;\n\t\twidth: 1rem;\n\t\theight: 1rem;\n\t}\n}\n\n.separator {\n\tposition: relative;\n\talign-self: stretch;\n\tmargin: 0;\n\tbackground-color: $input;\n\n\t&[data-orientation='vertical'] {\n\t\theight: auto;\n\t\twidth: 1px;\n\t}\n\n\t&[data-orientation='horizontal'] {\n\t\theight: 1px;\n\t\twidth: auto;\n\t}\n}\n"
+    },
+    {
+      "path": "packages/react/src/components/button-group/index.ts",
+      "type": "registry:ui",
+      "target": "components/ui/button-group/index.ts",
+      "content": "export { ButtonGroup, ButtonGroupText, ButtonGroupSeparator, type ButtonGroupProps, type ButtonGroupTextProps, type ButtonGroupSeparatorProps } from './button-group';\n"
     }
   ]
 }

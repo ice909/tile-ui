@@ -1,0 +1,146 @@
+---
+title: ContextMenu
+description: A SolidJS context menu with keyboard opening, selectable items, and nested branches.
+---
+
+> Use ContextMenu for pointer or keyboard-invoked actions with checkbox, radio, and submenu branches.
+
+<ComponentDemo slug="context-menu" />
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/context-menu
+```
+
+## Package usage
+
+```tsx
+import { ContextMenu } from '@tile-ui/solid';
+
+<ContextMenu>
+	<ContextMenuTrigger tabindex="0">Right-click or press Shift+F10</ContextMenuTrigger>
+	<ContextMenuContent><ContextMenuItem>Open</ContextMenuItem></ContextMenuContent>
+</ContextMenu>
+```
+
+## Highlights
+
+- Pointer contextmenu and Shift+F10 keyboard opening
+- Checkbox, radio, and nested submenu branches
+- Focus returns through the shared menu Foundation
+
+## Foundation behavior
+
+This Solid implementation uses native nested primitives and does not expose `asChild`. Controlled state uses Solid accessors and explicit callbacks such as `onOpenChange`, `onValueChange`, or `onSearchChange` where the family supports them.
+
+Portal content is omitted from the server response and mounted during hydration into the resolved document or nested portal scope. Closed and default-open roots keep deterministic trigger IDs and ARIA relationships without a hydration mismatch.
+
+Keyboard behavior follows the shared Foundation: focus and Tab order, Escape dismissal, arrow-key movement, typeahead, submenu branches, and trigger restoration are applied according to the component role.
+
+## Registry dependencies
+
+| Item            | Purpose                            |
+| --------------- | ---------------------------------- |
+| `context-menu`  | Component source and module styles |
+| `core`          | Framework-agnostic logic helpers   |
+| `dropdown-menu` | Registry component dependency      |
+| `styles`        | Shared SCSS tokens and globals     |
+
+## API reference
+
+### ContextMenu
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### ContextMenuTrigger
+
+No custom props.
+
+### ContextMenuItem
+
+| Prop       | Type                         | Default |
+| ---------- | ---------------------------- | ------- |
+| `inset`    | `boolean`                    | —       |
+| `variant`  | `'default' \| 'destructive'` | —       |
+| `disabled` | `boolean`                    | —       |
+| `onSelect` | `(event: Event) => void`     | —       |
+
+### ContextMenuCheckboxItem
+
+| Prop              | Type                         | Default |
+| ----------------- | ---------------------------- | ------- |
+| `checked`         | `boolean`                    | —       |
+| `defaultChecked`  | `boolean`                    | —       |
+| `onCheckedChange` | `(checked: boolean) => void` | —       |
+| `disabled`        | `boolean`                    | —       |
+
+### ContextMenuRadioGroup
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `value`         | `string`                  | —       |
+| `defaultValue`  | `string`                  | —       |
+| `onValueChange` | `(value: string) => void` | —       |
+
+### ContextMenuRadioItem
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `value`    | `string`  | —       |
+| `disabled` | `boolean` | —       |
+
+### ContextMenuLabel
+
+| Prop    | Type      | Default |
+| ------- | --------- | ------- |
+| `inset` | `boolean` | —       |
+
+### ContextMenuSub
+
+| Prop           | Type                      | Default |
+| -------------- | ------------------------- | ------- |
+| `open`         | `boolean`                 | —       |
+| `defaultOpen`  | `boolean`                 | —       |
+| `onOpenChange` | `(open: boolean) => void` | —       |
+
+### ContextMenuSubTrigger
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `inset`    | `boolean` | —       |
+| `disabled` | `boolean` | —       |
+
+### ContextMenuPortal
+
+No custom props.
+
+### ContextMenuContent
+
+No custom props.
+
+### ContextMenuGroup
+
+No custom props.
+
+### ContextMenuSeparator
+
+No custom props.
+
+### ContextMenuShortcut
+
+No custom props.
+
+### ContextMenuSubContent
+
+No custom props.
+
+## Related docs
+
+- [DropdownMenu](/docs/components/dropdown-menu)
+- [Menubar](/docs/components/menubar)
+- [Command](/docs/components/command)

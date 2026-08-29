@@ -6,8 +6,8 @@ export default function SwitchDemo() {
 
 	return (
 		<div className="button-group">
-			<Switch checked={checked} onCheckedChange={setChecked} />
-			<Switch size="sm" />
+			<Switch checked={checked} onCheckedChange={setChecked} aria-label="Enable notifications" />
+			<Switch size="sm" aria-label="Compact mode" />
 		</div>
 	);
 }

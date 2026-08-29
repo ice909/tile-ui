@@ -1,0 +1,15 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+		"paths": {
+			"@tile-ui/core": ["../core/src/index.ts"],
+			"@tile-ui/core/*": ["../core/src/*"]
+		},
+		"rootDir": "../",
+		"outDir": "./dist"
+	},
+	"include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"],
+	"exclude": ["node_modules", "dist"]
+}

@@ -1,4 +1,4 @@
-export type { SonnerPosition, SonnerType, SonnerTheme, SonnerToast, SonnerAddInput, SonnerToasterBaseProps } from './sonner.types';
+export type { SonnerPosition, SonnerType, SonnerTheme, SonnerToast, SonnerToastUpdate, SonnerAddInput, SonnerToasterBaseProps } from './sonner.types';
 export {
 	sonnerStyleKeys,
 	SONNER_DEFAULT_DURATION,

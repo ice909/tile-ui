@@ -1,7 +1,7 @@
 // ==========================================
 // 生成两个文档站的 Open Graph 分享图（1200x630 PNG）。
 // 纯 Node 实现（仅依赖内置 zlib），无第三方依赖。
-// 输出：apps/react/public/og.png、apps/vue/public/og.png
+// 输出：apps/react/public/og.png、apps/vue/public/og.png、apps/solid/public/og.png
 // ==========================================
 import fs from 'node:fs';
 import path from 'node:path';
@@ -146,8 +146,10 @@ function generateOgImage() {
 	return encodePng(WIDTH, HEIGHT, buffer);
 }
 
+const requested = process.argv[2];
+const apps = requested === 'solid' ? ['apps/solid'] : ['apps/react', 'apps/vue'];
 const png = generateOgImage();
-for (const app of ['apps/react', 'apps/vue']) {
+for (const app of apps) {
 	const outputPath = path.join(repoRoot, app, 'public', 'og.png');
 	fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 	fs.writeFileSync(outputPath, png);
