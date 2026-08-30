@@ -108,6 +108,1134 @@
 	color: var(--docs-text-muted);
 }
 
+.framework-home {
+	--framework-accent: #2563eb;
+	--framework-accent-strong: #1d4ed8;
+	--framework-accent-soft: #eff6ff;
+	--framework-runtime-bg: #111d33;
+	--framework-runtime-border: #27456f;
+	padding-top: clamp(3rem, 7vw, 5.5rem);
+}
+
+.vue-home {
+	--framework-accent: #42b883;
+	--framework-accent-strong: #18794e;
+	--framework-accent-soft: #ecfdf5;
+	--framework-runtime-bg: #10271f;
+	--framework-runtime-border: #285b48;
+}
+
+.framework-hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+	align-items: center;
+	gap: clamp(2.5rem, 7vw, 6rem);
+	min-height: 430px;
+}
+
+.framework-hero__copy {
+	display: grid;
+	gap: $spacing-4;
+}
+
+.framework-hero h1 {
+	max-width: 700px;
+	font-size: clamp(3rem, 6vw, 5.15rem);
+	font-weight: 650;
+	line-height: 0.98;
+	letter-spacing: -0.05em;
+}
+
+.framework-hero .lede {
+	max-width: 620px;
+	font-size: clamp(1rem, 1.5vw, 1.125rem);
+}
+
+.framework-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $spacing-3;
+	margin-top: $spacing-2;
+}
+
+.framework-button {
+	display: inline-flex;
+	min-height: 2.5rem;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--docs-border-strong);
+	border-radius: var(--docs-radius-sm);
+	background: var(--docs-surface);
+	color: var(--docs-text);
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.framework-button:hover {
+	border-color: var(--framework-accent);
+	text-decoration: none;
+}
+
+.framework-button--primary {
+	border-color: var(--framework-accent);
+	background: var(--framework-accent);
+	color: #fff;
+}
+
+.react-composition,
+.vue-reactivity {
+	overflow: hidden;
+	border: 1px solid var(--docs-border);
+	border-radius: 1.25rem;
+	background: var(--docs-surface);
+	box-shadow: 0 24px 60px color-mix(in srgb, var(--framework-accent) 13%, transparent);
+}
+
+.react-composition__bar,
+.vue-reactivity__bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.8rem 1rem;
+	border-bottom: 1px solid var(--docs-border);
+	background: var(--docs-surface-subtle);
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.72rem;
+}
+
+.react-composition__bar small,
+.vue-reactivity__bar small {
+	color: var(--framework-accent-strong);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+.react-composition__tree {
+	display: grid;
+	gap: 1.25rem;
+	padding: 2rem;
+	background: radial-gradient(circle at 85% 10%, color-mix(in srgb, var(--framework-accent) 12%, transparent), transparent 38%), var(--docs-surface);
+}
+
+.react-composition__branch {
+	position: relative;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+	margin-left: 1.5rem;
+}
+
+.react-composition__branch--deep {
+	margin-left: 3rem;
+}
+
+.react-composition__branch::before {
+	position: absolute;
+	top: -1.3rem;
+	left: -0.8rem;
+	width: 1px;
+	height: calc(100% + 1.3rem);
+	background: var(--docs-border-strong);
+	content: '';
+}
+
+.react-node {
+	padding: 0.65rem 0.75rem;
+	border: 1px solid var(--docs-border);
+	border-radius: 0.55rem;
+	background: var(--docs-surface);
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.75rem;
+}
+
+.react-node--root,
+.react-node--active {
+	border-color: color-mix(in srgb, var(--framework-accent) 55%, var(--docs-border));
+	background: var(--framework-accent-soft);
+	color: var(--framework-accent-strong);
+}
+
+.react-composition > p,
+.vue-reactivity > p {
+	margin: 0;
+	padding: 0.85rem 1rem;
+	border-top: 1px solid var(--docs-border);
+	color: var(--docs-text-muted);
+	font-size: 0.78rem;
+}
+
+.vue-reactivity__code {
+	display: grid;
+	padding: 1.5rem;
+	background: linear-gradient(135deg, color-mix(in srgb, var(--framework-accent) 8%, transparent), transparent 50%), #172026;
+	color: #dce7e2;
+}
+
+.vue-reactivity__code code {
+	min-height: 1.55rem;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.75rem;
+	white-space: pre;
+}
+
+.vue-reactivity__code code:nth-child(1),
+.vue-reactivity__code code:nth-child(3),
+.vue-reactivity__code code:nth-child(4),
+.vue-reactivity__code code:nth-child(8) {
+	color: #42d392;
+}
+
+.vue-reactivity__active {
+	margin: 0 -0.5rem;
+	padding: 0 0.5rem;
+	border-left: 2px solid #42d392;
+	background: rgba(66, 211, 146, 0.09);
+	color: #fff;
+}
+
+.framework-paths {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	margin-top: clamp(3rem, 7vw, 5rem);
+	border-top: 1px solid var(--docs-border);
+	border-bottom: 1px solid var(--docs-border);
+}
+
+.framework-paths__item {
+	position: relative;
+	display: grid;
+	grid-template-rows: auto auto 1fr;
+	gap: $spacing-3;
+	min-height: 12rem;
+	padding: 1.25rem;
+	border-right: 1px solid var(--docs-border);
+	color: var(--docs-text);
+	text-decoration: none;
+}
+
+.framework-paths__item:last-child {
+	border-right: 0;
+}
+
+.framework-paths__item:hover {
+	background: var(--framework-accent-soft);
+	text-decoration: none;
+}
+
+.framework-paths__item > span {
+	color: var(--framework-accent-strong);
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.7rem;
+}
+
+.framework-paths__item h2 {
+	font-size: 1.05rem;
+}
+
+.framework-paths__item p {
+	color: var(--docs-text-muted);
+	font-size: 0.875rem;
+	line-height: 1.55;
+}
+
+.framework-paths__item small {
+	position: absolute;
+	right: 1rem;
+	bottom: 1rem;
+	color: var(--framework-accent-strong);
+	font-size: 1rem;
+}
+
+.framework-home .showcase-shell {
+	margin-top: clamp(4rem, 8vw, 6rem);
+}
+
+.framework-home .showcase-header h2 {
+	max-width: 720px;
+	font-size: clamp(2rem, 4vw, 3rem);
+	letter-spacing: -0.035em;
+}
+
+.framework-code-story {
+	min-width: 0;
+	margin-top: clamp(4rem, 8vw, 6rem);
+}
+
+.framework-code-story__heading {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: 2rem;
+	margin-bottom: 1.25rem;
+}
+
+.framework-code-story__heading h2 {
+	max-width: 720px;
+	margin-top: 0.65rem;
+	font-size: clamp(2rem, 4vw, 3.25rem);
+	font-weight: 650;
+	line-height: 1.05;
+	letter-spacing: -0.04em;
+}
+
+.framework-code-story__heading > p {
+	justify-self: end;
+	margin-bottom: 0.3rem;
+	color: var(--docs-text-muted);
+	font-size: 0.9375rem;
+	line-height: 1.6;
+	text-align: right;
+	white-space: nowrap;
+}
+
+// Shared compare layout contract:
+// - source is the clipped left layer; preview is the full right layer offset by the same split value;
+// - the outer frame, never the demo card, owns clipping and framework-specific final-state height;
+// - the preview keeps its themed pegboard and a measurable bottom safety gap;
+// - the editor permits thin vertical scrolling only, while each source line is clipped horizontally;
+// - container queries respond to the dragged preview width, independently of the page viewport.
+.framework-code-compare {
+	--framework-compare-split: 50%;
+	// The outer frame owns clipping and height. Never clip the rendered card to conceal insufficient space.
+	position: relative;
+	width: 100%;
+	max-width: 100%;
+	height: clamp(570px, 58vw, 640px);
+	overflow: hidden;
+	border: 1px solid var(--docs-border);
+	border-radius: 1.25rem;
+	background: var(--docs-surface);
+	box-shadow: 0 16px 48px color-mix(in srgb, var(--framework-accent) 10%, transparent);
+	isolation: isolate;
+}
+
+.react-home .framework-code-compare {
+	// React's final card wraps more readily, so reserve height from real final-state content rather than matching Vue blindly.
+	height: clamp(650px, 64vw, 720px);
+}
+
+.vue-home .framework-code-compare {
+	height: clamp(620px, 61vw, 690px);
+}
+
+.framework-code-compare__render,
+.framework-code-compare__code {
+	position: absolute;
+	inset: 0;
+}
+
+.framework-code-compare__render {
+	left: var(--framework-compare-split);
+	min-width: 0;
+	container-type: inline-size;
+	container-name: framework-render;
+}
+
+.framework-code-compare__code {
+	z-index: 1;
+	width: var(--framework-compare-split);
+	min-width: 0;
+	overflow: hidden;
+	background: #0d1117;
+	color: #c9d1d9;
+}
+
+.framework-code-compare__canvas {
+	display: grid;
+	min-width: 0;
+	width: 100%;
+	height: 100%;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: clamp(1.5rem, 3vw, 2.25rem);
+	padding: clamp(2.5rem, 5vw, 4rem);
+	// The pegboard is a cross-framework visual contract; only the framework theme color changes.
+	background-color: var(--docs-surface-subtle);
+	background-image:
+		radial-gradient(circle, color-mix(in srgb, var(--framework-accent) 35%, var(--docs-border-strong)) 1.15px, transparent 1.4px),
+		radial-gradient(circle at 24% 18%, color-mix(in srgb, var(--framework-accent) 15%, transparent), transparent 18rem);
+	background-size:
+		20px 20px,
+		auto;
+}
+
+.framework-code-compare__preview-label {
+	display: grid;
+	min-width: 0;
+	gap: 0.35rem;
+}
+
+.framework-code-compare__preview-label span,
+.framework-code-story__hint,
+.framework-code-compare__bar {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.framework-code-compare__preview-label span {
+	color: var(--framework-accent-strong);
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.framework-code-compare__preview-label strong {
+	min-width: 0;
+	font-size: clamp(1.5rem, 3vw, 2.15rem);
+	font-weight: 650;
+	line-height: 1.15;
+	overflow-wrap: anywhere;
+}
+
+.framework-showcase-card {
+	min-width: 0;
+	width: 100%;
+	overflow: visible;
+	background: color-mix(in srgb, var(--docs-surface) 96%, transparent);
+	box-shadow: 0 24px 60px color-mix(in srgb, var(--framework-accent) 13%, transparent);
+}
+
+.framework-showcase-card > * {
+	min-width: 0;
+}
+
+.framework-showcase-card__title {
+	display: flex;
+	min-width: 0;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.framework-showcase-card__title > div {
+	min-width: 0;
+}
+
+.framework-code-compare__demo {
+	display: grid;
+	min-width: 0;
+	width: min(100%, 520px);
+	min-height: 0;
+	align-items: start;
+	// Keep a measurable safety gap below the final card instead of hiding overflow at the card boundary.
+	padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.framework-showcase-card__content {
+	display: grid;
+	gap: 1.15rem;
+}
+
+.framework-showcase-card__row,
+.framework-showcase-card__progress > div {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.framework-showcase-card__row {
+	padding: 0.85rem 0;
+	border-block: 1px solid var(--docs-border);
+}
+
+.framework-showcase-card__row > div,
+.framework-showcase-card__progress {
+	display: grid;
+	gap: 0.35rem;
+}
+
+.framework-showcase-card__row strong,
+.framework-showcase-card__progress strong {
+	font-size: 0.88rem;
+}
+
+.framework-showcase-card__row span,
+.framework-showcase-card__progress span {
+	color: var(--docs-text-muted);
+	font-size: 0.75rem;
+}
+
+.framework-showcase-card__stage {
+	transition:
+		opacity 0.35s ease,
+		transform 0.35s ease;
+}
+
+.framework-showcase-card__stage[data-visible='false'] {
+	display: none;
+}
+
+.framework-showcase-card__stage[data-active='adding'] {
+	animation: framework-preview-insert 0.45s 0.45s ease both;
+}
+
+.framework-showcase-card__stage[data-active='removing'] {
+	animation: framework-preview-remove 0.55s ease both;
+}
+
+.framework-showcase-card__reset {
+	display: inline-flex;
+	min-height: 2.25rem;
+	align-items: center;
+	justify-content: center;
+	padding: 0.45rem 0.85rem;
+	border: 1px solid var(--docs-border-strong);
+	border-radius: 0.5rem;
+	background: var(--docs-surface);
+	color: var(--docs-text);
+	font-weight: 500;
+}
+
+.framework-code-compare__bar {
+	display: flex;
+	min-width: 0;
+	height: 3rem;
+	align-items: center;
+	gap: 0.45rem;
+	padding: 0 1rem;
+	border-bottom: 1px solid #30363d;
+	background: #161b22;
+	font-size: 0.7rem;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.framework-code-compare__bar i {
+	width: 0.55rem;
+	height: 0.55rem;
+	border-radius: 50%;
+	background: #f85149;
+}
+
+.framework-code-compare__bar i:nth-child(2) {
+	background: #d29922;
+}
+
+.framework-code-compare__bar i:nth-child(3) {
+	background: #3fb950;
+}
+
+.framework-code-compare__bar strong {
+	display: inline-flex;
+	min-width: 0;
+	align-items: center;
+	gap: 0.45rem;
+	margin-left: 0.4rem;
+	padding: 0.32rem 0.65rem;
+	border: 1px solid #30363d;
+	border-radius: 0.375rem;
+	background: #0d1117;
+	color: #e6edf3;
+	font-weight: 500;
+}
+
+.framework-code-compare__bar small {
+	margin-left: auto;
+	color: var(--framework-accent);
+}
+
+.framework-code-compare__file-icon {
+	width: 1rem;
+	height: 1rem;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.45;
+}
+
+.framework-code-compare__file-icon--react {
+	color: #58c4dc;
+}
+
+.framework-code-compare__file-icon--vue {
+	color: #42b883;
+}
+
+.framework-code-compare__highlight {
+	width: 100%;
+	min-width: 0;
+	height: calc(100% - 3rem);
+	max-width: 100%;
+	// Source is clipped by the draggable viewport. Only vertical editor scrolling is allowed.
+	overflow-x: hidden;
+	overflow-y: auto;
+	overflow-anchor: none;
+	overscroll-behavior: contain;
+	scrollbar-color: color-mix(in srgb, var(--framework-accent) 30%, transparent) transparent;
+	scrollbar-width: thin;
+}
+
+.framework-code-compare__highlight::-webkit-scrollbar {
+	width: 4px;
+	height: 0;
+}
+
+.framework-code-compare__highlight::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.framework-code-compare__highlight::-webkit-scrollbar-thumb {
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--framework-accent) 30%, transparent);
+}
+
+.framework-code-compare__highlight:hover::-webkit-scrollbar-thumb {
+	background: color-mix(in srgb, var(--framework-accent) 52%, transparent);
+}
+
+.framework-code-compare__highlight::-webkit-scrollbar-corner {
+	display: none;
+}
+
+.framework-code-compare__highlight pre {
+	width: 100%;
+	min-width: 0;
+	max-width: 100%;
+	margin: 0;
+	overflow: hidden;
+	padding: 1rem 0 2rem;
+	tab-size: 2;
+}
+
+.framework-code-compare__highlight > pre > code {
+	display: block;
+	min-width: 0;
+	max-width: 100%;
+	counter-reset: framework-code-line;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.77rem;
+	line-height: 1.75;
+}
+
+.framework-code-compare__highlight .code-line {
+	position: relative;
+	display: block;
+	min-height: 1.75em;
+	padding: 0 1.5rem 0 4.2rem;
+	counter-increment: framework-code-line;
+	overflow: hidden;
+	text-overflow: clip;
+	white-space: pre;
+}
+
+.framework-code-compare__highlight .code-line[data-visible='false'] {
+	display: none;
+}
+
+.framework-code-compare__highlight .code-line::before {
+	display: inline-block;
+	width: 2rem;
+	margin-right: 1rem;
+	margin-left: -3rem;
+	color: #66707c;
+	text-align: right;
+	content: counter(framework-code-line);
+	user-select: none;
+}
+
+// Diff state is semantic: adding is strong, completed idle lines remain added, and removing animates out.
+.framework-code-compare__highlight .code-line[data-status='adding'],
+.framework-code-compare__highlight .code-line[data-status='removing'] {
+	background: linear-gradient(90deg, color-mix(in srgb, var(--framework-accent) 34%, transparent), transparent);
+	box-shadow: inset 2px 0 var(--framework-accent);
+}
+
+.framework-code-compare__highlight .code-line[data-status='added'] {
+	background: linear-gradient(90deg, color-mix(in srgb, var(--framework-accent) 18%, transparent), transparent);
+	box-shadow: inset 2px 0 color-mix(in srgb, var(--framework-accent) 68%, transparent);
+}
+
+.framework-code-compare__highlight .code-line[data-status='adding']::after,
+.framework-code-compare__highlight .code-line[data-status='added']::after,
+.framework-code-compare__highlight .code-line[data-status='removing']::after {
+	position: absolute;
+	top: 0;
+	left: 0.55rem;
+	color: var(--framework-accent);
+	font-weight: 800;
+	content: '+';
+}
+
+.framework-code-compare__highlight .code-editing-caret {
+	// Components render this only on the unique final line of the active stage; CSS must not synthesize extra carets.
+	display: inline-block;
+	flex: 0 0 auto;
+	width: 1px;
+	height: 1.15em;
+	margin-left: 2px;
+	vertical-align: -0.18em;
+	background: #fff;
+	box-shadow: 0 0 5px rgba(255, 255, 255, 0.55);
+	animation: framework-caret 0.72s steps(1, end) infinite;
+}
+
+.framework-code-compare__line,
+.framework-code-compare__handle {
+	position: absolute;
+	z-index: 3;
+	left: var(--framework-compare-split);
+	transform: translateX(-50%);
+}
+
+.framework-code-compare__line {
+	inset-block: 0;
+	width: 2px;
+	transform: translateX(-1px);
+	background: var(--framework-accent);
+	pointer-events: none;
+}
+
+.framework-code-compare__handle {
+	top: 50%;
+	display: grid;
+	width: 2.75rem;
+	height: 2.75rem;
+	place-items: center;
+	border: 1px solid color-mix(in srgb, var(--framework-accent) 35%, var(--docs-border));
+	border-radius: 50%;
+	background: var(--docs-surface);
+	color: var(--framework-accent-strong);
+	box-shadow: 0 2px 8px rgba(23, 23, 23, 0.14);
+	transform: translate(-50%, -50%);
+	cursor: ew-resize;
+	touch-action: none;
+}
+
+.framework-code-compare__handle svg {
+	width: 1.4rem;
+	fill: none;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.8;
+}
+
+@keyframes framework-preview-insert {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes framework-preview-remove {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-6px);
+	}
+}
+
+@keyframes framework-caret {
+	50% {
+		opacity: 0;
+	}
+}
+
+@container framework-render (max-width: 500px) {
+	.framework-code-compare__canvas {
+		gap: 1.25rem;
+		padding-inline: 1.5rem;
+	}
+
+	.framework-code-compare__preview-label strong {
+		font-size: 1.5rem;
+	}
+
+	.framework-showcase-card__title,
+	.framework-showcase-card__row {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.framework-showcase-card__description,
+	.framework-showcase-card__row span {
+		display: none;
+	}
+
+	.framework-showcase-card__content {
+		gap: 0.75rem;
+	}
+
+	.framework-showcase-card > * {
+		padding-inline: 1rem;
+	}
+
+	.framework-showcase-card__row {
+		padding-block: 0.6rem;
+	}
+
+	.framework-showcase-card__footer {
+		align-items: stretch;
+		flex-direction: column-reverse;
+	}
+
+	.framework-showcase-card__footer > * {
+		width: 100%;
+	}
+}
+
+@container framework-render (max-width: 330px) {
+	.framework-code-compare__canvas {
+		gap: 0.75rem;
+		padding-inline: 0.8rem;
+	}
+
+	.framework-code-compare__preview-label {
+		display: none;
+	}
+
+	.framework-showcase-card > * {
+		padding-inline: 0.75rem;
+	}
+}
+
+.framework-code-compare__handle:focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--framework-accent) 35%, transparent);
+	outline-offset: 3px;
+}
+
+.framework-code-story__hint {
+	margin-top: 0.8rem;
+	color: var(--docs-text-muted);
+	font-size: 0.68rem;
+	letter-spacing: 0.04em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.framework-runtime {
+	display: grid;
+	grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+	gap: clamp(2rem, 6vw, 5rem);
+	margin-top: clamp(4rem, 8vw, 6rem);
+	padding: clamp(2rem, 5vw, 3.5rem);
+	border: 1px solid var(--framework-runtime-border);
+	border-radius: 1.25rem;
+	background: radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--framework-accent) 20%, transparent), transparent 42%), var(--framework-runtime-bg);
+	color: #fff;
+}
+
+.framework-runtime h2 {
+	margin-top: $spacing-3;
+	font-size: clamp(1.8rem, 3vw, 2.6rem);
+	line-height: 1.08;
+	letter-spacing: -0.035em;
+}
+
+.framework-runtime .eyebrow {
+	color: color-mix(in srgb, var(--framework-accent) 68%, white);
+}
+
+.framework-runtime ul {
+	list-style: none;
+}
+
+.framework-runtime li {
+	display: grid;
+	gap: 0.35rem;
+	padding: 1.1rem 0;
+	border-bottom: 1px solid color-mix(in srgb, var(--framework-accent) 24%, rgba(255, 255, 255, 0.12));
+}
+
+.framework-runtime li:last-child {
+	border-bottom: 0;
+}
+
+.framework-runtime li span {
+	color: rgba(255, 255, 255, 0.62);
+	font-size: 0.875rem;
+}
+
+.framework-family {
+	display: grid;
+	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+	gap: clamp(2rem, 6vw, 5rem);
+	margin-top: clamp(4rem, 8vw, 6rem);
+	padding: clamp(2rem, 5vw, 3.5rem);
+	border: 1px solid var(--docs-border);
+	border-radius: 1.25rem;
+	background: var(--docs-surface-subtle);
+}
+
+.framework-family__intro {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.framework-family__intro h2 {
+	max-width: 430px;
+	margin: 0.65rem 0 1rem;
+	font-size: clamp(2rem, 4vw, 3.25rem);
+	font-weight: 600;
+	line-height: 1.02;
+	letter-spacing: -0.04em;
+}
+
+.framework-family__intro > p:last-child {
+	max-width: 430px;
+	margin: 0;
+	color: var(--docs-text-muted);
+	line-height: 1.65;
+}
+
+.framework-family__links {
+	display: grid;
+}
+
+.framework-family__item {
+	display: grid;
+	grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 1rem;
+	min-height: 6rem;
+	padding: 1rem 0.25rem;
+	border-bottom: 1px solid var(--docs-border);
+	color: var(--docs-text);
+	text-decoration: none;
+	transition:
+		padding 160ms ease,
+		color 160ms ease;
+}
+
+.framework-family__links > :last-child {
+	border-bottom: 0;
+}
+
+.framework-family__links a:hover {
+	padding-right: 0;
+	padding-left: 0.75rem;
+	color: var(--docs-text);
+	text-decoration: none;
+}
+
+.framework-family__links .framework-family__current {
+	margin-inline: -0.75rem;
+	padding-inline: 0.75rem;
+	border: 1px solid var(--framework-accent);
+	border-radius: 0.75rem;
+	background: var(--framework-accent);
+	color: var(--docs-surface);
+}
+
+.framework-family__current small {
+	color: #fff;
+	font-weight: 700;
+}
+
+.framework-family__icon {
+	display: grid;
+	width: 2.75rem;
+	height: 2.75rem;
+	place-items: center;
+	border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+	border-radius: 50%;
+	background: color-mix(in srgb, currentColor 10%, transparent);
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-weight: 700;
+}
+
+/* Keep framework marks optically equal in size and preserve their exact brand colors. */
+.framework-family__icon svg {
+	display: block;
+	fill: currentColor;
+}
+
+.framework-family__icon svg ellipse {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.5;
+}
+
+.framework-family__vue-inner {
+	fill: #35495e;
+}
+
+.framework-family__current .framework-family__icon {
+	border-color: color-mix(in srgb, var(--docs-surface) 72%, transparent);
+	background: var(--docs-surface);
+}
+
+.framework-family__icon--react {
+	color: #149eca;
+}
+.framework-family__icon--react svg {
+	width: 1.65rem;
+	height: 1.65rem;
+}
+.framework-family__icon--vue {
+	color: #42b883;
+}
+.framework-family__icon--vue svg {
+	width: 1.55rem;
+	height: 1.55rem;
+}
+.framework-family__icon--solid {
+	color: #446b9e;
+}
+.framework-family__icon--solid svg {
+	width: 1.45rem;
+	height: 1.45rem;
+}
+
+.framework-family__name {
+	display: grid;
+	gap: 0.2rem;
+}
+
+.framework-family__name strong {
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+
+.framework-family__name small {
+	color: var(--docs-text-muted);
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.7rem;
+	font-weight: 500;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.framework-family__current .framework-family__name small {
+	color: #fff;
+	font-weight: 700;
+}
+
+.framework-family__arrow {
+	color: var(--docs-text-muted);
+	font-size: 1.25rem;
+	font-weight: 400;
+}
+
+.framework-family__more {
+	color: var(--docs-text-muted);
+}
+
+@media (max-width: 900px) {
+	.framework-hero,
+	.framework-runtime,
+	.framework-family {
+		grid-template-columns: 1fr;
+	}
+
+	.framework-code-story__heading {
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+	}
+
+	.framework-code-story__heading > p {
+		justify-self: start;
+		text-align: left;
+		white-space: normal;
+	}
+
+	.framework-paths {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.framework-paths__item:nth-child(2) {
+		border-right: 0;
+	}
+
+	.framework-paths__item:nth-child(-n + 2) {
+		border-bottom: 1px solid var(--docs-border);
+	}
+}
+
+@media (max-width: 560px) {
+	.framework-home {
+		padding-top: $spacing-8;
+	}
+
+	.framework-hero h1 {
+		font-size: clamp(2.8rem, 14vw, 4rem);
+	}
+
+	.framework-paths {
+		grid-template-columns: 1fr;
+	}
+
+	.framework-paths__item {
+		min-height: 10rem;
+		border-right: 0;
+		border-bottom: 1px solid var(--docs-border);
+	}
+
+	.framework-paths__item:last-child {
+		border-bottom: 0;
+	}
+
+	.react-composition__tree {
+		padding: 1.25rem;
+	}
+
+	.framework-code-compare {
+		height: 620px;
+		border-radius: 0.75rem;
+	}
+
+	.react-home .framework-code-compare {
+		height: 690px;
+	}
+
+	.vue-home .framework-code-compare {
+		height: 650px;
+	}
+
+	.framework-code-compare__canvas {
+		padding: 1.5rem 1rem;
+	}
+
+	.framework-code-compare__code code {
+		font-size: 0.7rem;
+	}
+
+	.framework-code-compare__bar {
+		padding-inline: 0.65rem;
+	}
+
+	.framework-code-compare__bar i {
+		display: none;
+	}
+
+	.framework-code-compare__bar strong {
+		margin-left: 0;
+		padding-inline: 0.45rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.framework-code-compare__highlight .code-line {
+		padding-right: 0.75rem;
+		padding-left: 2.75rem;
+	}
+
+	.framework-code-compare__highlight .code-line::before {
+		width: 1.5rem;
+		margin-right: 0.5rem;
+		margin-left: -2rem;
+	}
+
+	.framework-family {
+		gap: 1.5rem;
+		padding: 1.5rem;
+	}
+
+	.framework-family__item {
+		min-height: 5.25rem;
+	}
+}
+
 .multi-framework-support {
 	margin-top: $spacing-8;
 }
@@ -145,18 +1273,26 @@
 	width: 1.125rem;
 	height: 1.125rem;
 	flex: 0 0 auto;
+	transform-origin: center;
 }
 
 .multi-framework-support__icon--react {
 	color: #61dafb;
+	transform: scale(1.2);
 }
 
 .multi-framework-support__icon--vue {
 	color: #42b883;
+	transform: scale(1.08);
+}
+
+.multi-framework-support__icon--vue .multi-framework-support__icon-inner {
+	fill: #35495e;
 }
 
 .multi-framework-support__icon--solid {
-	color: #d97706;
+	color: #2c4f7c;
+	transform: scale(0.9);
 }
 
 .prose-page pre {

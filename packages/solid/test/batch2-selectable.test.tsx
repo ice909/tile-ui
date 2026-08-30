@@ -76,13 +76,17 @@ describe('Batch 2 selectable lane', () => {
 			setControlled = updateControlled;
 			return (
 				<>
-					<Checkbox defaultChecked={defaultChecked()} checked={controlled()} onCheckedChange={(next) => changes.push(next)} />
+					<Checkbox defaultChecked={defaultChecked()} checked={controlled()} onCheckedChange={(next) => changes.push(next)}>
+						This label must not change the control size
+					</Checkbox>
 					<Checkbox data-cancel onClick={[tuple, 'user']} />
 					<Checkbox data-disabled disabled onCheckedChange={() => calls.push('disabled')} />
 				</>
 			);
 		});
 		const buttons = container.querySelectorAll<HTMLButtonElement>('button[role="checkbox"]');
+		expect(buttons[0].textContent).toBe('');
+		expect(buttons[0].children).toHaveLength(1);
 		expect(buttons[0].getAttribute('aria-checked')).toBe('mixed');
 		setDefault(false);
 		expect(buttons[0].getAttribute('aria-checked')).toBe('mixed');

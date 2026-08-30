@@ -128,9 +128,9 @@ export function HomeCodeCompare() {
 			<div class="solid-code-story__heading">
 				<div>
 					<p class="solid-kicker">Rendered from the source</p>
-					<h2 id="solid-code-story-title">See the component. Own the code.</h2>
+					<h2 id="solid-code-story-title">See it, it’s yours.</h2>
 				</div>
-				<p>Drag the divider to move between an interactive Solid workspace and the exact source that renders it.</p>
+				<p>Explore the component and its code.</p>
 			</div>
 			<div ref={(element) => (frame = element)} class="solid-code-compare" style={{ '--solid-compare-split': `${split()}%` }}>
 				<div class="solid-code-compare__render" aria-label="Live Solid component preview">

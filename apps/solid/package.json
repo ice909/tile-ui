@@ -14,7 +14,7 @@
 		"seo:generate": "node ./scripts/generate-seo.mjs && node ../../scripts/generate-og.mjs solid",
 		"generate": "pnpm docs:generate && pnpm docs:build && pnpm preview-code && pnpm primitive-preview-code && pnpm home-showcase-code && pnpm seo:generate",
 		"generated:check": "node ./scripts/check-generated.mjs",
-		"predev": "pnpm packages:build && pnpm generate",
+		"predev": "pnpm generate",
 		"dev:app": "vite dev --port 3003",
 		"dev": "pnpm exec concurrently -k -n registry,app -c yellow,cyan \"pnpm registry:watch\" \"pnpm dev:app\"",
 		"prebuild": "pnpm packages:build && pnpm generate",

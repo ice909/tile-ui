@@ -12,9 +12,10 @@ export default function CheckboxDemo() {
 				setSubmitted(new FormData(event.currentTarget).has('terms') ? 'accepted' : 'missing');
 			}}
 			onReset={() => queueMicrotask(() => setChecked(false))}>
-			<Checkbox name="terms" checked={checked()} onCheckedChange={(value) => setChecked(value === true)} required>
-				Accept terms
-			</Checkbox>
+			<div style={{ display: 'flex', 'align-items': 'center', gap: '0.5rem' }}>
+				<Checkbox id="terms" name="terms" checked={checked()} onCheckedChange={(value) => setChecked(value === true)} required />
+				<label for="terms">Accept terms</label>
+			</div>
 			<div>
 				<Button type="submit" size="sm">
 					Validate

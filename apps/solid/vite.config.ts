@@ -95,6 +95,7 @@ export default defineConfig({
 	},
 	nitro: {
 		preset: 'static',
+		serveStatic: false,
 		output: {
 			publicDir: path.join(dirname, 'dist'),
 		},

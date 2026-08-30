@@ -213,9 +213,7 @@ export function CompleteFoundationFixture(props: { namespace: string }) {
 				</ButtonGroup>
 			</Slug>
 			<Slug name="checkbox">
-				<Checkbox data-control="checkbox" name="accepted" defaultChecked>
-					Accepted
-				</Checkbox>
+				<Checkbox data-control="checkbox" name="accepted" defaultChecked aria-label="Accepted" />
 			</Slug>
 			<Slug name="field">
 				<Field name={`${props.namespace}field-email`}>

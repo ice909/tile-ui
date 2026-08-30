@@ -100,7 +100,6 @@ export function Checkbox(props: CheckboxProps) {
 						</svg>
 					</Show>
 				</span>
-				{local.children}
 			</button>
 			<input
 				{...HIDDEN_FORM_CONTROL_PROPS}
