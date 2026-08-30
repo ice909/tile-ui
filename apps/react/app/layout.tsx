@@ -74,7 +74,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 								Tile UI React
 							</Link>
 							<div className="docs-app-header__actions">
-								<nav className="docs-app-nav">
+								<nav className="docs-app-nav" aria-label="Primary navigation">
 									<Link href="/docs">Docs</Link>
 									<Link href="/docs/components">Components</Link>
 									<Link href="/docs/hooks">Hooks</Link>

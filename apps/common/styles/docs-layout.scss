@@ -595,6 +595,25 @@
 		gap: 10px;
 	}
 
+	.docs-app-nav {
+		min-width: 0;
+		flex-wrap: nowrap;
+		gap: 8px;
+	}
+
+	.docs-app-nav a,
+	.docs-app-github {
+		font-size: 0.75rem;
+	}
+
+	.docs-app-github {
+		margin-left: auto;
+	}
+
+	.docs-app-github span {
+		display: none;
+	}
+
 	.docs-app-header__divider {
 		display: none;
 	}

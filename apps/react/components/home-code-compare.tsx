@@ -44,19 +44,12 @@ export function HomeCodeCompare() {
 	const editorPointerDown = useRef(false);
 
 	useEffect(() => {
-		let index = 0;
-		let timer: ReturnType<typeof setTimeout>;
-		const advance = () => {
-			const next = timeline[index];
-			setStep(next);
-			timer = setTimeout(() => {
-				index = (index + 1) % timeline.length;
-				advance();
-			}, next.duration);
-		};
-		advance();
+		const timer = setTimeout(() => {
+			const index = timeline.indexOf(step);
+			setStep(timeline[(index + 1) % timeline.length]);
+		}, step.duration);
 		return () => clearTimeout(timer);
-	}, []);
+	}, [step]);
 
 	useEffect(() => {
 		const element = editor.current;

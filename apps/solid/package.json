@@ -36,6 +36,7 @@
 		"@tile-ui/core": "workspace:*",
 		"@tile-ui/solid": "workspace:*",
 		"@tile-ui/styles": "workspace:*",
+		"agentation": "^3.0.2",
 		"gray-matter": "^4.0.3",
 		"markdown-it": "^14.1.1",
 		"markdown-it-anchor": "^9.2.0",

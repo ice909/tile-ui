@@ -28,7 +28,7 @@ function legacyCopyToClipboard(value: string) {
 	return hasCopied;
 }
 
-export async function copyToClipboard(value: string) {
+async function copyToClipboard(value: string) {
 	if (typeof window === 'undefined') {
 		return false;
 	}

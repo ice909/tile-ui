@@ -26,6 +26,7 @@
 		"@tile-ui/core": "workspace:*",
 		"@tile-ui/react": "workspace:*",
 		"@tile-ui/styles": "workspace:*",
+		"agentation": "^3.0.2",
 		"fumadocs-core": "16.0.5",
 		"fumadocs-ui": "16.0.5",
 		"next": "15.5.9",

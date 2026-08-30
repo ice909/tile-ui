@@ -462,11 +462,8 @@ async function interactionChecks(app) {
 	await expectInteraction(app, '/docs/components/checkbox', 'checkbox-names', async (page) => {
 		const checkboxes = await page.getByRole('checkbox').all();
 		assert.ok(checkboxes.length >= 1);
-		for (const checkbox of checkboxes) {
-			const label = (await checkbox.getAttribute('aria-label')) ?? '';
-			const text = ((await checkbox.textContent()) ?? '').trim();
-			assert.ok(label.length > 0 || text.length > 0, 'checkbox without accessible name');
-		}
+		const namedCheckboxes = await page.getByRole('checkbox', { name: /.+/ }).all();
+		assert.equal(namedCheckboxes.length, checkboxes.length, 'checkbox without accessible name');
 		assert.equal(await page.getByRole('checkbox', { name: 'Accept terms' }).count(), 1);
 	});
 	await expectInteraction(app, '/docs/components/switch', 'switch-names', async (page) => {
@@ -778,7 +775,7 @@ async function runApp(app) {
 			if (app.name === 'solid') {
 				const response = await fetch(`http://127.0.0.1:${app.port}/docs/primitives`);
 				const html = await response.text();
-				if (response.status !== 200 || !/<h1[\s>]/i.test(html) || !/primitive-preview/.test(html))
+				if (response.status !== 200 || !/<h1[\s>]/i.test(html) || !/solid-preview--primitives/.test(html))
 					addFinding(app.name, '/docs/primitives', 'primitives-ssr', `status=${response.status}, bytes=${html.length}`);
 			}
 			for (const route of routes) {

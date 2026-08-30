@@ -2447,8 +2447,30 @@ a.solid-frameworks__item:hover {
 	}
 
 	.solid-code-compare {
-		height: 570px;
+		height: auto;
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+		overflow: hidden;
 		border-radius: 0.75rem;
+	}
+
+	.solid-code-compare__render,
+	.solid-code-compare__code {
+		position: relative;
+		inset: auto;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.solid-code-compare__render {
+		height: 38rem;
+		flex: 0 0 auto;
+	}
+
+	.solid-code-compare__code {
+		height: min(420px, 60svh);
+		flex: 0 0 auto;
 	}
 
 	.solid-code-compare__canvas {
@@ -2461,6 +2483,7 @@ a.solid-frameworks__item:hover {
 
 	.solid-code-compare__highlight {
 		overflow-x: auto;
+		overflow-y: auto;
 	}
 
 	.solid-code-compare__highlight .code-line {
@@ -2480,9 +2503,10 @@ a.solid-frameworks__item:hover {
 		display: none;
 	}
 
-	.solid-code-compare__handle {
-		width: 2.5rem;
-		height: 2.5rem;
+	.solid-code-compare__line,
+	.solid-code-compare__handle,
+	.solid-code-story__hint {
+		display: none;
 	}
 
 	.solid-frameworks {
