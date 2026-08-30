@@ -22,6 +22,7 @@
 	},
 	"files": [
 		"README.md",
+		"README.zh-CN.md",
 		"dist"
 	],
 	"type": "module",

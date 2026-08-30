@@ -92,11 +92,12 @@ async function packAndInspect(packDir) {
 		const entries = stdout.trim().split('\n').filter(Boolean);
 		assert(entries.includes('package/package.json'), `${name} tarball is missing package.json`);
 		assert(entries.includes('package/README.md'), `${name} tarball is missing README.md`);
+		assert(entries.includes('package/README.zh-CN.md'), `${name} tarball is missing README.zh-CN.md`);
 		for (const entry of entries) {
 			assert(entry.startsWith('package/'), `${name} has an unsafe tar entry: ${entry}`);
 			assert(!/(^|\/)(?:src|test|tests|docs|temp|tmp|node_modules)(?:\/|$)/i.test(entry), `${name} includes unwanted path: ${entry}`);
-			if (name === 'styles') assert(/^package\/(?:package\.json|README\.md|LICENSE|scss\/|css\/)/.test(entry), `${name} includes unexpected path: ${entry}`);
-			else assert(/^package\/(?:package\.json|README\.md|LICENSE|dist\/)/.test(entry), `${name} includes unexpected path: ${entry}`);
+			if (name === 'styles') assert(/^package\/(?:package\.json|README(?:\.zh-CN)?\.md|LICENSE|scss\/|css\/)/.test(entry), `${name} includes unexpected path: ${entry}`);
+			else assert(/^package\/(?:package\.json|README(?:\.zh-CN)?\.md|LICENSE|dist\/)/.test(entry), `${name} includes unexpected path: ${entry}`);
 		}
 
 		const extractDir = path.join(packDir, `extract-${name}`);

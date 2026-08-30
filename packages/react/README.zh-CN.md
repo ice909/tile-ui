@@ -2,21 +2,21 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-React components and hooks built on top of `@tile-ui/core` and `@tile-ui/styles`.
+基于 `@tile-ui/core` 和 `@tile-ui/styles` 构建的 React 组件与 Hooks。
 
-## Installation
+## 安装
 
 ```bash
 pnpm add @tile-ui/react @tile-ui/core @tile-ui/styles
 ```
 
-## Exports
+## 导出内容
 
-- Components: `Button`, `Input`, `Textarea`, `Label`, `Card`
-- Hooks: `useLocalStorage`, `useSessionStorage`, `useWindowSize`, `useMediaQuery`, `useIsMobile`, `useOnlineStatus`, `useScrollPosition`, `useCopyToClipboard`, `useClickOutside`, `useKeyPress`, `useMousePosition`
-- Hooks subpath export: `@tile-ui/react/hooks`
+- 组件：`Button`、`Input`、`Textarea`、`Label`、`Card`
+- Hooks：`useLocalStorage`、`useSessionStorage`、`useWindowSize`、`useMediaQuery`、`useIsMobile`、`useOnlineStatus`、`useScrollPosition`、`useCopyToClipboard`、`useClickOutside`、`useKeyPress`、`useMousePosition`
+- Hooks 子路径导出：`@tile-ui/react/hooks`
 
-## Usage
+## 使用方式
 
 ```tsx
 import '@tile-ui/styles/css/globals.css';
@@ -29,7 +29,7 @@ export function ExampleCard() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{isDesktop ? 'Desktop' : 'Mobile'}</CardTitle>
+				<CardTitle>{isDesktop ? '桌面端' : '移动端'}</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<Button>Tile UI</Button>
@@ -39,7 +39,7 @@ export function ExampleCard() {
 }
 ```
 
-## Development
+## 开发
 
 ```bash
 pnpm --filter @tile-ui/react build

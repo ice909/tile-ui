@@ -1,5 +1,7 @@
 # @tile-ui/vue
 
+[English](./README.md) | [简体中文](./README.zh-CN.md)
+
 Vue components and composables built on top of `@tile-ui/core` and `@tile-ui/styles`.
 
 ## Installation

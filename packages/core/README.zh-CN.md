@@ -2,21 +2,21 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-Framework-agnostic logic, types, utility helpers, and design tokens shared across the Tile UI packages.
+Tile UI 各子包共享的框架无关逻辑、类型、工具函数和设计令牌。
 
-## Installation
+## 安装
 
 ```bash
 pnpm add @tile-ui/core
 ```
 
-## Exports
+## 导出内容
 
-- Component logic and types for button, input, textarea, label, and card
-- Utility helpers from `@tile-ui/core/utils`
-- Design tokens via `tokens`
+- Button、Input、Textarea、Label 和 Card 的组件逻辑与类型
+- 来自 `@tile-ui/core/utils` 的工具函数
+- 通过 `tokens` 提供的设计令牌
 
-## Usage
+## 使用方式
 
 ```ts
 import { cn, getButtonStyleKeys, type ButtonVariant, tokens } from '@tile-ui/core';
@@ -26,13 +26,13 @@ const className = cn('tile-button', ...styleKeys);
 const primaryColor = tokens.colors.primary;
 ```
 
-## Package Entrypoints
+## 包入口
 
 - `@tile-ui/core`
 - `@tile-ui/core/utils`
 - `@tile-ui/core/tokens`
 
-## Development
+## 开发
 
 ```bash
 pnpm --filter @tile-ui/core build

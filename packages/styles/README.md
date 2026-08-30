@@ -1,5 +1,7 @@
 # @tile-ui/styles
 
+[English](./README.md) | [简体中文](./README.zh-CN.md)
+
 Shared SCSS source files and compiled CSS for the Tile UI runtime design system.
 
 ## Installation

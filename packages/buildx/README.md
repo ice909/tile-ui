@@ -1,5 +1,7 @@
 # @tile-ui/buildx
 
+[English](./README.md) | [简体中文](./README.zh-CN.md)
+
 Internal registry build helpers and test fixtures used by the Tile UI monorepo.
 
 ## Scope
