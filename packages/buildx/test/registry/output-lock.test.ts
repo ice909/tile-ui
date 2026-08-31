@@ -152,12 +152,12 @@ describe('acquireOutputLock', () => {
 		['missing', undefined],
 		['partial', { token: 'partial' }],
 		['malformed', '{ malformed'],
-	])('quarantines and reports aged %s metadata without blocking availability', async (_kind, metadata) => {
+	])('quarantines and reports %s metadata without blocking availability', async (_kind, metadata) => {
 		const outDir = path.join(tempDir, 'registry');
-		await writeLock(outDir, metadata, 10_000);
+		await writeLock(outDir, metadata);
 		const artifacts: string[] = [];
 		const lock = await acquireOutputLock(outDir, {
-			staleMs: 1,
+			timeoutMs: 50,
 			onRecoveryArtifact: (artifactPath) => {
 				artifacts.push(artifactPath);
 			},

@@ -235,7 +235,7 @@ async function inspectOrRecover(lockPath: string, staleMs: number, options: Outp
 	throwIfAborted(options.signal);
 	const liveAgeMs = Math.max(0, Date.now() - (liveMetadata?.createdAt ?? observed.mtimeMs));
 	const liveObservation: LockObservation = { metadata: liveMetadata, ageMs: liveAgeMs };
-	if (liveAgeMs < staleMs) return { retryNow: false, observation: liveObservation };
+	if (liveMetadata && liveAgeMs < staleMs) return { retryNow: false, observation: liveObservation };
 	if (liveMetadata && (liveMetadata.hostname !== os.hostname() || isProcessAlive(liveMetadata.pid))) {
 		return { retryNow: false, observation: liveObservation };
 	}
@@ -251,7 +251,7 @@ async function inspectOrRecover(lockPath: string, staleMs: number, options: Outp
 		if (!owner) {
 			if (options.onRecoveryArtifact) {
 				await abortable(
-					Promise.resolve(options.onRecoveryArtifact(detachedPath, 'Aged lock metadata is missing, partial, or malformed. Artifact preserved for inspection.')),
+					Promise.resolve(options.onRecoveryArtifact(detachedPath, 'Lock metadata is missing, partial, or malformed. Artifact preserved for inspection.')),
 					options.signal,
 				);
 			}
