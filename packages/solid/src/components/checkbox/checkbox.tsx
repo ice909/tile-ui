@@ -51,8 +51,7 @@ export function Checkbox(props: CheckboxProps) {
 		queueMicrotask(syncControl);
 	});
 	const bindReset = () => {
-		const associatedForm = local.form && typeof document !== 'undefined' ? (document.getElementById(local.form) as HTMLFormElement | null) : control?.form;
-		resetBinding.bind({ form: associatedForm ?? null });
+		resetBinding.bind(control);
 	};
 
 	onMount(() => {

@@ -6,6 +6,7 @@ function FieldControl(props: { onInput: (value: string) => void }) {
 	return (
 		<input
 			id={field.id}
+			class="component-preview__native-field"
 			required={field.required()}
 			aria-invalid={field.invalid()}
 			aria-describedby={`${field.descriptionId} ${field.messageId}`}

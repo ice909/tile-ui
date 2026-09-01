@@ -1,5 +1,6 @@
 import { Show, createContext, createEffect, createSignal, createUniqueId, onCleanup, splitProps, useContext, type Accessor, type JSX, type ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
+import { resolveDropdownMenuSide } from '@tile-ui/core';
 import type { DropdownMenuAlign, DropdownMenuSide } from '@tile-ui/core';
 import {
 	PortalScopeContext,
@@ -69,6 +70,7 @@ export interface MenuFamilyConfig {
 		viewport: { width: number; height: number };
 		rtl?: boolean;
 	}) => MenuPosition;
+	subPosition?: MenuFamilyConfig['position'];
 }
 
 export interface MenuRootProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'ref'> {
@@ -334,6 +336,8 @@ function CheckIcon(props: { config: MenuFamilyConfig }) {
 			fill="none"
 			stroke="currentColor"
 			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
 			aria-hidden="true">
 			<path d="M20 6 9 17l-5-5" />
 		</svg>
@@ -366,6 +370,8 @@ function ChevronIcon(props: { config: MenuFamilyConfig }) {
 			fill="none"
 			stroke="currentColor"
 			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
 			aria-hidden="true">
 			<path d="m9 18 6-6-6-6" />
 		</svg>
@@ -584,6 +590,7 @@ export function createMenuFamily(config: MenuFamilyConfig) {
 		const trigger = sub?.trigger ?? menu?.trigger ?? root!.trigger;
 		const contentId = () => local.id ?? sub?.contentId() ?? menu?.contentId() ?? root!.contentId();
 		const side = () => local.side ?? (sub ? 'right' : 'bottom');
+		const [resolvedSide, setResolvedSide] = createSignal<DropdownMenuSide>(side());
 		const align = () => local.align ?? (config.kind === 'dropdown' && !sub ? 'center' : 'start');
 		const sideOffset = () => local.sideOffset ?? (config.kind === 'menubar' && !sub ? 8 : config.kind === 'dropdown' && !sub ? 4 : 0);
 		const alignOffset = () => local.alignOffset ?? (config.kind === 'menubar' && !sub ? -4 : 0);
@@ -677,15 +684,24 @@ export function createMenuFamily(config: MenuFamilyConfig) {
 							content: () => content,
 							open,
 							onPosition: ({ anchorRect, contentRect, containerRect, direction }) => {
-								const next = config.position({
+								let physicalSide = sub ? resolveDropdownMenuSide(side(), direction === 'rtl') : side();
+								if (sub && (physicalSide === 'left' || physicalSide === 'right')) {
+									const leftSpace = anchorRect.left - containerRect.left;
+									const rightSpace = containerRect.right - anchorRect.right;
+									const requiredSpace = contentRect.width + sideOffset();
+									if (physicalSide === 'right' && rightSpace < requiredSpace && leftSpace > rightSpace) physicalSide = 'left';
+									else if (physicalSide === 'left' && leftSpace < requiredSpace && rightSpace > leftSpace) physicalSide = 'right';
+								}
+								setResolvedSide(physicalSide);
+								const next = (sub && config.subPosition ? config.subPosition : config.position)({
 									triggerRect: anchorRect,
 									contentSize: { width: contentRect.width, height: contentRect.height },
-									side: side(),
+									side: physicalSide,
 									align: align(),
 									sideOffset: sideOffset(),
 									alignOffset: alignOffset(),
 									viewport: { width: containerRect.width, height: containerRect.height },
-									rtl: direction === 'rtl',
+									rtl: sub && (physicalSide === 'left' || physicalSide === 'right') ? false : direction === 'rtl',
 								});
 								setPosition({ left: next.left + containerRect.left, top: next.top + containerRect.top });
 							},
@@ -793,7 +809,7 @@ export function createMenuFamily(config: MenuFamilyConfig) {
 								dir={menuDirection(trigger())}
 								tabIndex={-1}
 								data-state={config.state(open())}
-								data-side={side()}
+								data-side={sub ? resolvedSide() : side()}
 								data-align={align()}
 								class={classNames(config.styles[sub ? config.keys.subContent : config.keys.content], local.class)}
 								style={{

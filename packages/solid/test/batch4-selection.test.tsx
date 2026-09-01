@@ -266,6 +266,10 @@ describe('Batch 4 selection lane', () => {
 		expect(trigger.getAttribute('aria-controls')).toBe('combo-list');
 		expect([...document.querySelectorAll('[role="combobox"]')].filter((element) => !element.closest('[hidden]'))).toHaveLength(1);
 		expect(trigger.textContent).toContain('Alpha');
+		const chevron = trigger.querySelector('svg');
+		expect(chevron?.getAttribute('viewBox')).toBe('0 0 24 24');
+		expect(chevron?.querySelector('path')?.getAttribute('d')).toBe('m6 9 6 6 6-6');
+		expect(trigger.textContent).not.toContain('⌄');
 		trigger.click();
 		await tick();
 		const input = document.querySelector('#combo-input') as HTMLInputElement;
@@ -282,6 +286,9 @@ describe('Batch 4 selection lane', () => {
 		expect(list.contains(input)).toBe(false);
 		expect(list.getAttribute('role')).toBe('listbox');
 		expect(Array.from(list.children, (element) => element.getAttribute('role'))).toEqual(['option', 'option', 'option']);
+		const selectedIndicator = list.querySelector('[aria-selected="true"] span');
+		expect(selectedIndicator?.querySelector('svg path')?.getAttribute('d')).toBe('M20 6 9 17l-5-5');
+		expect(selectedIndicator?.textContent).not.toContain('✓');
 		input.value = 'second';
 		input.dispatchEvent(new InputEvent('input', { bubbles: true }));
 		await tick();

@@ -296,7 +296,6 @@ export function PopoverContent(props: ParentProps<PopoverContentProps>) {
 				aria-modal="false"
 				aria-labelledby={context.triggerId()}
 				tabIndex={-1}
-				hidden={!context.open()}
 				data-slot="popover-content"
 				data-state={getPopoverState(context.open())}
 				data-side={resolvedSide()}

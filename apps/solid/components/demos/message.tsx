@@ -1,18 +1,21 @@
-import { Message, MessageAvatar, MessageContent, MessageFooter, MessageGroup, MessageHeader } from '@tile-ui/solid';
+import { Bubble, BubbleContent, Message, MessageContent, MessageGroup } from '@tile-ui/solid';
 
 export default function MessageDemo() {
 	return (
 		<MessageGroup>
-			<Message align="start">
-				<MessageAvatar aria-hidden="true">TU</MessageAvatar>
+			<Message align="end">
 				<MessageContent>
-					<MessageHeader>Tile UI</MessageHeader>
-					Solid registry output is ready for review.
-					<MessageFooter>10:42</MessageFooter>
+					<Bubble align="end">
+						<BubbleContent>Hi there</BubbleContent>
+					</Bubble>
 				</MessageContent>
 			</Message>
-			<Message align="end">
-				<MessageContent>Keyboard and SSR checks passed.</MessageContent>
+			<Message align="start">
+				<MessageContent>
+					<Bubble variant="muted">
+						<BubbleContent>Hey! What can I help with?</BubbleContent>
+					</Bubble>
+				</MessageContent>
 			</Message>
 		</MessageGroup>
 	);

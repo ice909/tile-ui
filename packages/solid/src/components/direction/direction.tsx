@@ -1,7 +1,6 @@
 import { createContext, splitProps, useContext, type Accessor, type JSX, type ParentProps } from 'solid-js';
-import { directionStyleKeys, normalizeDirection } from '@tile-ui/core';
+import { normalizeDirection } from '@tile-ui/core';
 import type { DirectionBaseProps, DirectionValue } from '@tile-ui/core';
-import styles from '@tile-ui/styles/scss/components/direction.module.scss';
 
 const defaultDirection: Accessor<DirectionValue> = () => 'ltr';
 const DirectionContext = createContext<Accessor<DirectionValue>>(defaultDirection);
@@ -18,7 +17,7 @@ export function DirectionProvider(props: ParentProps<DirectionProviderProps>) {
 
 	return (
 		<DirectionContext.Provider value={direction}>
-			<div {...rest} dir={direction()} class={`${styles[directionStyleKeys.root]} ${local.class ?? ''}`}>
+			<div {...rest} dir={direction()} class={local.class}>
 				{local.children}
 			</div>
 		</DirectionContext.Provider>

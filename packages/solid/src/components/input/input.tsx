@@ -66,9 +66,11 @@ export function Input(props: InputProps) {
 				aria-invalid={aria()['aria-invalid']}
 				aria-describedby={aria()['aria-describedby']}
 				onInput={(event) => {
+					const next = event.currentTarget.value;
 					invokeEventHandler(local.onInput as Parameters<typeof invokeEventHandler<InputEvent>>[0], event);
+					if (local.value !== undefined) event.currentTarget.value = String(local.value);
 					if (!event.defaultPrevented) {
-						local.onChangeValue?.(event.currentTarget.value);
+						local.onChangeValue?.(next);
 					}
 				}}
 			/>

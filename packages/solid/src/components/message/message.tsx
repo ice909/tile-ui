@@ -9,7 +9,7 @@ function messagePrimitive(key: 'group' | 'avatar' | 'content' | 'header' | 'foot
 	return (props: ParentProps<MessagePrimitiveProps>) => {
 		const [local, rest] = splitProps(props, ['class', 'children']);
 		return (
-			<div {...rest} data-slot={slot} class={`${styles[messageStyleKeys[key]]} ${local.class ?? ''}`}>
+			<div {...rest} data-slot={slot} class={[styles[messageStyleKeys[key]], local.class].filter(Boolean).join(' ')}>
 				{local.children}
 			</div>
 		);
@@ -25,9 +25,10 @@ export function Message(props: ParentProps<MessageProps>) {
 	const [local, rest] = splitProps(props, ['align', 'class', 'children']);
 	const align = () => local.align ?? 'start';
 	const styleKeys = () => getMessageStyleKeys(align());
+	const classes = () => [styles[styleKeys().base], styles[styleKeys().align], local.class].filter(Boolean).join(' ');
 
 	return (
-		<div {...rest} data-slot="message" data-align={align()} class={`${styles[styleKeys().base]} ${styles[styleKeys().align]} ${local.class ?? ''}`}>
+		<div {...rest} data-slot="message" data-align={align()} class={classes()}>
 			{local.children}
 		</div>
 	);

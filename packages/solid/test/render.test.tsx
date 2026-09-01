@@ -455,6 +455,7 @@ describe('Input 状态与 ARIA', () => {
 		input.value = 'b';
 		input.dispatchEvent(new InputEvent('input', { bubbles: true }));
 		expect(onChangeValue).toHaveBeenCalledWith('b');
+		expect(input.value).toBe('a');
 		setValue('c');
 		expect(input.value).toBe('c');
 	});

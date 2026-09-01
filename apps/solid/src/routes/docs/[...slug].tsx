@@ -7,9 +7,11 @@ import { PrimitiveDemo } from '../../components/primitive-demo';
 import { Seo, breadcrumbJsonLd } from '../../components/seo';
 import { solidDocs } from '../../generated/docs';
 
-const componentNames = new Set(
-	solidDocs.filter((entry) => entry.slug.startsWith('components/') && entry.slug !== 'components').map((entry) => entry.slug.slice('components/'.length)),
-);
+const componentDocs = solidDocs
+	.filter((entry) => entry.slug.startsWith('components/') && entry.slug !== 'components')
+	.map((entry) => ({ slug: entry.slug.slice('components/'.length), title: entry.title }))
+	.sort((a, b) => a.slug.localeCompare(b.slug));
+const componentNames = new Set(componentDocs.map((entry) => entry.slug));
 const introLinks = [
 	{ title: 'Introduction', href: '/docs' },
 	{ title: 'Installation', href: '/docs/installation' },
@@ -126,10 +128,10 @@ export default function DocsPage() {
 						<div>
 							<p>Components</p>
 							<nav aria-label="Solid component documentation">
-								<For each={[...componentNames].sort()}>
-									{(name) => (
-										<a href={`/docs/components/${name}`} data-active={componentSlug() === name}>
-											{name[0].toUpperCase() + name.slice(1)}
+								<For each={componentDocs}>
+									{(component) => (
+										<a href={`/docs/components/${component.slug}`} data-active={componentSlug() === component.slug}>
+											{component.title}
 										</a>
 									)}
 								</For>

@@ -58,6 +58,7 @@ afterEach(() => {
 	document.body.innerHTML = '';
 	document.body.style.overflow = '';
 	vi.restoreAllMocks();
+	vi.unstubAllGlobals();
 });
 
 describe('Solid AlertDialog modal lane', () => {
@@ -272,6 +273,54 @@ describe('Solid Sheet modal lane', () => {
 });
 
 describe('Solid Drawer modal lane', () => {
+	it('uses the directional entrance layout while preserving content styles', async () => {
+		const frames: FrameRequestCallback[] = [];
+		vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+			frames.push(callback);
+			return frames.length;
+		});
+		vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => undefined);
+		for (const [direction, transform] of [
+			['top', 'translateY(-100%)'],
+			['bottom', 'translateY(100%)'],
+			['left', 'translateX(-100%)'],
+			['right', 'translateX(100%)'],
+		] as const) {
+			mount(() => (
+				<Drawer defaultOpen direction={direction}>
+					<DrawerContent showCloseButton={false} style={{ color: 'red' }} aria-label={`${direction} drawer`} />
+				</Drawer>
+			));
+			await settle();
+			const content = document.querySelector(`[aria-label="${direction} drawer"]`) as HTMLDivElement;
+			expect(content.style.transform).toBe(transform);
+			expect(content.style.opacity).toBe('0');
+			expect(content.style.color).toBe('red');
+			frames.shift()?.(0);
+			expect(content.style.transform).toBe('');
+			expect(content.style.opacity).toBe('');
+			expect(content.style.color).toBe('red');
+			for (const dispose of disposers.splice(0)) dispose();
+			document.body.innerHTML = '';
+		}
+	});
+
+	it('renders visible content when the owner window has no animation frame API', async () => {
+		vi.stubGlobal('requestAnimationFrame', undefined);
+		vi.stubGlobal('cancelAnimationFrame', undefined);
+		mount(() => (
+			<Drawer defaultOpen direction="left">
+				<DrawerContent showCloseButton={false} style={{ color: 'red' }} aria-label="fallback drawer" />
+			</Drawer>
+		));
+		await settle();
+		const content = document.querySelector('[aria-label="fallback drawer"]') as HTMLDivElement;
+		expect(content.dataset.direction).toBe('left');
+		expect(content.style.transform).toBe('');
+		expect(content.style.opacity).toBe('');
+		expect(content.style.color).toBe('red');
+	});
+
 	it('renders all directions and public structural parts with callback refs', async () => {
 		for (const direction of ['top', 'bottom', 'left', 'right'] as const) {
 			let contentRef: HTMLDivElement | undefined;

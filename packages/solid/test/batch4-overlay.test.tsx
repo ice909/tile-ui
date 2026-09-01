@@ -206,9 +206,9 @@ describe('Solid Tooltip anchored overlay lane', () => {
 		setDelay(20);
 		pointer(trigger, 'pointerenter');
 		vi.advanceTimersByTime(19);
-		expect(content.hidden).toBe(true);
+		expect(content.dataset.state).toBe('closed');
 		vi.advanceTimersByTime(1);
-		expect(content.hidden).toBe(false);
+		expect(content.dataset.state).toBe('open');
 		await settlePosition(trigger, content, portal);
 		expect(content.dataset.side).toBe('right');
 		expect(content.style.left).toBe('145px');
@@ -243,7 +243,7 @@ describe('Solid Tooltip anchored overlay lane', () => {
 		vi.advanceTimersByTime(30);
 		setDelay(20);
 		vi.advanceTimersByTime(19);
-		expect(content.hidden).toBe(true);
+		expect(content.dataset.state).toBe('closed');
 		vi.advanceTimersByTime(1);
 		expect(content.hidden).toBe(false);
 		await settlePosition(trigger, content, portal);
@@ -287,7 +287,7 @@ describe('Solid HoverCard anchored overlay lane', () => {
 		expect(content.hidden).toBe(false);
 		await flush();
 		key(content, 'Escape');
-		expect(content.hidden).toBe(true);
+		expect(content.dataset.state).toBe('closed');
 		expect(changes).toEqual([true, false]);
 		await flush();
 	});
@@ -391,7 +391,7 @@ describe('Solid HoverCard anchored overlay lane', () => {
 		setDelays({ open: 20, close: 30 });
 		pointer(trigger, 'pointerenter');
 		vi.advanceTimersByTime(20);
-		expect(content.hidden).toBe(false);
+		expect(content.dataset.state).toBe('open');
 		pointer(trigger, 'pointerleave');
 		vi.advanceTimersByTime(29);
 		expect(content.hidden).toBe(false);
@@ -484,7 +484,8 @@ describe('Solid Popover anchored overlay lane', () => {
 		expect(content.style.left).toBe('145px');
 		expect(content.style.top).toBe('60px');
 		outside.dispatchEvent(new realm.MouseEvent('pointerdown', { bubbles: true, cancelable: true, view: iframeView }));
-		expect(content.hidden).toBe(true);
+		expect(content.dataset.state).toBe('closed');
+		expect(content.hidden).toBe(false);
 	});
 
 	it('toggles uncontrolled state, forwards ARIA/custom IDs/container/placement, focuses content, and restores trigger on Escape', async () => {
@@ -507,6 +508,7 @@ describe('Solid Popover anchored overlay lane', () => {
 		trigger.focus();
 		trigger.click();
 		await flush();
+		expect(content.dataset.state).toBe('open');
 		expect(content.hidden).toBe(false);
 		expect(content.getAttribute('role')).toBe('dialog');
 		expect(content.getAttribute('aria-modal')).toBe('false');
@@ -515,7 +517,8 @@ describe('Solid Popover anchored overlay lane', () => {
 		expect(content.dataset.align).toBe('start');
 		expect(content.contains(document.activeElement)).toBe(true);
 		key(content, 'Escape');
-		expect(content.hidden).toBe(true);
+		expect(content.dataset.state).toBe('closed');
+		expect(content.hidden).toBe(false);
 		expect(document.activeElement).toBe(trigger);
 		expect(changes).toEqual([true, false]);
 	});
@@ -541,9 +544,9 @@ describe('Solid Popover anchored overlay lane', () => {
 		await flush();
 		outside.focus();
 		expect(changes).toEqual([false]);
-		expect(document.body.querySelector('[data-slot="popover-content"]')?.hasAttribute('hidden')).toBe(false);
+		expect(document.body.querySelector('[data-slot="popover-content"]')?.getAttribute('data-state')).toBe('open');
 		setOpen(false);
-		expect(document.body.querySelector('[data-slot="popover-content"]')?.hasAttribute('hidden')).toBe(true);
+		expect(document.body.querySelector('[data-slot="popover-content"]')?.getAttribute('data-state')).toBe('closed');
 	});
 
 	it('runs tuple click first, honors preventDefault, and only dismisses the top nested portal branch', async () => {
@@ -571,20 +574,20 @@ describe('Solid Popover anchored overlay lane', () => {
 		));
 		(container.querySelector('button') as HTMLButtonElement).click();
 		expect(calls).toEqual(['cancel']);
-		expect((document.body.querySelector('[data-slot="popover-content"]') as HTMLDivElement).hidden).toBe(true);
+		expect((document.body.querySelector('[data-slot="popover-content"]') as HTMLDivElement).dataset.state).toBe('closed');
 		await flush();
 		const parent = document.body.querySelector('[data-id="parent-content"]') as HTMLDivElement;
 		const child = document.body.querySelector('[data-id="child-content"]') as HTMLDivElement;
 		pointer(child, 'pointerdown');
-		expect(parent.hidden).toBe(false);
-		expect(child.hidden).toBe(false);
+		expect(parent.dataset.state).toBe('open');
+		expect(child.dataset.state).toBe('open');
 		const outside = document.createElement('div');
 		document.body.appendChild(outside);
 		pointer(outside, 'pointerdown');
-		expect(child.hidden).toBe(true);
-		expect(parent.hidden).toBe(false);
+		expect(child.dataset.state).toBe('closed');
+		expect(parent.dataset.state).toBe('open');
 		pointer(outside, 'pointerdown');
-		expect(parent.hidden).toBe(true);
+		expect(parent.dataset.state).toBe('closed');
 	});
 
 	it('supports cancellable Escape hooks, callback-only refs, and listener cleanup', async () => {
@@ -603,7 +606,7 @@ describe('Solid Popover anchored overlay lane', () => {
 		));
 		await flush();
 		key(contentElement!, 'Escape');
-		expect(contentElement?.hidden).toBe(false);
+		expect(contentElement?.dataset.state).toBe('open');
 		expect(rootElement).toBe(container.firstElementChild);
 		expect(triggerElement).toBe(container.querySelector('button'));
 		disposers.pop()?.();
@@ -650,12 +653,12 @@ describe('Solid Popover anchored overlay lane', () => {
 		expect(content.contains(document.activeElement)).toBe(true);
 		outside.focus();
 		expect(modalElement?.contains(document.activeElement) || content.contains(document.activeElement)).toBe(true);
-		expect(content.hidden).toBe(false);
+		expect(content.dataset.state).toBe('open');
 		const modalAction = modalElement?.querySelector('button') as HTMLButtonElement;
 		modalAction.focus();
 		outside.focus();
 		expect(modalElement?.contains(document.activeElement) || content.contains(document.activeElement)).toBe(true);
-		expect(content.hidden).toBe(false);
+		expect(content.dataset.state).toBe('open');
 		expect(focusOutside).toHaveBeenCalled();
 		expect(outsideTargets.filter((target) => target === outside)).toHaveLength(2);
 	});
@@ -732,7 +735,8 @@ describe('Solid Popover anchored overlay lane', () => {
 		const inside = content.querySelector('button') as HTMLButtonElement;
 		inside.focus();
 		outside.focus();
-		expect(content.hidden).toBe(true);
+		expect(content.dataset.state).toBe('closed');
+		expect(content.hidden).toBe(false);
 		expect(document.activeElement).toBe(outside);
 		setOpen(true);
 		await flush();

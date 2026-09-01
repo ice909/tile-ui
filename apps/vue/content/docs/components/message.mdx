@@ -8,17 +8,21 @@ description: Message primitives.
 ## Registry install
 
 ```bash
-pnpm dlx shadcn@latest add @tile-ui/message
+pnpm dlx shadcn@latest add @tile-ui/message @tile-ui/bubble
 ```
 
 ## Package usage
 
 ```tsx
-import { MessageGroup, Message, MessageContent } from '@tile-ui/vue';
+import { Bubble, BubbleContent, MessageGroup, Message, MessageContent } from '@tile-ui/vue';
 
 <MessageGroup>
 	<Message align="end">
-		<MessageContent>Hi there</MessageContent>
+		<MessageContent>
+			<Bubble align="end">
+				<BubbleContent>Hi there</BubbleContent>
+			</Bubble>
+		</MessageContent>
 	</Message>
 </MessageGroup>
 ```
@@ -27,15 +31,17 @@ import { MessageGroup, Message, MessageContent } from '@tile-ui/vue';
 
 - Start and end alignment
 - Avatar, content, header, and footer
+- Explicit Bubble composition for message surfaces
 - Group
 
 ## Registry dependencies
 
-| Item      | Purpose                            |
-| --------- | ---------------------------------- |
-| `message` | Component source and module styles |
-| `core`    | Framework-agnostic logic helpers   |
-| `styles`  | Shared SCSS tokens and globals     |
+| Item      | Purpose                             |
+| --------- | ----------------------------------- |
+| `message` | Component source and module styles  |
+| `bubble`  | Message surface and visual variants |
+| `core`    | Framework-agnostic logic helpers    |
+| `styles`  | Shared SCSS tokens and globals      |
 
 ## API reference
 

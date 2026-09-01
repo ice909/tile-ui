@@ -140,6 +140,65 @@ describe('Solid Slider interaction lane', () => {
 		expect(captured.size).toBe(0);
 	});
 
+	it('continues dragging on the owner document when pointer capture is unavailable', () => {
+		const moves = vi.fn();
+		const moveTargets: EventTarget[] = [];
+		const container = mount(() => (
+			<Slider
+				defaultValue={0}
+				onPointerMove={(event) => {
+					moves();
+					moveTargets.push(event.currentTarget);
+				}}>
+				<SliderThumb />
+			</Slider>
+		));
+		const root = container.querySelector('[data-slot="slider"]') as HTMLDivElement;
+		const thumb = root.querySelector('[role="slider"]') as HTMLElement;
+		vi.spyOn(root, 'getBoundingClientRect').mockReturnValue({ left: 0, top: 0, width: 100, height: 20 } as DOMRect);
+		Object.defineProperty(root, 'setPointerCapture', {
+			configurable: true,
+			value: () => {
+				throw new DOMException('unsupported');
+			},
+		});
+
+		root.dispatchEvent(pointer('pointerdown', { pointerId: 9, clientX: 10 }));
+		thumb.dispatchEvent(pointer('pointermove', { pointerId: 9, clientX: 60 }));
+		expect(thumb.getAttribute('aria-valuenow')).toBe('60');
+		expect(moveTargets).toEqual([root]);
+		document.dispatchEvent(pointer('pointermove', { pointerId: 9, clientX: 80 }));
+		expect(thumb.getAttribute('aria-valuenow')).toBe('80');
+		expect(moves).toHaveBeenCalledOnce();
+		document.dispatchEvent(pointer('pointerup', { pointerId: 9 }));
+		document.dispatchEvent(pointer('pointermove', { pointerId: 9, clientX: 20 }));
+		expect(thumb.getAttribute('aria-valuenow')).toBe('80');
+		expect(moves).toHaveBeenCalledOnce();
+	});
+
+	it('ends an active drag when pointer capture is lost', () => {
+		const container = mount(() => (
+			<Slider defaultValue={0}>
+				<SliderThumb />
+			</Slider>
+		));
+		const root = container.querySelector('[data-slot="slider"]') as HTMLDivElement;
+		const thumb = root.querySelector('[role="slider"]') as HTMLElement;
+		const captured = new Set<number>();
+		vi.spyOn(root, 'getBoundingClientRect').mockReturnValue({ left: 0, top: 0, width: 100, height: 20 } as DOMRect);
+		Object.defineProperties(root, {
+			setPointerCapture: { configurable: true, value: (id: number) => captured.add(id) },
+			hasPointerCapture: { configurable: true, value: (id: number) => captured.has(id) },
+			releasePointerCapture: { configurable: true, value: (id: number) => captured.delete(id) },
+		});
+
+		root.dispatchEvent(pointer('pointerdown', { pointerId: 10, clientX: 20 }));
+		captured.delete(10);
+		root.dispatchEvent(pointer('lostpointercapture', { pointerId: 10 }));
+		root.dispatchEvent(pointer('pointermove', { pointerId: 10, clientX: 90 }));
+		expect(thumb.getAttribute('aria-valuenow')).toBe('20');
+	});
+
 	it('keeps vertical pointer, thumb, range, and ARIA keys consistently increasing upward', () => {
 		const container = mount(() => (
 			<Slider orientation="vertical" min={0} max={100} step={25} defaultValue={0}>

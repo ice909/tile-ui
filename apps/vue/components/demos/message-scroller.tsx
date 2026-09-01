@@ -16,8 +16,8 @@ export default function MessageScrollerDemo() {
 						))}
 					</MessageScrollerContent>
 				</MessageScrollerViewport>
-				<MessageScrollerButton direction="start">↑</MessageScrollerButton>
-				<MessageScrollerButton direction="end">↓</MessageScrollerButton>
+				<MessageScrollerButton direction="start" />
+				<MessageScrollerButton direction="end" />
 			</MessageScroller>
 		</MessageScrollerProvider>
 	);

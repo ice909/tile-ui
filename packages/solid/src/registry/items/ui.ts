@@ -183,11 +183,15 @@ export const solidUiItems: PackageRegistryItem[] = solidUiItemDefinitions.map((i
 			type: 'registry:ui',
 			transform: 'solid-barrel',
 		},
-		{
-			source: `packages/styles/scss/components/${item.name}.module.scss`,
-			type: 'registry:file',
-			transform: 'style',
-			target: `components/ui/${item.name}/${item.name}.module.scss`,
-		},
+		...(item.name === 'direction'
+			? []
+			: [
+					{
+						source: `packages/styles/scss/components/${item.name}.module.scss`,
+						type: 'registry:file' as const,
+						transform: 'style' as const,
+						target: `components/ui/${item.name}/${item.name}.module.scss`,
+					},
+				]),
 	],
 }));

@@ -63,11 +63,14 @@
 	left: 50%;
 	z-index: 10;
 	display: inline-flex;
+	width: $spacing-8;
+	height: $spacing-8;
 	align-items: center;
 	justify-content: center;
 	border: 1px solid $border;
 	border-radius: $radius-full;
 	background-color: $background;
+	padding: 0;
 	color: $foreground;
 	box-shadow: $shadow-sm;
 	cursor: pointer;
@@ -75,6 +78,11 @@
 		transform $transition-normal,
 		scale $transition-normal,
 		opacity $transition-normal;
+
+	svg {
+		width: $spacing-4;
+		height: $spacing-4;
+	}
 
 	&:hover {
 		background-color: $muted;

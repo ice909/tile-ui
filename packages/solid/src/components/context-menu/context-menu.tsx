@@ -1,4 +1,4 @@
-import { contextMenuStyleKeys, getContextMenuCheckState, getContextMenuPosition, getContextMenuState } from '@tile-ui/core';
+import { contextMenuStyleKeys, getContextMenuCheckState, getContextMenuPosition, getContextMenuState, getDropdownMenuPosition } from '@tile-ui/core';
 import styles from '@tile-ui/styles/scss/components/context-menu.module.scss';
 import {
 	createMenuFamily,
@@ -26,6 +26,7 @@ const family = createMenuFamily({
 	state: getContextMenuState,
 	checkState: getContextMenuCheckState,
 	position: ({ triggerRect, contentSize, viewport }) => getContextMenuPosition({ x: triggerRect.left, y: triggerRect.top, contentSize, viewport }),
+	subPosition: getDropdownMenuPosition,
 });
 
 export interface ContextMenuProps extends MenuRootProps {}

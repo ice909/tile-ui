@@ -8,6 +8,8 @@ import { createSignal, type JSX } from 'solid-js';
 import { render } from 'solid-js/web';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { DirectionProvider, useDirection } from '../src/components/direction/direction';
+import { Bubble, BubbleContent } from '../src/components/bubble/bubble';
+import { Marker, MarkerContent, MarkerIcon } from '../src/components/marker/marker';
 import { Message, MessageAvatar, MessageContent, MessageFooter, MessageGroup, MessageHeader } from '../src/components/message/message';
 
 const disposers: Array<() => void> = [];
@@ -32,6 +34,31 @@ afterEach(() => {
 });
 
 describe('Batch 3 presentation lane', () => {
+	it('Marker renders the shared SVG icon contract without Unicode fallback text', () => {
+		const container = mount(() => (
+			<Marker id="status-marker">
+				<MarkerIcon class="icon-user" />
+				<MarkerContent class="content-user">Ready</MarkerContent>
+			</Marker>
+		));
+		const marker = container.querySelector('[data-slot="marker"]') as HTMLDivElement;
+		const icon = marker.querySelector(':scope > [data-slot="marker-icon"]') as HTMLSpanElement;
+		const content = marker.querySelector(':scope > [data-slot="marker-content"]') as HTMLSpanElement;
+		const svg = icon.firstElementChild as SVGSVGElement;
+		expect(marker.id).toBe('status-marker');
+		expect(marker.dataset.variant).toBe('default');
+		expect(marker.className).not.toContain('undefined');
+		expect(Array.from(marker.children)).toEqual([icon, content]);
+		expect(icon.textContent).toBe('');
+		expect(icon.getAttribute('aria-hidden')).toBe('true');
+		expect(icon.className).toContain('icon-user');
+		expect(svg.namespaceURI).toBe('http://www.w3.org/2000/svg');
+		expect(svg.getAttribute('viewBox')).toBe('0 0 24 24');
+		expect(svg.querySelector('circle')).toMatchObject({ namespaceURI: 'http://www.w3.org/2000/svg' });
+		expect(content.className).toContain('content-user');
+		expect(content.textContent).toBe('Ready');
+	});
+
 	it('DirectionProvider renders a real wrapper and preserves attrs, class, ref, and children', () => {
 		const refs: HTMLDivElement[] = [];
 		const container = mount(() => (
@@ -47,8 +74,8 @@ describe('Batch 3 presentation lane', () => {
 		expect(root.id).toBe('direction-root');
 		expect(root.getAttribute('aria-label')).toBe('Arabic content');
 		expect(root.style.color).toBe('red');
-		expect(root.className).toContain('root');
-		expect(root.className).toContain('direction-user');
+		expect(root.className).toBe('direction-user');
+		expect(getComputedStyle(root).display).toBe('block');
 		expect(root.querySelector('strong')?.textContent).toBe('مرحبا');
 		expect(root.querySelector('[data-id="inside"]')?.textContent).toBe('rtl');
 	});
@@ -152,10 +179,34 @@ describe('Batch 3 presentation lane', () => {
 		const message = container.querySelector('[data-slot="message"]') as HTMLDivElement;
 		expect(message.dataset.align).toBe('start');
 		expect(message.className).toContain('alignStart');
+		expect(message.className).not.toContain('undefined');
+		expect(Array.from(message.children, (element) => (element as HTMLElement).dataset.slot)).toEqual(['message-avatar', 'message-content']);
+		expect(Array.from(message.children[1].children, (element) => (element as HTMLElement).dataset.slot)).toEqual(['message-header', 'message-footer']);
 		setAlign('end');
 		expect(message.dataset.align).toBe('end');
 		expect(message.className).toContain('alignEnd');
 		expect(Array.from(elements, (element) => [element.getAttribute('role'), element.getAttribute('aria-live')])).toEqual(Array.from(elements, () => [null, null]));
+	});
+
+	it('composes Message layout with an explicit Bubble surface', () => {
+		const container = mount(() => (
+			<MessageGroup>
+				<Message align="end">
+					<MessageContent>
+						<Bubble align="end" variant="muted">
+							<BubbleContent>Hello</BubbleContent>
+						</Bubble>
+					</MessageContent>
+				</Message>
+			</MessageGroup>
+		));
+		const content = container.querySelector('[data-slot="message-content"]') as HTMLDivElement;
+		const bubble = content.querySelector(':scope > [data-slot="bubble"]') as HTMLDivElement;
+		const bubbleContent = bubble.querySelector(':scope > [data-slot="bubble-content"]') as HTMLDivElement;
+		expect(bubble.dataset.align).toBe('end');
+		expect(bubble.dataset.variant).toBe('muted');
+		expect(bubble.className).toContain('variantMuted');
+		expect(bubbleContent.textContent).toBe('Hello');
 	});
 
 	it('Direction and Message produce deterministic SSR and hydrate without replacing nodes', async () => {

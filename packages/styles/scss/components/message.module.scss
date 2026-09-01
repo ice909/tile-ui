@@ -80,3 +80,8 @@
 .message.alignEnd .content > * {
 	align-self: flex-end;
 }
+
+.message.alignEnd .content {
+	align-items: flex-end;
+	text-align: end;
+}

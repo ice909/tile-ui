@@ -71,6 +71,20 @@ describe('Solid storage primitives', () => {
 		dispose();
 	});
 
+	it('removes values that cannot be represented as JSON instead of persisting invalid JSON', () => {
+		localStorage.setItem('optional', JSON.stringify('saved'));
+		const first = createOwnedStorage(() => createLocalStorage<string | undefined>('optional', 'fallback'));
+
+		expect(first.signal[1](undefined)).toBeUndefined();
+		expect(first.signal[0]()).toBeUndefined();
+		expect(localStorage.getItem('optional')).toBeNull();
+		first.dispose();
+
+		const second = createOwnedStorage(() => createLocalStorage<string | undefined>('optional', 'fallback'));
+		expect(second.signal[0]()).toBe('fallback');
+		second.dispose();
+	});
+
 	it('allows owner cleanup to be disposed repeatedly without extra storage work', () => {
 		const setItem = vi.spyOn(Storage.prototype, 'setItem');
 		const { dispose } = createOwnedStorage(() => createLocalStorage('cleanup', 'value'));

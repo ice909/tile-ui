@@ -24,8 +24,8 @@ export default function MessageScrollerDemo() {
 								</For>
 							</MessageScrollerContent>
 						</MessageScrollerViewport>
-						<MessageScrollerButton direction="start">Start</MessageScrollerButton>
-						<MessageScrollerButton>End</MessageScrollerButton>
+						<MessageScrollerButton direction="start" />
+						<MessageScrollerButton direction="end" />
 					</MessageScroller>
 				</MessageScrollerProvider>
 			)}

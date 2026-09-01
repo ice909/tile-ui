@@ -278,7 +278,8 @@ try {
 	assert.match(html, /data-today="true"/);
 	assert.match(html, /data-id="artifact-direction"[^>]*dir="rtl"/);
 	assert.match(html, /data-id="artifact-scrollbar"[^>]*tabIndex="-1"[^>]*aria-hidden="true"/);
-	assert.match(html, /data-id="artifact-message-scroller-button"[^>]*hidden[^>]*disabled/);
+	assert.match(html, /data-id="artifact-message-scroller-button"[^>]*disabled[^>]*aria-hidden="true"/);
+	assert.match(html, /data-id="artifact-message-scroller-button"[^>]*><svg[^>]*stroke="currentColor"/);
 	assert.match(html, /data-id="artifact-pagination"[^>]*role="navigation"/);
 	assert.match(html, /data-id="artifact-message"/);
 
@@ -364,7 +365,7 @@ try {
 		assert.equal(container.querySelector('[data-id="artifact-tabs-trigger"]').tabIndex, 0);
 		assert.equal(container.querySelector('[data-id="artifact-tabs-default-trigger"]').tabIndex, -1);
 		assert.equal(container.querySelector('[data-id="artifact-scrollbar"]').getAttribute('role'), null);
-		assert.equal(container.querySelector('[data-id="artifact-message-scroller-button"]').hidden, true);
+		assert.equal(container.querySelector('[data-id="artifact-message-scroller-button"]').hidden, false);
 		assert.equal(container.querySelector('[data-id="artifact-textarea"]').value, 'server note');
 		assert.equal(container.querySelector('[data-id="artifact-select"]').value, 'solid');
 		assert.equal(container.querySelector('[data-id="artifact-checkbox"]').getAttribute('aria-checked'), 'true');

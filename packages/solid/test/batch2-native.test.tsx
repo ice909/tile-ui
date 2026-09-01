@@ -63,16 +63,26 @@ describe('Batch 2 native/static components', () => {
 		));
 		const root = container.firstElementChild as HTMLDivElement;
 		const input = container.querySelector('input') as HTMLInputElement;
+		const label = container.querySelector('[data-slot="field-label"]') as HTMLLabelElement;
+		const description = container.querySelector('[data-slot="field-description"]') as HTMLParagraphElement;
+		const message = container.querySelector('[data-slot="field-message"]') as HTMLDivElement;
 		expect(root.dataset.invalid).toBe('true');
 		expect(root.dataset.required).toBe('true');
+		expect(root.className).toContain('root');
 		expect(root.className).toContain('field-user');
 		expect(input.id).toBe('email');
 		expect(input.required).toBe(true);
 		expect(input.getAttribute('aria-invalid')).toBe('true');
 		expect(input.getAttribute('aria-labelledby')).toBe('email-label');
 		expect(input.getAttribute('aria-describedby')).toBe('email-description email-message');
-		expect(container.querySelector('label')?.htmlFor).toBe('email');
-		expect(container.querySelector('[role="alert"]')?.id).toBe('email-message');
+		expect(label.htmlFor).toBe('email');
+		expect(label.className).toContain('label');
+		expect(description.className).toContain('description');
+		expect(message.id).toBe('email-message');
+		expect(message.dataset.variant).toBe('error');
+		expect(message.className).toContain('message');
+		expect(message.className).toContain('variantError');
+		expect(message.className).not.toContain('undefined');
 	});
 
 	it('Field context is required and label for can be explicitly overridden', () => {
@@ -104,13 +114,26 @@ describe('Batch 2 native/static components', () => {
 				</InputGroup>
 			</>
 		));
-		const groups = container.querySelectorAll('[data-slot="input-group"]');
+		const groups = container.querySelectorAll<HTMLDivElement>('[data-slot="input-group"]');
 		const addon = groups[0].querySelector('[data-slot="input-group-addon"]') as HTMLDivElement;
 		const input = groups[0].querySelector('input') as HTMLInputElement;
 		const button = groups[0].querySelector('button') as HTMLButtonElement;
 		const link = groups[0].querySelector('a') as HTMLAnchorElement;
+		expect(groups[0].dataset.variant).toBe('outline');
+		expect(groups[0].className).toContain('inputGroup');
+		expect(groups[0].className).toContain('variantOutline');
 		expect(groups[0].className).toContain('input-group-user');
+		expect(addon.dataset.align).toBe('inline-start');
+		expect(addon.className).toContain('addon');
+		expect(addon.className).toContain('variantDefault');
 		expect(input.className).toContain('input-user');
+		expect(input.className).toContain('input');
+		expect(Array.from(groups[0].children)).toEqual([addon, input]);
+		expect(Array.from(groups[0].querySelectorAll('[data-slot]'), (element) => (element as HTMLElement).dataset.slot)).toEqual([
+			'input-group-addon',
+			'input-group-text',
+			'input-group-control',
+		]);
 		expect(button.type).toBe('button');
 		addon.click();
 		expect(document.activeElement).toBe(input);

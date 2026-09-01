@@ -61,6 +61,7 @@ export function Slider(props: ParentProps<SliderProps>) {
 		'onPointerMove',
 		'onPointerUp',
 		'onPointerCancel',
+		'onLostPointerCapture',
 		'name',
 		'form',
 	]);
@@ -75,6 +76,8 @@ export function Slider(props: ParentProps<SliderProps>) {
 	const controlled = () => local.value !== undefined;
 	const value = () => snapSliderValue(controlled() ? local.value! : uncontrolledValue(), min(), max(), step());
 	let root: HTMLDivElement | undefined;
+	let activePointer: number | undefined;
+	let fallbackDocument: Document | undefined;
 	const [formControl, setFormControl] = createSignal<HTMLInputElement>();
 
 	function setValue(next: number) {
@@ -92,22 +95,64 @@ export function Slider(props: ParentProps<SliderProps>) {
 		setValue(min() + ratio * (max() - min()));
 	}
 
-	function hasCapture(event: PointerEvent) {
+	function hasCapture(pointerId: number) {
 		if (!root?.hasPointerCapture) return false;
 		try {
-			return root.hasPointerCapture(event.pointerId);
+			return root.hasPointerCapture(pointerId);
 		} catch {
 			return false;
 		}
 	}
 
-	function releaseCapture(event: PointerEvent) {
-		if (!root?.releasePointerCapture || !hasCapture(event)) return;
+	function releaseCapture(pointerId: number) {
+		if (!root?.releasePointerCapture || !hasCapture(pointerId)) return;
 		try {
-			root.releasePointerCapture(event.pointerId);
+			root.releasePointerCapture(pointerId);
 		} catch {
 			// Pointer capture may already be released by the browser.
 		}
+	}
+
+	function isRootTarget(event: PointerEvent) {
+		const target = event.target;
+		return !!target && 'nodeType' in target && !!root?.contains(target as Node);
+	}
+
+	function removeFallbackListeners() {
+		fallbackDocument?.removeEventListener('pointermove', handleFallbackMove);
+		fallbackDocument?.removeEventListener('pointerup', handleFallbackUp);
+		fallbackDocument?.removeEventListener('pointercancel', handleFallbackCancel);
+		fallbackDocument = undefined;
+	}
+
+	function finishPointer(pointerId: number, release: boolean) {
+		if (activePointer !== pointerId) return;
+		activePointer = undefined;
+		removeFallbackListeners();
+		if (release) releaseCapture(pointerId);
+	}
+
+	function handleFallbackMove(event: PointerEvent) {
+		if (isRootTarget(event) || activePointer !== event.pointerId) return;
+		if (!disabled()) updateFromPointer(event);
+	}
+
+	function handleFallbackUp(event: PointerEvent) {
+		if (isRootTarget(event) || activePointer !== event.pointerId) return;
+		finishPointer(event.pointerId, false);
+	}
+
+	function handleFallbackCancel(event: PointerEvent) {
+		if (isRootTarget(event) || activePointer !== event.pointerId) return;
+		finishPointer(event.pointerId, false);
+	}
+
+	function addFallbackListeners() {
+		if (!root || fallbackDocument) return;
+		fallbackDocument = root.ownerDocument;
+		fallbackDocument.addEventListener('pointermove', handleFallbackMove);
+		fallbackDocument.addEventListener('pointerup', handleFallbackUp);
+		fallbackDocument.addEventListener('pointercancel', handleFallbackCancel);
 	}
 
 	const resetBinding = createFormResetBinding(() => {
@@ -134,7 +179,11 @@ export function Slider(props: ParentProps<SliderProps>) {
 		setInitialNativeValue(control, controlled() ? current : String(resetValue()));
 		if (control.value !== current) setNativeValue(control, current);
 	});
-	onCleanup(() => resetBinding.cleanup());
+	onCleanup(() => {
+		if (activePointer !== undefined) finishPointer(activePointer, true);
+		else removeFallbackListeners();
+		resetBinding.cleanup();
+	});
 
 	const context: SliderContextValue = { value, min, max, step, orientation, disabled, setValue };
 
@@ -152,24 +201,31 @@ export function Slider(props: ParentProps<SliderProps>) {
 				onPointerDown={(event) => {
 					invokeEventHandler(local.onPointerDown, event);
 					if (event.defaultPrevented || disabled() || event.button !== 0 || !event.isPrimary) return;
+					if (activePointer !== undefined) finishPointer(activePointer, true);
+					activePointer = event.pointerId;
 					try {
 						root?.setPointerCapture?.(event.pointerId);
 					} catch {
 						// Unsupported or detached targets still receive the initial update.
 					}
+					if (!hasCapture(event.pointerId)) addFallbackListeners();
 					updateFromPointer(event);
 				}}
 				onPointerMove={(event) => {
 					invokeEventHandler(local.onPointerMove, event);
-					if (!event.defaultPrevented && !disabled() && hasCapture(event)) updateFromPointer(event);
+					if (!event.defaultPrevented && !disabled() && activePointer === event.pointerId && (hasCapture(event.pointerId) || fallbackDocument)) updateFromPointer(event);
 				}}
 				onPointerUp={(event) => {
 					invokeEventHandler(local.onPointerUp, event);
-					releaseCapture(event);
+					finishPointer(event.pointerId, true);
 				}}
 				onPointerCancel={(event) => {
 					invokeEventHandler(local.onPointerCancel, event);
-					releaseCapture(event);
+					finishPointer(event.pointerId, true);
+				}}
+				onLostPointerCapture={(event) => {
+					invokeEventHandler(local.onLostPointerCapture, event);
+					finishPointer(event.pointerId, false);
 				}}>
 				{local.children}
 				<input {...HIDDEN_FORM_CONTROL_PROPS} ref={setFormControl} type="hidden" name={local.name} form={local.form} disabled={disabled()} value={String(value())} />

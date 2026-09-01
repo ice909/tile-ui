@@ -1,13 +1,18 @@
 import { Marker, MarkerContent, MarkerIcon } from '@tile-ui/solid';
 export default function MarkerDemo() {
 	return (
-		<div class="component-preview__stack">
-			<Marker>
+		<div class="button-group">
+			<Marker variant="default">
 				<MarkerIcon />
-				<MarkerContent>Solid adapter</MarkerContent>
+				<MarkerContent>Default</MarkerContent>
 			</Marker>
 			<Marker variant="separator">
-				<MarkerContent>Registry output</MarkerContent>
+				<MarkerIcon />
+				<MarkerContent>Separator</MarkerContent>
+			</Marker>
+			<Marker variant="border">
+				<MarkerIcon />
+				<MarkerContent>Border</MarkerContent>
 			</Marker>
 		</div>
 	);

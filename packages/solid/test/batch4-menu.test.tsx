@@ -28,8 +28,11 @@ import {
 } from '../src/components/dropdown-menu/dropdown-menu';
 import {
 	ContextMenu,
+	ContextMenuCheckboxItem,
 	ContextMenuContent,
 	ContextMenuItem,
+	ContextMenuRadioGroup,
+	ContextMenuRadioItem,
 	ContextMenuSub,
 	ContextMenuSubContent,
 	ContextMenuSubTrigger,
@@ -438,6 +441,92 @@ describe('Batch 4 menu lane', () => {
 		expect(trigger.tabIndex).toBe(0);
 		trigger.focus();
 		expect(document.activeElement).toBe(trigger);
+	});
+
+	it('renders ContextMenu indicators and submenu chevrons with the SVG stroke contract', async () => {
+		mount(() => (
+			<ContextMenu defaultOpen>
+				<ContextMenuTrigger>Target</ContextMenuTrigger>
+				<ContextMenuContent>
+					<ContextMenuCheckboxItem defaultChecked>Checked</ContextMenuCheckboxItem>
+					<ContextMenuRadioGroup defaultValue="selected">
+						<ContextMenuRadioItem value="selected">Selected</ContextMenuRadioItem>
+					</ContextMenuRadioGroup>
+					<ContextMenuSub>
+						<ContextMenuSubTrigger>More</ContextMenuSubTrigger>
+						<ContextMenuSubContent>
+							<ContextMenuItem>Nested</ContextMenuItem>
+						</ContextMenuSubContent>
+					</ContextMenuSub>
+				</ContextMenuContent>
+			</ContextMenu>
+		));
+		await tick();
+		const checkboxIcon = document.querySelector('[role="menuitemcheckbox"] svg')!;
+		const radioIcon = document.querySelector('[role="menuitemradio"] svg')!;
+		const chevron = document.querySelector('[role="menuitem"][aria-haspopup="menu"] svg')!;
+		expect(checkboxIcon.querySelector('path')?.getAttribute('d')).toBe('M20 6 9 17l-5-5');
+		expect(checkboxIcon.getAttribute('stroke-linecap')).toBe('round');
+		expect(checkboxIcon.getAttribute('stroke-linejoin')).toBe('round');
+		expect(radioIcon.querySelector('circle')?.getAttribute('r')).toBe('6');
+		expect(chevron.querySelector('path')?.getAttribute('d')).toBe('m9 18 6-6-6-6');
+		expect(chevron.getAttribute('stroke-linecap')).toBe('round');
+		expect(chevron.getAttribute('stroke-linejoin')).toBe('round');
+	});
+
+	it('positions ContextMenu submenus from the trigger edge instead of overlapping the parent menu', async () => {
+		vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+			if (this.matches('[role="menuitem"][aria-haspopup="menu"]')) return new DOMRect(100, 120, 120, 28);
+			if (this.matches('[role="menu"][data-side="right"]')) return new DOMRect(0, 0, 160, 80);
+			return new DOMRect(0, 0, 200, 160);
+		});
+		mount(() => (
+			<ContextMenu defaultOpen>
+				<ContextMenuTrigger>Target</ContextMenuTrigger>
+				<ContextMenuContent>
+					<ContextMenuSub>
+						<ContextMenuSubTrigger>More</ContextMenuSubTrigger>
+						<ContextMenuSubContent>
+							<ContextMenuItem>Nested</ContextMenuItem>
+						</ContextMenuSubContent>
+					</ContextMenuSub>
+				</ContextMenuContent>
+			</ContextMenu>
+		));
+		await tick();
+		const trigger = document.querySelector<HTMLElement>('[role="menuitem"][aria-haspopup="menu"]')!;
+		trigger.dispatchEvent(new PointerEvent('pointermove', { bubbles: true }));
+		await tick();
+		const submenu = document.querySelector<HTMLElement>('[role="menu"][data-side="right"]')!;
+		expect(submenu.dataset.align).toBe('start');
+		expect(submenu.style.left).toBe('220px');
+		expect(submenu.style.top).toBe('120px');
+	});
+
+	it('renders DropdownMenu indicators and submenu chevrons with round SVG strokes', async () => {
+		mount(() => (
+			<DropdownMenu defaultOpen>
+				<DropdownMenuTrigger>Open</DropdownMenuTrigger>
+				<DropdownMenuContent>
+					<DropdownMenuCheckboxItem defaultChecked>Checked</DropdownMenuCheckboxItem>
+					<DropdownMenuSub>
+						<DropdownMenuSubTrigger>More</DropdownMenuSubTrigger>
+						<DropdownMenuSubContent>
+							<DropdownMenuItem>Nested</DropdownMenuItem>
+						</DropdownMenuSubContent>
+					</DropdownMenuSub>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		));
+		await tick();
+		const checkboxIcon = document.querySelector('[role="menuitemcheckbox"] svg')!;
+		const chevron = document.querySelector('[role="menuitem"][aria-haspopup="menu"] svg')!;
+		for (const icon of [checkboxIcon, chevron]) {
+			expect(icon.getAttribute('stroke')).toBe('currentColor');
+			expect(icon.getAttribute('stroke-width')).toBe('2');
+			expect(icon.getAttribute('stroke-linecap')).toBe('round');
+			expect(icon.getAttribute('stroke-linejoin')).toBe('round');
+		}
 	});
 
 	it('opens context menus at pointer and keyboard coordinates', async () => {

@@ -16,6 +16,43 @@ import {
 import { getLogicalTabTarget } from '../select/logical-tab';
 import styles from '@tile-ui/styles/scss/components/combobox.module.scss';
 
+function ComboboxCheckIcon() {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="16"
+			height="16"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			aria-hidden="true">
+			<path d="M20 6 9 17l-5-5" />
+		</svg>
+	);
+}
+
+function ComboboxChevronIcon() {
+	return (
+		<svg
+			class={styles[comboboxStyleKeys.triggerIcon]}
+			xmlns="http://www.w3.org/2000/svg"
+			width="16"
+			height="16"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			aria-hidden="true">
+			<path d="m6 9 6 6 6-6" />
+		</svg>
+	);
+}
+
 export interface ComboboxProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onChange' | 'ref'>, Omit<ComboboxBaseProps, 'value'> {
 	value?: string;
 	defaultValue?: string;
@@ -209,7 +246,9 @@ export function Combobox(props: ComboboxProps) {
 								onPointerMove={() => !item.disabled && setActive(item.value)}
 								onClick={() => choose(item)}>
 								<span class={styles[comboboxStyleKeys.itemIndicator]}>
-									<Show when={value() === item.value}>✓</Show>
+									<Show when={value() === item.value}>
+										<ComboboxCheckIcon />
+									</Show>
 								</span>
 								{item.label}
 							</div>
@@ -259,9 +298,7 @@ export function Combobox(props: ComboboxProps) {
 				<span data-placeholder={!selected() || undefined} class={styles[comboboxStyleKeys.triggerValue]}>
 					{selected()?.label ?? local.placeholder ?? 'Select...'}
 				</span>
-				<span class={styles[comboboxStyleKeys.triggerIcon]} aria-hidden="true">
-					⌄
-				</span>
+				<ComboboxChevronIcon />
 			</button>
 			{isServer ? <Show when={open()}>{popup}</Show> : <Portal mount={mount()}>{popup}</Portal>}
 		</div>

@@ -251,7 +251,7 @@ export interface MessageScrollerProps extends JSX.HTMLAttributes<HTMLDivElement>
 export function MessageScroller(props: ParentProps<MessageScrollerProps>) {
 	const [local, rest] = splitProps(props, ['class', 'children']);
 	return (
-		<div {...rest} data-slot="message-scroller" class={`${styles[messageScrollerStyleKeys.root]} ${local.class ?? ''}`}>
+		<div {...rest} data-slot="message-scroller" class={[styles[messageScrollerStyleKeys.root], local.class].filter(Boolean).join(' ')}>
 			{local.children}
 		</div>
 	);
@@ -298,7 +298,7 @@ export function MessageScrollerViewport(props: ParentProps<MessageScrollerViewpo
 			}}
 			data-slot="message-scroller-viewport"
 			data-autoscrolling={context.autoscrolling()}
-			class={`${styles[messageScrollerStyleKeys.viewport]} ${local.class ?? ''}`}>
+			class={[styles[messageScrollerStyleKeys.viewport], local.class].filter(Boolean).join(' ')}>
 			{local.children}
 		</div>
 	);
@@ -322,7 +322,7 @@ export function MessageScrollerContent(props: ParentProps<MessageScrollerContent
 				assignRef(local.ref, element);
 			}}
 			data-slot="message-scroller-content"
-			class={`${styles[messageScrollerStyleKeys.content]} ${local.class ?? ''}`}>
+			class={[styles[messageScrollerStyleKeys.content], local.class].filter(Boolean).join(' ')}>
 			{local.children}
 		</div>
 	);
@@ -354,7 +354,7 @@ export function MessageScrollerItem(props: ParentProps<MessageScrollerItemProps>
 			}}
 			data-slot="message-scroller-item"
 			data-scroll-anchor={local.scrollAnchor ? 'true' : undefined}
-			class={`${styles[messageScrollerStyleKeys.item]} ${local.class ?? ''}`}>
+			class={[styles[messageScrollerStyleKeys.item], local.class].filter(Boolean).join(' ')}>
 			{local.children}
 		</div>
 	);
@@ -396,12 +396,12 @@ export function MessageScrollerButton(props: ParentProps<MessageScrollerButtonPr
 			data-slot="message-scroller-button"
 			data-direction={direction()}
 			data-active={active()}
-			hidden={local.hidden || !active()}
+			hidden={local.hidden}
 			disabled={local.disabled || !active()}
 			aria-hidden={!active() ? true : local['aria-hidden']}
 			tabIndex={!active() ? -1 : local.tabIndex}
 			aria-label={local['aria-label'] ?? (direction() === 'end' ? 'Scroll to end' : 'Scroll to start')}
-			class={`${styles[styleKeys().base]} ${styles[styleKeys().direction]} ${local.class ?? ''}`}
+			class={[styles[styleKeys().base], styles[styleKeys().direction], local.class].filter(Boolean).join(' ')}
 			onClick={(event) => {
 				invokeEventHandler(local.onClick, event);
 				if (event.defaultPrevented || !active() || local.disabled) return;

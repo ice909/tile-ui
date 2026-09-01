@@ -184,6 +184,45 @@ describe('Batch 2 selectable lane', () => {
 		expect([buttons[0].getAttribute('aria-checked'), buttons[1].getAttribute('aria-checked'), radios[0].checked]).toEqual(['true', 'true', true]);
 	});
 
+	it('resets explicitly associated controls through their owner document form', async () => {
+		const frame = document.createElement('iframe');
+		document.body.appendChild(frame);
+		const frameDocument = frame.contentDocument!;
+		frameDocument.body.innerHTML = '<form id="settings"></form><div id="host"></div>';
+		const form = frameDocument.querySelector('form') as HTMLFormElement;
+		const host = frameDocument.querySelector('#host') as HTMLDivElement;
+		const dispose = render(
+			() => (
+				<>
+					<Checkbox name="check" defaultChecked form="settings" />
+					<Switch name="switch" defaultChecked form="settings" />
+					<RadioGroup name="radio" defaultValue="a" form="settings">
+						<RadioGroupItem value="a">A</RadioGroupItem>
+						<RadioGroupItem value="b">B</RadioGroupItem>
+					</RadioGroup>
+				</>
+			),
+			host,
+		);
+		disposers.push(() => {
+			dispose();
+			frame.remove();
+		});
+		const buttons = host.querySelectorAll<HTMLButtonElement>('button');
+		const controls = host.querySelectorAll<HTMLInputElement>('input');
+		const radios = host.querySelectorAll<HTMLInputElement>('input[type="radio"]');
+		expect(Array.from(controls, (control) => control.form)).toEqual([form, form, form, form]);
+
+		buttons[0].click();
+		buttons[1].click();
+		radios[1].click();
+		form.reset();
+		await Promise.resolve();
+
+		expect([buttons[0].getAttribute('aria-checked'), buttons[1].getAttribute('aria-checked'), radios[0].checked, radios[1].checked]).toEqual(['true', 'true', true, false]);
+		expect(new FormData(form).getAll('radio')).toEqual(['a']);
+	});
+
 	it('Switch honors controlled state, initial-only defaults, tuple cancellation, and disabled semantics', () => {
 		let setDefault!: (value: boolean) => void;
 		let setChecked!: (value: boolean | undefined) => void;

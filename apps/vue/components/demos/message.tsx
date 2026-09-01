@@ -1,13 +1,21 @@
-import { MessageGroup, Message, MessageContent } from '@tile-ui/vue';
+import { Bubble, BubbleContent, MessageGroup, Message, MessageContent } from '@tile-ui/vue';
 
 export default function MessageDemo() {
 	return (
 		<MessageGroup>
 			<Message align="end">
-				<MessageContent>Hi there</MessageContent>
+				<MessageContent>
+					<Bubble align="end">
+						<BubbleContent>Hi there</BubbleContent>
+					</Bubble>
+				</MessageContent>
 			</Message>
 			<Message align="start">
-				<MessageContent>Hey! What can I help with?</MessageContent>
+				<MessageContent>
+					<Bubble variant="muted">
+						<BubbleContent>Hey! What can I help with?</BubbleContent>
+					</Bubble>
+				</MessageContent>
 			</Message>
 		</MessageGroup>
 	);

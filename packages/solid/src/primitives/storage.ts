@@ -27,7 +27,11 @@ function createStorage<T>(kind: 'localStorage' | 'sessionStorage', key: string, 
 		});
 
 		try {
-			if (typeof window !== 'undefined') window[kind].setItem(key, JSON.stringify(resolved));
+			if (typeof window !== 'undefined') {
+				const serialized = JSON.stringify(resolved);
+				if (serialized === undefined) window[kind].removeItem(key);
+				else window[kind].setItem(key, serialized);
+			}
 		} catch (error) {
 			console.warn(`Error setting ${kind} key "${key}":`, error);
 		}

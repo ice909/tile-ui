@@ -1445,11 +1445,6 @@
         {
           "path": "packages/solid/src/components/direction/index.ts",
           "type": "registry:ui"
-        },
-        {
-          "path": "packages/styles/scss/components/direction.module.scss",
-          "type": "registry:file",
-          "target": "components/ui/direction/direction.module.scss"
         }
       ]
     },

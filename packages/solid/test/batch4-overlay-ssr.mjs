@@ -104,8 +104,9 @@ try {
 		assert.equal(openTrigger.getAttribute('aria-expanded'), 'true');
 		assert.equal(dom.window.document.querySelector('#ssr-tooltip-content').hidden, true);
 		assert.equal(dom.window.document.querySelector('#ssr-hover-content').hidden, false);
-		assert.equal(dom.window.document.querySelector('#ssr-popover-content').hidden, true);
-		assert.equal(dom.window.document.querySelector('#ssr-open-content').hidden, false);
+		assert.equal(dom.window.document.querySelector('#ssr-popover-content').dataset.state, 'closed');
+		assert.equal(dom.window.document.querySelector('#ssr-popover-content').hidden, false);
+		assert.equal(dom.window.document.querySelector('#ssr-open-content').dataset.state, 'open');
 	} finally {
 		for (const [key, descriptor] of Object.entries(previous)) {
 			if (descriptor) Object.defineProperty(globalThis, key, descriptor);

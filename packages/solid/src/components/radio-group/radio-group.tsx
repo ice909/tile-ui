@@ -182,11 +182,6 @@ export function RadioGroupItem(props: RadioGroupItemProps) {
 	let input: HTMLInputElement | undefined;
 	const entry = context.register(() => local.value, disabled);
 	const resetBinding = createFormResetBinding(context.reset);
-	const resetForm = () => {
-		if (!input || typeof document === 'undefined') return null;
-		const formId = context.form();
-		return formId ? (document.getElementById(formId) as HTMLFormElement | null) : input.closest('form');
-	};
 
 	onMount(() => {
 		if (!input) return;
@@ -194,7 +189,7 @@ export function RadioGroupItem(props: RadioGroupItemProps) {
 		createEffect(() => {
 			context.form();
 			context.publicName();
-			resetBinding.bind({ form: resetForm() });
+			resetBinding.bind(input);
 		});
 		onCleanup(resetBinding.cleanup);
 	});
@@ -210,7 +205,7 @@ export function RadioGroupItem(props: RadioGroupItemProps) {
 				ref={(element) => {
 					input = element;
 					context.bind(entry, element);
-					resetBinding.bind({ form: resetForm() });
+					resetBinding.bind(input);
 				}}
 				id={inputId()}
 				type="radio"

@@ -1,6 +1,6 @@
 import { Show, createContext, createEffect, createSignal, createUniqueId, onCleanup, onMount, splitProps, useContext, type Accessor, type JSX, type ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
-import { drawerStyleKeys, getDrawerState, type DrawerBaseProps, type DrawerDirection } from '@tile-ui/core';
+import { drawerStyleKeys, getDrawerState, getDrawerTranslateStyle, type DrawerBaseProps, type DrawerDirection } from '@tile-ui/core';
 import {
 	PortalScopeContext,
 	activateModalFocusScope,
@@ -185,11 +185,13 @@ export function DrawerContent(props: ParentProps<DrawerContentProps>) {
 	const scope = createPortalScope(() => resolvePortalContainer(parentScope, props.container), parentScope);
 	const [content, setContent] = createSignal<HTMLDivElement>();
 	const [portalReady, setPortalReady] = createSignal(false);
+	const [visible, setVisible] = createSignal(false);
 	const [local, rest] = splitProps(props, [
 		'children',
 		'class',
 		'ref',
 		'id',
+		'style',
 		'showCloseButton',
 		'container',
 		'overlayClass',
@@ -216,6 +218,10 @@ export function DrawerContent(props: ParentProps<DrawerContentProps>) {
 	createEffect(() => {
 		const element = content();
 		if (!context.open() || !element) return;
+		setVisible(false);
+		const view = element.ownerDocument.defaultView;
+		const frame = view?.requestAnimationFrame?.(() => setVisible(true));
+		if (frame === undefined) setVisible(true);
 		const removeBranch = scope.addBranch(element);
 		const dismiss = registerDismissableLayer({
 			element: content,
@@ -234,11 +240,17 @@ export function DrawerContent(props: ParentProps<DrawerContentProps>) {
 		dismiss.update();
 		focus?.update();
 		onCleanup(() => {
+			if (frame !== undefined) view?.cancelAnimationFrame?.(frame);
 			dismiss.destroy();
 			focus?.destroy();
 			removeBranch();
 		});
 	});
+	const contentStyle = (): JSX.CSSProperties | string | undefined => {
+		if (visible()) return local.style;
+		const internal = `transform:${getDrawerTranslateStyle(context.direction())};opacity:0`;
+		return typeof local.style === 'string' ? `${internal};${local.style}` : Object.assign({ transform: getDrawerTranslateStyle(context.direction()), opacity: 0 }, local.style);
+	};
 	return (
 		<Show when={context.open() && portalReady()}>
 			<Portal mount={scope.container()}>
@@ -256,6 +268,7 @@ export function DrawerContent(props: ParentProps<DrawerContentProps>) {
 						tabIndex={-1}
 						data-state={getDrawerState(context.open())}
 						data-direction={context.direction()}
+						style={contentStyle()}
 						class={`${styles[drawerStyleKeys.content]} ${local.class ?? ''}`}>
 						<div class={styles[drawerStyleKeys.handle]} />
 						{local.children}

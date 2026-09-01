@@ -469,31 +469,49 @@ describe('Solid MessageScroller scrolling lane', () => {
 		));
 		const root = container.querySelector('[data-slot="message-scroller"]') as HTMLElement;
 		const viewport = container.querySelector('[data-slot="message-scroller-viewport"]') as HTMLDivElement;
+		const content = container.querySelector('[data-slot="message-scroller-content"]') as HTMLDivElement;
+		const item = container.querySelector('[data-slot="message-scroller-item"]') as HTMLDivElement;
 		const buttons = container.querySelectorAll<HTMLButtonElement>('[data-slot="message-scroller-button"]');
 		setGeometry(viewport, { clientHeight: 100, scrollHeight: 500, scrollTop: 200 });
 		Object.defineProperty(viewport, 'scrollTo', { configurable: true, value: scrollTo });
 		viewport.dispatchEvent(new Event('scroll'));
 		expect(refs).toEqual([viewport]);
 		expect(root.className).toContain('root-user');
+		expect(root.className).toContain('root');
+		expect(viewport.className).toContain('viewport');
+		expect(content.className).toContain('content');
+		expect(item.className).toContain('item');
+		expect([root, viewport, content, item, ...buttons].every((element) => !element.className.includes('undefined'))).toBe(true);
+		expect(root.children[0]).toBe(viewport);
+		expect(viewport.children[0]).toBe(content);
+		expect(content.children[0]).toBe(item);
+		expect(item.dataset.scrollAnchor).toBe('true');
 		expect(viewport.getAttribute('aria-label')).toBe('Messages');
 		expect(viewport.tabIndex).toBe(0);
 		expect(viewport.hasAttribute('aria-hidden')).toBe(false);
 		expect(buttons[0].getAttribute('aria-label')).toBe('Scroll to start');
 		expect(buttons[1].getAttribute('aria-label')).toBe('Newest message');
+		expect(buttons[0].className).toContain('directionStart');
+		expect(buttons[1].className).toContain('directionEnd');
 		expect(Array.from(buttons, (button) => button.dataset.active)).toEqual(['true', 'true']);
 		expect(Array.from(buttons, (button) => [button.hidden, button.disabled, button.getAttribute('aria-hidden'), button.tabIndex])).toEqual([
 			[false, false, null, 0],
 			[false, false, null, 0],
 		]);
+		const icons = Array.from(buttons, (button) => button.firstElementChild as SVGSVGElement);
+		expect(icons.map((icon) => [icon.namespaceURI, icon.getAttribute('stroke'), icon.querySelectorAll('path').length])).toEqual([
+			['http://www.w3.org/2000/svg', 'currentColor', 2],
+			['http://www.w3.org/2000/svg', 'currentColor', 2],
+		]);
 		expect(container.querySelector('[data-slot="probe"]')?.getAttribute('data-scrollable')).toBe('true');
 		buttons[0].click();
 		expect(scrollTo).toHaveBeenLastCalledWith({ top: 0, behavior: 'smooth' });
 		expect(Array.from(buttons, (button) => button.dataset.active)).toEqual(['false', 'true']);
-		expect([buttons[0].hidden, buttons[0].disabled, buttons[0].getAttribute('aria-hidden'), buttons[0].tabIndex]).toEqual([true, true, 'true', -1]);
+		expect([buttons[0].hidden, buttons[0].disabled, buttons[0].getAttribute('aria-hidden'), buttons[0].tabIndex]).toEqual([false, true, 'true', -1]);
 		buttons[1].click();
 		expect(scrollTo).toHaveBeenLastCalledWith({ top: 500, behavior: 'smooth' });
 		expect(Array.from(buttons, (button) => button.dataset.active)).toEqual(['true', 'false']);
-		expect([buttons[1].hidden, buttons[1].disabled, buttons[1].getAttribute('aria-hidden'), buttons[1].tabIndex]).toEqual([true, true, 'true', -1]);
+		expect([buttons[1].hidden, buttons[1].disabled, buttons[1].getAttribute('aria-hidden'), buttons[1].tabIndex]).toEqual([false, true, 'true', -1]);
 	});
 
 	it('rebinds observer lifecycle across conditional content unmount/remount and autosticks only while near the end', async () => {
@@ -721,7 +739,6 @@ describe('Solid Batch 3 scrolling SSR and hydration', () => {
 			expect(fixture.html).not.toContain('aria-valuemin=');
 			expect(fixture.html).toContain('visibility:hidden');
 			expect(fixture.html).toContain('pointer-events:none');
-			expect(fixture.html).toContain('hidden');
 			expect(fixture.html).toContain('disabled');
 			expect(fixture.html).toContain('aria-hidden="true"');
 			expect(fixture.html).toContain('height:0px');
