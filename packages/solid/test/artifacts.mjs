@@ -145,6 +145,8 @@ try {
 		'ChartLegend',
 		'ChartLegendItem',
 		'ChartTooltipEntry',
+		'Liveline',
+		'LivelineTransition',
 		'ResizablePanelGroup',
 		'ResizablePanel',
 		'ResizableHandle',

@@ -10,7 +10,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
 
-import { getDemoSource } from '../../../scripts/demo-files.mjs';
+import { getDemoSource, getDemoVariantIds } from '../../../scripts/demo-files.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(__dirname, '..');
@@ -300,6 +300,7 @@ function createPayloads(docs, tree) {
 						html: doc.html,
 						toc: doc.toc,
 						previewCode: doc.previewCode,
+						variantCode: doc.variantCode,
 					},
 					neighbours: {
 						previous: index > 0 ? { url: docs[index - 1].url, title: docs[index - 1].title } : null,
@@ -329,6 +330,7 @@ export async function buildDocs() {
 				const slug = normalizeSlug(relativeFile);
 				const url = toDocUrl(slug);
 				const normalizedContent = normalizeInternalDocLinks(parsed.content);
+				const variantIds = slug.length === 2 && previewSections.includes(slug[0]) ? getDemoVariantIds('vue', slug[1]) : [];
 
 				return {
 					slug,
@@ -338,6 +340,9 @@ export async function buildDocs() {
 					html: await renderMarkdown(normalizedContent),
 					toc: extractToc(normalizedContent),
 					previewCode: await buildPreviewCodeForSlug(slug),
+					variantCode: variantIds.length
+						? Object.fromEntries(await Promise.all(variantIds.map(async (id) => [id, await buildPreviewCodeForSlug([slug[0], `${slug[1]}/${id}`])])))
+						: undefined,
 				};
 			}),
 		)

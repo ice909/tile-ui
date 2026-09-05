@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import { codeToHtml } from 'shiki';
 
-import { getDemoSlugs, getDemoSource } from '../../../scripts/demo-files.mjs';
+import { getPreviewSlugs, getDemoSource } from '../../../scripts/demo-files.mjs';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(dirname, '..');
@@ -13,7 +13,7 @@ const workspaceRoot = path.resolve(appRoot, '../..');
 const outputFile = path.join(appRoot, 'src/generated/preview-code.ts');
 
 const entries = {};
-for (const slug of getDemoSlugs('solid')) {
+for (const slug of getPreviewSlugs('solid')) {
 	const raw = getDemoSource('solid', slug);
 	if (!raw) continue;
 	entries[slug] = {

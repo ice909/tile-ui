@@ -343,7 +343,7 @@ The current implementation provides:
 
 - Separate React, Vue, and Solid registries
 - Separate React, Vue, and Solid applications for docs and previews
-- 61 shared components in each framework, plus Solid primitives (`@tile-ui/solid/primitives`)
+- 62 shared components in each framework, plus Solid primitives (`@tile-ui/solid/primitives`)
 - SolidStart documentation with SSR rendering and hydration
 - Shared docs styling in `apps/common`
 - Unified homepage and component showcase patterns across all three frameworks

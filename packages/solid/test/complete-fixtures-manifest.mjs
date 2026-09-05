@@ -62,6 +62,7 @@ export const completeFixtures = {
 	tooltip: overlays('tooltip'),
 	carousel: advanced('carousel'),
 	chart: advanced('chart', false, null),
+	liveline: advanced('liveline', false, null),
 	resizable: advanced('resizable'),
 	sidebar: advanced('sidebar'),
 	sonner: advanced('sonner'),

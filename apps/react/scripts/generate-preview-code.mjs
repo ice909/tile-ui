@@ -12,7 +12,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { codeToHtml } from 'shiki';
 
-import { getDemoSlugs, getDemoSource } from '../../../scripts/demo-files.mjs';
+import { getPreviewSlugs, getDemoSource } from '../../../scripts/demo-files.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(__dirname, '..');
@@ -69,7 +69,7 @@ function jsString(value) {
 async function main() {
 	const entries = {};
 
-	for (const slug of getDemoSlugs('react')) {
+	for (const slug of getPreviewSlugs('react')) {
 		const code = getDemoSource('react', slug);
 		if (!code) {
 			continue;

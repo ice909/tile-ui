@@ -581,13 +581,13 @@ describe('buildRegistry', () => {
 		};
 
 		expect(registry.name).toBe('tile-ui-solid');
-		expect(registry.items.filter((item) => item.type === 'registry:ui')).toHaveLength(61);
+		expect(registry.items.filter((item) => item.type === 'registry:ui')).toHaveLength(62);
 		expect(registry.items.filter((item) => item.type === 'registry:hook')).toEqual([
 			expect.objectContaining({ name: 'create-local-storage' }),
 			expect.objectContaining({ name: 'create-media-query' }),
 			expect.objectContaining({ name: 'create-copy-to-clipboard' }),
 		]);
-		expect(registry.items).toHaveLength(68);
+		expect(registry.items).toHaveLength(70);
 		for (const item of [localStorage, mediaQuery, clipboard]) {
 			expect(item.type).toBe('registry:hook');
 			expect(item.dependencies).toEqual(['solid-js']);
@@ -732,7 +732,7 @@ describe('buildRegistry', () => {
 			completeProjectDir,
 			solidRegistryManifest.items.map((item) => item.name),
 		);
-		expect(completeInstall.size).toBe(68);
+		expect(completeInstall.size).toBe(70);
 		await typeCheckGeneratedSolidProject(completeProjectDir);
 		await buildGeneratedSolidProject(
 			completeProjectDir,

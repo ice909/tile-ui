@@ -76,8 +76,13 @@ function staticNitroEntryPlugin(): Plugin {
 
 export default defineConfig({
 	plugins: [assertSolidPackageResolution(), solidStart({ ssr: true }), nitro(), staticNitroEntryPlugin()],
+	optimizeDeps: {
+		// SolidStart's dev sourcemap client loads this CommonJS dependency lazily.
+		include: ['@jridgewell/resolve-uri'],
+	},
 	resolve: {
 		alias: {
+			'@tile-ui/core/liveline': path.join(workspaceRoot, 'packages/core/src/liveline/index.ts'),
 			'@tile-ui/core': path.join(workspaceRoot, 'packages/core/src/index.ts'),
 			'@tile-ui/styles': path.join(workspaceRoot, 'packages/styles'),
 		},

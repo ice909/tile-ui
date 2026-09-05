@@ -1,9 +1,10 @@
-import { defineComponent, inject, ref } from 'vue';
+import { defineComponent, inject, ref, type PropType } from 'vue';
 import type { PreviewCodePayload } from '../lib/docs';
 
 export const DocPreview = defineComponent({
 	name: 'DocPreview',
 	props: {
+		code: { type: Object as PropType<PreviewCodePayload>, required: false },
 		title: {
 			type: String,
 			required: true,
@@ -19,7 +20,7 @@ export const DocPreview = defineComponent({
 		const expanded = ref(false);
 
 		return () => {
-			const payload = previewCode?.value ?? null;
+			const payload = _props.code ?? previewCode?.value ?? null;
 			const lines = payload ? payload.raw.split('\n').length : 0;
 			const showToggle = payload !== null && lines > 3;
 

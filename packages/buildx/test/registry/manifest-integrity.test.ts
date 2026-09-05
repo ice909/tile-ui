@@ -44,6 +44,7 @@ const EXPECTED_UI_COMPONENTS = [
 	'item',
 	'kbd',
 	'label',
+	'liveline',
 	'marker',
 	'menubar',
 	'message',
@@ -79,7 +80,7 @@ describe.each([
 	['react', reactRegistryManifest],
 	['vue', vueRegistryManifest],
 ])('%s manifest 完整性', (_framework, manifest) => {
-	it('覆盖全部 61 个 UI 组件且无重复', () => {
+	it('覆盖全部 62 个 UI 组件且无重复', () => {
 		const uiNames = manifest.items.filter((item) => item.type === 'registry:ui').map((item) => item.name);
 		expect(new Set(uiNames).size).toBe(uiNames.length);
 		expect([...uiNames].sort()).toEqual([...EXPECTED_UI_COMPONENTS].sort());
@@ -149,7 +150,7 @@ describe.each([
 });
 
 describe('核心库导出与 UI 组件一致性', () => {
-	it('@tile-ui/core 导出全部 61 个组件的样式键', () => {
+	it('@tile-ui/core 导出全部 62 个组件的公共契约', () => {
 		const coreIndex = fs.readFileSync(path.join(workspaceRoot, 'packages/core/src/components/index.ts'), 'utf-8');
 		for (const name of EXPECTED_UI_COMPONENTS) {
 			expect(coreIndex, `core 缺少 ${name}`).toContain(`'./${name}'`);
@@ -170,14 +171,14 @@ describe('核心库导出与 UI 组件一致性', () => {
 });
 
 describe('solid manifest 完整性', () => {
-	it('精确包含 68 个 item、61 个 UI 和 3 个 primitive hook', () => {
+	it('精确包含 70 个 item、62 个 UI 和 3 个 primitive hook', () => {
 		const uiNames = solidRegistryManifest.items.filter((item) => item.type === 'registry:ui').map((item) => item.name);
 		const hookNames = solidRegistryManifest.items.filter((item) => item.type === 'registry:hook').map((item) => item.name);
 		expect([...uiNames].sort()).toEqual(EXPECTED_SOLID_UI_COMPONENTS);
 		expect(hookNames.sort()).toEqual(['create-copy-to-clipboard', 'create-local-storage', 'create-media-query']);
-		expect(solidRegistryManifest.items).toHaveLength(68);
+		expect(solidRegistryManifest.items).toHaveLength(70);
 		expect(solidRegistryManifest.items.map((item) => item.name).sort()).toEqual(
-			[...EXPECTED_SOLID_UI_COMPONENTS, 'core', 'styles', 'theme-default', 'utils', ...hookNames].sort(),
+			[...EXPECTED_SOLID_UI_COMPONENTS, 'core', 'liveline-core', 'styles', 'theme-default', 'utils', ...hookNames].sort(),
 		);
 	});
 
@@ -245,10 +246,11 @@ describe('solid manifest 完整性', () => {
 		for (const item of solidRegistryManifest.items.filter((candidate) => candidate.type === 'registry:ui')) {
 			expect(item.dependencies).toEqual(['solid-js']);
 			expect(item.devDependencies).toContain('sass');
-			expect(item.registryDependencies).toContain('@tile-ui/core');
+			expect(item.registryDependencies).toContain(item.name === 'liveline' ? '@tile-ui/liveline-core' : '@tile-ui/core');
 			expect(item.registryDependencies).toContain('@tile-ui/styles');
 			expect(item.files.map((file) => file.source)).toEqual([
 				`packages/solid/src/components/${item.name}/${item.name}.tsx`,
+				...(item.name === 'liveline' ? ['packages/solid/src/components/liveline/liveline-transition.tsx'] : []),
 				...(item.name === 'dropdown-menu' ? ['packages/solid/src/components/dropdown-menu/menu-internals.tsx'] : []),
 				...(item.name === 'select' ? ['packages/solid/src/components/select/logical-tab.ts'] : []),
 				`packages/solid/src/components/${item.name}/index.ts`,

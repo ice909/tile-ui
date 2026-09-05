@@ -36,6 +36,7 @@ export default defineNuxtConfig({
 	extensions: ['.tsx', '.ts', '.js'],
 	alias: {
 		'@tile-ui/buildx': path.join(workspaceRoot, 'packages/buildx/src/index.ts'),
+		'@tile-ui/core/liveline': path.join(workspaceRoot, 'packages/core/src/liveline/index.ts'),
 		'@tile-ui/core': path.join(workspaceRoot, 'packages/core/src/index.ts'),
 		'@tile-ui/styles': path.join(workspaceRoot, 'packages/styles'),
 		'@tile-ui/vue': path.join(workspaceRoot, 'packages/vue/src/index.ts'),

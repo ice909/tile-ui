@@ -945,6 +945,34 @@ input {
 .solid-preview__surface .component-preview__stack {
 	width: min(100%, 520px);
 }
+.solid-preview__tabs,
+.component-preview__tabs,
+.ll-tabs {
+	display: flex;
+	overflow-x: auto;
+	gap: 0.25rem;
+	padding: 0.5rem;
+	border-bottom: 1px solid var(--solid-border, var(--component-border));
+	background: var(--solid-paper, var(--component-surface));
+}
+.solid-preview__tabs button,
+.component-preview__tabs button,
+.ll-tabs button {
+	flex: 0 0 auto;
+	border: 0;
+	border-radius: 0.45rem;
+	padding: 0.45rem 0.7rem;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+.solid-preview__tabs button[aria-selected='true'],
+.component-preview__tabs button[aria-selected='true'],
+.ll-tabs button[aria-selected='true'] {
+	background: var(--solid-surface-hover, rgba(127, 127, 127, 0.16));
+	font-weight: 700;
+}
 .solid-preview--primitives .solid-preview__surface {
 	place-items: stretch;
 	padding: clamp(1rem, 3vw, 2rem);

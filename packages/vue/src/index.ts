@@ -187,6 +187,22 @@ export {
 } from './components/message-scroller';
 export { Toaster, useToast, toast } from './components/sonner';
 export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from './components/input-otp';
+export { Liveline, LivelineTransition, type LivelineOptions, type LivelineProps, type LivelineTransitionProps } from './components/liveline';
+export type {
+	BadgeVariant,
+	CandlePoint,
+	DegenOptions,
+	HoverPoint,
+	LivelinePoint,
+	LivelineSeries,
+	Momentum,
+	OrderbookData,
+	Padding,
+	ReferenceLine,
+	ThemeMode,
+	WindowOption,
+	WindowStyle,
+} from './components/liveline';
 
 // Composables（同时保留 @tile-ui/vue/composables 子路径导出）
 export { useLocalStorage, useSessionStorage } from './composables/use-local-storage';

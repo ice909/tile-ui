@@ -2,6 +2,7 @@ import { computed, defineComponent, provide } from 'vue';
 
 import { VueDocsBreadcrumb } from '../../components/docs-breadcrumb';
 import { DocPreview } from '../../components/doc-preview';
+import { DemoVariants } from '../../components/demo-variants';
 import { VueDocsSidebar } from '../../components/docs-sidebar';
 import { VueDocsToc } from '../../components/docs-toc';
 import { vueDemoRegistry } from '../../components/demos';
@@ -44,11 +45,14 @@ function getPreviewForSlug(slug: string[]) {
 	return defineComponent({
 		name: 'VueDemoPreview',
 		setup() {
-			return () => (
-				<DocPreview title={demo.title} description={demo.description}>
-					<demo.Component />
-				</DocPreview>
-			);
+			return () =>
+				demo.variants?.length ? (
+					<DemoVariants key={key} title={demo.title} variants={demo.variants} />
+				) : (
+					<DocPreview title={demo.title} description={demo.description}>
+						<demo.Component />
+					</DocPreview>
+				);
 		},
 	});
 }
@@ -108,6 +112,10 @@ export default defineComponent({
 			return parts.map((part) => String(part).trim()).filter(Boolean);
 		};
 		const payload = computed(() => getDocPayload(getSlug()));
+		provide(
+			'preview-variant-code',
+			computed(() => payload.value?.doc.variantCode ?? {}),
+		);
 
 		// 供 DocPreview 等组件注入：预览块下方可展开的实现代码。
 		provide(

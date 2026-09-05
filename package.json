@@ -22,6 +22,7 @@
 		"browser:smoke": "node scripts/browser-check.mjs smoke",
 		"accessibility:check": "node scripts/browser-check.mjs accessibility",
 		"memory:check": "node scripts/browser-check.mjs memory",
+		"liveline:visual": "node scripts/liveline-visual.mjs",
 		"test": "pnpm test:core && pnpm test:buildx && pnpm test:react && pnpm test:vue && pnpm test:solid",
 		"test:core": "pnpm --filter @tile-ui/core test",
 		"test:buildx": "pnpm --filter @tile-ui/buildx test",

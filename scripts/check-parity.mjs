@@ -5,13 +5,15 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
+import { getDemoSource } from './demo-files.mjs';
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(path.join(root, 'apps/solid/package.json'));
 const ts = require('typescript');
 const { tsImport } = await import(pathToFileURL(require.resolve('tsx/esm/api')).href);
 
 const FRAMEWORKS = ['react', 'vue', 'solid'];
-const EXPECTED_TOTALS = { react: 69, vue: 69, solid: 68 };
+const EXPECTED_TOTALS = { react: 71, vue: 71, solid: 70 };
 const EXTRA_DEMOS = {
 	react: { hooks: ['use-copy-to-clipboard', 'use-local-storage', 'use-media-query'], examples: ['contact-form', 'newsletter-card', 'profile-settings'], primitives: [] },
 	vue: { hooks: ['use-copy-to-clipboard', 'use-local-storage', 'use-media-query'], examples: ['contact-form', 'newsletter-card', 'profile-settings'], primitives: [] },
@@ -19,17 +21,17 @@ const EXTRA_DEMOS = {
 };
 const EXCEPTIONS = {
 	react: {
-		helperItems: ['core', 'portal', 'styles', 'theme-default', 'use-copy-to-clipboard', 'use-local-storage', 'use-media-query', 'utils'],
+		helperItems: ['core', 'liveline-core', 'portal', 'styles', 'theme-default', 'use-copy-to-clipboard', 'use-local-storage', 'use-media-query', 'utils'],
 		helperSubpath: './hooks',
 		portal: 'registry item',
 	},
 	vue: {
-		helperItems: ['core', 'portal', 'styles', 'theme-default', 'use-copy-to-clipboard', 'use-local-storage', 'use-media-query', 'utils'],
+		helperItems: ['core', 'liveline-core', 'portal', 'styles', 'theme-default', 'use-copy-to-clipboard', 'use-local-storage', 'use-media-query', 'utils'],
 		helperSubpath: './composables',
 		portal: 'registry item',
 	},
 	solid: {
-		helperItems: ['core', 'create-copy-to-clipboard', 'create-local-storage', 'create-media-query', 'styles', 'theme-default', 'utils'],
+		helperItems: ['core', 'create-copy-to-clipboard', 'create-local-storage', 'create-media-query', 'liveline-core', 'styles', 'theme-default', 'utils'],
 		helperSubpath: './primitives',
 		portal: 'component-internal',
 	},
@@ -257,7 +259,8 @@ function assertDocsAndDemos(framework, uiItems) {
 		if (!exists(docPath)) continue;
 		const documented = docsDependencyNames(read(docPath));
 		const dependencies = (item.registryDependencies ?? []).map(registryDependencyName);
-		const expected = framework === 'solid' ? [item.name, ...dependencies] : [item.name, ...dependencies.filter((name) => ['core', 'styles', 'utils'].includes(name))];
+		const expected =
+			framework === 'solid' ? [item.name, ...dependencies] : [item.name, ...dependencies.filter((name) => ['core', 'liveline-core', 'styles', 'utils'].includes(name))];
 		assertSet(`${framework}:${item.name}: documented registry dependencies`, expected, documented);
 	}
 	if (framework === 'solid') {
@@ -277,7 +280,7 @@ async function assertPreviews(framework, uiNames) {
 		const data = json('apps/vue/.generated/docs.json');
 		for (const name of uiNames) {
 			const raw = data.payloads?.[`components/${name}`]?.doc?.previewCode?.raw;
-			if (raw !== read(`apps/vue/components/demos/${name}.tsx`)) errors.push(`vue:${name}: generated docs preview source is stale`);
+			if (raw !== getDemoSource('vue', name)) errors.push(`vue:${name}: generated docs preview source is stale`);
 		}
 		return;
 	}
@@ -287,7 +290,7 @@ async function assertPreviews(framework, uiNames) {
 		return;
 	}
 	for (const name of uiNames) {
-		if (previewMap[name]?.raw !== read(`apps/${framework}/components/demos/${name}.tsx`)) errors.push(`${framework}:${name}: generated preview source is stale`);
+		if (previewMap[name]?.raw !== getDemoSource(framework, name)) errors.push(`${framework}:${name}: generated preview source is stale`);
 	}
 }
 
@@ -295,7 +298,7 @@ const manifests = Object.fromEntries(await Promise.all(FRAMEWORKS.map(async (fra
 const uiByFramework = Object.fromEntries(FRAMEWORKS.map((framework) => [framework, manifests[framework].items.filter((item) => item.type === 'registry:ui')]));
 const canonicalNames = uiByFramework.react.map((item) => item.name);
 
-if (canonicalNames.length !== 61) errors.push(`canonical UI manifest: expected 61 items, received ${canonicalNames.length}`);
+if (canonicalNames.length !== 62) errors.push(`canonical UI manifest: expected 62 items, received ${canonicalNames.length}`);
 if (!unique(canonicalNames)) errors.push('react: duplicate UI manifest names');
 for (const framework of FRAMEWORKS) {
 	const manifest = manifests[framework];
@@ -305,7 +308,7 @@ for (const framework of FRAMEWORKS) {
 	if (!unique(manifest.items.map((item) => item.name))) errors.push(`${framework}: duplicate source manifest names`);
 	if (manifest.items.length !== EXPECTED_TOTALS[framework])
 		errors.push(`${framework}: expected ${EXPECTED_TOTALS[framework]} source manifest items, received ${manifest.items.length}`);
-	if (uiItems.length !== 61) errors.push(`${framework}: expected 61 UI source items, received ${uiItems.length}`);
+	if (uiItems.length !== 62) errors.push(`${framework}: expected 62 UI source items, received ${uiItems.length}`);
 	assertSet(`${framework}: canonical UI set`, canonicalNames, uiNames);
 	assertSet(`${framework}: helper item set`, EXCEPTIONS[framework].helperItems, helperNames);
 

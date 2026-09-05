@@ -12,9 +12,12 @@
 		"../src/components/portal/**/*.tsx",
 		"../src/components/scroll-area/**/*.tsx",
 		"../src/components/switch/**/*.tsx",
+		"../src/components/liveline/**/*.tsx",
 		"../src/scss.d.ts",
 		"./a11y.test.tsx",
 		"./sonner.test.tsx",
-		"./sonner-ssr.test.tsx"
+		"./sonner-ssr.test.tsx",
+		"./liveline.test.tsx",
+		"./liveline-ssr.test.tsx"
 	]
 }

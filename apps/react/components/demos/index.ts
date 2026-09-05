@@ -44,6 +44,14 @@ import SelectDemo from './select';
 import ComboboxDemo from './combobox';
 import CommandDemo from './command';
 import ChartDemo from './chart';
+import LivelineDemo from './liveline';
+import Crypto from './liveline/crypto';
+import Multi from './liveline/multi';
+import Candle from './liveline/candle';
+import Dashboard from './liveline/dashboard';
+import Sizes from './liveline/sizes';
+import { livelineScenarios } from '../../../common/lib/liveline-scenarios';
+import type { PreviewVariant } from '../../../common/lib/preview-variants';
 import CalendarDemo from './calendar';
 import DrawerDemo from './drawer';
 import FormDemo from './form';
@@ -73,6 +81,7 @@ export type Demo = {
 	title: string;
 	description: string;
 	Component: () => ReactNode;
+	variants?: readonly PreviewVariant<() => ReactNode>[];
 };
 
 export const demoRegistry: Record<string, Demo> = {
@@ -290,6 +299,12 @@ export const demoRegistry: Record<string, Demo> = {
 		title: 'Chart',
 		description: 'ChartContainer renders line, bar, and area charts with keyboard inspection.',
 		Component: ChartDemo,
+	},
+	liveline: {
+		title: 'Live market chart',
+		description: 'Switch modes, ranges, series, pause, loading, empty data, and deterministic ticks.',
+		Component: LivelineDemo,
+		variants: livelineScenarios.map((scenario, index) => ({ ...scenario, Component: [LivelineDemo, Crypto, Multi, Candle, Dashboard, Sizes][index] })),
 	},
 	calendar: {
 		title: 'Calendar',

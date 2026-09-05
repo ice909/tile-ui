@@ -7,6 +7,7 @@ function resolveDependencyName(dependency: string) {
 
 export function validateManifest(manifest: PackageRegistryManifest) {
 	const itemNames = new Set<string>();
+	const registryImports = new Set<string>();
 
 	for (const item of manifest.items) {
 		if (itemNames.has(item.name)) {
@@ -20,6 +21,17 @@ export function validateManifest(manifest: PackageRegistryManifest) {
 
 		if (item.type === 'registry:ui' && item.files.some((file) => file.source.endsWith('.scss')) && !(item.registryDependencies ?? []).includes('@tile-ui/styles')) {
 			throw new Error(`Registry UI item '${item.name}' includes SCSS but does not depend on '@tile-ui/styles'.`);
+		}
+
+		for (const file of item.files) {
+			if (!file.registryImport) continue;
+			if (!file.target) {
+				throw new Error(`Registry import '${file.registryImport}' in item '${item.name}' requires an explicit target.`);
+			}
+			if (registryImports.has(file.registryImport)) {
+				throw new Error(`Duplicate registry import: ${file.registryImport}`);
+			}
+			registryImports.add(file.registryImport);
 		}
 
 		for (const dependency of item.registryDependencies ?? []) {

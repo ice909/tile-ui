@@ -1,0 +1,121 @@
+---
+title: Liveline
+description: A real-time canvas chart for line, multi-series, candlestick, and market-data displays.
+---
+
+> Liveline keeps rendering in a framework-independent canvas engine while React owns lifecycle, controls, accessibility, and transitions.
+
+<ComponentDemo slug="liveline" />
+
+## Demo guide
+
+These simulations follow the upstream Liveline playground rather than combining unrelated modes in one chart. Each panel owns its feed, state, theme, cadence, and window.
+
+- **Live line:** appended tick history, four volatility levels, 50ms to 1s cadence, 10s to 5m windows, fill, momentum, pulse, grid, and scrubbing.
+- **Crypto:** BTC/USD with a seeded hour of history, 5m/15m/1h windows, live bid/ask depth, an opening-price reference, and opt-in degen particles.
+- **Multi-line:** two to four independently seeded series with stable identities, shared axes, and built-in visibility controls. Fill and momentum are disabled because multi-series rendering does not use them.
+- **Candlesticks:** ticks aggregated into 1s/2s/5s/10s OHLC buckets. Completed bars go to `candles`; the current bucket goes to `liveCandle`. Morphing keeps `mode="candle"` and changes only `lineMode`, with the same ticks supplied as `lineData` and `lineValue`.
+- **Dashboard:** four independently updated compact metrics, without badges or grid clutter.
+- **Size variants:** the upstream 320 x 180, 240 x 120, 160 x 100, and 120 x 80 layouts. Below 200px, badges, grid, and momentum are suppressed. Containers shrink only when the viewport cannot fit the original size.
+
+### Feed state contract
+
+**Live** restores seeded history and starts automatic appends. **Loading** clears history, series data, candles, live candle, morph ticks, and market overlays while showing the loading animation. **Empty** clears the same inputs without loading. Neither state changes the chart category. **Pause** stops both the demo producer and chart scrolling; **Resume** continues the existing history. **Next tick** calls exactly the same append function as the timer and is disabled outside Live or while paused.
+
+The status row exposes state, point count, appended tick count, window, cadence, and live OHLC where applicable. History retains at most 3,800 seconds and 76,000 points per feed. Prices use a deterministic seeded generator; timestamps are anchored on mount, not rewritten each frame. All data is simulated, not a market feed.
+
+Dark and light controls change both the chart palette and its opaque panel background. The copied example includes its pure data helpers and scoped demo styles; it does not depend on private documentation imports.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/liveline
+```
+
+The UI item installs `liveline-core`, the React component and transition, and the Liveline SCSS module. The core item preserves its source tree under `components/ui/lib/liveline` and maps `@tile-ui/core/liveline` imports to that local entry.
+
+## Package usage
+
+```tsx
+import { Liveline } from '@tile-ui/react';
+
+const now = Math.floor(Date.now() / 1000);
+
+<Liveline
+	aria-label="ETH/USD live price, 105.10"
+	data={[{ time: now - 5, value: 101.2 }, { time: now, value: 105.1 }]}
+	value={105.1}
+	windows={[{ label: '30s', secs: 30 }, { label: '1m', secs: 60 }]}
+	style={{ height: 320 }}
+/>
+```
+
+## Highlights
+
+- **Line and multi-series:** pass `data` and `value` for one line, or `series` for independently colored, toggleable lines.
+- **Candles and morphing:** provide OHLC `candles`, `candleWidth`, and `mode="candle"`; combine `lineMode`, `lineData`, and `lineValue` with `onModeChange` for candle-to-line density transitions.
+- **Loading, empty, and pause:** `loading` draws the breathing placeholder, an empty `data` array uses `emptyText`, and `paused` freezes scrolling without discarding data.
+- **Windows and momentum:** `windows` renders accessible range buttons; `momentum` can be inferred or forced to `up`, `down`, or `flat`.
+- **Market overlays:** `orderbook` draws bid/ask depth, `referenceLine` marks a price, and `degen` enables optional momentum particles and shake.
+- **Inspection:** pointer scrubbing, formatted time/value tooltips, a live badge, pulse, fill, and a DOM value overlay can be configured independently.
+
+## Accessibility
+
+The canvas has `role="img"` and needs a useful `aria-label` describing the instrument and current value. Use `aria-describedby` for a longer text summary or nearby data table. Window, mode, and series controls are native buttons with `aria-pressed`; do not encode meaning by color alone. `showValue` is visual and `aria-hidden`, so update the canvas label or a separate live region when announcements are required.
+
+`LivelineTransition` checks `prefers-reduced-motion: reduce` and switches immediately instead of cross-fading. Liveline's canvas animation remains data-driven; applications that must eliminate all motion should also set `paused`, disable `pulse` and `degen`, and avoid animated value updates when the media query matches.
+
+## Registry dependencies
+
+| Item            | Purpose                                          |
+| --------------- | ------------------------------------------------ |
+| `liveline`      | React component, transition, and module styles   |
+| `liveline-core` | Canvas engine, drawing modules, themes, and math |
+| `styles`        | Shared SCSS tokens and globals                   |
+
+## API reference
+
+### Liveline
+
+`style` sizes and styles the complete widget, including controls. Use `surfaceStyle` and `surfaceClassName` for chart-only styling on the engine's measured surface. For example, `surfaceStyle={{ height: '240px' }}` sets the chart height; use an auto-height root when controls should add to that height. An explicit surface height is not clamped to a smaller root. The surface does not clip badges or tooltips unless you explicitly set overflow.
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `data`, `value` | `LivelinePoint[]`, `number` | required |
+| `series` | `LivelineSeries[]` | -- |
+| `theme`, `color` | `'light' \| 'dark'`, `string` | `'dark'`, `'#3b82f6'` |
+| `window`, `windows`, `onWindowChange`, `windowStyle` | `number`, `WindowOption[]`, `(secs) => void`, `'default' \| 'rounded' \| 'text'` | `30`, --, --, `'default'` |
+| `mode`, `candles`, `candleWidth`, `liveCandle` | `'line' \| 'candle'`, `CandlePoint[]`, `number`, `CandlePoint` | `'line'`, -- |
+| `lineMode`, `lineData`, `lineValue`, `onModeChange` | `boolean`, `LivelinePoint[]`, `number`, `(mode) => void` | -- |
+| `loading`, `paused`, `emptyText` | `boolean`, `boolean`, `string` | `false`, `false`, `'No data to display'` |
+| `grid`, `badge`, `fill`, `scrub`, `pulse` | `boolean` | `true` |
+| `momentum` | `boolean \| 'up' \| 'down' \| 'flat'` | `true` |
+| `degen` | `boolean \| { scale?: number; downMomentum?: boolean }` | `false` |
+| `orderbook` | `{ bids: [number, number][]; asks: [number, number][] }` | -- |
+| `referenceLine` | `{ value: number; label?: string }` | -- |
+| `showValue`, `valueMomentumColor`, `exaggerate` | `boolean` | `false` |
+| `badgeTail`, `badgeVariant` | `boolean`, `'default' \| 'minimal'` | `true`, `'default'` |
+| `tooltipY`, `tooltipOutline`, `cursor`, `lineWidth` | `number`, `boolean`, `string`, `number` | `14`, `true`, `'crosshair'`, `2` |
+| `formatValue`, `formatTime` | `(value: number) => string`, `(time: number) => string` | built-in formatters |
+| `lerpSpeed`, `padding` | `number`, `Padding` | `0.08`, built-in padding |
+| `onHover`, `onSeriesToggle`, `seriesToggleCompact` | `(point \| null) => void`, `(id, visible) => void`, `boolean` | --, --, `false` |
+| `aria-label`, `aria-describedby` | `string` | generated label, -- |
+| `className`, `style`, `ref` | React host props | -- |
+| `surfaceStyle`, `surfaceClassName` | `React.CSSProperties`, `string` | -- |
+
+`LivelinePoint.time` and candle times are Unix seconds. Each candle contains `open`, `high`, `low`, and `close`. Each series contains `id`, `data`, `value`, `color`, and optional `label`.
+
+### LivelineTransition
+
+| Prop                        | Type                                     | Default  |
+| --------------------------- | ---------------------------------------- | -------- |
+| `active`                    | `string` matching a child `key`          | required |
+| `children`                  | keyed `ReactElement` or `ReactElement[]` | required |
+| `duration`                  | `number` in milliseconds                 | `300`    |
+| `className`, `style`, `ref` | React host props                         | --       |
+
+## Related docs
+
+- [Chart](/docs/components/chart)
+- [Progress](/docs/components/progress)
+- [Table](/docs/components/table)

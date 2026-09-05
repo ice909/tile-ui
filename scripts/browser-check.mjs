@@ -163,7 +163,7 @@ function componentRoutes(app) {
 		.filter((name) => name.endsWith('.mdx') && name !== 'index.mdx')
 		.map((name) => name.slice(0, -4))
 		.sort();
-	assert.equal(names.length, 61, `${app.name} must expose exactly 61 component docs`);
+	assert.equal(names.length, 62, `${app.name} must expose exactly 62 component docs`);
 	const routeFilter = (process.env.TILE_UI_ROUTES ?? '')
 		.split(',')
 		.map((name) => name.trim())
@@ -432,6 +432,25 @@ async function expectInteraction(app, route, name, operation) {
 }
 
 async function interactionChecks(app) {
+	await expectInteraction(app, '/docs/components/liveline', 'liveline-canvas-and-controls', async (page) => {
+		const canvas = page.locator('[data-slot="liveline-canvas"]').first();
+		await canvas.waitFor();
+		await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+		const paintedPixels = await canvas.evaluate((element) => {
+			const context = element.getContext('2d');
+			if (!context) return 0;
+			const pixels = context.getImageData(0, 0, element.width, element.height).data;
+			let count = 0;
+			for (let index = 3; index < pixels.length; index += 4) if (pixels[index] !== 0) count += 1;
+			return count;
+		});
+		assert.ok(paintedPixels > 100, `Liveline docs canvas is empty (${paintedPixels} painted pixels)`);
+		assert.equal(await page.getByRole('button', { name: 'Show line chart' }).getAttribute('aria-pressed'), 'true');
+		assert.equal(await page.getByRole('button', { name: 'Show candle chart' }).getAttribute('aria-pressed'), 'false');
+		await page.setViewportSize({ width: 375, height: 844 });
+		const overflow = await page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - document.documentElement.clientWidth);
+		assert.ok(overflow <= 1, `Liveline docs has ${overflow}px horizontal overflow at 375px`);
+	});
 	await expectInteraction(app, '/docs/components/dialog', 'modal-focus-restore', async (page) => {
 		const trigger = page
 			.locator('.component-preview__surface button, .solid-preview__surface button')
@@ -780,7 +799,7 @@ async function runApp(app) {
 			}
 			for (const route of routes) {
 				appReport.browser.push(await withBrowser(() => auditPage(app, route, { width: 1440, height: 1000 }, false), `audit ${app.name} ${route}`));
-				appReport.browser.push(await withBrowser(() => auditPage(app, route, { width: 390, height: 844 }, false), `audit ${app.name} ${route} mobile`));
+				appReport.browser.push(await withBrowser(() => auditPage(app, route, { width: 375, height: 844 }, false), `audit ${app.name} ${route} mobile`));
 			}
 			await interactionChecks(app);
 		}

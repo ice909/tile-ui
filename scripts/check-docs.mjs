@@ -91,7 +91,7 @@ async function assertSolidContracts(files, urls, errors) {
 	const demos = getDemoSlugs('solid');
 	if (JSON.stringify(docs) !== JSON.stringify(expectedNames)) errors.push(`solid: component docs differ from source manifest (${docs.join(', ')})`);
 	if (JSON.stringify(demos) !== JSON.stringify(expectedNames)) errors.push(`solid: demos differ from source manifest (${demos.join(', ')})`);
-	if (manifestItems.length !== 68) errors.push(`solid: expected 68 manifest items, received ${manifestItems.length}`);
+	if (manifestItems.length !== 70) errors.push(`solid: expected 70 manifest items, received ${manifestItems.length}`);
 	const hookNames = manifestItems
 		.filter((item) => item.type === 'registry:hook')
 		.map((item) => item.name)
@@ -102,7 +102,7 @@ async function assertSolidContracts(files, urls, errors) {
 		.filter((item) => item.type !== 'registry:ui' && item.type !== 'registry:hook')
 		.map((item) => item.name)
 		.sort();
-	if (JSON.stringify(sharedNames) !== JSON.stringify(['core', 'styles', 'theme-default', 'utils']))
+	if (JSON.stringify(sharedNames) !== JSON.stringify(['core', 'liveline-core', 'styles', 'theme-default', 'utils']))
 		errors.push(`solid: shared registry set mismatch (${sharedNames.join(', ')})`);
 	const componentIndex = fs.readFileSync(path.join(root, 'apps/solid/content/docs/components/index.mdx'), 'utf8');
 	for (const name of expectedNames) {
@@ -204,19 +204,19 @@ const apps = [
 		name: 'react',
 		docsDir: path.join(root, 'apps/react/content/docs'),
 		expected: ['/docs', '/docs/components', '/docs/registry', '/docs/examples', '/docs/installation', '/docs/hooks'],
-		expectedUiCount: 61,
+		expectedUiCount: 62,
 	},
 	{
 		name: 'vue',
 		docsDir: path.join(root, 'apps/vue/content/docs'),
 		expected: ['/docs', '/docs/components', '/docs/registry', '/docs/examples', '/docs/installation', '/docs/composables'],
-		expectedUiCount: 61,
+		expectedUiCount: 62,
 	},
 	{
 		name: 'solid',
 		docsDir: path.join(root, 'apps/solid/content/docs'),
 		expected: ['/docs', '/docs/components', '/docs/registry', '/docs/examples', '/docs/installation', '/docs/theming', '/docs/primitives'],
-		expectedUiCount: 61,
+		expectedUiCount: 62,
 	},
 ];
 

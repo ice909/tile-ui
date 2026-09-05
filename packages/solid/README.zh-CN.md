@@ -2,7 +2,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-Tile UI 的 SolidJS 包，包含 61 个组件、Solid 原生运行时 primitives，并复用 `@tile-ui/core` 逻辑和 `@tile-ui/styles` SCSS 设计系统。
+Tile UI 的 SolidJS 包，包含 62 个组件、Solid 原生运行时 primitives，并复用 `@tile-ui/core` 逻辑和 `@tile-ui/styles` SCSS 设计系统。
 
 ## 安装
 
@@ -43,4 +43,4 @@ const windowSize = createWindowSize();
 - `browser` 条件加载可 hydration 的 DOM 输出，`node` 条件加载 SSR 输出；消费端构建工具必须支持 package exports conditions。
 - `@tile-ui/solid/primitives` 同样提供独立的 `browser` / `node` 条件入口和声明文件。
 - 样式通过 `@tile-ui/styles` SCSS 模块导入，消费端需要配置 Sass/CSS Modules。
-- 61 个组件从 `@tile-ui/solid` 导入；11 个运行时 primitive 仅从 `@tile-ui/solid/primitives` 导入。
+- 62 个组件从 `@tile-ui/solid` 导入；11 个运行时 primitive 仅从 `@tile-ui/solid/primitives` 导入。

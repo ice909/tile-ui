@@ -5,6 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
+import { getDemoSource, getPreviewSlugs } from '../../../scripts/demo-files.mjs';
+
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(dirname, '..');
 const workspaceRoot = path.resolve(appRoot, '../..');
@@ -118,8 +120,8 @@ for (const slug of [
 	assert.ok(fs.existsSync(path.join(appRoot, 'content/docs/components', `${slug}.mdx`)), `Missing Solid component doc: ${slug}`);
 }
 const registry = JSON.parse(fs.readFileSync(path.join(appRoot, 'public/r/registry.json'), 'utf8'));
-assert.equal(registry.items.filter((item) => item.type === 'registry:ui').length, 61);
-assert.equal(registry.items.length, 68);
+assert.equal(registry.items.filter((item) => item.type === 'registry:ui').length, 62);
+assert.equal(registry.items.length, 70);
 const hookNames = registry.items
 	.filter((item) => item.type === 'registry:hook')
 	.map((item) => item.name)
@@ -129,7 +131,7 @@ const sharedNames = registry.items
 	.filter((item) => item.type !== 'registry:ui' && item.type !== 'registry:hook')
 	.map((item) => item.name)
 	.sort();
-assert.deepEqual(sharedNames, ['core', 'styles', 'theme-default', 'utils']);
+assert.deepEqual(sharedNames, ['core', 'liveline-core', 'styles', 'theme-default', 'utils']);
 const registryFiles = fs
 	.readdirSync(path.join(appRoot, 'public/r'))
 	.filter((file) => file.endsWith('.json'))
@@ -155,11 +157,10 @@ assert.deepEqual(docSlugs, uiNames, 'Solid component docs must exactly match reg
 assert.deepEqual(demoSlugs, uiNames, 'Solid demos must exactly match registry UI items.');
 const previewCode = fs.readFileSync(path.join(appRoot, 'src/generated/preview-code.ts'), 'utf8');
 const previewSlugs = [...previewCode.matchAll(/^\s*(?:'([^']+)'|"([^"]+)"|([a-z][\w-]*)): \{$/gm)].map((match) => match[1] ?? match[2] ?? match[3]).sort();
-assert.deepEqual(previewSlugs, uiNames, 'Solid previews must exactly match registry UI items.');
+assert.deepEqual(previewSlugs, getPreviewSlugs('solid'), 'Solid previews must match demos and their variants.');
 const previewModule = await import(`${pathToFileURL(path.join(appRoot, 'src/generated/preview-code.ts')).href}?check=${Date.now()}`);
-for (const name of uiNames) {
-	const demo = fs.readFileSync(path.join(appRoot, 'components/demos', `${name}.tsx`), 'utf8');
-	assert.equal(previewModule.previewCodeMap[name]?.raw, demo, `Preview source identity missing for ${name}`);
+for (const name of getPreviewSlugs('solid')) {
+	assert.equal(previewModule.previewCodeMap[name]?.raw, getDemoSource('solid', name), `Preview source identity missing for ${name}`);
 }
 const primitiveDoc = fs.readFileSync(path.join(appRoot, 'content/docs/primitives.mdx'), 'utf8');
 const primitiveDemo = fs.readFileSync(path.join(appRoot, 'components/primitive-demos/primitives.tsx'), 'utf8');

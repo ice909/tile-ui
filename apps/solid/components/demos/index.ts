@@ -58,6 +58,14 @@ import SheetDemo from './sheet';
 import TooltipDemo from './tooltip';
 import CarouselDemo from './carousel';
 import ChartDemo from './chart';
+import LivelineDemo from './liveline';
+import Crypto from './liveline/crypto';
+import Multi from './liveline/multi';
+import Candle from './liveline/candle';
+import Dashboard from './liveline/dashboard';
+import Sizes from './liveline/sizes';
+import { livelineScenarios } from '../../../common/lib/liveline-scenarios';
+import type { PreviewVariant } from '../../../common/lib/preview-variants';
 import ResizableDemo from './resizable';
 import SidebarDemo from './sidebar';
 import SonnerDemo from './sonner';
@@ -66,6 +74,7 @@ export type SolidDemo = {
 	title: string;
 	description: string;
 	Component: Component;
+	variants?: readonly PreviewVariant<Component>[];
 };
 
 export const solidDemoRegistry: Record<string, SolidDemo> = {
@@ -162,6 +171,12 @@ export const solidDemoRegistry: Record<string, SolidDemo> = {
 		title: 'Mixed accessible charts',
 		description: 'Bar, area, and line series share deterministic names, responsive SVG output, and keyboard inspection.',
 		Component: ChartDemo,
+	},
+	liveline: {
+		title: 'Live market chart',
+		description: 'Switch modes, ranges, series, pause, loading, empty data, and deterministic ticks.',
+		Component: LivelineDemo,
+		variants: livelineScenarios.map((scenario, index) => ({ ...scenario, Component: [LivelineDemo, Crypto, Multi, Candle, Dashboard, Sizes][index] })),
 	},
 	resizable: {
 		title: 'Pointer and keyboard panels',

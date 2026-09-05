@@ -3,6 +3,139 @@
   "homepage": "https://vue.tileui.zmorg.cn",
   "items": [
     {
+      "name": "liveline-core",
+      "type": "registry:lib",
+      "title": "Liveline Core",
+      "description": "Framework-independent canvas engine, drawing, and math modules for Liveline.",
+      "files": [
+        {
+          "path": "packages/core/src/liveline/index.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/index.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/types.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/types.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/theme.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/theme.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/engine.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/engine.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/canvas/dpr.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/canvas/dpr.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/badge.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/badge.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/candlestick.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/candlestick.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/crosshair.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/crosshair.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/dot.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/dot.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/empty.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/empty.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/grid.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/grid.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/index.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/index.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/line.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/line.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/loading.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/loading.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/loadingShape.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/loadingShape.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/orderbook.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/orderbook.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/particles.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/particles.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/referenceLine.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/referenceLine.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/draw/timeAxis.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/draw/timeAxis.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/math/interpolate.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/math/interpolate.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/math/intervals.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/math/intervals.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/math/lerp.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/math/lerp.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/math/momentum.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/math/momentum.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/math/range.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/math/range.ts"
+        },
+        {
+          "path": "packages/core/src/liveline/math/spline.ts",
+          "type": "registry:lib",
+          "target": "components/ui/lib/liveline/math/spline.ts"
+        }
+      ]
+    },
+    {
       "name": "core",
       "type": "registry:lib",
       "title": "Core",
@@ -2175,6 +2308,42 @@
         },
         {
           "path": "packages/vue/src/components/input-otp/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "liveline",
+      "type": "registry:ui",
+      "title": "Liveline",
+      "description": "Real-time Vue canvas chart with line, multi-series, candlestick, and market-data modes.",
+      "dependencies": [
+        "vue"
+      ],
+      "devDependencies": [
+        "sass"
+      ],
+      "registryDependencies": [
+        "@tile-ui/liveline-core",
+        "@tile-ui/styles"
+      ],
+      "files": [
+        {
+          "path": "packages/vue/src/components/liveline/liveline.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "packages/vue/src/components/liveline/liveline-transition.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/liveline/liveline-transition.tsx"
+        },
+        {
+          "path": "packages/styles/scss/components/liveline.module.scss",
+          "type": "registry:file",
+          "target": "components/ui/liveline/liveline.module.scss"
+        },
+        {
+          "path": "packages/vue/src/components/liveline/index.ts",
           "type": "registry:ui"
         }
       ]

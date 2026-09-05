@@ -1,3 +1,29 @@
 @use '../../common/styles/docs';
 @use '../../common/styles/demo-showcase';
 @use '../../common/styles/docs-layout';
+
+.component-preview__tabs,
+.ll-tabs {
+	display: flex;
+	gap: 0.25rem;
+	padding: 0.5rem;
+	border-bottom: 1px solid var(--docs-border, currentColor);
+	background: var(--docs-surface, transparent);
+}
+
+.component-preview__tabs button,
+.ll-tabs button {
+	border: 0;
+	border-radius: 0.45rem;
+	padding: 0.45rem 0.7rem;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.component-preview__tabs button[aria-selected='true'],
+.ll-tabs button[aria-selected='true'] {
+	background: color-mix(in srgb, currentColor 12%, transparent);
+	font-weight: 700;
+}

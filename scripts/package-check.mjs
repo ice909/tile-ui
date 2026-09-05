@@ -217,7 +217,7 @@ async function writeTsConfig(projectDir, framework) {
 		path.join(projectDir, 'scss.d.ts'),
 		"declare module '*.module.scss' { const styles: Record<string, string>; export default styles; }\ndeclare module '*.scss';\ndeclare module '*.css';\n",
 	);
-	const jsx = framework === 'react' ? 'react-jsx' : framework === 'solid' ? 'preserve' : 'preserve';
+	const jsx = framework === 'react' || framework === 'solid' ? 'react-jsx' : 'preserve';
 	await writeJson(path.join(projectDir, 'tsconfig.json'), {
 		compilerOptions: {
 			target: 'ES2020',
@@ -227,7 +227,7 @@ async function writeTsConfig(projectDir, framework) {
 			strict: true,
 			noEmit: true,
 			jsx,
-			...(framework === 'solid' ? { jsxImportSource: 'solid-js' } : {}),
+			...(framework === 'solid' ? { jsxImportSource: 'solid-js' } : framework === 'vue' ? { jsxImportSource: 'vue' } : {}),
 			esModuleInterop: true,
 			skipLibCheck: true,
 			allowSyntheticDefaultImports: true,
@@ -373,7 +373,7 @@ async function materializeRegistry(framework, consumerRoot) {
 	const projectDir = path.join(consumerRoot, `projects/registry-${framework}`);
 	const items = await loadRegistry(framework);
 	const uiNames = [...items.values()].filter((item) => item.type === 'registry:ui').map((item) => item.name);
-	assert.equal(uiNames.length, 61, `${framework} must expose 61 UI registry items`);
+	assert.equal(uiNames.length, 62, `${framework} must expose 62 UI registry items`);
 	const allNames = [...items.keys()];
 	const closure = registryClosure(items, allNames);
 	assert.equal(closure.size, items.size, `${framework} all-item closure is incomplete`);
@@ -479,8 +479,8 @@ try {
 	await checkStyleExports(consumerRoot);
 	const uiCounts = await runShards(frameworkNames.map((framework) => () => checkRegistryFramework(framework, consumerRoot)));
 	const uiTotal = uiCounts.reduce((sum, count) => sum + count, 0);
-	assert.equal(uiTotal, 183, 'registry gate must compile all 183 UI items');
-	log(`PASS: 5 packages, 183 UI registry items, runtime ${((Date.now() - startedAt) / 1000).toFixed(1)}s`);
+	assert.equal(uiTotal, 186, 'registry gate must compile all 186 UI items');
+	log(`PASS: 5 packages, 186 UI registry items, runtime ${((Date.now() - startedAt) / 1000).toFixed(1)}s`);
 } finally {
 	if (tempRoot) {
 		await rm(tempRoot, { recursive: true, force: true });

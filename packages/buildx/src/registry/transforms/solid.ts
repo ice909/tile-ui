@@ -2,6 +2,7 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 
 import type { TransformFileInput, TransformFileOutput } from '../types';
+import { rewriteCoreImports } from './shared';
 
 function rewriteStyleImports(content: string, target: string) {
 	const fromDir = path.posix.dirname(target);
@@ -88,21 +89,22 @@ export async function transformSolidFile(input: TransformFileInput): Promise<Tra
 	}
 
 	if (input.file.transform === 'solid-component') {
-		const content = input.content
-			.replace(/from\s+(['"])@tile-ui\/core(?:\/[^'"]*)?\1/g, "from '../lib/core'")
+		const target = input.file.target ?? `components/ui/${input.item.name}/${input.item.name}.tsx`;
+		const content = rewriteCoreImports(input, target)
 			.replace(/from\s+(['"])\.\.\/\.\.\/utils(?:\/[^'"]*)?(?:\.[cm]?[jt]sx?)?\1/g, "from '../lib/utils'")
 			.replace(/import styles from '@tile-ui\/styles\/scss\/components\/(.+?)\.module\.scss';/g, "import styles from './$1.module.scss';");
 
 		return {
 			content,
-			target: input.file.target ?? `components/ui/${input.item.name}/${input.item.name}.tsx`,
+			target,
 		};
 	}
 
 	if (input.file.transform === 'solid-barrel') {
+		const target = input.file.target ?? `components/ui/${input.item.name}/index.ts`;
 		return {
-			content: input.content.replace(/from\s+(['"])@tile-ui\/core(?:\/[^'"]*)?\1/g, "from '../lib/core'"),
-			target: input.file.target ?? `components/ui/${input.item.name}/index.ts`,
+			content: rewriteCoreImports(input, target),
+			target,
 		};
 	}
 

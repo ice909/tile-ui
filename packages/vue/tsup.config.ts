@@ -16,4 +16,8 @@ export default defineConfig({
 	splitting: false,
 	treeshake: true,
 	external: ['vue', '@tile-ui/styles'],
+	esbuildOptions(options) {
+		options.jsx = 'automatic';
+		options.jsxImportSource = 'vue';
+	},
 });

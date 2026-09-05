@@ -42,11 +42,38 @@ export function getDemoSlugs(framework) {
  * demo 文件完整内容（展示代码 = 渲染代码本体）。
  */
 export function getDemoSource(framework, slug) {
+	if (slug === 'liveline') return getDemoSource(framework, 'liveline/line');
 	const file = path.join(getDemoDir(framework), `${slug}.tsx`);
 	if (!fs.existsSync(file)) {
 		return null;
 	}
-	return fs.readFileSync(file, 'utf-8');
+	const source = fs.readFileSync(file, 'utf-8');
+	// Liveline's pure feed and embedded styles travel with the public copy example.
+	if (slug.startsWith('liveline/')) {
+		const helper = fs.readFileSync(path.join(root, 'apps/common/lib/liveline-demo.ts'), 'utf-8');
+		const parsed = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+		const declaration = parsed.statements.find((node) => ts.isImportDeclaration(node) && node.moduleSpecifier.text === '../../../../common/lib/liveline-demo');
+		if (!declaration) throw new Error(`Missing Liveline helper import: ${file}`);
+		return source.slice(0, declaration.getStart(parsed)) + helper + source.slice(declaration.end);
+	}
+	return source;
+}
+
+export function getPreviewSlugs(framework) {
+	return getDemoSlugs(framework)
+		.flatMap((slug) => [slug, ...getDemoVariantIds(framework, slug).map((id) => `${slug}/${id}`)])
+		.sort();
+}
+
+export function getDemoVariantIds(framework, slug) {
+	const directory = path.join(getDemoDir(framework), slug);
+	return fs.existsSync(directory)
+		? fs
+				.readdirSync(directory)
+				.filter((file) => file.endsWith('.tsx'))
+				.map((file) => file.slice(0, -4))
+				.sort()
+		: [];
 }
 
 function parseSource(file) {

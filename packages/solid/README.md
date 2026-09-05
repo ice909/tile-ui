@@ -2,7 +2,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-Tile UI's SolidJS package, with 61 components and Solid-native runtime primitives built on the shared `@tile-ui/core` logic and `@tile-ui/styles` SCSS design system.
+Tile UI's SolidJS package, with 62 components and Solid-native runtime primitives built on the shared `@tile-ui/core` logic and `@tile-ui/styles` SCSS design system.
 
 ## Installation
 
@@ -43,4 +43,4 @@ Every primitive binds to the current Solid owner, reads browser state and regist
 - The `browser` condition loads hydratable DOM output, while the `node` condition loads SSR output. Consumer build tools must support package export conditions.
 - `@tile-ui/solid/primitives` provides separate `browser` and `node` condition entrypoints and declarations.
 - Styles are imported as `@tile-ui/styles` SCSS modules, so consumers must configure Sass and CSS Modules.
-- Import the 61 components from `@tile-ui/solid`; import the 11 runtime primitives only from `@tile-ui/solid/primitives`.
+- Import the 62 components from `@tile-ui/solid`; import the 11 runtime primitives only from `@tile-ui/solid/primitives`.

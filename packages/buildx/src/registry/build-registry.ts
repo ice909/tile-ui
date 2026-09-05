@@ -44,6 +44,7 @@ export async function buildRegistry(options: RegistryBuildOptions) {
 				throwIfAborted(options.signal);
 				const transformed = await options.transforms.file({
 					framework: options.framework,
+					manifest: options.manifest,
 					item,
 					file: resolved.file,
 					content: resolved.content,

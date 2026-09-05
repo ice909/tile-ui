@@ -26,6 +26,7 @@ const browserArtifact = path.join(artifactRoot, 'browser.js');
 const primitivesServerArtifact = path.join(artifactRoot, 'primitives/server.js');
 const resolveArtifact = (specifier) => import.meta.resolve(specifier).replace('file://', '');
 const serverDependencyAliases = {
+	'@tile-ui/core/liveline': path.join(packageRoot, '../core/dist/liveline/index.js'),
 	'@tile-ui/core': path.join(packageRoot, '../core/dist/index.js'),
 	'@tile-ui/styles': path.resolve(packageRoot, '../styles'),
 	'solid-js/web': resolveArtifact('solid-js/web'),
@@ -293,7 +294,7 @@ try {
 	const source = await readFile(path.join(packageRoot, 'src/registry/items/ui.ts'), 'utf8');
 	const registrySlugs = sourceRegistrySlugs(source);
 	const manifestSlugs = Object.keys(completeFixtures).sort();
-	assert.equal(manifestSlugs.length, 61, 'complete fixture manifest must explicitly contain 61 slugs');
+	assert.equal(manifestSlugs.length, 62, 'complete fixture manifest must explicitly contain 62 slugs');
 	assert.deepEqual(manifestSlugs, registrySlugs, 'complete fixture manifest differs from source registry UI set');
 	for (const [slug, policy] of Object.entries(completeFixtures)) {
 		assert.ok(['foundation', 'overlays', 'advanced'].includes(policy.fixture), `${slug} has no fixture composition`);

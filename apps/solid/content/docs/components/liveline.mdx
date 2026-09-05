@@ -1,0 +1,129 @@
+---
+title: Liveline
+description: A real-time SolidJS canvas chart for line, multi-series, candlestick, and market-data displays.
+---
+
+> Liveline keeps drawing in a shared canvas engine while Solid signals own lifecycle, controls, accessibility, and transitions.
+
+<ComponentDemo slug="liveline" />
+
+## Demo guide
+
+Six separate upstream-style scenarios use the same deterministic feed model as React and Vue. Each panel owns its state, feed, theme, cadence, and window.
+
+- **Live line:** real appended history, four volatility levels, 50ms to 1s cadence, 10s to 5m windows, fill, momentum, grid, pulse, and scrubbing.
+- **Crypto:** BTC/USD with an hour of seeded history, 5m/15m/1h windows, live orderbook depth, an opening-price reference, and opt-in degen effects.
+- **Multi-line:** two to four independent walks with stable series identities and built-in visibility chips. Fill and momentum controls are disabled because this category does not use them.
+- **Candlesticks:** genuine 1s/2s/5s/10s OHLC buckets. Completed bars go to `candles`; the active bucket goes to `liveCandle`. Candle-to-line morphing keeps `mode="candle"` and changes `lineMode`, using the original ticks as `lineData` and `lineValue`.
+- **Dashboard:** four independently updated compact metrics.
+- **Size variants:** upstream 320 x 180, 240 x 120, 160 x 100, and 120 x 80 panels, suppressing badge, grid, and momentum below 200px. Width shrinks only when necessary to fit the viewport.
+
+### Feed state contract
+
+**Live** restores seeded history and starts automatic appends. **Loading** clears all relevant inputs: history, series data, committed and live candles, morph ticks, and market overlays. **Empty** clears the same inputs without the loading animation. Neither changes category. **Pause** stops the producer and chart scrolling; **Resume** continues history. **Next tick** calls the automatic feed function and is disabled outside Live or while paused.
+
+Status text exposes state, point count, tick count, window, cadence, and live OHLC. History is bounded to 3,800 seconds and 76,000 points per feed. Seeded values are deterministic; timestamps are anchored on mount, not rewritten on updates. These are simulations, not market data.
+
+Light/dark controls match the palette and opaque panel background. Public copied examples include their pure data helpers and scoped styles, without private documentation imports.
+
+## Registry install
+
+```bash
+pnpm dlx shadcn@latest add @tile-ui/liveline
+```
+
+The item installs `liveline-core`, the Solid component and transition, and the Liveline SCSS module. Core files retain their relative source tree under `components/ui/lib/liveline`.
+
+## Package usage
+
+```tsx
+import { Liveline } from '@tile-ui/solid';
+
+const now = Math.floor(Date.now() / 1000);
+
+<Liveline aria-label="ETH/USD live price, 105.10" data={[{ time: now - 5, value: 101.2 }, { time: now, value: 105.1 }]} value={105.1} windows={[{ label: '30s', secs: 30 }, { label: '1m', secs: 60 }]} style={{ height: '320px' }} />
+```
+
+## Highlights
+
+- **Line and multi-series:** use `data`/`value` for one line or `series` for colored, toggleable lines.
+- **Candles and morphing:** provide OHLC `candles`, `candleWidth`, and candle `mode`; use `lineMode`, `lineData`, `lineValue`, and `onModeChange` for morphing.
+- **Loading, empty, and pause:** `loading` draws a placeholder, empty data uses `emptyText`, and `paused` freezes scrolling.
+- **Windows and momentum:** built-in range controls and inferred or forced `up`, `down`, and `flat` momentum.
+- **Orderbook and degen:** optional bid/ask depth, reference line, particles, and momentum shake.
+
+## Accessibility
+
+The canvas has `role="img"`; provide an `aria-label` with instrument and current value and use `aria-describedby` for a summary or table. Range, mode, and series controls are native buttons with `aria-pressed`. `showValue` is visual-only, so use a live region when tick announcements are required.
+
+`LivelineTransition` immediately swaps content for `prefers-reduced-motion: reduce`. Applications can also stop canvas motion by setting `paused`, disabling `pulse` and `degen`, and avoiding animated tick updates for that query.
+
+## Registry dependencies
+
+| Item            | Purpose                                          |
+| --------------- | ------------------------------------------------ |
+| `liveline`      | Solid component, transition, and module styles   |
+| `liveline-core` | Canvas engine, drawing modules, themes, and math |
+| `styles`        | Shared SCSS tokens and globals                   |
+
+## API reference
+
+### Liveline
+
+`style` sizes and styles the complete widget, including controls. Use `surfaceStyle` and `surfaceClassName` for chart-only styling on the engine's measured surface. For example, `surfaceStyle={{ height: '240px' }}` sets the chart height; use an auto-height root when controls should add to that height. An explicit surface height is not clamped to a smaller root. The surface does not clip badges or tooltips unless you explicitly set overflow.
+
+| Prop                                                                   | Type                                                        | Default                             |
+| ---------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------- |
+| `data`, `value`                                                        | `LivelinePoint[]`, `number`                                 | required                            |
+| `series`                                                               | `LivelineSeries[]`                                          | --                                  |
+| `theme`, `color`                                                       | `'light' \| 'dark'`, `string`                               | `'dark'`, `'#3b82f6'`               |
+| `window`, `windows`, `onWindowChange`, `windowStyle`                   | `number`, `WindowOption[]`, callback, `WindowStyle`         | `30`, --, --, `'default'`           |
+| `mode`, `candles`, `candleWidth`, `liveCandle`                         | line/candle mode and OHLC data                              | `'line'`, --                        |
+| `lineMode`, `lineData`, `lineValue`, `onModeChange`                    | morph state, tick data/value, callback                      | --                                  |
+| `loading`, `paused`, `emptyText`                                       | `boolean`, `boolean`, `string`                              | `false`, `false`, default text      |
+| `grid`, `badge`, `fill`, `scrub`, `pulse`                              | `boolean`                                                   | `true`                              |
+| `momentum`                                                             | `boolean \| Momentum`                                       | `true`                              |
+| `degen`, `orderbook`, `referenceLine`                                  | `boolean \| DegenOptions`, `OrderbookData`, `ReferenceLine` | --                                  |
+| `showValue`, `valueMomentumColor`, `exaggerate`                        | `boolean`                                                   | `false`                             |
+| `badgeTail`, `badgeVariant`                                            | `boolean`, `BadgeVariant`                                   | `true`, `'default'`                 |
+| `tooltipY`, `tooltipOutline`, `cursor`, `lineWidth`                    | `number`, `boolean`, `string`, `number`                     | `14`, `true`, `'crosshair'`, `2`    |
+| `formatValue`, `formatTime`, `lerpSpeed`, `padding`                    | formatters, `number`, `Padding`                             | built-ins, `0.08`, built-in padding |
+| `onHover`, `onSeriesToggle`, `seriesToggleCompact`                     | callbacks, `boolean`                                        | --, --, `false`                     |
+| `aria-label`, `aria-describedby`, `class`, `className`, `style`, `ref` | Solid host props                                            | --                                  |
+
+Times are Unix seconds. Candles contain `open`, `high`, `low`, and `close`; series contain `id`, `data`, `value`, `color`, and optional `label`.
+
+### LivelineTransition
+
+| Prop                                 | Type                                 | Default  |
+| ------------------------------------ | ------------------------------------ | -------- |
+| `active`                             | `string` passed to the chart factory | required |
+| `children`                           | `(key: string) => JSX.Element`       | required |
+| `duration`                           | `number` in milliseconds             | `300`    |
+| `class`, `className`, `style`, `ref` | Solid host props                     | --       |
+
+Pass a lazy factory, not pre-created JSX or elements marked with `data-liveline-key`. Each factory invocation runs inside its keyed layer owner so removing an outgoing layer disposes its chart engine. Use the supplied key to select the layer's content, rather than the current active signal.
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Liveline, LivelineTransition } from '@tile-ui/solid';
+
+function ChartTransition() {
+	const [active, setActive] = createSignal('primary');
+	const data = [{ time: 1700000000, value: 100 }, { time: 1700000001, value: 105 }];
+	return (
+		<>
+			<button onClick={() => setActive(active() === 'primary' ? 'secondary' : 'primary')}>Switch chart</button>
+			<LivelineTransition active={active()} style={{ height: '320px' }}>
+				{(key) => <Liveline data={data} value={105} color={key === 'primary' ? '#3b82f6' : '#22c55e'} />}
+			</LivelineTransition>
+		</>
+	);
+}
+```
+
+## Related docs
+
+- [Chart](/docs/components/chart)
+- [Progress](/docs/components/progress)
+- [Table](/docs/components/table)

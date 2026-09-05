@@ -1,6 +1,7 @@
 import path from 'node:path';
 
 import type { TransformFileInput, TransformFileOutput } from '../types';
+import { rewriteCoreImports } from './shared';
 
 function rewriteStyleImports(content: string, target: string) {
 	const fromDir = path.posix.dirname(target);
@@ -13,20 +14,23 @@ function rewriteStyleImports(content: string, target: string) {
 
 export async function transformVueFile(input: TransformFileInput): Promise<TransformFileOutput> {
 	if (input.file.transform === 'vue-component') {
-		const content = input.content
-			.replace(/from '@tile-ui\/core';/g, "from '../lib/core';")
-			.replace(/import styles from '@tile-ui\/styles\/scss\/components\/(.+?)\.module\.scss';/g, "import styles from './$1.module.scss';");
+		const target = input.file.target ?? `components/ui/${input.item.name}/${input.item.name}.tsx`;
+		const content = rewriteCoreImports(input, target).replace(
+			/import styles from '@tile-ui\/styles\/scss\/components\/(.+?)\.module\.scss';/g,
+			"import styles from './$1.module.scss';",
+		);
 
 		return {
 			content,
-			target: input.file.target ?? `components/ui/${input.item.name}/${input.item.name}.tsx`,
+			target,
 		};
 	}
 
 	if (input.file.transform === 'vue-barrel') {
+		const target = input.file.target ?? `components/ui/${input.item.name}/index.ts`;
 		return {
-			content: input.content.replace(/from\s+(['"])@tile-ui\/core(?:\/[^'"]*)?\1/g, "from '../lib/core'"),
-			target: input.file.target ?? `components/ui/${input.item.name}/index.ts`,
+			content: rewriteCoreImports(input, target),
+			target,
 		};
 	}
 

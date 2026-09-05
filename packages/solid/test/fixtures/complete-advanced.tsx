@@ -6,6 +6,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 	ChartContainer,
+	Liveline,
 	ResizableHandle,
 	ResizablePanel,
 	ResizablePanelGroup,
@@ -46,6 +47,9 @@ export function CompleteAdvancedFixture(props: { namespace: string }) {
 					series={[{ key: 'revenue', type: 'area' }]}
 					initialDimension={{ width: 480, height: 240 }}
 				/>
+			</Slug>
+			<Slug name="liveline">
+				<Liveline data={[{ time: 1, value: 42 }]} value={42} aria-label="Stage 5 live chart" />
 			</Slug>
 			<Slug name="resizable">
 				<ResizablePanelGroup data-control="resizable" id={`${props.namespace}layout`} panelIds={[`${props.namespace}left`, `${props.namespace}right`]}>

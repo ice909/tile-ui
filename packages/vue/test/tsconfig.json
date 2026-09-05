@@ -9,12 +9,17 @@
 		"../src/components/calendar/**/*.tsx",
 		"../src/components/context-menu/**/*.tsx",
 		"../src/components/message-scroller/**/*.tsx",
+		"../src/components/liveline/**/*.ts",
+		"../src/components/liveline/**/*.tsx",
 		"../src/components/portal/**/*.tsx",
 		"../src/components/scroll-area/**/*.tsx",
 		"../src/components/switch/**/*.tsx",
 		"../src/scss.d.ts",
 		"./a11y.test.ts",
 		"./chart-consumer.tsx",
+		"./liveline.test.ts",
+		"./liveline-transition.test.ts",
+		"./liveline-ssr.test.ts",
 		"./sonner.test.ts",
 		"./sonner-ssr.test.ts"
 	]

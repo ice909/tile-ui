@@ -33,6 +33,7 @@ const SKIP = new Set([
 	'contact-form',
 	'newsletter-card',
 	'profile-settings',
+	'liveline',
 ]);
 
 const mainOverrides = {

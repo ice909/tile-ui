@@ -59,6 +59,16 @@
 				"types": "./dist/tokens/index.d.cts",
 				"default": "./dist/tokens/index.cjs"
 			}
+		},
+		"./liveline": {
+			"import": {
+				"types": "./dist/liveline/index.d.ts",
+				"default": "./dist/liveline/index.js"
+			},
+			"require": {
+				"types": "./dist/liveline/index.d.cts",
+				"default": "./dist/liveline/index.cjs"
+			}
 		}
 	},
 	"publishConfig": {

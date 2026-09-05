@@ -50,6 +50,12 @@ const solidUiItemDefinitions: SolidUiItemDefinition[] = [
 		description: 'Accessible SolidJS dialog primitives with focus management for Tile UI.',
 		registryDependencies: ['@tile-ui/core', '@tile-ui/utils', '@tile-ui/button'],
 	},
+	{
+		name: 'liveline',
+		title: 'Liveline',
+		description: 'Real-time SolidJS canvas chart with line, multi-series, candlestick, and market-data modes.',
+		registryDependencies: ['@tile-ui/liveline-core'],
+	},
 	...[
 		['alert', 'Alert', 'Accessible SolidJS alert primitives.'],
 		['aspect-ratio', 'Aspect Ratio', 'SSR-safe SolidJS aspect-ratio container.'],
@@ -175,6 +181,16 @@ export const solidUiItems: PackageRegistryItem[] = solidUiItemDefinitions.map((i
 						type: 'registry:ui' as const,
 						transform: 'solid-component' as const,
 						target: 'components/ui/select/logical-tab.ts',
+					},
+				]
+			: []),
+		...(item.name === 'liveline'
+			? [
+					{
+						source: 'packages/solid/src/components/liveline/liveline-transition.tsx',
+						type: 'registry:ui' as const,
+						transform: 'solid-component' as const,
+						target: 'components/ui/liveline/liveline-transition.tsx',
 					},
 				]
 			: []),

@@ -1343,6 +1343,34 @@ const vueUiItemsBase: PackageRegistryItem[] = [
 			},
 		],
 	},
+	{
+		name: 'liveline',
+		type: 'registry:ui',
+		title: 'Liveline',
+		description: 'Real-time Vue canvas chart with line, multi-series, candlestick, and market-data modes.',
+		dependencies: ['vue'],
+		devDependencies: ['sass'],
+		registryDependencies: ['@tile-ui/liveline-core'],
+		files: [
+			{
+				source: 'packages/vue/src/components/liveline/liveline.tsx',
+				type: 'registry:ui',
+				transform: 'vue-component',
+			},
+			{
+				source: 'packages/vue/src/components/liveline/liveline-transition.tsx',
+				type: 'registry:ui',
+				transform: 'vue-component',
+				target: 'components/ui/liveline/liveline-transition.tsx',
+			},
+			{
+				source: 'packages/styles/scss/components/liveline.module.scss',
+				type: 'registry:file',
+				transform: 'style',
+				target: 'components/ui/liveline/liveline.module.scss',
+			},
+		],
+	},
 ];
 
 export const vueUiItems = vueUiItemsBase.map((item) => ({

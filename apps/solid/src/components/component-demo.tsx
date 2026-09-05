@@ -1,24 +1,23 @@
 import { Show } from 'solid-js';
-
 import { solidDemoRegistry } from '../../components/demos';
 import { previewCodeMap } from '../generated/preview-code';
-import { SourcePreview } from './source-preview';
+import { ComponentPreview } from './component-preview';
+import { DemoVariants } from './demo-variants';
 
 export function ComponentDemo(props: { slug: string }) {
-	const demo = () => solidDemoRegistry[props.slug];
-	const code = () => previewCodeMap[props.slug];
-
 	return (
-		<Show when={demo()} keyed>
+		<Show when={solidDemoRegistry[props.slug]} keyed>
 			{(entry) => (
-				<section class="solid-preview">
-					<div class="solid-preview__surface">
-						<entry.Component />
-					</div>
-					<Show when={code()} keyed>
-						{(source) => <SourcePreview source={source} />}
-					</Show>
-				</section>
+				<Show
+					when={entry.variants?.length ? entry.variants : undefined}
+					keyed
+					fallback={
+						<ComponentPreview code={previewCodeMap[props.slug]}>
+							<entry.Component />
+						</ComponentPreview>
+					}>
+					{(variants) => <DemoVariants slug={props.slug} title={entry.title} variants={variants} />}
+				</Show>
 			)}
 		</Show>
 	);

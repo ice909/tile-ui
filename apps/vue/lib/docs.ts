@@ -30,6 +30,7 @@ export type DocPayload = {
 		html: string;
 		toc: DocTocItem[];
 		previewCode: PreviewCodePayload | null;
+		variantCode?: Record<string, PreviewCodePayload>;
 	};
 	neighbours: {
 		previous: DocsPageSummary | null;

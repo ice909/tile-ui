@@ -28,6 +28,7 @@ export interface PackageRegistryFileSource {
 	source: string;
 	type: RegistryItemType;
 	target?: string;
+	registryImport?: string;
 	transform: RegistryTransformKind;
 	exports?: string[];
 }
@@ -71,6 +72,7 @@ export interface VirtualRegistryFile {
 
 export interface TransformFileInput {
 	framework: 'react' | 'vue' | 'solid';
+	manifest?: PackageRegistryManifest;
 	item: PackageRegistryItem;
 	file: PackageRegistryFileSource;
 	content: string;

@@ -1307,6 +1307,33 @@ const reactUiItemsBase: PackageRegistryItem[] = [
 			},
 		],
 	},
+	{
+		name: 'liveline',
+		type: 'registry:ui',
+		title: 'Liveline',
+		description: 'Real-time React canvas chart with line, multi-series, candlestick, and market-data modes.',
+		devDependencies: ['sass'],
+		registryDependencies: ['@tile-ui/liveline-core'],
+		files: [
+			{
+				source: 'packages/react/src/components/liveline/liveline.tsx',
+				type: 'registry:ui',
+				transform: 'react-component',
+			},
+			{
+				source: 'packages/react/src/components/liveline/liveline-transition.tsx',
+				type: 'registry:ui',
+				transform: 'react-component',
+				target: 'components/ui/liveline/liveline-transition.tsx',
+			},
+			{
+				source: 'packages/styles/scss/components/liveline.module.scss',
+				type: 'registry:file',
+				transform: 'style',
+				target: 'components/ui/liveline/liveline.module.scss',
+			},
+		],
+	},
 ];
 
 export const reactUiItems = reactUiItemsBase.map((item) => ({
